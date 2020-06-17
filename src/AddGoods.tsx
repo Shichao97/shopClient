@@ -69,5 +69,6 @@ export default class AddGoods extends React.Component<any,any> {
             </div>
         )
         
+        
     }
 }
