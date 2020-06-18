@@ -6,7 +6,8 @@ export default class AddGoods extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state={
-            types:[]
+            types:[],
+            msg:""
         }
     }
 
@@ -22,12 +23,48 @@ export default class AddGoods extends React.Component<any,any> {
           })
       }
 
+    handleAdd(){
+        let _this: AddGoods = this;
+        let formData = new FormData();
+        let ele: any = $('#upfile')[0];
+        let appendTemp:any = ele.files[0];
+        formData.append("mainImg", appendTemp);  
+        let url1:string = "http://localhost:8080/goods/add";
+        let data= $("#addForm").serializeArray();  //不用拼data
+        for(var p in data){
+            console.log(data[p].name);
+            console.log(data[p].value);
+            formData.append(data[p].name,data[p].value);
+        }
+        
+        
+        $.ajax({
+            type:"POST",
+            url:url1,
+            cache: false,
+            data:formData,
+            dataType:"json",
+            processData: false,
+            contentType: false,
+            success:function(d){
+                if(d.error != null){
+                    _this.setState({msg:"add failed! " + d.error});
+                }else{
+                    _this.setState({msg:"add success!"});
+                    
+                    
+                }
+            }
+        })
+    }
+
     render(){
+        let _this:AddGoods = this;
         let arry:any[] = this.state.types;
         return(
             <div>
                 <h2>Add your second-hand goods here!</h2>
-                <form>
+                <form method="post" action="#" id="addForm">
                    <table>
                        <tr>
                           <td>goods name: <input type="text" id="name" name="name"/>
@@ -40,7 +77,7 @@ export default class AddGoods extends React.Component<any,any> {
 
                        <tr>
                           <td>classification : 
-                              <select>
+                              <select name="typeCode">
                               {arry.map((element:any) =>{
                                 return(
                                     <option value={element.code}>{element.categoryName}--{element.name}</option>
@@ -58,17 +95,22 @@ export default class AddGoods extends React.Component<any,any> {
 
                        <tr>
                           <td>Selling Method : 
-                              <input type="checkbox" name="checkbox1" value = "1" /> shipping
-                              <input type="checkbox" name="checkbox2" value = "2" /> self-pick
-                              <input type="checkbox" name="checkbox3" value = "4" /> home-dilivery
+                              <input type="checkbox" name="method1" value = "1" /> shipping
+                              <input type="checkbox" name="method2" value = "2" /> self-pick
+                              <input type="checkbox" name="method3" value = "4" /> home-dilivery
                           </td>
                        </tr>
+
+                       <tr>
+                          <td>Main Image : <input id="upfile" type="file" name="upfile"/></td>
+                       </tr>
                    </table>
-                   <button name="confirm" id='button' type="button">Confirm Add</button>
+                   <button name="confirm" id='button' type="button" onClick={() => _this.handleAdd()}>Confirm Add</button>
+                   <div>{this.state.msg}</div>
                 </form>
             </div>
         )
         
-        
+
     }
 }
