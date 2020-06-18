@@ -37,10 +37,7 @@ export default class AddGoods extends React.Component<any,any> {
             formData.append(data[p].name,data[p].value);
         }
         
-        //let obj:any = {"mainImg":appendTemp};
-        
-        //data.push(obj); 
-        
+
         $.ajax({
             type:"POST",
             url:url1,
