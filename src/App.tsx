@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Link, Route } from 'react-router-dom';
 import './App.css';
+import EditInfo from './EditInfo';
+import Demo from './Demo';
+import Login from './Login';
+import AddGoods from './AddGoods';
+import LoginModal from './LoginModal';
+import EditIcon from './EditIcon';
 
 const Home = () => (
   <div>
@@ -22,17 +28,34 @@ const Product = () => (
 
 class App extends Component {
   render() {
+    var query = {
+      pathname: '/query',
+      query: '我是通过query传值 '
+   };
+   var sta = {
+		pathname: '/state',
+		state: {id:5,username:"Petter Lynch.",app:this}//'我是通过state传值'
+	}
+	
     return (
+      
       <Router>
         <div className="App">
-          <Link to="/">Home</Link>
-          <Link to="/About">About</Link>
-          <Link to="/Product">Product</Link>
+          <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
+          <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
+          <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/editicon/2">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <hr/>
-          <Route path="/" exact component={Home}></Route>
-          <Route path="/about" component={About}></Route>
-          <Route path="/product" component={Product}></Route>
+          <Route path="/state" exact component={Demo}></Route>
+          <Route path="/query" component={Demo}></Route>
+          <Route path="/userid/:id" component={Demo}></Route>
+          <Route path="/editIcon/:id" component={EditIcon}></Route>
+          <Route path="/addgoods" component={AddGoods}></Route>
+          <Route path="/login" component={Login}></Route>
         </div>
+        
       </Router>
     );
   }
