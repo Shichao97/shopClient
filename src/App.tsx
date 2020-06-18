@@ -7,6 +7,7 @@ import Login from './Login';
 import AddGoods from './AddGoods';
 import LoginModal from './LoginModal';
 import EditIcon from './EditIcon';
+import Register from './Register';
 
 const Home = () => (
   <div>
@@ -45,6 +46,7 @@ class App extends Component {
           <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
           <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/editicon/2">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
@@ -52,6 +54,7 @@ class App extends Component {
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
           <Route path="/query" component={Demo}></Route>
+          <Route path = "/register" component={Register}></Route>
           <Route path="/userid/:id" component={Demo}></Route>
           <Route path="/editIcon/:id" component={EditIcon}></Route>
           <Route path="/addgoods" component={AddGoods}></Route>

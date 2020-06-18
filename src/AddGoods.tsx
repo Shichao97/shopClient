@@ -1,4 +1,5 @@
 import React from 'react';
+import LoginModal from './LoginModal';
 import jquery from "jquery";
 const $ = jquery;
 
@@ -29,7 +30,7 @@ export default class AddGoods extends React.Component<any,any> {
         let ele: any = $('#upfile')[0];
         let appendTemp:any = ele.files[0];
         formData.append("mainImg", appendTemp);  
-        let url1:string = "http://localhost:8080/goods/add";
+        let url1:string = "http://localhost:8080/goods/sell/add";
         let data= $("#addForm").serializeArray();  //不用拼data
         for(var p in data){
             console.log(data[p].name);
@@ -40,6 +41,10 @@ export default class AddGoods extends React.Component<any,any> {
 
         $.ajax({
             type:"POST",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
             url:url1,
             cache: false,
             data:formData,
@@ -54,6 +59,14 @@ export default class AddGoods extends React.Component<any,any> {
                     
                     
                 }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                if(xhr.status=='604'){//未登录错误
+                    let popwin: any = _this.refs.logwin;
+                    popwin.setState({modalIsOpen:true})
+                }
+                
             }
         })
     }
@@ -108,6 +121,7 @@ export default class AddGoods extends React.Component<any,any> {
                    <button name="confirm" id='button' type="button" onClick={() => _this.handleAdd()}>Confirm Add</button>
                    <div>{this.state.msg}</div>
                 </form>
+                <LoginModal ref="logwin"/>
             </div>
         )
         
