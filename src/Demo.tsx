@@ -16,7 +16,7 @@ export default class Demo extends React.Component<any,any> {
     }
     
     render(){
-        let id:number = this.props.match.params.id //取到id参数
+        let id:number = this.props.match.params.id
         let ids:string = "";
         if(id != undefined) ids = "id="+id;
         let query:any = this.props.location.query;

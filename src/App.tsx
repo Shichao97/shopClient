@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Link, Route } from 'react-router-dom';
 import './App.css';
-import EditInfo from './EditInfo';
+import WebChatTest from './WebChatTest';
 import Demo from './Demo';
 import Login from './Login';
 import AddGoods from './AddGoods';
@@ -50,6 +50,7 @@ class App extends Component {
           <Link to="/editicon/2">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/chat">Chat Test</Link>&nbsp;&nbsp;&nbsp;
           <hr/>
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
@@ -58,7 +59,7 @@ class App extends Component {
           <Route path="/userid/:id" component={Demo}></Route>
           <Route path="/editIcon/:id" component={EditIcon}></Route>
           <Route path="/addgoods" component={AddGoods}></Route>
-          <Route path="/login" component={Login}></Route>
+          <Route path="/chat" component={WebChatTest}></Route>
         </div>
         
       </Router>
