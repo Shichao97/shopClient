@@ -41,6 +41,7 @@ class App extends Component {
       
       <Router>
         <div className="App">
+          <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
           <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
@@ -48,7 +49,8 @@ class App extends Component {
           <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <hr/>
-          <Route path="/state" exact component={Demo}></Route>
+          <Route path="/" exact component={Home}></Route>
+          <Route path="/state" component={Demo}></Route>
           <Route path="/query" component={Demo}></Route>
           <Route path="/userid/:id" component={Demo}></Route>
           <Route path="/editIcon/:id" component={EditIcon}></Route>
