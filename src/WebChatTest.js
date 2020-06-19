@@ -11,7 +11,7 @@ class WebChatTest extends React.Component {
 
 
     handleClicked(){
-        let wsUrl = 'ws://localhost:8080/chat';
+        let wsUrl = 'ws://localhost:8080/myHandler';
         this.connectWithWS(wsUrl);
     }
 
@@ -36,7 +36,7 @@ class WebChatTest extends React.Component {
                 ws.close();
                 window.location.href = '/#/';
             }
-            alert(msgJson.MsgBody);
+            alert(msgJson.data);
         }; 
         ws.onclose = function (e) {
             console.log('ws 连接关闭了');
