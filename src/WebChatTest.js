@@ -4,10 +4,12 @@ import ReactDOM from 'react-dom';
 
 var ws;
 
+
 class WebChatTest extends React.Component {
     constructor() {
         super();
-        this.state = { msgs: [] };
+        this.state = { msgs: [],connected:false };
+        //this.setState({connected:true});
         this.taskRemindInterval = null;
     }
 
@@ -19,12 +21,14 @@ class WebChatTest extends React.Component {
 
 
     connectWithWS(wsUrl) {
-
+        
         ws = new WebSocket(wsUrl);
 
         let result = "";
 
-        ws.onopen = function (e) {
+        ws.onopen = (e) => {
+            this.setState({connected:true});
+
             console.log('连接上 ws 服务端了');
             ws.send(JSON.stringify({ flag: wsUrl, data: "Hello WebSocket!" }));
         }
@@ -44,7 +48,8 @@ class WebChatTest extends React.Component {
             }
             //alert(msgJson.data);
         };
-        ws.onclose = function (e) {
+        ws.onclose = (e) =>{
+            this.setState({connected:false});
             console.log('ws 连接关闭了');
             console.log(e);
         }
@@ -53,9 +58,17 @@ class WebChatTest extends React.Component {
 
     render() {
         var _this = this;
+        var btn1;
+        if(this.state.connected==false){
+            btn1 = <input type="button" value="connect" onClick={() => this.handleClicked()} />
+        }
+        else {
+            btn1 = <div></div>
+        }
         return <div>
             <h1>Hello</h1>
-            <input type="button" value="connect" onClick={() => this.handleClicked()} />
+
+            {btn1}
 
             <div className='demo' id="msgdiv">
                 {
@@ -96,13 +109,6 @@ class WebChatTest extends React.Component {
 
     componentDidUpdate() {
         this.scrollbottom();
-        /*
-                document.getElementById("msgtext").keydown(function(e) {  
-                    if (e.keyCode == 13) { 
-                         this.sendout();   
-                    }  
-           
-                })   */
     }
 
 }
