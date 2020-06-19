@@ -11,9 +11,11 @@ export default class Register extends React.Component<any,any> {
             un:"",
             pw:"",
             em:"",
+            con:"",
             un_msg:"",
             pw_msg:"",
             em_msg:"",
+            confirm_msg:"",
             msg:""
         }
     }
@@ -34,6 +36,7 @@ export default class Register extends React.Component<any,any> {
         return f;
     }
     handleRegister(){
+        //this.setState({});
         let un:string = this.state.un;
         if(!this.checkUsername(un)){
             this.setState({un_msg:"Your username is of wrong format!"});
@@ -45,12 +48,17 @@ export default class Register extends React.Component<any,any> {
             this.setState({pw_msg:"Your password is of wrong format!"});
             return;
         }
+        let con:string = this.state.con;
+        if(pw != con){
+            this.setState({confirm_msg:"Not the same password as before!"});
+            return;
+        }
         let em:string = this.state.em;
         if(!this.checkEmail(em)){
             this.setState({em_msg:"Your email is of wrong format!"});
             return;
         }
-        
+
         let _this: Register = this;
         let data= $("#registerForm").serializeArray();
         $.ajax({
@@ -91,6 +99,15 @@ export default class Register extends React.Component<any,any> {
                                 {this.state.pw_msg}
                             </td>
                         </tr>
+
+                        <tr>
+                            <td>
+                                *Confirm password: <input name="confirm" id="con" type="password" value={this.state.con} onChange={this.handleChange}/>
+                            </td>
+                            <td className="error_msg">
+                                {this.state.confirm_msg}
+                            </td>
+                        </tr>
                         <tr>  
                             <td >  
                                 *email：<input name="email" type="text" id="em" value={this.state.em} onChange={this.handleChange}/>
@@ -119,12 +136,20 @@ export default class Register extends React.Component<any,any> {
         switch(event.target.name){
           case "userName":
             this.setState({un: event.target.value});
+            this.setState({un_msg:""});
             break;
           case "passWord":
             this.setState({pw: event.target.value});
+            this.setState({pw_msg:""});
+            
+            break;
+          case "confirm":
+            this.setState({con: event.target.value});
+            this.setState({confirm_msg:""});
             break;
           case "email":
             this.setState({em: event.target.value});
+            this.setState({em_msg:""});
             break;
           default: break;
         }

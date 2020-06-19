@@ -51,6 +51,7 @@ export default class EditInfo extends React.Component<any,any> {
     }
     render(){
         let id:number = this.props.uid;
+        id = 1006;
         var myDate = new Date();
         let imgSrc:string = "http://localhost:8080/member/geticon?Id="+id+"&size=1"+"&refresh="+myDate.getMilliseconds();;
         return(

@@ -1,3 +1,15 @@
 .error_msg{
     color:red;
 }
+
+.content-table{
+    border-collapse: collapse;
+    margin:25px 0;
+    font-size: 0.9em;
+    min-width: 400pm;
+    text-align: left;
+    background-color: #fff;
+    margin: auto;
+    
+  
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginModal from './LoginModal';
+import './Register.css';
 import jquery from "jquery";
 const $ = jquery;
 
@@ -78,18 +79,21 @@ export default class AddGoods extends React.Component<any,any> {
             <div>
                 <h2>Add your second-hand goods here!</h2>
                 <form method="post" action="#" id="addForm">
-                   <table>
+                   <table className="content-table">
                        <tr>
-                          <td>goods name: <input type="text" id="name" name="name"/>
+                          <td>goods name: </td>
+                          <td><input type="text" id="name" name="name"/>
                           </td>
                          </tr>
 
                        <tr>
-                          <td>location : <input type="text" id="location" name="location"/></td>
+                          <td>location: </td>
+                          <td> <input type="text" id="location" name="location"/></td>
                        </tr>
 
                        <tr>
-                          <td>classification : 
+                       <td>classification:  </td>
+                          <td>
                               <select name="typeCode">
                               {arry.map((element:any) =>{
                                 return(
@@ -103,11 +107,13 @@ export default class AddGoods extends React.Component<any,any> {
                        </tr>
 
                        <tr>
-                          <td>price : <input type="number" id="price" name='price' /></td>
+                       <td>price: </td>
+                          <td><input type="number" id="price" name='price' /></td>
                        </tr>
 
                        <tr>
-                          <td>Selling Method : 
+                       <td>Selling Method:  </td>
+                          <td>
                               <input type="checkbox" name="method1" value = "1" /> shipping
                               <input type="checkbox" name="method2" value = "2" /> self-pick
                               <input type="checkbox" name="method3" value = "4" /> home-dilivery
@@ -115,7 +121,8 @@ export default class AddGoods extends React.Component<any,any> {
                        </tr>
 
                        <tr>
-                          <td>Main Image : <input id="upfile" type="file" name="upfile"/></td>
+                          <td>Main Image: </td>
+                          <td> <input id="upfile" type="file" name="upfile"/></td>
                        </tr>
                    </table>
                    <button name="confirm" id='button' type="button" onClick={() => _this.handleAdd()}>Confirm Add</button>

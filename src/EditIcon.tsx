@@ -12,7 +12,7 @@ export default class EditIcon extends React.Component<any,any> {
         }
     }
     componentDidMount(){
-        let id:string = this.getCookie("id");
+        let id:string = this.getCookie("userId");
         console.log(id);
         if(id == ""){
             this.props.history.push(  "/login"  );
@@ -94,6 +94,8 @@ export default class EditIcon extends React.Component<any,any> {
             if(xhr.status=='604'){//未登录错误
                 let popwin: any = _this.refs.logwin;
                 popwin.setState({modalIsOpen:true})
+            }else if(xhr.status=='606'){ //id differences
+                alert("No right to do this!");
             }
             
         }
@@ -114,7 +116,9 @@ export default class EditIcon extends React.Component<any,any> {
     render(){
         
         let id:string = this.state.id;
-        let imgSrc:string = "http://localhost:8080/member/geticon?Id="+id+"&size=1";
+       // id = "1006";
+        var myDate = new Date();
+        let imgSrc:string = "http://localhost:8080/member/geticon?Id="+id+"&size=1"+"&refresh="+myDate.getMilliseconds();
         
         return(
             <div>
