@@ -59,6 +59,7 @@ class App extends Component {
           <Route path="/userid/:id" component={Demo}></Route>
           <Route path="/editIcon/:id" component={EditIcon}></Route>
           <Route path="/addgoods" component={AddGoods}></Route>
+          <Route path="/login" component={Login}></Route>
           <Route path="/chat" component={WebChatTest}></Route>
         </div>
         
