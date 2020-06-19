@@ -10,6 +10,7 @@ export default class Demo extends React.Component<any,any> {
     }
     
 
+
     showLogin(){
         let popwin: any = this.refs.logwin;
         popwin.setState({modalIsOpen:true})

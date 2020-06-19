@@ -54,7 +54,7 @@ const $ = jquery;
                   *username:<input type='text' name='userName'></input><br/><br/>
                   *password: <input type='password' name='passWord'></input><br/><br/>
                   <input type="button" value="Login" className="button" onClick={() => this.doLogin()}/><br/><br/><br/>
-                  <input type="button" value="Back" onClick={() => window.history.back()}/>
+                  <input type="button" value="Back" onClick={() => this.props.history.goBack()}/>
 
               </form>
               </div>
