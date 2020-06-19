@@ -8,6 +8,7 @@
 }
 .demo {
   min-width: 300px;
+  max-height: 400px;
   width: 50%;
   height: 50%;
   background: hsl(120, 14%, 90%);
