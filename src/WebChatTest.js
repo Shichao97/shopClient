@@ -19,6 +19,9 @@ class WebChatTest extends React.Component {
         this.connectWithWS(wsUrl);
     }
 
+    componentWillUnmount(){
+        ws.close();
+    }
 
     connectWithWS(wsUrl) {
         
