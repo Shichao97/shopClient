@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import Modal from 'react-modal';
+//import './App.css';
 import { render } from '@testing-library/react';
 import jquery from "jquery";
 //import { stringify } from 'querystring';
@@ -45,8 +46,8 @@ const $ = jquery;
     //const [modalIsOpen, setModalIsOpen] = useState(false)  
     return (
       <div>
-          <Modal isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:true})}>
-              <div className='demo'>
+          <Modal  className='demo' isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:false})}>
+              <div>
               
                 
               <form id="log_form">

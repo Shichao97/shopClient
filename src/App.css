@@ -6,6 +6,26 @@
   height: 40vmin;
   pointer-events: none;
 }
+.demo {
+  min-width: 300px;
+  width: 50%;
+  height: 50%;
+  background: hsl(120, 14%, 90%);
+  text-align: center;
+  overflow: auto;
+  left: 25%;
+  top: 15%;
+  position: relative;
+}
+.demo2 {
+  position: absolute; 
+  width: 50%;
+  height: 70%;
+  left: 25%;
+  top: 15%;
+  
+  background-color: #ff3;  
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
