@@ -58,7 +58,31 @@ class WebChatTest extends React.Component {
         }
     }
 
+    componentDidMount() {
+        //组件挂载时候，注册keypress事件
+        document.addEventListener('keypress', this.handleKeyDown)
+    }
 
+    handleKeyDown = (event) => {
+        if (event.keyCode == 13) {
+            this.sendout();
+        }
+    }
+
+    sendout() {
+        var s = document.getElementById("msgtext").value;
+        ws.send(JSON.stringify({ flag: 'us', data: s }));
+        document.getElementById("msgtext").value = ""
+
+    }
+    scrollbottom() {
+        var ele = document.getElementById('msgdiv');
+        ele.scrollTop = ele.scrollHeight;
+    }
+
+    componentDidUpdate() {
+        this.scrollbottom();
+    }
     render() {
         var _this = this;
         var btn1;
@@ -88,31 +112,7 @@ class WebChatTest extends React.Component {
     }
 
 
-    componentDidMount() {
-        //组件挂载时候，注册keypress事件
-        document.addEventListener('keypress', this.handleKeyDown)
-    }
 
-    handleKeyDown = (event) => {
-        if (event.keyCode == 13) {
-            this.sendout();
-        }
-    }
-
-    sendout() {
-        var s = document.getElementById("msgtext").value;
-        ws.send(JSON.stringify({ flag: 'us', data: s }));
-        document.getElementById("msgtext").value = ""
-
-    }
-    scrollbottom() {
-        var ele = document.getElementById('msgdiv');
-        ele.scrollTop = ele.scrollHeight;
-    }
-
-    componentDidUpdate() {
-        this.scrollbottom();
-    }
 
 }
 
