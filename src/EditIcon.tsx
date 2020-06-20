@@ -38,7 +38,7 @@ export default class EditIcon extends React.Component<any,any> {
         formData.append("id",n);
         let arr:any = formData.keys;
         $.ajax({
-            url: 'http://localhost:8080/member/upIcon',
+            url: window.localStorage.getItem("host_pre")+'member/upIcon',
             type: 'POST',
             crossDomain: true, 
             xhrFields: {

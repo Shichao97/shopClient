@@ -17,7 +17,7 @@ export default class EditInfo extends React.Component<any,any> {
         formData.append("photo", appendTemp);  
         
         $.ajax({
-            url: 'http://localhost:8080/member/upIcon?id='+id,
+            url: window.localStorage.getItem("host_pre")+'member/upIcon?id='+id,
             type: 'POST',
             cache: false,
             data: formData,
@@ -36,7 +36,7 @@ export default class EditInfo extends React.Component<any,any> {
        /*
        $.ajax({
         type: "POST",
-        url:"http://localhost:8080/member/upIcon",
+        url:window.localStorage.getItem("host_pre")+"member/upIcon",
         data:formData,
         contentType: false,
         processData: false,
