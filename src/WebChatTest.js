@@ -15,12 +15,12 @@ class WebChatTest extends React.Component {
 
 
     handleClicked() {
-        let wsUrl = 'ws://localhost:8080/myHandler';
+        let wsUrl = window.localStorage.getItem("wshost_pre")+'myHandler';
         this.connectWithWS(wsUrl);
     }
 
     componentWillUnmount(){
-        ws.close();
+        if(ws != undefined) ws.close();
     }
 
     connectWithWS(wsUrl) {

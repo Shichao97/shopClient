@@ -24,7 +24,7 @@ const $ = jquery;
           xhrFields: {
               withCredentials: true 
           },
-          url:"http://localhost:8080/member/login",
+          url:window.localStorage.getItem("host_pre")+"member/login",
           data:params,
           dataType:"json",
           success: function(data) {

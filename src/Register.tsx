@@ -63,7 +63,7 @@ export default class Register extends React.Component<any,any> {
         let data= $("#registerForm").serializeArray();
         $.ajax({
             type:"POST",
-            url:"http://localhost:8080/member/register",
+            url:window.localStorage.getItem("host_pre")+"member/register",
             data:data,
             dataType:"json",
             success:function(d){

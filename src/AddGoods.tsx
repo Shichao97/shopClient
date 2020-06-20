@@ -17,7 +17,7 @@ export default class AddGoods extends React.Component<any,any> {
         let _this: AddGoods = this;
         $.ajax({
           type:"GET",
-          url:"http://localhost:8080/goodstype/showAll",
+          url:window.localStorage.getItem("host_pre")+"goodstype/showAll",
           dataType:"json",
           success:function(data){
             _this.setState({types:data});
@@ -31,7 +31,7 @@ export default class AddGoods extends React.Component<any,any> {
         let ele: any = $('#upfile')[0];
         let appendTemp:any = ele.files[0];
         formData.append("mainImg", appendTemp);  
-        let url1:string = "http://localhost:8080/goods/sell/add";
+        let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/add";
         let data= $("#addForm").serializeArray();  //不用拼data
         for(var p in data){
             console.log(data[p].name);

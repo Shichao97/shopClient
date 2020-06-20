@@ -53,7 +53,7 @@ export default class EditInfo extends React.Component<any,any> {
         let id:number = this.props.uid;
         id = 1006;
         var myDate = new Date();
-        let imgSrc:string = "http://localhost:8080/member/geticon?Id="+id+"&size=1"+"&refresh="+myDate.getMilliseconds();;
+        let imgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+id+"&size=1"+"&refresh="+myDate.getMilliseconds();;
         return(
             <div>
                 <h2>Hello! {this.props.un}</h2>
