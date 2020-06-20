@@ -8,9 +8,32 @@ export default class AddGoods extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state={
+            id:"",
+            un:"",
             types:[],
             msg:""
         }
+    }
+    getCookie(key:string){
+        const name =key+"=";
+        const ca = document.cookie.split(';'); 
+        for(let i=0;i<ca.length;i++){
+          const c = ca[i].trim();
+          if(c.indexOf(name) === 0){
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+    componentWillMount() {
+        let id:string = this.getCookie("userId");
+        console.log(id);
+        if(id == ""){
+            this.props.history.push(  "/login"  );
+        }
+        this.setState({id:id});
+        let un:string = this.getCookie("username");
+        this.setState({un:un});
     }
 
     componentDidMount() {

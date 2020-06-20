@@ -8,6 +8,7 @@ import AddGoods from './AddGoods';
 import LoginModal from './LoginModal';
 import EditIcon from './EditIcon';
 import Register from './Register';
+import searchSellGoods from './searchSellGoods';
 
 const Home = () => (
   <div>
@@ -50,6 +51,7 @@ class App extends Component {
           <Link to="/editicon/2">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/SearchSell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/chat">Chat Test</Link>&nbsp;&nbsp;&nbsp;
           <hr/>
           <Route path="/" exact component={Home}></Route>
@@ -60,6 +62,7 @@ class App extends Component {
           <Route path="/editIcon/:id" component={EditIcon}></Route>
           <Route path="/addgoods" component={AddGoods}></Route>
           <Route path="/login" component={Login}></Route>
+          <Route path="/SearchSell" component={searchSellGoods}></Route>
           <Route path="/chat" component={WebChatTest}></Route>
         </div>
         
