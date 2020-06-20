@@ -90,7 +90,6 @@ export default class searchSellGoods extends React.Component<any,any> {
                     
                 </form>
             </div>
-            
         )
     }
 }
