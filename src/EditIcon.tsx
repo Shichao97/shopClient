@@ -119,7 +119,7 @@ export default class EditIcon extends React.Component<any,any> {
        // id = "1006";
         var myDate = new Date();
         let imgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+id+"&size=1"+"&refresh="+myDate.getMilliseconds();
-        
+        //console.log(imgSrc);
         return(
             <div>
                 <h2>Hello! {this.state.un}</h2>
