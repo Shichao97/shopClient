@@ -11,7 +11,7 @@ export default class EditIcon extends React.Component<any,any> {
             un:""
         }
     }
-    componentDidMount(){
+    componentWillMount(){
         let id:string = this.getCookie("userId");
         console.log(id);
         if(id == ""){

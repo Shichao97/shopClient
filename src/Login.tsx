@@ -29,7 +29,7 @@ const $ = jquery;
           dataType:"json",
           success: function(data) {
               console.log(data)
-              this.props.history.goBack()
+              _this.props.history.goBack()
           },
           error: function(xhr:any, textStatus, errorThrown){
             console.log("request status:"+xhr.status+" msg:"+textStatus)
