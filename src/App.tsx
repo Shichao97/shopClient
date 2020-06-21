@@ -9,6 +9,8 @@ import LoginModal from './LoginModal';
 import EditIcon from './EditIcon';
 import Register from './Register';
 import searchSellGoods from './searchSellGoods';
+import jquery from "jquery";
+const $ = jquery;
 
 const Home = () => (
   <div>
@@ -29,6 +31,17 @@ const Product = () => (
 )
 
 class App extends Component {
+  componentDidMount() {
+    $.ajax({
+      type:"GET",
+      url:window.localStorage.getItem("host_pre")+"goodstype/showAll",
+      dataType:"json",
+      success:function(data){
+        var str = JSON.stringify(data); 
+        sessionStorage.setItem('goods_types', str); 
+      },
+      })
+  }
   render() {
     var query = {
       pathname: '/query',

@@ -36,17 +36,14 @@ export default class AddGoods extends React.Component<any,any> {
         this.setState({un:un});
     }
 
-    componentDidMount() {
-        let _this: AddGoods = this;
-        $.ajax({
-          type:"GET",
-          url:window.localStorage.getItem("host_pre")+"goodstype/showAll",
-          dataType:"json",
-          success:function(data){
-            _this.setState({types:data});
-          },
-          })
-      }
+    componentDidMount(){
+        let getDatas:any =  sessionStorage.getItem('goods_types');
+        if(getDatas != null){
+            let data = JSON.parse(getDatas);
+            this.setState({types:data});
+        }
+        
+    }
 
     handleAdd(){
         let _this: AddGoods = this;

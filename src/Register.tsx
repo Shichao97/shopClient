@@ -4,6 +4,7 @@ import './Register.css';
 const $ = jquery;
 
 
+
 export default class Register extends React.Component<any,any> {
     constructor(props:any){
         super(props);
@@ -81,7 +82,7 @@ export default class Register extends React.Component<any,any> {
             <div>
                 <h2>Welcome to our website, please regsiter first!</h2>
                 <form method="post" id="registerForm">
-                    <table>
+                    <table className="content-table">
                         <tr>  
                             <td>  
                                 *userName：<input name="userName" id="un" type="text" value={this.state.un} onChange={this.handleChange}/>
