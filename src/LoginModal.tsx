@@ -29,6 +29,12 @@ const $ = jquery;
           dataType:"json",
           success: function(data) {
               console.log(data)
+              if(data.success == 1){
+                _this.setState({modalIsOpen:false});
+              }
+              else if(data.success==0){
+                alert(data.msg);
+              }
 
           },
           error: function(xhr:any, textStatus, errorThrown){

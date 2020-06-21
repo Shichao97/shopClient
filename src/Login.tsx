@@ -29,7 +29,14 @@ const $ = jquery;
           dataType:"json",
           success: function(data) {
               console.log(data)
-              _this.props.history.goBack()
+              if(data.success == 1){
+                _this.props.history.goBack();
+              }
+              else if(data.success==0){
+                alert(data.msg);
+              }
+              
+
           },
           error: function(xhr:any, textStatus, errorThrown){
             console.log("request status:"+xhr.status+" msg:"+textStatus)
