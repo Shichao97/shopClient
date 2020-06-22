@@ -1,6 +1,6 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
-import './Register.css';
+import './searchSellGoods.css';
 import jquery from "jquery";
 const $ = jquery;
 
@@ -149,6 +149,12 @@ export default class searchSellGoods extends React.Component<any,any> {
       }
     }
 
+    getImgSrc(gid:string):string{
+      var myDate = new Date();
+      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsimg?Id="+gid+"&refresh="+myDate.getMilliseconds();
+      return imgSrc;
+    }
+
     handlePreviousPage(){
       let _this: searchSellGoods = this;
       let page:any = _this.state.page;
@@ -186,7 +192,8 @@ export default class searchSellGoods extends React.Component<any,any> {
       let arry:any[] = page.content;
       //console.log("render: "+_this.state.uid);
       let uid:string = _this.state.uid;
-      console.log(uid);  
+      console.log(uid); 
+        
         return(
             <div>
                 <form id="searchForm">
@@ -203,10 +210,10 @@ export default class searchSellGoods extends React.Component<any,any> {
                         <option value="desc">description</option>
                     </select><br/>
                     <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
-                    <input type="button" value="Search" onClick={() => _this.handleSearch()}/>
+                    <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
                     
                 </form>
-                <table className="content-table">
+                <table>
                   <thead>
                     <tr>
                       <th>goods name</th>
@@ -216,6 +223,7 @@ export default class searchSellGoods extends React.Component<any,any> {
                       <th>price</th>
                       <th>selling method</th>
                       <th>goods status</th>
+                      <th>goods image</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -225,6 +233,7 @@ export default class searchSellGoods extends React.Component<any,any> {
                       let sm:string = this.sellingMethod(element.sellingMethod);
                       let fullTypeName:string = this.getTypes(element.typeCode);
                       let statusName:string = this.getStatus(element.status);
+                      let imgSrc:string = this.getImgSrc(s);
                       return(
                         <tr>
                           
@@ -235,6 +244,7 @@ export default class searchSellGoods extends React.Component<any,any> {
                           <td>{element.price}</td>
                           <td>{sm}</td>
                           <td>{statusName}</td>
+                          <td><img src={imgSrc}/></td>
                         </tr>
                       )
                       
@@ -243,6 +253,7 @@ export default class searchSellGoods extends React.Component<any,any> {
                     )}
                   </tbody>
                 </table>
+                <br/><br/>
 
                 <input type="button" value="previous page" onClick={() => _this.handlePreviousPage()}/>
                 <input type="button" value="next page" onClick={() => _this.handleNextPage()}/><br />  <br />

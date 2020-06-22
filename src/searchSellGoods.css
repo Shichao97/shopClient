@@ -1,0 +1,32 @@
+table {
+    border-collapse: collapse;
+    border: 1px dotted blue;
+    margin:25px 0;
+    font-size: 1.2em;
+    min-width: 400pm;
+    text-align: center;
+    background-color: #fff;
+    margin: auto;
+  }
+  table td, table th {
+    border: 1px dotted black;
+  }
+  table tr:first-child th {
+    border-top: 0;
+  }
+  table tr:last-child td {
+    border-bottom: 0;
+  }
+  table tr td:first-child,
+  table tr th:first-child {
+    border-left: 0;
+  }
+  table tr td:last-child,
+  table tr th:last-child {
+    border-right: 0;
+  }
+  img{
+    width: 180px;
+    height: 180px;
+    margin-right: 10px;
+}
