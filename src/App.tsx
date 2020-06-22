@@ -26,11 +26,6 @@ const Home = () => (
 
 class App extends Component {
   checkHash(){
-    if(window.location.hash.startsWith("#/state")){
-      let win:any = window;
-      win.checkLogin();
-    }
-
     if(window.location.hash.startsWith("#/_")){
       let win:any = window;
       win.checkLogin();
@@ -69,7 +64,7 @@ class App extends Component {
           <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/_editicon/2">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/_editicon">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
@@ -80,7 +75,7 @@ class App extends Component {
           <Route path="/query" component={Demo}></Route>
           <Route path = "/register" component={Register}></Route>
           <Route path="/userid/:id" component={Demo}></Route>
-          <Route path="/_editIcon/:id" component={EditIcon}></Route>
+          <Route path="/_editIcon" component={EditIcon}></Route>
           <Route path="/_addgoods" component={AddGoods}></Route>
           <Route path="/login" component={Login}></Route>
           <Route path="/_searchsell" component={searchSellGoods}></Route>
