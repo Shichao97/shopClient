@@ -119,7 +119,7 @@ export default class AddGoods extends React.Component<any,any> {
                                 return(
                                     <option value={element.code}>{element.categoryName}--{element.name}</option>
                                 )
-                            }
+                                }
 
                             )}
                               </select>

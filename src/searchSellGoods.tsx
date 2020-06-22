@@ -12,9 +12,38 @@ export default class searchSellGoods extends React.Component<any,any> {
           searchValue:0,
           url:"",
           page:{"content":[]},
-          gotoPage:1
+          gotoPage:1,
+          types:[]
         }
       }
+      
+      componentWillMount(){
+        let getDatas:any =  sessionStorage.getItem('goods_types');
+        let obj:any;
+        if(getDatas != null){
+            let data = JSON.parse(getDatas);
+            //this.setState({types:data});
+            /*
+            data.forEach(function(val:any, index:number) {
+              obj[val.code] = val;
+          })*/
+          for (let ele of data) {
+            obj[ele.code] = ele;
+          }
+        }
+        
+
+        this.setState({types:obj});
+      }
+
+
+      getTypes(typeCode:string):string{
+        let types:any = this.state.types;
+        let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
+        return fullTypeName;
+      }
+
+      
 
       loadData(pageNo?:number) {
       
@@ -67,6 +96,27 @@ export default class searchSellGoods extends React.Component<any,any> {
          
         }
       }
+     
+    sellingMethod(m:number):string{
+      //let re:string = "";
+      let re1= ((m & 1) == 1) ? "shipping":"";
+      let re2= ((m & 2) == 2) ? "self-pick":"";
+      let re3= ((m & 4) == 4) ? "home-dilivery":"";
+      
+      return re1 + " " + re2 + " " + re3;
+    }
+
+    getStatus(s:number):string{
+      if(s == 0){
+        return "Not on the shelves";
+      }else if(s == 1){
+        return "sold out";
+      }else if(s == 2){
+        return "selling now";
+      }else{
+        return "remove off the shelves";
+      }
+    }
     
     render(){
       let _this: searchSellGoods = this;
@@ -108,15 +158,19 @@ export default class searchSellGoods extends React.Component<any,any> {
                     {arry.map((element:any) =>{
                       let s:string = ""+element.id;
                       //let s:string = "?id="+id;
-                      
+                      let sm:string = this.sellingMethod(element.sellingMethod);
+                      let fullTypeName:string = this.getTypes(element.typeCode);
+                      let statusName:string = this.getStatus(element.status);
                       return(
                         <tr>
                           
                           <td>{element.name}</td>
-                          <td>{element.birthdate}</td>
-                          <td><a href="#" onClick={() => _this.handleClick(s)} >{element.lastName} {element.firstName}</a> </td>
-                          <td>{element.gender}</td>
-                          <td><input type="button" name="deleteButton" value="Delete" onClick={() => _this.handleDelete(s)} /></td>
+                          <td>{fullTypeName}</td>
+                          <td>{element.description}</td>
+                          <td>{element.location}</td>
+                          <td>{element.price}</td>
+                          <td>{sm}</td>
+                          <td>{statusName}</td>
                         </tr>
                       )
                       
