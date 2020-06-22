@@ -20,11 +20,13 @@ export default class searchSellGoods extends React.Component<any,any> {
       }
       
       componentWillMount(){
-        let uid:string = this.getCookie("userId");
-        console.log("Hi! "+uid);
+        var win:any = window;
+        let uid:string = win.getCookie("userId");
+        /*
         if(uid == ""){
             this.props.history.push(  "/login"  );
         }
+        */
         this.setState({uid:uid});
        // console.log("Hi "+this.state.id);
 
@@ -40,7 +42,7 @@ export default class searchSellGoods extends React.Component<any,any> {
 
         this.setState({types:obj});
       }
-
+/*
       getCookie(key:string){
         const name =key+"=";
         const ca = document.cookie.split(';'); 
@@ -52,7 +54,7 @@ export default class searchSellGoods extends React.Component<any,any> {
         }
         return "";
       }
-
+*/
 
       getTypes(typeCode:string):string{
         let types:any = this.state.types;
