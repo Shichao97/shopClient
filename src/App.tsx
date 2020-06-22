@@ -25,7 +25,16 @@ const Home = () => (
 
 
 class App extends Component {
+  checkHash(){
+    if(window.location.hash.startsWith("#/state")){
+      let win:any = window;
+      win.checkLogin();
+    }
+  }
+  
   componentDidMount() {
+    onhashchange=this.checkHash
+
     $.ajax({
       type:"GET",
       url:window.localStorage.getItem("host_pre")+"goodstype/showAll",
