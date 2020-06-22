@@ -1,6 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import './searchSellGoods.css';
+import LoginModal from './LoginModal';
 import jquery from "jquery";
 const $ = jquery;
 
@@ -212,7 +213,7 @@ export default class searchSellGoods extends React.Component<any,any> {
       </select><br/>
       <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
       <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
-      
+      <LoginModal ref="logwin"/>
   </form>
       if(_this.state.flag != 1){
         return forms;
