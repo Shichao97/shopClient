@@ -7,9 +7,10 @@ export default class searchSellGoods extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state = {
-          searchType1:"",
+          uid:"",
+          searchType1:0,
           searchType2:"",
-          searchValue:0,
+          searchValue:"",
           url:"",
           page:{"content":[]},
           gotoPage:1,
@@ -18,15 +19,18 @@ export default class searchSellGoods extends React.Component<any,any> {
       }
       
       componentWillMount(){
+        let uid:string = this.getCookie("userId");
+        console.log("Hi! "+uid);
+        if(uid == ""){
+            this.props.history.push(  "/login"  );
+        }
+        this.setState({uid:uid});
+       // console.log("Hi "+this.state.id);
+
         let getDatas:any =  sessionStorage.getItem('goods_types');
-        let obj:any;
+        let obj:any = new Object();
         if(getDatas != null){
             let data = JSON.parse(getDatas);
-            //this.setState({types:data});
-            /*
-            data.forEach(function(val:any, index:number) {
-              obj[val.code] = val;
-          })*/
           for (let ele of data) {
             obj[ele.code] = ele;
           }
@@ -34,6 +38,18 @@ export default class searchSellGoods extends React.Component<any,any> {
         
 
         this.setState({types:obj});
+      }
+
+      getCookie(key:string){
+        const name =key+"=";
+        const ca = document.cookie.split(';'); 
+        for(let i=0;i<ca.length;i++){
+          const c = ca[i].trim();
+          if(c.indexOf(name) === 0){
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
       }
 
 
@@ -50,27 +66,43 @@ export default class searchSellGoods extends React.Component<any,any> {
         let _this: searchSellGoods = this;
         //console.log(_this.state.url);
         let newUrl:string = "";
+        let uid:string = _this.state.uid;
+        console.log(uid);
         if(pageNo != undefined){
           newUrl = _this.state.url;
-          newUrl = newUrl+ "&pageNo="+pageNo;
+          newUrl = newUrl+ "&pageNo="+pageNo + "&sellerId=" + uid;
          
         }else{
-          newUrl = _this.state.url
+          newUrl = _this.state.url + "&sellerId=" + uid;
         }
         console.log(newUrl);
         $.ajax({
           type:"GET",
+          crossDomain: true, 
+          xhrFields: {
+              withCredentials: true 
+          },
           url:newUrl,
           dataType:"json",
           success:function(data){
               _this.setState({page:data,gotoPage:data.number+1});
               
           },
+          error: function(xhr:any, textStatus, errorThrown){
+              console.log("request status:"+xhr.status+" msg:"+textStatus)
+              if(xhr.status=='604'){//未登录错误
+                  let popwin: any = _this.refs.logwin;
+                  popwin.setState({modalIsOpen:true})
+              }
+              
+          }
         })
           
       }
     handleSearch(){
         let _this: searchSellGoods = this;
+        let uid:string = _this.state.uid;
+        console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
         let plusnew:string = "&pageSize=20";//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew;
@@ -122,7 +154,9 @@ export default class searchSellGoods extends React.Component<any,any> {
       let _this: searchSellGoods = this;
       let page:any = _this.state.page;
       let arry:any[] = page.content;
-        
+      //console.log("render: "+_this.state.uid);
+      let uid:string = _this.state.uid;
+      console.log(uid);  
         return(
             <div>
                 <form id="searchForm">
