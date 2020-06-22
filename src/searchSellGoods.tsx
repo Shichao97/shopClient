@@ -195,26 +195,33 @@ export default class searchSellGoods extends React.Component<any,any> {
       //console.log("render: "+_this.state.uid);
       let uid:string = _this.state.uid;
       console.log(uid); 
-        
+      let forms =                 
+      <form id="searchForm">
+      * choose goods status:
+      <select name="searchType1" value={_this.state.searchType1} onChange={_this.handleSelect1} id="dropdown1">
+          <option value="0">Not on the shelves</option>
+          <option value="1">sold out</option>
+          <option value="2">selling now</option>
+          <option value="-1">remove off the shelves</option>
+      </select> <br/>
+      * choose to search by:
+      <select name="searchType2" value={_this.state.searchType2} onChange={_this.handleSelect2} id="dropdown2">
+          <option value="name">goods name</option>
+          <option value="desc">description</option>
+      </select><br/>
+      <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
+      <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
+      
+  </form>
+      if(true){
+        return forms;
+      }
+      else{
         return(
+          
             <div>
-                <form id="searchForm">
-                    * choose goods status:
-                    <select name="searchType1" value={_this.state.searchType1} onChange={_this.handleSelect1} id="dropdown1">
-                        <option value="0">Not on the shelves</option>
-                        <option value="1">sold out</option>
-                        <option value="2">selling now</option>
-                        <option value="-1">remove off the shelves</option>
-                    </select> <br/>
-                    * choose to search by:
-                    <select name="searchType2" value={_this.state.searchType2} onChange={_this.handleSelect2} id="dropdown2">
-                        <option value="name">goods name</option>
-                        <option value="desc">description</option>
-                    </select><br/>
-                    <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
-                    <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
-                    
-                </form>
+
+              {forms}
                 <table>
                   <thead>
                     <tr>
@@ -265,5 +272,6 @@ export default class searchSellGoods extends React.Component<any,any> {
         
             </div>
         )
+      }
     }
 }
