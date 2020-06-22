@@ -14,7 +14,9 @@ export default class Demo extends React.Component<any,any> {
     showLogin(){
         let popwin: any = this.refs.logwin;
         popwin.setState({modalIsOpen:true});
-
+        var win:any = window;
+        console.log("testval="+win.testVal);
+        //win.checkLogin();
     }
     
     render(){
