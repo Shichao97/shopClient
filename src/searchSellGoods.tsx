@@ -15,6 +15,7 @@ export default class searchSellGoods extends React.Component<any,any> {
           url:"",
           page:{"content":[]},
           gotoPage:1,
+          flag:0,
           types:[]
         }
       }
@@ -88,7 +89,7 @@ export default class searchSellGoods extends React.Component<any,any> {
           dataType:"json",
           success:function(data){
               _this.setState({page:data,gotoPage:data.number+1});
-              
+              _this.setState({flag:1});
           },
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
@@ -213,7 +214,7 @@ export default class searchSellGoods extends React.Component<any,any> {
       <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
       
   </form>
-      if(false){
+      if(_this.state.flag != 1){
         return forms;
       }
       else{
