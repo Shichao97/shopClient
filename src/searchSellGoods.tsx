@@ -1,5 +1,6 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
+import './Register.css';
 import jquery from "jquery";
 const $ = jquery;
 
@@ -64,16 +65,15 @@ export default class searchSellGoods extends React.Component<any,any> {
       loadData(pageNo?:number) {
       
         let _this: searchSellGoods = this;
-        //console.log(_this.state.url);
         let newUrl:string = "";
-        let uid:string = _this.state.uid;
-        console.log(uid);
         if(pageNo != undefined){
           newUrl = _this.state.url;
-          newUrl = newUrl+ "&pageNo="+pageNo + "&sellerId=" + uid;
+          //newUrl = searchUrl;
+          newUrl = newUrl+ "&pageNo="+pageNo;
          
         }else{
-          newUrl = _this.state.url + "&sellerId=" + uid;
+          newUrl = _this.state.url;
+          //newUrl = searchUrl;
         }
         console.log(newUrl);
         $.ajax({
@@ -104,12 +104,11 @@ export default class searchSellGoods extends React.Component<any,any> {
         let uid:string = _this.state.uid;
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
-        let plusnew:string = "&pageSize=20";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew;
+        let plusnew:string = "&pageSize=2";//没写 sortby
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
       
         _this.state={url:searchUrl};
         _this.setState({url:searchUrl});
-      
         _this.loadData();
     }
 
@@ -149,6 +148,37 @@ export default class searchSellGoods extends React.Component<any,any> {
         return "remove off the shelves";
       }
     }
+
+    handlePreviousPage(){
+      let _this: searchSellGoods = this;
+      let page:any = _this.state.page;
+      let pn:number = page.number;
+      pn -= 1;
+      
+      let totalPages = page.totalPages;
+      if(pn > (-1)){
+        _this.loadData(pn);
+      }
+    }
+
+    handleNextPage(){
+      let _this: searchSellGoods = this;
+      let page:any = _this.state.page;
+      let pn:number = page.number;
+      pn += 1;
+      
+      let totalPages = page.totalPages;
+      if(pn<totalPages){
+        _this.loadData(pn);
+      }
+      
+    }
+    handleGoto(){
+      let page:any = this.state.page;
+      let totalPages = page.totalPages;
+      let pn:number = this.state.gotoPage;
+      this.loadData(pn-1);
+    }
     
     render(){
       let _this: searchSellGoods = this;
@@ -176,7 +206,7 @@ export default class searchSellGoods extends React.Component<any,any> {
                     <input type="button" value="Search" onClick={() => _this.handleSearch()}/>
                     
                 </form>
-                <table>
+                <table className="content-table">
                   <thead>
                     <tr>
                       <th>goods name</th>
@@ -213,6 +243,13 @@ export default class searchSellGoods extends React.Component<any,any> {
                     )}
                   </tbody>
                 </table>
+
+                <input type="button" value="previous page" onClick={() => _this.handlePreviousPage()}/>
+                <input type="button" value="next page" onClick={() => _this.handleNextPage()}/><br />  <br />
+
+                <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={_this.handleChange}/>
+                <input type="button" value="Go" onClick={() => _this.handleGoto()}/><br />  <br />
+        
             </div>
         )
     }
