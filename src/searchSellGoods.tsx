@@ -213,7 +213,7 @@ export default class searchSellGoods extends React.Component<any,any> {
       <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
       
   </form>
-      if(true){
+      if(false){
         return forms;
       }
       else{
