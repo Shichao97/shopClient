@@ -14,25 +14,13 @@ export default class AddGoods extends React.Component<any,any> {
             msg:""
         }
     }
-    getCookie(key:string){
-        const name =key+"=";
-        const ca = document.cookie.split(';'); 
-        for(let i=0;i<ca.length;i++){
-          const c = ca[i].trim();
-          if(c.indexOf(name) === 0){
-            return c.substring(name.length, c.length);
-          }
-        }
-        return "";
-      }
+    
     componentWillMount() {
-        let id:string = this.getCookie("userId");
-        console.log(id);
-        if(id == ""){
-            this.props.history.push(  "/login"  );
-        }
+        var win:any = window;
+        let id:string = win.getCookie("userId");
+        //console.log(id);
         this.setState({id:id});
-        let un:string = this.getCookie("username");
+        let un:string = win.getCookie("username");
         this.setState({un:un});
     }
 
