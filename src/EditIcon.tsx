@@ -11,60 +11,20 @@ export default class EditIcon extends React.Component<any,any> {
             un:""
         }
     }
+    
     componentWillMount(){
-        let id:string = this.getCookie("userId");
-        console.log(id);
-        if(id == ""){
-            this.props.history.push(  "/login"  );
-        }
+        var win:any = window;
+        var uobj = win.checkLogin();
+        
+        let id:string = uobj.id;
         this.setState({id:id});
-        let un:string = this.getCookie("username");
+        let un:string = uobj.username;
         this.setState({un:un});
         
     }
+
     handleIcon(id:string){
-        /*
-        let _this = this;
-        let formData = new FormData();
-        let param = $('#uploadForm').serializeArray();
-        let dd:any = param[0];
-        //param.push()
-        let ele: any = $('#file')[0];
-        let appendTemp = ele.files[0];
-        let obj:any = {photo:appendTemp};
-        param.push(obj);
-        let n:any = this.props.match.params.id;
-        formData.append("photo", appendTemp);  
-        formData.append("id",n);
-        let arr:any = formData.keys;
-        $.ajax({
-            url: window.localStorage.getItem("host_pre")+'member/upIcon',
-            type: 'POST',
-            crossDomain: true, 
-            xhrFields: {
-                withCredentials: true 
-            },
-            cache: false,
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(d) {
-                let n = d.msg;
-                let n2 = d.test;
-                if(d.msg==1){
-                    alert("提交成功");
-                }
-            },
-            error: function(xhr:any, textStatus, errorThrown){
-                console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
-                    let popwin: any = _this.refs.logwin;
-                    popwin.setState({modalIsOpen:true})
-                }
-                
-            }
-        })
-        */
+
        let _this: EditIcon = this;
        let formData = new FormData();
        let ele: any = $('#upfile')[0];
@@ -102,17 +62,17 @@ export default class EditIcon extends React.Component<any,any> {
        })
 
     }
-    getCookie(key:string){
-        const name =key+"=";
-        const ca = document.cookie.split(';'); 
-        for(let i=0;i<ca.length;i++){
-          const c = ca[i].trim();
-          if(c.indexOf(name) === 0){
-            return c.substring(name.length, c.length);
-          }
-        }
-        return "";
-      }
+    // getCookie(key:string){
+    //     const name =key+"=";
+    //     const ca = document.cookie.split(';'); 
+    //     for(let i=0;i<ca.length;i++){
+    //       const c = ca[i].trim();
+    //       if(c.indexOf(name) === 0){
+    //         return c.substring(name.length, c.length);
+    //       }
+    //     }
+    //     return "";
+    //   }
     render(){
         
         let id:string = this.state.id;

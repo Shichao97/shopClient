@@ -13,8 +13,8 @@ export default class Demo extends React.Component<any,any> {
 
     showLogin(){
         let popwin: any = this.refs.logwin;
-        popwin.setState({modalIsOpen:true})
-        //console.log("login.url="+window.localStorage.getItem("host_pre"))
+        popwin.setState({modalIsOpen:true});
+
     }
     
     render(){

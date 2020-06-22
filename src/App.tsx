@@ -18,17 +18,11 @@ const Home = () => (
   </div>
 )
 
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-)
 
-const Product = () => (
-  <div>
-    <h2>Product</h2>
-  </div>
-)
+
+
+
+
 
 class App extends Component {
   componentDidMount() {
