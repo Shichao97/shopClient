@@ -27,8 +27,9 @@ export default class ImageUpload extends React.Component {
     
     render(){
     return <div>
-	    <input type="file"  name="file" id="upMultilImages" multiple="multiple"   onChange={() => this.multiImagePreview()} accept="image/*" />
+	    <input type="file"  name="file" id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
         <div>
+            lalala
         {
             this.state.imgs.map((element,index) =>{
                 return <div className="upimgs"> 

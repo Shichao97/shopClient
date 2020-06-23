@@ -11,7 +11,8 @@ export default class AddGoods extends React.Component<any,any> {
             id:"",
             un:"",
             types:[],
-            msg:""
+            msg:"",
+            imgs:[]
         }
     }
     
@@ -80,6 +81,22 @@ export default class AddGoods extends React.Component<any,any> {
         })
     }
 
+    multiImagePreview() {
+ 
+        let upMultilImagesObj:any = document.getElementById("upMultilImages");
+        var fileList = upMultilImagesObj.files;
+        
+        for (var i = 0; i < fileList.length; i++) { 
+            this.state.imgs.push(upMultilImagesObj.files[i]);
+        }  
+        this.setState({});
+    }   
+
+    imgClicked(index:number){
+        this.state.imgs.splice(index,1);
+        this.setState({});
+    }
+
     render(){
         let _this:AddGoods = this;
         let arry:any[] = this.state.types;
@@ -129,8 +146,23 @@ export default class AddGoods extends React.Component<any,any> {
                        </tr>
 
                        <tr>
-                          <td>Main Image: </td>
-                          <td> <input id="upfile" type="file" name="upfile"/></td>
+                          <td>Images: </td>
+                          <td>
+                          <input type="file"  name="file" id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
+                            <div>
+                            {
+                                this.state.imgs.map((element:any,index:number) =>{
+                                    return <div className="upimgs"> 
+                                    <a><span><h1>Click to delete</h1></span>
+                                    <img width="100px" height="100px" onClick={()=> this.imgClicked(index)}
+                                    id={"img_"+index} 
+                                    src={window.URL.createObjectURL(element)} /> 
+                                    </a>
+                                    </div>
+                                })
+                            }
+                            </div>
+                          </td>
                        </tr>
                    </table>
                    <button name="confirm" id='button' type="button" onClick={() => _this.handleAdd()}>Confirm Add</button>
