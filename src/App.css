@@ -28,6 +28,11 @@
   background-color: #ff3;  
 }
 
+.upimgs {
+  display: block; 
+  float: left;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
