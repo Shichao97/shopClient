@@ -34,7 +34,7 @@ export default class ImageUpload extends React.Component {
                 return <div className="upimgs"> 
                 <a><span><h1>Click to delete</h1></span>
                 <img width="100px" height="100px" onClick={()=> this.imgClicked(index)}
-                id={"img_"+index} onMouseOver
+                id={"img_"+index} 
                 src={window.URL.createObjectURL(element)} /> 
                 </a>
                 </div>
