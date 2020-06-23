@@ -1,11 +1,11 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
-import './searchSellGoods.css';
+import './SearchSellGoods.css';
 import LoginModal from './LoginModal';
 import jquery from "jquery";
 const $ = jquery;
 
-export default class searchSellGoods extends React.Component<any,any> {
+export default class SearchSellGoods extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state = {
@@ -68,7 +68,7 @@ export default class searchSellGoods extends React.Component<any,any> {
 
       loadData(pageNo?:number) {
       
-        let _this: searchSellGoods = this;
+        let _this: SearchSellGoods = this;
         let newUrl:string = "";
         if(pageNo != undefined){
           newUrl = _this.state.url;
@@ -104,7 +104,7 @@ export default class searchSellGoods extends React.Component<any,any> {
           
       }
     handleSearch(){
-        let _this: searchSellGoods = this;
+        let _this: SearchSellGoods = this;
         let uid:string = _this.state.uid;
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
@@ -160,7 +160,7 @@ export default class searchSellGoods extends React.Component<any,any> {
     }
 
     handlePreviousPage(){
-      let _this: searchSellGoods = this;
+      let _this: SearchSellGoods = this;
       let page:any = _this.state.page;
       let pn:number = page.number;
       pn -= 1;
@@ -172,7 +172,7 @@ export default class searchSellGoods extends React.Component<any,any> {
     }
 
     handleNextPage(){
-      let _this: searchSellGoods = this;
+      let _this: SearchSellGoods = this;
       let page:any = _this.state.page;
       let pn:number = page.number;
       pn += 1;
@@ -191,7 +191,7 @@ export default class searchSellGoods extends React.Component<any,any> {
     }
     
     render(){
-      let _this: searchSellGoods = this;
+      let _this: SearchSellGoods = this;
       let page:any = _this.state.page;
       let arry:any[] = page.content;
       //console.log("render: "+_this.state.uid);
@@ -227,6 +227,7 @@ export default class searchSellGoods extends React.Component<any,any> {
                 <table>
                   <thead>
                     <tr>
+                      <th>tick</th>
                       <th>goods name</th>
                       <th>type</th>
                       <th>description</th>

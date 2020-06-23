@@ -8,7 +8,7 @@ import AddGoods from './AddGoods';
 import LoginModal from './LoginModal';
 import EditIcon from './EditIcon';
 import Register from './Register';
-import searchSellGoods from './searchSellGoods';
+import SearchSellGoods from './SearchSellGoods';
 import ImageUpload from './ImageUpload';
 import jquery from "jquery";
 const $ = jquery;
@@ -82,7 +82,7 @@ class App extends Component {
           <Route path="/_editIcon" component={EditIcon}></Route>
           <Route path="/_addgoods" component={AddGoods}></Route>
           <Route path="/login" component={Login}></Route>
-          <Route path="/_searchsell" component={searchSellGoods}></Route>
+          <Route path="/_searchsell" component={SearchSellGoods}></Route>
           <Route path="/chat" component={WebChatTest}></Route>
           <Route path="/imageUpload" component={ImageUpload}></Route>
         </div>
