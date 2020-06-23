@@ -9,11 +9,9 @@ export default class ImageUpload extends React.Component {
         this.state = {imgs:[]};
     }
 
-    multiImagePreview(avalue) {
+    multiImagePreview() {
  
         var upMultilImagesObj = document.getElementById("upMultilImages");
-        var picViewsBox = document.getElementById("picViewsBox");
-        picViewsBox.innerHTML = "";
         var fileList = upMultilImagesObj.files;
         
         for (var i = 0; i < fileList.length; i++) { 
@@ -30,13 +28,16 @@ export default class ImageUpload extends React.Component {
     render(){
     return <div>
 	    <input type="file"  name="file" id="upMultilImages" multiple="multiple"   onChange={() => this.multiImagePreview()} accept="image/*" />
+        <div>
         {
             this.state.imgs.map((element,index) =>{
                 return <div className="upimgs"> 
                 <img width="100px" height="100px" onClick={()=> this.imgClicked(index)}
+                id={"img_"+index}
                 src={window.URL.createObjectURL(element)} /> </div>
             })
         }
+        </div>
         </div>  
     }
 }
