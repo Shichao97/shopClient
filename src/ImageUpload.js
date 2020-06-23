@@ -28,11 +28,11 @@ export default class ImageUpload extends React.Component {
     render(){
     return <div>
 	    <input type="file"  name="file" id="upMultilImages" multiple="multiple"   onChange={() => this.multiImagePreview()} accept="image/*" />
-        <div  className="box2">
+        <div>
         {
             this.state.imgs.map((element,index) =>{
                 return <div className="upimgs"> 
-                <a><span>Click to delete</span>
+                <a><span><h1>Click to delete</h1></span>
                 <img width="100px" height="100px" onClick={()=> this.imgClicked(index)}
                 id={"img_"+index} onMouseOver
                 src={window.URL.createObjectURL(element)} /> 
