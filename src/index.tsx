@@ -2,10 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-//import * as serviceWorker from './serviceWorker';
-import Register from './Register';
-import EditInfo from './EditInfo';
-import AddGoods from './AddGoods';
+
 
 ReactDOM.render(
   <React.StrictMode>

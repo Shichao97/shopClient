@@ -9,6 +9,7 @@ import LoginModal from './LoginModal';
 import EditIcon from './EditIcon';
 import Register from './Register';
 import searchSellGoods from './searchSellGoods';
+import ImageUpload from './ImageUpload';
 import jquery from "jquery";
 const $ = jquery;
 
@@ -26,7 +27,10 @@ const Home = () => (
 
 class App extends Component {
   checkHash(){
-    if(window.location.hash.startsWith("#/_")){
+    var str: string = window.location.hash;
+    //console.log("Hash changed to: "+str.substr(0,3));
+    //startsWith()函数 IE浏览器不支持，所以改为 substr
+    if(str.substr(0,3) == "#/_"){
       let win:any = window;
       win.checkLogin();
     }
@@ -56,11 +60,11 @@ class App extends Component {
 	}
 	
     return (
-      
+      <div>
       <Router>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/imageUpload/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
           <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
@@ -80,9 +84,12 @@ class App extends Component {
           <Route path="/login" component={Login}></Route>
           <Route path="/_searchsell" component={searchSellGoods}></Route>
           <Route path="/chat" component={WebChatTest}></Route>
+          <Route path="/imageUpload" component={ImageUpload}></Route>
         </div>
         
       </Router>
+      
+      </div>
     );
   }
 }
