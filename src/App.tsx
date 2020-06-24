@@ -92,7 +92,6 @@ class App extends Component {
         </div>
         
       </Router>
-      <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
 
       </div>
     );
