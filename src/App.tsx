@@ -11,6 +11,7 @@ import Register from './Register';
 import SearchSellGoods from './SearchSellGoods';
 import ImageUpload from './ImageUpload';
 import jquery from "jquery";
+import EditSellGoods from './EditSellGoods';
 const $ = jquery;
 
 const Home = () => (
@@ -89,6 +90,7 @@ class App extends Component {
           <Route path="/_searchsell" component={SearchSellGoods}></Route>
           <Route path="/chat" component={WebChatTest}></Route>
           <Route path="/imageUpload" component={ImageUpload}></Route>
+          <Route path="/editsellgoods/:gid" component={EditSellGoods}></Route>
         </div>
         
       </Router>

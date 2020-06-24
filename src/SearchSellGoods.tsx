@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import './SearchSellGoods.css';
 import LoginModal from './LoginModal';
 import jquery from "jquery";
+import { Link } from 'react-router-dom';
 const $ = jquery;
 
 export default class SearchSellGoods extends React.Component<any,any> {
@@ -155,7 +156,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
 
     getImgSrc(gid:string):string{
       var myDate = new Date();
-      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsimg?Id="+gid+"&refresh="+myDate.getMilliseconds();
+      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsmainimg?Id="+gid+"&refresh="+myDate.getMilliseconds();
       return imgSrc;
     }
 
@@ -227,7 +228,6 @@ export default class SearchSellGoods extends React.Component<any,any> {
                 <table>
                   <thead>
                     <tr>
-                      <th>tick</th>
                       <th>goods name</th>
                       <th>type</th>
                       <th>description</th>
@@ -246,10 +246,11 @@ export default class SearchSellGoods extends React.Component<any,any> {
                       let fullTypeName:string = this.getTypes(element.typeCode);
                       let statusName:string = this.getStatus(element.status);
                       let imgSrc:string = this.getImgSrc(s);
+                      let link:string ="/editsellgoods/" +s;
                       return(
                         <tr>
                           
-                          <td>{element.name}</td>
+                          <td><Link to={link} >{element.name}</Link></td>
                           <td>{fullTypeName}</td>
                           <td>{element.description}</td>
                           <td>{element.location}</td>
