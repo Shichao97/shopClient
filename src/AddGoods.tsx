@@ -37,9 +37,15 @@ export default class AddGoods extends React.Component<any,any> {
     handleAdd(){
         let _this: AddGoods = this;
         let formData = new FormData();
-        let ele: any = $('#upfile')[0];
-        let appendTemp:any = ele.files[0];
-        formData.append("mainImg", appendTemp);  
+        //let ele: any = $('#upfile')[0];
+        //let appendTemp:any = ele.files[0];
+        let i = 0;
+        for (let entry of this.state.imgs) {
+            //console.log(entry); // 1, "string", false
+            formData.append("img"+i,entry);
+            i++;
+        }
+        //formData.append("mainImg", appendTemp);  
         let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/add";
         let data= $("#addForm").serializeArray();  //不用拼data
         for(var p in data){
@@ -148,7 +154,7 @@ export default class AddGoods extends React.Component<any,any> {
                        <tr>
                           <td>Images: </td>
                           <td>
-                          <input type="file"  name="file" id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
+                          <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
                             <div>
                             {
                                 this.state.imgs.map((element:any,index:number) =>{
