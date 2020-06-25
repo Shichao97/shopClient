@@ -24,8 +24,12 @@ export default class EditSellGoods extends React.Component<any,any>{
             url:newUrl,
             dataType:"json",
             success:function(data){
-                let imgStr:string = data.filename;
-                let arr:string[] = imgStr.split(";");
+                let imgStr:string = data.imgNames;
+                let arr:string[];
+                if(imgStr.length == 0){
+                  arr = [];
+                }
+                arr= imgStr.split(";");
                 _this.setState({imgName:arr});
             }
           })
