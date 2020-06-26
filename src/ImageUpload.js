@@ -27,10 +27,7 @@ export default class ImageUpload extends React.Component {
     
     render(){
     return <div>
-        <a class="file">+图片
-	    <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
-        </a>
-        <div>
+       
 
         {
             this.state.imgs.map((element,index) =>{
@@ -43,7 +40,11 @@ export default class ImageUpload extends React.Component {
                 </div>
             })
         }
-        </div>
+        <div  className="upimgs">
+        <a class="file">+图片
+	    <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
+        </a>
+        </div> 
         </div>  
     }
 }

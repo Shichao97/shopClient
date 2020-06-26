@@ -51,13 +51,17 @@ export default class EditSellGoods extends React.Component<any,any>{
         let imgname:string[] = this.state.imgName;
         
         return(
-            <div>
+            <div >
                 {imgname.map((element:any,index:number) =>{
                       
                       let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsimg?Id="+gid+"&fname="+element;
       
                       return(
+                        <div className="upimgs"> 
+                        <a><span><h1>Click to delete</h1></span>
                         <img src={imgSrc} onClick={()=> this.imgClicked(index)}/>
+                        </a>
+                        </div>
                       )
                     
                     }
