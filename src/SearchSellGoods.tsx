@@ -155,8 +155,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
     }
 
     getImgSrc(gid:string):string{
-      var myDate = new Date();
-      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsmainimg?Id="+gid+"&refresh="+myDate.getMilliseconds();
+      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsmainimg?Id="+gid;
       return imgSrc;
     }
 
