@@ -1,6 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import jquery from "jquery";
+import ImageUpload from './ImageUpload';
 const $ = jquery;
 
 export default class EditSellGoods extends React.Component<any,any>{
@@ -51,7 +52,7 @@ export default class EditSellGoods extends React.Component<any,any>{
                     
                     }
                 )}
-            
+            <ImageUpload/>
             </div>
         )
     }
