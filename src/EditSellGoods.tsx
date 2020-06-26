@@ -12,6 +12,11 @@ export default class EditSellGoods extends React.Component<any,any>{
         }
       }
 
+    componentDidMount(){
+      let gid:number = this.props.match.params.gid;
+      this.getExistImg(gid);
+    }
+
     
     getExistImg(gid:number){
         let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsinfo?Id="+gid;
@@ -27,7 +32,7 @@ export default class EditSellGoods extends React.Component<any,any>{
             success:function(data){
                 let imgStr:string = data.imgNames;
                 let arr:string[];
-                if(imgStr.length == 0){
+                if(imgStr == null){
                   arr = [];
                 }
                 arr= imgStr.split(";");
@@ -35,24 +40,31 @@ export default class EditSellGoods extends React.Component<any,any>{
             }
           })
     }
+
+    imgClicked(index:number){
+      this.state.imgName.splice(index,1);
+      this.setState({});
+    }
     render(){
         let gid:number = this.props.match.params.gid;
-        this.getExistImg(gid);
+       // this.getExistImg(gid);
         let imgname:string[] = this.state.imgName;
         
         return(
             <div>
-                {imgname.map((element:any) =>{
-                      var myDate = new Date();
-                      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsimg?Id="+gid+"&fname="+element+"&refresh="+myDate.getMilliseconds();
+                {imgname.map((element:any,index:number) =>{
+                      
+                      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsimg?Id="+gid+"&fname="+element;
       
                       return(
-                        <img src={imgSrc}/>
+                        <img src={imgSrc} onClick={()=> this.imgClicked(index)}/>
                       )
                     
                     }
                 )}
-            <ImageUpload/>
+
+            <ImageUpload ref="imgup"/>
+            
             </div>
         )
     }
