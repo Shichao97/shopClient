@@ -68,17 +68,17 @@ export default class EditSellGoods extends React.Component<any,any>{
         let imgname:string[] = this.state.imgName;
         let arry:any[] = this.state.types;
         let m:number = this.state.sellingmethod;
-        let checked1 = <input type="checkbox" name="method1" value = "1" checked>shipping</input>;
+        let checked1 = <input type="checkbox" name="method1" value = "1" checked />;
         if((m & 1) != 1){
-          checked1 = <input type="checkbox" name="method1" value = "1">shipping</input> ;
+          checked1 = <input type="checkbox" name="method1" value = "1" /> ;
         }
-        let checked2 =<input type="checkbox" name="method2" value = "2" checked>self-pick</input>;
+        let checked2 =<input type="checkbox" name="method2" value = "2" checked />;
         if((m & 2) != 2){
-          checked2 = <input type="checkbox" name="method2" value = "2">shipping</input>;
+          checked2 = <input type="checkbox" name="method2" value = "2" />;
         }
-        let checked3 = <input type="checkbox" name="method3" value = "4" checked>home-dilivery</input> ;
+        let checked3 = <input type="checkbox" name="method3" value = "4" checked /> ;
         if((m & 4) != 4){
-          checked3 = <input type="checkbox" name="method3" value = "4">shipping</input>;
+          checked3 = <input type="checkbox" name="method3" value = "4" />;
         }
 
 
@@ -121,15 +121,15 @@ export default class EditSellGoods extends React.Component<any,any>{
 
                        <tr>
                        <td>price: </td>
-                          <td><input type="number" id="price" name='price' value={this.state.location}/></td>
+                          <td><input type="number" id="price" name='price' value={this.state.price}/></td>
                        </tr>
 
                        <tr>
                        <td>Selling Method:  </td>
                           <td>
-                                {checked1}
-                                {checked2}
-                                {checked3}
+                                {checked1} shipping
+                                {checked2} self-pick
+                                {checked3} home-dilivery
                               
                           </td>
                        </tr>
