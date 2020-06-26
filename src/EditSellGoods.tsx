@@ -13,7 +13,8 @@ export default class EditSellGoods extends React.Component<any,any>{
           location:"",
           types:[],
           typeCode:"",
-          selected:""
+          price:0,
+          sellingmethod:0
         }
       }
 
@@ -51,6 +52,8 @@ export default class EditSellGoods extends React.Component<any,any>{
                 _this.setState({goodsname:data.name});
                 _this.setState({location:data.location});
                 _this.setState({typecode:data.typeCode});
+                _this.setState({price:data.price});
+                _this.setState({sellingmethod:data.sellingMethod});
             }
           })
     }
@@ -64,7 +67,11 @@ export default class EditSellGoods extends React.Component<any,any>{
        // this.getExistImg(gid);
         let imgname:string[] = this.state.imgName;
         let arry:any[] = this.state.types;
-        let selected:string = this.state.selected;
+        let m:number = this.state.sellingmethod;
+        let checked1 = ((m & 1) == 1) ? <input type="checkbox" name="method1" value = "1" checked>shipping</input> :  <input type="checkbox" name="method1" value = "1">shipping</input>;
+        let checked2 = ((m & 2) == 2) ? <input type="checkbox" name="method2" value = "2" checked>shipping</input> :  <input type="checkbox" name="method2" value = "2">shipping</input>;
+        let checked3 = ((m & 4) == 4) ? <input type="checkbox" name="method3" value = "4" checked>shipping</input> :  <input type="checkbox" name="method3" value = "4">shipping</input>;
+        
         return(
             <div >
               <form method="post" action="#" id="editForm">
@@ -86,10 +93,10 @@ export default class EditSellGoods extends React.Component<any,any>{
                               <select name="typeCode">
                               {arry.map((element:any) =>{
                                 if(this.state.typecode == element.code){
-                                  this.setState({selected:"selected"});
+                                    <option value={element.code} selected >{element.categoryName}--{element.name}</option>
                                 }
                                 return(
-                                    <option value={element.code} {selected}>{element.categoryName}--{element.name}</option>
+                                    <option value={element.code}>{element.categoryName}--{element.name}</option>
                                 )
                                 }
 
@@ -100,57 +107,44 @@ export default class EditSellGoods extends React.Component<any,any>{
 
                        <tr>
                        <td>price: </td>
-                          <td><input type="number" id="price" name='price' /></td>
+                          <td><input type="number" id="price" name='price' value={this.state.location}/></td>
                        </tr>
 
                        <tr>
                        <td>Selling Method:  </td>
                           <td>
-                              <input type="checkbox" name="method1" value = "1" /> shipping
-                              <input type="checkbox" name="method2" value = "2" /> self-pick
-                              <input type="checkbox" name="method3" value = "4" /> home-dilivery
+                                {checked1}
+                                {checked2}
+                                {checked3}
+                              
                           </td>
                        </tr>
 
                        <tr>
                           <td>Images: </td>
                           <td>
-                          <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
-                            <div>
-                            {
-                                this.state.imgs.map((element:any,index:number) =>{
-                                    return <div className="upimgs"> 
-                                    <a><span><h1>Click to delete</h1></span>
-                                    <img width="100px" height="100px" onClick={()=> this.imgClicked(index)}
-                                    id={"img_"+index} 
-                                    src={window.URL.createObjectURL(element)} /> 
-                                    </a>
-                                    </div>
-                                })
-                            }
-                            </div>
+                          {imgname.map((element:any,index:number) =>{
+                      
+                              let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsimg?Id="+gid+"&fname="+element;
+      
+                              return(
+                                <div className="upimgs"> 
+                                <a><span><h1>Click to delete</h1></span>
+                                <img src={imgSrc} onClick={()=> this.imgClicked(index)}/>
+                                </a>
+                                </div>
+                              )
+                            
+                              }
+                              )}
+
+                             <ImageUpload ref="imgup"/>
                           </td>
                        </tr>
                    </table>
-                   <button name="confirm" id='button' type="button" onClick={() => _this.handleAdd()}>Confirm Add</button>
                    <div>{this.state.msg}</div>
                 </form>
-                {imgname.map((element:any,index:number) =>{
-                      
-                      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsimg?Id="+gid+"&fname="+element;
-      
-                      return(
-                        <div className="upimgs"> 
-                        <a><span><h1>Click to delete</h1></span>
-                        <img src={imgSrc} onClick={()=> this.imgClicked(index)}/>
-                        </a>
-                        </div>
-                      )
-                    
-                    }
-                )}
-
-            <ImageUpload ref="imgup"/>
+                
             
             </div>
         )
