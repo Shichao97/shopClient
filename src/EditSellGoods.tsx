@@ -62,6 +62,24 @@ export default class EditSellGoods extends React.Component<any,any>{
       this.state.imgName.splice(index,1);
       this.setState({});
     }
+
+
+    handleEditGoods(){
+        let _this: EditSellGoods = this;
+        let formData = new FormData();
+
+        //old:this.state.imgName
+
+        //new
+        let imgup:any = _this.refs.imgup;
+        let i = 0; //新图怎么编号？
+        for (let entry of imgup.state.imgs) {
+          //console.log(entry); // 1, "string", false
+          formData.append("img"+i,entry);
+          i++;
+      }
+    }
+    
     render(){
         let gid:number = this.props.match.params.gid;
        // this.getExistImg(gid);
@@ -156,7 +174,8 @@ export default class EditSellGoods extends React.Component<any,any>{
                           </td>
                        </tr>
                    </table>
-                   <div>{this.state.msg}</div>
+                   <button name="confirm" id='button' type="button" onClick={() => this.handleEditGoods()}>Confirm Edit</button>
+                   
                 </form>
                 
             
