@@ -144,7 +144,7 @@ export default class EditSellGoods extends React.Component<any,any>{
                               return(
                                 <div className="upimgs"> 
                                 <a><span><h1>Click to delete</h1></span>
-                                <img src={imgSrc} onClick={()=> this.imgClicked(index)}/>
+                                <img src={imgSrc} onClick={()=> this.imgClicked(index)} width="100px" height="100px"/>
                                 </a>
                                 </div>
                               )
