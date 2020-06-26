@@ -68,10 +68,20 @@ export default class EditSellGoods extends React.Component<any,any>{
         let imgname:string[] = this.state.imgName;
         let arry:any[] = this.state.types;
         let m:number = this.state.sellingmethod;
-        let checked1 = ((m & 1) == 1) ? <input type="checkbox" name="method1" value = "1" checked>shipping</input> :  <input type="checkbox" name="method1" value = "1">shipping</input>;
-        let checked2 = ((m & 2) == 2) ? <input type="checkbox" name="method2" value = "2" checked>shipping</input> :  <input type="checkbox" name="method2" value = "2">shipping</input>;
-        let checked3 = ((m & 4) == 4) ? <input type="checkbox" name="method3" value = "4" checked>shipping</input> :  <input type="checkbox" name="method3" value = "4">shipping</input>;
-        
+        let checked1 = <input type="checkbox" name="method1" value = "1" checked>shipping</input>;
+        if((m & 1) != 1){
+          checked1 = <input type="checkbox" name="method1" value = "1">shipping</input> ;
+        }
+        let checked2 =<input type="checkbox" name="method2" value = "2" checked>self-pick</input>;
+        if((m & 2) != 2){
+          checked2 = <input type="checkbox" name="method2" value = "2">shipping</input>;
+        }
+        let checked3 = <input type="checkbox" name="method3" value = "4" checked>home-dilivery</input> ;
+        if((m & 4) != 4){
+          checked3 = <input type="checkbox" name="method3" value = "4">shipping</input>;
+        }
+
+
         return(
             <div >
               <form method="post" action="#" id="editForm">
@@ -93,11 +103,15 @@ export default class EditSellGoods extends React.Component<any,any>{
                               <select name="typeCode">
                               {arry.map((element:any) =>{
                                 if(this.state.typecode == element.code){
+                                  return(
                                     <option value={element.code} selected >{element.categoryName}--{element.name}</option>
-                                }
-                                return(
+                                  )
+                                }else{
+                                  return(
                                     <option value={element.code}>{element.categoryName}--{element.name}</option>
                                 )
+                                }
+                                
                                 }
 
                             )}
