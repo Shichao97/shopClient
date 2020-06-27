@@ -189,20 +189,20 @@ export default class EditSellGoods extends React.Component<any,any>{
         let imgname:string[] = this.state.imgName;
         let arry:any[] = this.state.types;
         let m:number = this.state.sellingmethod;
-        /*
+        
         let checked1 = <input type="checkbox" name="method1" value = "1" checked onChange={_this.handleChange}/>;
-        if((m & 1) != 1){
+        if(this.state.agreeMethod1 == false){
           checked1 = <input type="checkbox" name="method1" value = "1" onChange={_this.handleChange}/> ;
         }
         let checked2 =<input type="checkbox" name="method2" value = "2" checked onChange={_this.handleChange}/>;
-        if((m & 2) != 2){
+        if(this.state.agreeMethod2 == false){
           checked2 = <input type="checkbox" name="method2" value = "2" onChange={_this.handleChange}/>;
         }
         let checked3 = <input type="checkbox" name="method3" value = "4" checked onChange={_this.handleChange}/> ;
-        if((m & 4) != 4){
+        if(this.state.agreeMethod3 == false){
           checked3 = <input type="checkbox" name="method3" value = "4" onChange={_this.handleChange}/>;
         }
-*/
+
         
         return(
             <div >
@@ -245,9 +245,9 @@ export default class EditSellGoods extends React.Component<any,any>{
                        <tr>
                        <td>Selling Method:  </td>
                           <td>
-                                <input type="checkbox" name="method1" value = "1" defaultChecked={this.state.agreeMethod1} onChange={_this.handleChange}/> shipping
-                                <input type="checkbox" name="method2" value = "2" defaultChecked={this.state.agreeMethod2} onChange={_this.handleChange}/> self-pick
-                                <input type="checkbox" name="method3" value = "4" defaultChecked={this.state.agreeMethod3} onChange={_this.handleChange}/> home-dilivery
+                                {checked1} shipping
+                                {checked2} self-pick
+                                {checked3} home-dilivery
                               
                           </td>
                        </tr>

@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginModal from './LoginModal';
+import ImageUpload from './ImageUpload';
 import './Register.css';
 import jquery from "jquery";
 const $ = jquery;
@@ -11,8 +12,7 @@ export default class AddGoods extends React.Component<any,any> {
             id:"",
             un:"",
             types:[],
-            msg:"",
-            imgs:[]
+            msg:""
         }
     }
     
@@ -40,7 +40,8 @@ export default class AddGoods extends React.Component<any,any> {
         //let ele: any = $('#upfile')[0];
         //let appendTemp:any = ele.files[0];
         let i = 0;
-        for (let entry of this.state.imgs) {
+        let imgup:any = _this.refs.imgup;
+        for (let entry of imgup.state.imgs) {
             //console.log(entry); // 1, "string", false
             formData.append("img"+i,entry);
             i++;
@@ -86,7 +87,7 @@ export default class AddGoods extends React.Component<any,any> {
             }
         })
     }
-
+    /*
     multiImagePreview() {
  
         let upMultilImagesObj:any = document.getElementById("upMultilImages");
@@ -102,6 +103,7 @@ export default class AddGoods extends React.Component<any,any> {
         this.state.imgs.splice(index,1);
         this.setState({});
     }
+    */
 
     render(){
         let _this:AddGoods = this;
@@ -154,20 +156,7 @@ export default class AddGoods extends React.Component<any,any> {
                        <tr>
                           <td>Images: </td>
                           <td>
-                          <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
-                            <div>
-                            {
-                                this.state.imgs.map((element:any,index:number) =>{
-                                    return <div className="upimgs"> 
-                                    <a><span><h1>Click to delete</h1></span>
-                                    <img width="100px" height="100px" onClick={()=> this.imgClicked(index)}
-                                    id={"img_"+index} 
-                                    src={window.URL.createObjectURL(element)} /> 
-                                    </a>
-                                    </div>
-                                })
-                            }
-                            </div>
+                            <ImageUpload ref="imgup"/>
                           </td>
                        </tr>
                    </table>
