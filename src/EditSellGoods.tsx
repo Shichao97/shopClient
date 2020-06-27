@@ -59,7 +59,7 @@ export default class EditSellGoods extends React.Component<any,any>{
                 _this.setState({imgName:arr});
                 _this.setState({goodsname:data.name});
                 _this.setState({location:data.location});
-                _this.setState({typecode:data.typeCode});
+                _this.setState({typeCode:data.typeCode});
                 _this.setState({price:data.price});
                 _this.setState({sellingmethod:data.sellingMethod});
                 if((data.sellingMethod & 1) == 1){
@@ -222,7 +222,7 @@ export default class EditSellGoods extends React.Component<any,any>{
                        <tr>
                        <td>classification:  </td>
                           <td>
-                              <select name="typeCode" value={this.state.typecode} onChange={_this.handleChange}>
+                              <select name="typeCode" value={this.state.typeCode} onChange={_this.handleChange}>
                               {arry.map((element:any) =>{
                                 
                                   return(
