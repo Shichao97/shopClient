@@ -1,4 +1,5 @@
 import React from 'react';
+import LoginModal from './LoginModal';
 import * as ReactDOM from 'react-dom';
 import jquery from "jquery";
 import ImageUpload from './ImageUpload';
@@ -14,7 +15,14 @@ export default class EditSellGoods extends React.Component<any,any>{
           types:[],
           typeCode:"",
           price:0,
-          sellingmethod:0
+          sellingmethod:0,
+          agreeMethod1:false,
+          agreeMethod2:false,
+          agreeMethod3:false,
+          method1:0,
+          method2:0,
+          method3:0,
+          msg:""
         }
       }
 
@@ -54,6 +62,16 @@ export default class EditSellGoods extends React.Component<any,any>{
                 _this.setState({typecode:data.typeCode});
                 _this.setState({price:data.price});
                 _this.setState({sellingmethod:data.sellingMethod});
+                if((data.sellingMethod & 1) == 1){
+                  _this.setState({agreeMethod1:true});
+                }
+                if((data.sellingMethod & 2) == 2){
+                  _this.setState({agreeMethod2:true});
+                }
+                if((data.sellingMethod & 4) == 4){
+                  _this.setState({agreeMethod3:true});
+                }
+
             }
           })
     }
@@ -63,12 +81,26 @@ export default class EditSellGoods extends React.Component<any,any>{
       this.setState({});
     }
 
+    //拼接分号字符串
+    combineImgNames(arr:number[]){
+      if(arr == null || arr.length == 0){
+        return "";
+      }
+      let re:string = "";
+      for(let ele of arr){
+        re += (ele)+";";
+      }
+      return re.substring(0,re.length-1);
+    }
+
 
     handleEditGoods(){
         let _this: EditSellGoods = this;
         let formData = new FormData();
 
         //old:this.state.imgName
+        let oldimgnames = _this.combineImgNames(_this.state.imgName);
+        formData.append("oldimgnames",oldimgnames);
 
         //new
         let imgup:any = _this.refs.imgup;
@@ -77,58 +109,126 @@ export default class EditSellGoods extends React.Component<any,any>{
           //console.log(entry); // 1, "string", false
           formData.append("img"+i,entry);
           i++;
+        }
+
+        //Other info
+        let data= $("#editForm").serializeArray();  //不用拼data
+        for(var p in data){
+            formData.append(data[p].name,data[p].value);
+        }
+        
+        let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/edit";
+        $.ajax({
+          type:"POST",
+          crossDomain: true, 
+          xhrFields: {
+              withCredentials: true 
+          },
+          url:url1,
+          cache: false,
+          data:formData,
+          dataType:"json",
+          processData: false,
+          contentType: false,
+          success:function(d){
+              if(d.success == 1){
+                _this.setState({msg:"edit success!"});
+                 
+              }else{
+                _this.setState({msg:"edit failed! " + d.msg});
+                  
+                  
+              }
+          },
+          error: function(xhr:any, textStatus, errorThrown){
+              console.log("request status:"+xhr.status+" msg:"+textStatus)
+              if(xhr.status=='604'){//未登录错误
+                  let popwin: any = _this.refs.logwin;
+                  popwin.setState({modalIsOpen:true})
+              }
+              
+          }
+      })
+
+
+
+    }
+
+    handleChange = (event:any) =>  {
+        
+      switch(event.target.name){
+        case "name":
+          this.setState({goodsname: event.target.value});
+          break;
+        case "location":
+          this.setState({location: event.target.value});
+          break;
+        case "typeCode":
+          this.setState({typeCode: event.target.value});
+          break;
+        case "price":
+          this.setState({price: event.target.value});
+          break;
+        case "method1":
+          this.setState({agreeMethod1: !this.state.agreeMethod1});
+          break;
+        case "method2":
+          this.setState({agreeMethod2: !this.state.agreeMethod2});
+          break;
+        case "method3":
+          this.setState({agreeMethod3: !this.state.agreeMethod3});
+          break;
+       
       }
     }
     
     render(){
+        let _this:EditSellGoods = this;
         let gid:number = this.props.match.params.gid;
        // this.getExistImg(gid);
         let imgname:string[] = this.state.imgName;
         let arry:any[] = this.state.types;
         let m:number = this.state.sellingmethod;
-        let checked1 = <input type="checkbox" name="method1" value = "1" checked />;
+        /*
+        let checked1 = <input type="checkbox" name="method1" value = "1" checked onChange={_this.handleChange}/>;
         if((m & 1) != 1){
-          checked1 = <input type="checkbox" name="method1" value = "1" /> ;
+          checked1 = <input type="checkbox" name="method1" value = "1" onChange={_this.handleChange}/> ;
         }
-        let checked2 =<input type="checkbox" name="method2" value = "2" checked />;
+        let checked2 =<input type="checkbox" name="method2" value = "2" checked onChange={_this.handleChange}/>;
         if((m & 2) != 2){
-          checked2 = <input type="checkbox" name="method2" value = "2" />;
+          checked2 = <input type="checkbox" name="method2" value = "2" onChange={_this.handleChange}/>;
         }
-        let checked3 = <input type="checkbox" name="method3" value = "4" checked /> ;
+        let checked3 = <input type="checkbox" name="method3" value = "4" checked onChange={_this.handleChange}/> ;
         if((m & 4) != 4){
-          checked3 = <input type="checkbox" name="method3" value = "4" />;
+          checked3 = <input type="checkbox" name="method3" value = "4" onChange={_this.handleChange}/>;
         }
-
-
+*/
+        
         return(
             <div >
               <form method="post" action="#" id="editForm">
                    <table className="content-table">
                        <tr>
                           <td>goods name: </td>
-                          <td><input type="text" id="name" name="name" value={this.state.goodsname}/>
+                          <td><input type="text" id="name" name="name" value={this.state.goodsname} onChange={_this.handleChange}/>
                           </td>
                          </tr>
 
                        <tr>
                           <td>location: </td>
-                          <td> <input type="text" id="location" name="location" value={this.state.location}/></td>
+                          <td> <input type="text" id="location" name="location" value={this.state.location} onChange={_this.handleChange}/></td>
                        </tr>
 
                        <tr>
                        <td>classification:  </td>
                           <td>
-                              <select name="typeCode">
+                              <select name="typeCode" value={this.state.typecode} onChange={_this.handleChange}>
                               {arry.map((element:any) =>{
-                                if(this.state.typecode == element.code){
+                                
                                   return(
-                                    <option value={element.code} selected >{element.categoryName}--{element.name}</option>
-                                  )
-                                }else{
-                                  return(
-                                    <option value={element.code}>{element.categoryName}--{element.name}</option>
+                                    <option value={element.code} >{element.categoryName}--{element.name}</option>
                                 )
-                                }
+                                
                                 
                                 }
 
@@ -139,15 +239,15 @@ export default class EditSellGoods extends React.Component<any,any>{
 
                        <tr>
                        <td>price: </td>
-                          <td><input type="number" id="price" name='price' value={this.state.price}/></td>
+                          <td><input type="number" id="price" name='price' value={this.state.price} onChange={_this.handleChange}/></td>
                        </tr>
 
                        <tr>
                        <td>Selling Method:  </td>
                           <td>
-                                {checked1} shipping
-                                {checked2} self-pick
-                                {checked3} home-dilivery
+                                <input type="checkbox" name="method1" value = "1" defaultChecked={this.state.agreeMethod1} onChange={_this.handleChange}/> shipping
+                                <input type="checkbox" name="method2" value = "2" defaultChecked={this.state.agreeMethod2} onChange={_this.handleChange}/> self-pick
+                                <input type="checkbox" name="method3" value = "4" defaultChecked={this.state.agreeMethod3} onChange={_this.handleChange}/> home-dilivery
                               
                           </td>
                        </tr>
@@ -174,10 +274,11 @@ export default class EditSellGoods extends React.Component<any,any>{
                           </td>
                        </tr>
                    </table>
+                   <input name="gid" value = {gid} type="hidden"/>
                    <button name="confirm" id='button' type="button" onClick={() => this.handleEditGoods()}>Confirm Edit</button>
-                   
+                   <div>{this.state.msg}</div>
                 </form>
-                
+                <LoginModal ref="logwin"/>
             
             </div>
         )
