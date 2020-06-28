@@ -235,20 +235,6 @@ export default class SearchGoods extends React.Component<any,any> {
                             </tr>
 
                         }
-                        /*
-                      element.id
-                      (element.sellingMethod);
-                      (element.typeCode);
-                      (element.status);
-                      {element.name}{element.description}{element.location}</td>{element.price}</td>
-                     
-                      */
-                     return(
-                         <tr>
-                             <GoodsItem data={element}/>
-                         </tr>
-                         
-                     )
                       
                     }
 
