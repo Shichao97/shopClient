@@ -220,7 +220,7 @@ export default class SearchGoods extends React.Component<any,any> {
                             if(index % col>0 && index==arry.length-1) nstart = (index/col) * col;
                             return <tr>
                               {arry.map((element2:any,index2:number) =>{
-                                if(index>=nstart && index2<index)
+                                if(index2>=nstart && index2<index)
                                  return <td><GoodsItem data={element2}/></td>
                               })}
 
