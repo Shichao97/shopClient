@@ -236,9 +236,8 @@ export default class SearchGoods extends React.Component<any,any> {
 
                         }
                       
-                    }
-
-                    )}
+                    })}
+                    
                     </tbody>
                 </table>
                 <br/><br/>
