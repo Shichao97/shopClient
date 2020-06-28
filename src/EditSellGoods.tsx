@@ -97,13 +97,21 @@ export default class EditSellGoods extends React.Component<any,any>{
     handleEditGoods(){
         let _this: EditSellGoods = this;
         let formData = new FormData();
-
+        let imgup:any = _this.refs.imgup;
+        let totalLength:number = _this.state.imgName.length+imgup.state.imgs.length;
+        if(totalLength < 1 ){
+          alert("You must upload at least one image for your second-hand goods!");
+          return;
+      }else if(totalLength > 16){
+          alert("You cannot upload more than 16 images！");
+          return;
+      }
         //old:this.state.imgName
         let oldimgnames = _this.combineImgNames(_this.state.imgName);
         formData.append("oldimgnames",oldimgnames);
 
         //new
-        let imgup:any = _this.refs.imgup;
+        
         let i = 0; //新图怎么编号？
         for (let entry of imgup.state.imgs) {
           //console.log(entry); // 1, "string", false

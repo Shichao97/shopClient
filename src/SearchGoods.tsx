@@ -2,11 +2,12 @@ import React from 'react';
 import * as ReactDOM from 'react-dom';
 import './SearchSellGoods.css';
 import LoginModal from './LoginModal';
+import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 const $ = jquery;
 
-export default class SearchSellGoods extends React.Component<any,any> {
+export default class SearchGoods extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state = {
@@ -45,19 +46,6 @@ export default class SearchSellGoods extends React.Component<any,any> {
 
         this.setState({types:obj});
       }
-/*
-      getCookie(key:string){
-        const name =key+"=";
-        const ca = document.cookie.split(';'); 
-        for(let i=0;i<ca.length;i++){
-          const c = ca[i].trim();
-          if(c.indexOf(name) === 0){
-            return c.substring(name.length, c.length);
-          }
-        }
-        return "";
-      }
-*/
 
       getTypes(typeCode:string):string{
         let types:any = this.state.types;
@@ -69,7 +57,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
 
       loadData(pageNo?:number) {
       
-        let _this: SearchSellGoods = this;
+        let _this: SearchGoods = this;
         let newUrl:string = "";
         if(pageNo != undefined){
           newUrl = _this.state.url;
@@ -105,11 +93,11 @@ export default class SearchSellGoods extends React.Component<any,any> {
           
       }
     handleSearch(){
-        let _this: SearchSellGoods = this;
+        let _this: SearchGoods = this;
         let uid:string = _this.state.uid;
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
-        let plusnew:string = "&pageSize=2";//没写 sortby
+        let plusnew:string = "&pageSize=8";//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
       
         _this.state={url:searchUrl};
@@ -159,7 +147,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
     }
 
     handlePreviousPage(){
-      let _this: SearchSellGoods = this;
+      let _this: SearchGoods = this;
       let page:any = _this.state.page;
       let pn:number = page.number;
       pn -= 1;
@@ -171,7 +159,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
     }
 
     handleNextPage(){
-      let _this: SearchSellGoods = this;
+      let _this: SearchGoods = this;
       let page:any = _this.state.page;
       let pn:number = page.number;
       pn += 1;
@@ -190,12 +178,13 @@ export default class SearchSellGoods extends React.Component<any,any> {
     }
     
     render(){
-      let _this: SearchSellGoods = this;
+      let _this: SearchGoods = this;
       let page:any = _this.state.page;
       let arry:any[] = page.content;
       //console.log("render: "+_this.state.uid);
       let uid:string = _this.state.uid;
       console.log(uid); 
+      let col:number = 3; //显示商品列数
       let forms =                 
       <form id="searchForm">
       * choose goods status:
@@ -222,45 +211,30 @@ export default class SearchSellGoods extends React.Component<any,any> {
             <div>
               {forms}
                 <table>
-                  <thead>
-                    <tr>
-                      <th>goods name</th>
-                      <th>type</th>
-                      <th>description</th>
-                      <th>location</th>
-                      <th>price</th>
-                      <th>selling method</th>
-                      <th>goods status</th>
-                      <th>goods image</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {arry.map((element:any) =>{
-                      let s:string = ""+element.id;
-                      //let s:string = "?id="+id;
-                      let sm:string = this.sellingMethod(element.sellingMethod);
-                      let fullTypeName:string = this.getTypes(element.typeCode);
-                      let statusName:string = this.getStatus(element.status);
-                      let imgSrc:string = this.getImgSrc(s);
-                      let link:string ="/editsellgoods/" +s;
-                      return(
-                        <tr>
-                          
-                          <td><Link to={link} >{element.name}</Link></td>
-                          <td>{fullTypeName}</td>
-                          <td>{element.description}</td>
-                          <td>{element.location}</td>
-                          <td>{element.price}</td>
-                          <td>{sm}</td>
-                          <td>{statusName}</td>
-                          <td><img src={imgSrc}/></td>
-                        </tr>
-                      )
+                    <tbody>
+                    {arry.map((element:any,index:number) =>{
+                        if((index != 0 && index%col == 0) || index == arry.length-1 ){
+                            
+                        }
+                        /*
+                      element.id
+                      (element.sellingMethod);
+                      (element.typeCode);
+                      (element.status);
+                      {element.name}{element.description}{element.location}</td>{element.price}</td>
+                     
+                      */
+                     return(
+                         <tr>
+                             <GoodsItem data={element}/>
+                         </tr>
+                         
+                     )
                       
                     }
 
                     )}
-                  </tbody>
+                    </tbody>
                 </table>
                 <br/><br/>
 

@@ -41,12 +41,19 @@ export default class AddGoods extends React.Component<any,any> {
         //let appendTemp:any = ele.files[0];
         let i = 0;
         let imgup:any = _this.refs.imgup;
+        if(imgup.state.imgs.length < 1 ){
+            alert("You must upload at least one image for your second-hand goods!");
+            return;
+        }else if(imgup.state.imgs.length > 16){
+            alert("You cannot upload more than 16 images！");
+            return;
+        }
         for (let entry of imgup.state.imgs) {
-            //console.log(entry); // 1, "string", false
+            
             formData.append("img"+i,entry);
             i++;
         }
-        //formData.append("mainImg", appendTemp);  
+        
         let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/add";
         let data= $("#addForm").serializeArray();  //不用拼data
         for(var p in data){
@@ -87,23 +94,6 @@ export default class AddGoods extends React.Component<any,any> {
             }
         })
     }
-    /*
-    multiImagePreview() {
- 
-        let upMultilImagesObj:any = document.getElementById("upMultilImages");
-        var fileList = upMultilImagesObj.files;
-        
-        for (var i = 0; i < fileList.length; i++) { 
-            this.state.imgs.push(upMultilImagesObj.files[i]);
-        }  
-        this.setState({});
-    }   
-
-    imgClicked(index:number){
-        this.state.imgs.splice(index,1);
-        this.setState({});
-    }
-    */
 
     render(){
         let _this:AddGoods = this;
