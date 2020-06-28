@@ -3,7 +3,7 @@ import LoginModal from './LoginModal';
 import jquery from "jquery";
 const $ = jquery;
 
-export default class ImageUpload extends React.Component<any,any> {
+export default class GoodsItem extends React.Component<any,any> {
     constructor(props:any,state:any){
         super(props,state);
     }
