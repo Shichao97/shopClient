@@ -214,10 +214,8 @@ export default class SearchGoods extends React.Component<any,any> {
                     <tbody>
                     {arry.map((element:any,index:number) =>{
                         let nstart:number;
-                        let nrow:number;
-                        if((index != 0 && index%col == 0) || (index % col>0 && index==arry.length-1)){
+                        if((index != 0 && index%col == 0)){
                             nstart = (index/col-1)*col;
-                            if(index % col>0 && index==arry.length-1) nstart = (index/col) * col;
                             return <tr>
                               {arry.map((element2:any,index2:number) =>{
                                 if(index2>=nstart && index2<index)
@@ -225,6 +223,17 @@ export default class SearchGoods extends React.Component<any,any> {
                               })}
 
                               </tr>
+                        }
+                        if (index % col>0 && index==arry.length-1){
+                          nstart = (index/col) * col;
+                          return <tr>
+                            {arry.map((element2:any,index2:number) =>{
+                              if(index2>=nstart && index2<=index)
+                               return <td><GoodsItem data={element2}/></td>
+                            })}
+
+                            </tr>
+
                         }
                         /*
                       element.id
