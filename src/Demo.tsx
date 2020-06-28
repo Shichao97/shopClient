@@ -6,10 +6,12 @@ const $ = jquery;
 export default class Demo extends React.Component<any,any> {
     constructor(props:any){
         super(props);
-        this.state={}
+        this.state={agreeMethod1:false}
     }
     
-
+    componentDidMount(){
+        this.setState({agreeMethod1:true});
+    }
 
     showLogin(){
         let popwin: any = this.refs.logwin;
@@ -32,6 +34,7 @@ export default class Demo extends React.Component<any,any> {
                 <h2>Hello! {ids}</h2>
                 <h2>Hello! {query}</h2>
                 <h2>Hello! {s}</h2>
+                <input type="checkbox" name="method1" value = "1" defaultChecked={this.state.agreeMethod1} /> shipping
                 <LoginModal ref="logwin"/>
                 <input type="button" value="Popup login" onClick={() => this.showLogin()}/>
              </div>
