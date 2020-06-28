@@ -226,8 +226,6 @@ export default class SearchGoods extends React.Component<any,any> {
 
                               </tr>
                         }
-                        else if(index % col>0 && index==arry.length-1){
-                     }
                         /*
                       element.id
                       (element.sellingMethod);
