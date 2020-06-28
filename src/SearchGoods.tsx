@@ -224,7 +224,7 @@ export default class SearchGoods extends React.Component<any,any> {
 
                               </tr>
                         }
-                        if (index % col>0 && index==arry.length-1){
+                        if ((index % col>0 && index==arry.length-1) || arry.length == 1){
                           nstart = (index/col) * col;
                           return <tr>
                             {arry.map((element2:any,index2:number) =>{
