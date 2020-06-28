@@ -208,7 +208,7 @@ export default class SearchGoods extends React.Component<any,any> {
             <div>
               {forms}
                 <table>
-                    
+                  <tbody> 
                     {arry.map((element:any,index:number) =>{
                         let isRowEnd:boolean = (index%col == col-1);
                         let isLast:boolean = index==arry.length-1;
@@ -224,7 +224,7 @@ export default class SearchGoods extends React.Component<any,any> {
                         }
                     })}
                     
-                    
+                    </tbody>   
                 </table>
                 <br/><br/>
 
