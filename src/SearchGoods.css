@@ -1,0 +1,17 @@
+.goods-table{
+    width: 80%;
+    margin: auto;
+  
+    border: 1px dotted blue;
+    border-collapse: separate;
+    border-spacing:0px 20px
+    
+}
+
+.tr1{
+    border: 1px dotted black;
+}
+
+.td1{
+    border: 1px dotted black;
+}

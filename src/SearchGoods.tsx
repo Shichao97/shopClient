@@ -1,6 +1,6 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
-import './SearchSellGoods.css';
+import './SearchGoods.css';
 import LoginModal from './LoginModal';
 import GoodsItem from './GoodsItem';
 import jquery from "jquery";
@@ -12,7 +12,7 @@ export default class SearchGoods extends React.Component<any,any> {
         super(props);
         this.state = {
           uid:"",
-          searchType1:0,
+          searchType1:1,
           searchType2:"",
           searchValue:"",
           url:"",
@@ -26,13 +26,7 @@ export default class SearchGoods extends React.Component<any,any> {
       componentWillMount(){
         var win:any = window;
         let uid:string = win.getCookie("userId");
-        /*
-        if(uid == ""){
-            this.props.history.push(  "/login"  );
-        }
-        */
         this.setState({uid:uid});
-       // console.log("Hi "+this.state.id);
 
         let getDatas:any =  sessionStorage.getItem('goods_types');
         let obj:any = new Object();
@@ -94,7 +88,10 @@ export default class SearchGoods extends React.Component<any,any> {
       }
     handleSearch(){
         let _this: SearchGoods = this;
-        let uid:string = _this.state.uid;
+        //let uid:string = _this.state.uid;
+        var win:any = window;
+        let uid:string = win.getCookie("userId");
+
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
         let plusnew:string = "&pageSize=8";//没写 sortby
@@ -184,7 +181,7 @@ export default class SearchGoods extends React.Component<any,any> {
       //console.log("render: "+_this.state.uid);
       let uid:string = _this.state.uid;
       console.log(uid); 
-      let col:number = 3; //显示商品列数
+      let col:number = 2; //显示商品列数
       let forms =                 
       <form id="searchForm">
       * choose goods status:
@@ -210,50 +207,24 @@ export default class SearchGoods extends React.Component<any,any> {
           
             <div>
               {forms}
-                <table>
-                    <tbody>
+                <table className="goods-table">
+                  <tbody> 
                     {arry.map((element:any,index:number) =>{
-                        let nstart:number;
-                        if((index != 0 && index%col == 0)){
-                            nstart = (index/col-1)*col;
-                            return <tr>
+                        let isRowEnd:boolean = (index%col == col-1);
+                        let isLast:boolean = index==arry.length-1;
+                        if(isRowEnd || isLast){
+                          let nstart:number = Math.floor(index/col)*col;
+                            return <tr className='tr1'>
                               {arry.map((element2:any,index2:number) =>{
-                                if(index2>=nstart && index2<index)
-                                 return <td><GoodsItem data={element2}/></td>
+                                if(index2>=nstart && index2<=index)
+                                 return <td className='td1'><GoodsItem data={element2}/></td>
                               })}
 
                               </tr>
                         }
-                        if ((index % col>0 && index==arry.length-1) || arry.length == 1){
-                          nstart = (index/col) * col;
-                          return <tr>
-                            {arry.map((element2:any,index2:number) =>{
-                              if(index2>=nstart && index2<=index)
-                               return <td><GoodsItem data={element2}/></td>
-                            })}
-
-                            </tr>
-
-                        }
-                        /*
-                      element.id
-                      (element.sellingMethod);
-                      (element.typeCode);
-                      (element.status);
-                      {element.name}{element.description}{element.location}</td>{element.price}</td>
-                     
-                      */
-                     return(
-                         <tr>
-                             <GoodsItem data={element}/>
-                         </tr>
-                         
-                     )
-                      
-                    }
-
-                    )}
-                    </tbody>
+                    })}
+                    
+                    </tbody>   
                 </table>
                 <br/><br/>
 
