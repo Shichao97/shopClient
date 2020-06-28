@@ -12,7 +12,7 @@ export default class SearchGoods extends React.Component<any,any> {
         super(props);
         this.state = {
           uid:"",
-          searchType1:0,
+          searchType1:1,
           searchType2:"",
           searchValue:"",
           url:"",
@@ -26,13 +26,7 @@ export default class SearchGoods extends React.Component<any,any> {
       componentWillMount(){
         var win:any = window;
         let uid:string = win.getCookie("userId");
-        /*
-        if(uid == ""){
-            this.props.history.push(  "/login"  );
-        }
-        */
         this.setState({uid:uid});
-       // console.log("Hi "+this.state.id);
 
         let getDatas:any =  sessionStorage.getItem('goods_types');
         let obj:any = new Object();
@@ -94,7 +88,10 @@ export default class SearchGoods extends React.Component<any,any> {
       }
     handleSearch(){
         let _this: SearchGoods = this;
-        let uid:string = _this.state.uid;
+        //let uid:string = _this.state.uid;
+        var win:any = window;
+        let uid:string = win.getCookie("userId");
+
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
         let plusnew:string = "&pageSize=8";//没写 sortby
@@ -211,11 +208,11 @@ export default class SearchGoods extends React.Component<any,any> {
             <div>
               {forms}
                 <table>
-                    <tbody>
+                    
                     {arry.map((element:any,index:number) =>{
                         let nstart:number;
                         if((index != 0 && index%col == 0)){
-                            nstart = (index/col-1)*col;
+                            nstart = Math.floor(index/col-1)*col;
                             return <tr>
                               {arry.map((element2:any,index2:number) =>{
                                 if(index2>=nstart && index2<index)
@@ -225,11 +222,13 @@ export default class SearchGoods extends React.Component<any,any> {
                               </tr>
                         }
                         if (index==arry.length-1){
-                          nstart = (index/col) * col;
+                          nstart = Math.floor(index/col) * col;
                           return <tr>
-                            {arry.map((element2:any,index2:number) =>{
-                              if(index2>=nstart && index2<=index)
-                               return <td><GoodsItem data={element2}/></td>
+                            {
+                            arry.map((element2:any,index2:number) =>{
+                              if(index2>=nstart && index2<=index){
+                                 return <td><GoodsItem data={element2}/></td>
+                              }
                             })}
 
                             </tr>
@@ -238,7 +237,7 @@ export default class SearchGoods extends React.Component<any,any> {
                       
                     })}
                     
-                    </tbody>
+                    
                 </table>
                 <br/><br/>
 
