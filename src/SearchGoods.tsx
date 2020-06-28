@@ -213,9 +213,21 @@ export default class SearchGoods extends React.Component<any,any> {
                 <table>
                     <tbody>
                     {arry.map((element:any,index:number) =>{
-                        if((index != 0 && index%col == 0) || index == arry.length-1 ){
-                            
+                        let nstart:number;
+                        let nrow:number;
+                        if((index != 0 && index%col == 0) || (index % col>0 && index==arry.length-1)){
+                            nstart = (index/col-1)*col;
+                            if(index % col>0 && index==arry.length-1) nstart = (index/col) * col;
+                            return <tr>
+                              {arry.map((element2:any,index2:number) =>{
+                                if(index>=nstart && index2<index)
+                                 return <td><GoodsItem data={element2}/></td>
+                              })}
+
+                              </tr>
                         }
+                        else if(index % col>0 && index==arry.length-1){
+                     }
                         /*
                       element.id
                       (element.sellingMethod);
