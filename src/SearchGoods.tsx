@@ -210,11 +210,10 @@ export default class SearchGoods extends React.Component<any,any> {
                 <table>
                     
                     {arry.map((element:any,index:number) =>{
-                        let nstart:number;
                         let isRowEnd:boolean = (index%col == col-1);
                         let isLast:boolean = index==arry.length-1;
                         if(isRowEnd || isLast){
-                            nstart = Math.floor(index/col)*col;
+                          let nstart:number = Math.floor(index/col)*col;
                             return <tr>
                               {arry.map((element2:any,index2:number) =>{
                                 if(index2>=nstart && index2<=index)
