@@ -12,6 +12,7 @@ import SearchSellGoods from './SearchSellGoods';
 import SearchGoods from './SearchGoods';
 import jquery from "jquery";
 import EditSellGoods from './EditSellGoods';
+import ShowGoodsInfo from './ShowGoodsInfo';
 const $ = jquery;
 
 const Home = () => (
@@ -91,6 +92,7 @@ class App extends Component {
           <Route path="/chat" component={WebChatTest}></Route>
           <Route path="/searchGoods" component={SearchGoods}></Route>
           <Route path="/editsellgoods/:gid" component={EditSellGoods}></Route>
+          <Route path="/showgoodsinfo/:gid" component={ShowGoodsInfo}></Route>
         </div>
         
       </Router>

@@ -28,7 +28,7 @@ export default class EditSellGoods extends React.Component<any,any>{
 
     componentDidMount(){
       let gid:number = this.props.match.params.gid;
-      this.getExistImg(gid);
+      this.getGoodsInfo(gid);
 
       let getDatas:any =  sessionStorage.getItem('goods_types');
         if(getDatas != null){
@@ -38,7 +38,7 @@ export default class EditSellGoods extends React.Component<any,any>{
     }
 
     
-    getExistImg(gid:number){
+    getGoodsInfo(gid:number){
         let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
         let _this:EditSellGoods = this;
         $.ajax({
@@ -196,7 +196,6 @@ export default class EditSellGoods extends React.Component<any,any>{
     render(){
         let _this:EditSellGoods = this;
         let gid:number = this.props.match.params.gid;
-       // this.getExistImg(gid);
         let imgname:string[] = this.state.imgName;
         let arry:any[] = this.state.types;
         let m:number = this.state.sellingmethod;
