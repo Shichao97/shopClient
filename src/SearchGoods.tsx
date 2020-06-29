@@ -139,7 +139,7 @@ export default class SearchGoods extends React.Component<any,any> {
     }
 
     getImgSrc(gid:string):string{
-      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsmainimg?Id="+gid;
+      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
       return imgSrc;
     }
 

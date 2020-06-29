@@ -39,7 +39,7 @@ export default class EditSellGoods extends React.Component<any,any>{
 
     
     getExistImg(gid:number){
-        let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsinfo?Id="+gid;
+        let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
         let _this:EditSellGoods = this;
         $.ajax({
             type:"GET",
@@ -265,7 +265,7 @@ export default class EditSellGoods extends React.Component<any,any>{
                           <td>
                           {imgname.map((element:any,index:number) =>{
                       
-                              let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsimg?Id="+gid+"&fname="+element;
+                              let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+element;
       
                               return(
                                 <div className="upimgs"> 

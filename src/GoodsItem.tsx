@@ -10,7 +10,7 @@ export default class GoodsItem extends React.Component<any,any> {
     }
 
     render(){
-        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/sell/getgoodsmainimg?Id="+this.props.data.id;
+        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+this.props.data.id;
         return <div>
             <img width="240px" height="240px"
             src={imgSrc}/>
