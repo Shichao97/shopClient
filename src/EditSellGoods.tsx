@@ -43,10 +43,10 @@ export default class EditSellGoods extends React.Component<any,any>{
         let _this:EditSellGoods = this;
         $.ajax({
             type:"GET",
-            crossDomain: true, 
-            xhrFields: {
-                withCredentials: true 
-            },
+            // crossDomain: true, 
+            // xhrFields: {
+            //     withCredentials: true 
+            // },
             url:newUrl,
             dataType:"json",
             success:function(data){
@@ -72,6 +72,9 @@ export default class EditSellGoods extends React.Component<any,any>{
                   _this.setState({agreeMethod3:true});
                 }
 
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+              console.log("getgoodsinfo error!");
             }
           })
     }
