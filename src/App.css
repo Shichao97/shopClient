@@ -83,3 +83,12 @@ opacity:0.60; top:80px; height:30px;
   color: #004974;
   text-decoration: none;
 }
+
+
+.center-img{
+  max-width: 100%;
+  max-height: 100%;
+  text-align: center;
+  overflow: auto;
+
+}
