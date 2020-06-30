@@ -15,19 +15,40 @@ const $ = jquery;
           this.state={modalIsOpen:false};
       }
 
-    close(){
-        this.setState({modalIsOpen:false})
-        //let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+element;
+    preview(){
+        let n = this.state.index;
+        if(n>0){
+            this.setState({index:n-1});
+        }
+    }
+    next(){
+        let n = this.state.index;
+        if(n < this.state.imgNames.length-1){
+            this.setState({index:n+1});
+        }
     }
 
 
     render(){
-        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getGoodsBigImg?Id="+this.state.gid+"&fname="+this.state.fname;
+        if(this.state.modalIsOpen == false){
+            return <div></div>
+        }
+
+
+        let n = this.state.index;
+        let imgNames = this.state.imgNames;
+        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getGoodsBigImg?Id="+this.state.gid+"&fname="+imgNames[n];
     return (
       <div>
           <Modal isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:false})}>
               <div className="center-img">
-                <img src={imgSrc} onClick={() => this.setState({modalIsOpen:false})}/>
+                <table><tbody>
+                <tr>
+                <td><input type="button" value="Preview" onClick={() => this.preview()} /></td>
+                <td><img src={imgSrc} onClick={() => this.setState({modalIsOpen:false})}/></td>
+                <td><input type="button" value="Next" onClick={() => this.next()} /></td>
+                </tr>
+                </tbody></table>
               </div>
           </Modal>
       </div>

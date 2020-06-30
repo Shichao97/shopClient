@@ -61,9 +61,9 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     return imgSrc;
     }
 
-    openImgModal(imgName:any){
+    openImgModal(index:number){
         let comp:any = this.refs.bigimg;
-        comp.setState({gid:this.state.data.id,fname:imgName,modalIsOpen:true})
+        comp.setState({gid:this.state.data.id,index:index,imgNames:this.state.imgName,modalIsOpen:true})
     }
 
     render(){
@@ -80,7 +80,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                       return(
                         <div className="upimgs"> 
                         <a><span><h1>Click to bigger</h1></span>
-                          <img src={imgSrc} width="100px" height="100px" onClick={() => this.openImgModal(element)}/>
+                          <img src={imgSrc} width="100px" height="100px" onClick={() => this.openImgModal(index)}/>
                         </a>
                         </div>
                       )
