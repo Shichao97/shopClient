@@ -15,7 +15,7 @@ const $ = jquery;
           this.state={modalIsOpen:false};
       }
 
-    preview(){
+    previous(){
         let n = this.state.index;
         if(n>0){
             this.setState({index:n-1});
@@ -44,7 +44,7 @@ const $ = jquery;
               <div className="center-img">
                 <table><tbody>
                 <tr>
-                <td><input type="button" value="Preview" onClick={() => this.preview()} /></td>
+                <td><input type="button" value="Previous" onClick={() => this.previous()} /></td>
                 <td><img src={imgSrc} onClick={() => this.setState({modalIsOpen:false})}/></td>
                 <td><input type="button" value="Next" onClick={() => this.next()} /></td>
                 </tr>

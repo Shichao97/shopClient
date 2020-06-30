@@ -73,7 +73,10 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let imgname:string[] = this.state.imgName;
 
         let tables = <table className="goods-table">
-        <tr> {imgname.map((element:any,index:number) =>{
+        <tr> 
+            <td></td>
+            <td>
+            {imgname.map((element:any,index:number) =>{
                       
                       let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+element;
 
@@ -87,21 +90,51 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                     
                       }
                       )}
+            </td>
         </tr>
         <tr>
-            name: {this.state.data.name}
+            <td>
+                name: 
+            </td>
+            <td>
+                {this.state.data.name}
+            </td>
         </tr>
         <tr>
-            price: {this.state.data.price}
+            <td>
+                price:           
+            </td>
+            <td>
+                {this.state.data.price}    
+            </td>
+            
         </tr>
         <tr>
-            location: {this.state.data.location}
+            <td>
+                location: 
+            </td>
+            <td>
+                {this.state.data.location}
+            </td>
+            
         </tr>
         <tr>
-            type: {fullTypeName}
+            <td>
+                type: 
+            </td>
+            <td>
+                {fullTypeName}
+            </td>
+            
         </tr>
         <tr>
-            desciption: {this.state.description}
+            <td>
+                desciption:
+            </td>
+            <td>
+                {this.state.description}
+            </td>
+             
         </tr>
         <ImageModal ref="bigimg"/>
     </table>
