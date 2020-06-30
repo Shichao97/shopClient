@@ -76,11 +76,12 @@ export default class AddGoods extends React.Component<any,any> {
             processData: false,
             contentType: false,
             success:function(d){
-                if(d.error != null){
-                    _this.setState({msg:"add failed! " + d.error});
+                if(d == null){
+                    _this.setState({msg:"add failed!!! "});
                 }else{
                     _this.setState({msg:"add success!"});
                     
+                   
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
