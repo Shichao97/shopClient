@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import LoginModal from './LoginModal';
 import ImageModal from './ImageModal';
 import './SearchGoods.css';
+import './Register.css';
 import jquery from "jquery";
 const $ = jquery;
 
@@ -72,7 +73,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let imgSrc:string = this.getImgSrc(this.state.data.id);
         let imgname:string[] = this.state.imgName;
 
-        let tables = <table className="goods-table">
+        let tables = <table className="content-table">
         <tr> 
             <td></td>
             <td>
