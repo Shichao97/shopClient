@@ -40,8 +40,11 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         if(imgStr == null){
             arr = [];
         }
-        arr= imgStr.split(";");
+        else{
+            arr= imgStr.split(";");
+        }
         this.setState({imgName:arr});
+        
     }
 
     getTypes(typeCode:string):string{
