@@ -1,6 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import LoginModal from './LoginModal';
+import './SearchGoods.css';
 import jquery from "jquery";
 const $ = jquery;
 
@@ -32,6 +33,14 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
           }
         }
         this.setState({types:obj});
+
+        let imgStr:string = this.state.data.imgNames;
+        let arr:string[];
+        if(imgStr == null){
+            arr = [];
+        }
+        arr= imgStr.split(";");
+        this.setState({imgName:arr});
     }
 
     getTypes(typeCode:string):string{
@@ -49,11 +58,27 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
 
     render(){
+        let gid = this.state.data.id;
         let fullTypeName:string = this.getTypes(this.state.data.typeCode);
         let imgSrc:string = this.getImgSrc(this.state.data.id);
+        let imgname:string[] = this.state.imgName;
 
-        let tables = <table>
-        <tr><img src={imgSrc}/></tr>
+        let tables = <table className="goods-table">
+        <tr> {imgname.map((element:any,index:number) =>{
+                      
+                      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+element;
+
+                      return(
+                        <div className="upimgs"> 
+                        <a><span><h1>Click to delete</h1></span>
+                          <img src={imgSrc} width="100px" height="100px"/>
+                        </a>
+                        </div>
+                      )
+                    
+                      }
+                      )}
+        </tr>
         <tr>
             name: {this.state.data.name}
         </tr>
