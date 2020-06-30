@@ -70,7 +70,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/searchGoods/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/searchGoods">Demo id</Link>&nbsp;&nbsp;&nbsp;
           <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
@@ -92,7 +92,7 @@ class App extends Component {
           <Route path="/chat" component={WebChatTest}></Route>
           <Route path="/searchGoods" component={SearchGoods}></Route>
           <Route path="/editsellgoods/:gid" component={EditSellGoods}></Route>
-          <Route path="/showgoodsinfo/:gid" component={ShowGoodsInfo}></Route>
+          <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
         </div>
         
       </Router>
