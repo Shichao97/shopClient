@@ -26,7 +26,7 @@ const $ = jquery;
     return (
       <div>
           <Modal isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:false})}>
-              <div>
+              <div className="center-img">
                 <img src={imgSrc} onClick={() => this.setState({modalIsOpen:false})}/>
               </div>
           </Modal>
