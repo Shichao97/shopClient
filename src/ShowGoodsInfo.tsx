@@ -72,7 +72,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     </table>
 
         if(this.state.uid == this.state.data.sellerId){ //self-goods
-            if(this.state.data.sellingMethod == 1){  //selling now
+            if(this.state.data.status == 1){  //selling now
                 return(
                     <div>
                         {tables}
@@ -80,7 +80,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                         <input type="button" value="Remove from the shelf" />
                     </div>
                 )
-            }else if(this.state.data.sellingMethod == 0){ //下架
+            }else if(this.state.data.status == 0){ //下架
                 return(
                     <div>
                         {tables}
