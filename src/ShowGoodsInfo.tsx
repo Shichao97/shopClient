@@ -70,7 +70,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
                       return(
                         <div className="upimgs"> 
-                        <a><span><h1>Click to delete</h1></span>
+                        <a><span><h1>Click to bigger</h1></span>
                           <img src={imgSrc} width="100px" height="100px"/>
                         </a>
                         </div>

@@ -28,6 +28,11 @@
   background-color: #ff3;  
 }
 
+.showimgs {
+  display: block; 
+  float: left;
+}
+
 .upimgs {
   display: block; 
   float: left;
@@ -38,7 +43,7 @@
 
 .upimgs a span{display:none; color:#F00;} 
 
-.upimgs a span h1{font-size:12px; background:#333; color:#FFF; font-weight:normal; text-align:center; width:120px; padding:4px; display:block;
+.upimgs a span h1{font-size:12px; background:#333; color:#FFF; font-weight:normal; text-align:center; width:100px; padding:4px; display:block;
 
 filter:alpha(opacity=60); 
 
