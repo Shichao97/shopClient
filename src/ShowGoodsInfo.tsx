@@ -1,6 +1,7 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import LoginModal from './LoginModal';
+import ImageModal from './ImageModal';
 import './SearchGoods.css';
 import jquery from "jquery";
 const $ = jquery;
@@ -57,6 +58,10 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     return imgSrc;
     }
 
+    openImgModal(){
+
+    }
+
     render(){
         let gid = this.state.data.id;
         let fullTypeName:string = this.getTypes(this.state.data.typeCode);
@@ -71,7 +76,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                       return(
                         <div className="upimgs"> 
                         <a><span><h1>Click to bigger</h1></span>
-                          <img src={imgSrc} width="100px" height="100px"/>
+                          <img src={imgSrc} width="100px" height="100px" onClick={() => this.openImgModal()}/>
                         </a>
                         </div>
                       )
@@ -94,6 +99,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         <tr>
             desciption: {this.state.description}
         </tr>
+        <ImageModal ref="bigimg"/>
     </table>
 
         if(this.state.uid == this.state.data.sellerId){ //self-goods
