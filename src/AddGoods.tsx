@@ -81,8 +81,6 @@ export default class AddGoods extends React.Component<any,any> {
                 }else{
                     _this.setState({msg:"add success!"});
                     
- 
-                    
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
