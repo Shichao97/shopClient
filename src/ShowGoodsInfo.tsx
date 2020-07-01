@@ -138,6 +138,46 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let iconSrc:string = window.localStorage.getItem("host_pre")+"collect/getcollecticon?goodsId="+gid+"&memberId="+this.state.uid+"&size=1"+"&refresh="+myDate.getMilliseconds();
         return iconSrc;
     }
+
+    clickCollect(){
+        /*
+        //未登录
+        if(this.state.uid == ""){
+            let popwin: any = this.refs.logwin;
+            popwin.setState({modalIsOpen:true});
+        }
+        */
+       
+        //已登录
+        var win:any = window;
+        let gid = this.state.data.id;
+        let _this:ShowGoodsInfo = this;
+        let uid:string = win.getCookie("userId");
+        let newUrl:string = window.localStorage.getItem("host_pre")+"collect/edit/clickcollect?goodsId="+gid+"&memberId="+uid;
+        
+        $.ajax({
+            type:"GET",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+            url:newUrl,
+            dataType:"json",
+            success:function(data){
+                if(data.success == 0){
+                    alert(data.msg);
+                }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                if(xhr.status=='604'){//未登录错误
+                    let popwin: any = _this.refs.logwin;
+                    popwin.setState({modalIsOpen:true})
+                }
+                
+            }
+          })
+    }
     render(){
         let gid = this.state.data.id;
         let fullTypeName:string = this.getTypes(this.state.data.typeCode);
@@ -211,6 +251,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
              
         </tr>
         <ImageModal ref="bigimg"/>
+        <LoginModal ref="logwin"/>
     </table>
 
         if(this.state.uid == this.state.data.sellerId){ //self-goods
@@ -237,13 +278,13 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                     </div>
                 )
             }
-        }else{
+        }else{ //未登录或者不是自己商品
             if(this.state.data.status == 1){  //selling now
                 return(
                     <div>
                         {tables}
                         <input type="button" value="Buy Now" />
-                        <img src={collectIconSrc} />
+                        <img src={collectIconSrc} onClick={() => this.clickCollect()}/>
                         <input type="button" value="Leave a note" />
                     </div>
                 )
@@ -256,9 +297,5 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 )
             }
         }
-        
     }
-
-
-    
 }
