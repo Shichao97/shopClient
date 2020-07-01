@@ -1,7 +1,6 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import './SearchGoods.css';
-import LoginModal from './LoginModal';
 import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
@@ -12,8 +11,7 @@ export default class SearchGoods extends React.Component<any,any> {
         super(props);
         this.state = {
           uid:"",
-          searchType1:1,
-          searchType2:"",
+          searchType:"",
           searchValue:"",
           url:"",
           page:{"content":[]},
@@ -65,10 +63,10 @@ export default class SearchGoods extends React.Component<any,any> {
         console.log(newUrl);
         $.ajax({
           type:"GET",
-          crossDomain: true, 
-          xhrFields: {
-              withCredentials: true 
-          },
+          // crossDomain: true, 
+          // xhrFields: {
+          //     withCredentials: true 
+          // },
           url:newUrl,
           dataType:"json",
           success:function(data){
@@ -93,20 +91,18 @@ export default class SearchGoods extends React.Component<any,any> {
         let uid:string = win.getCookie("userId");
 
         console.log(uid + "handle");
-        let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
+        let plus:string = $("#searchForm").serialize();  //serachType,searchValue
         let plusnew:string = "&pageSize=8";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search?"+plus+plusnew;
       
         _this.state={url:searchUrl};
         _this.setState({url:searchUrl});
         _this.loadData();
     }
 
-    handleSelect1 = (event:any) =>  {
-        this.setState({searchType1:event.target.value});
-    }
+    
     handleSelect2 = (event:any) =>  {
-        this.setState({searchType2:event.target.value});
+        this.setState({searchType:event.target.value});
     }
     handleChange = (event:any) =>  {
         
@@ -127,16 +123,6 @@ export default class SearchGoods extends React.Component<any,any> {
       return re1 + " " + re2 + " " + re3;
     }
 
-    getStatus(s:number):string{
-      if(s == 0){
-        return "remove off the shelves";
-      }else if(s == 1){
-        return "selling now";
-        
-      }else{
-        return "sold out";
-      }
-    }
 
     getImgSrc(gid:string):string{
       let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
@@ -184,20 +170,15 @@ export default class SearchGoods extends React.Component<any,any> {
       let col:number = 2; //显示商品列数
       let forms =                 
       <form id="searchForm">
-      * choose goods status:
-      <select name="searchType1" value={_this.state.searchType1} onChange={_this.handleSelect1} id="dropdown1">
-          <option value="1">selling now</option>
-          <option value="-1">sold out</option>
-          <option value="0">remove off the shelves</option>
-      </select> <br/>
+    
       * choose to search by:
-      <select name="searchType2" value={_this.state.searchType2} onChange={_this.handleSelect2} id="dropdown2">
+      <select name="searchType" value={_this.state.searchType} onChange={_this.handleSelect2} id="dropdown2">
           <option value="name">goods name</option>
           <option value="desc">description</option>
       </select><br/>
       <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
       <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
-      <LoginModal ref="logwin"/>
+      
   </form>
       if(_this.state.flag != 1){
         return forms;

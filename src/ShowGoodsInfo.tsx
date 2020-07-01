@@ -67,13 +67,86 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         comp.setState({gid:this.state.data.id,index:index,imgNames:this.state.imgName,modalIsOpen:true})
     }
 
+    clickEdit(){
+        let gid = this.state.data.id;
+        this.props.history.push("/editsellgoods/"+gid);
+    }
+
+    clickRemoveFromShelf(){
+        let gid = this.state.data.id;
+        let _this:ShowGoodsInfo = this;
+        let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/removefromshelf?gid="+gid;
+        $.ajax({
+            type:"GET",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+            url:newUrl,
+            dataType:"json",
+            success:function(data){
+                if(data.success == 0){
+                    alert(data.msg);
+                }else{
+                    alert(data.msg);
+                    _this.props.history.push(  "/searchGoods"  );            
+                }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                if(xhr.status=='604'){//未登录错误
+                    let popwin: any = _this.refs.logwin;
+                    popwin.setState({modalIsOpen:true})
+                }
+                
+            }
+          })
+    }
+
+    clickPutOnShelf(){
+        let gid = this.state.data.id;
+        let _this:ShowGoodsInfo = this;
+        let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/putonshelf?gid="+gid;
+        $.ajax({
+            type:"GET",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+            url:newUrl,
+            dataType:"json",
+            success:function(data){
+                if(data.success == 0){
+                    alert(data.msg);
+                }else{
+                    alert(data.msg);
+                    _this.props.history.push(  "/searchGoods"  );            
+                }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                if(xhr.status=='604'){//未登录错误
+                    let popwin: any = _this.refs.logwin;
+                    popwin.setState({modalIsOpen:true})
+                }
+                
+            }
+          })
+    }
+    getCollectIconSrc(gid:number):string{
+        var myDate = new Date();
+        let iconSrc:string = window.localStorage.getItem("host_pre")+"collect/getcollecticon?goodsId="+gid+"&memberId="+this.state.uid+"&size=1"+"&refresh="+myDate.getMilliseconds();
+        return iconSrc;
+    }
     render(){
         let gid = this.state.data.id;
         let fullTypeName:string = this.getTypes(this.state.data.typeCode);
         let imgSrc:string = this.getImgSrc(this.state.data.id);
         let imgname:string[] = this.state.imgName;
-
+        let collectIconSrc:string = this.getCollectIconSrc(gid);
         let tables = <table className="content-table">
+      
+        
         <tr> 
             <td></td>
             <td>
@@ -145,15 +218,15 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 return(
                     <div>
                         {tables}
-                        <input type="button" value="Edit" />
-                        <input type="button" value="Remove from the shelf" />
+                        <input type="button" value="Edit" onClick={() => this.clickEdit()}/>
+                        <input type="button" value="Remove from the shelf" onClick={() => this.clickRemoveFromShelf()}/>
                     </div>
                 )
             }else if(this.state.data.status == 0){ //下架
                 return(
                     <div>
                         {tables}
-                        <input type="button" value="Put on the shelf again" />
+                        <input type="button" value="Put on the shelf again" onClick={() => this.clickPutOnShelf()}/>
                     </div>
                 )
             }else{//sold out
@@ -165,12 +238,12 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 )
             }
         }else{
-            if(this.state.data.sellingMethod == 1){  //selling now
+            if(this.state.data.status == 1){  //selling now
                 return(
                     <div>
                         {tables}
                         <input type="button" value="Buy Now" />
-                        <input type="button" value="collect" />
+                        <img src={collectIconSrc} />
                         <input type="button" value="Leave a note" />
                     </div>
                 )
