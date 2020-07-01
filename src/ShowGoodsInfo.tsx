@@ -167,6 +167,9 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 if(data.success == 0){
                     alert(data.msg);
                 }
+                else if(data.success == 1){
+                    this.setState({});
+                }
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
