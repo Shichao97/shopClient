@@ -168,7 +168,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                     alert(data.msg);
                 }
                 else if(data.success == 1){
-                    this.setState({});
+                    _this.setState({});
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
@@ -287,8 +287,10 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                     <div>
                         {tables}
                         <input type="button" value="Buy Now" />
+                        
                         <img src={collectIconSrc} onClick={() => this.clickCollect()}/>
                         <input type="button" value="Leave a note" />
+                        
                     </div>
                 )
             }else{
