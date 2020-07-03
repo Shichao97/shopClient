@@ -5,7 +5,7 @@ import WebChatTest from './WebChatTest';
 import Demo from './Demo';
 import Login from './Login';
 import AddGoods from './AddGoods';
-import LoginModal from './LoginModal';
+import Message from './Message';
 import EditIcon from './EditIcon';
 import Register from './Register';
 import SearchSellGoods from './SearchSellGoods';
@@ -67,6 +67,7 @@ class App extends Component {
 	
     return (
       <div>
+         <Message/>
       <Router>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
@@ -79,6 +80,7 @@ class App extends Component {
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/chat">Chat Test</Link>&nbsp;&nbsp;&nbsp;
+         
           <hr/>
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
@@ -88,6 +90,7 @@ class App extends Component {
           <Route path="/_editIcon" component={EditIcon}></Route>
           <Route path="/_addgoods" component={AddGoods}></Route>
           <Route path="/login" component={Login}></Route>
+
           <Route path="/_searchsell" component={SearchSellGoods}></Route>
           <Route path="/chat" component={WebChatTest}></Route>
           <Route path="/searchGoods" component={SearchGoods}></Route>
