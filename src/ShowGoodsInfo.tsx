@@ -181,6 +181,16 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             }
           })
     }
+
+    clickBuy(){
+        //未登录
+        if(this.state.uid == ""){
+            let popwin: any = this.refs.logwin;
+            popwin.setState({modalIsOpen:true});
+        }
+        this.props.history.push('/placeOrder',this.state.data);
+
+    }
     render(){
         let gid = this.state.data.id;
         let fullTypeName:string = this.getTypes(this.state.data.typeCode);
@@ -286,7 +296,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 return(
                     <div>
                         {tables}
-                        <input type="button" value="Buy Now" />
+                        <input type="button" value="Buy Now" onClick={() => this.clickBuy()}/>
                         
                         <img src={collectIconSrc} onClick={() => this.clickCollect()}/>
                         <input type="button" value="Leave a note" />

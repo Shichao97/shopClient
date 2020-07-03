@@ -13,6 +13,7 @@ import SearchGoods from './SearchGoods';
 import jquery from "jquery";
 import EditSellGoods from './EditSellGoods';
 import ShowGoodsInfo from './ShowGoodsInfo';
+import PlaceOrder from './PlaceOrder';
 const $ = jquery;
 
 const Home = () => (
@@ -96,6 +97,7 @@ class App extends Component {
           <Route path="/searchGoods" component={SearchGoods}></Route>
           <Route path="/editsellgoods/:gid" component={EditSellGoods}></Route>
           <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
+          <Route path="/placeOrder" component={PlaceOrder}></Route>
         </div>
         
       </Router>
