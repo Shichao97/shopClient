@@ -28,9 +28,9 @@ class Messgae extends React.Component {
 
     iTimer = () => {
         this.timer = setInterval(() => {
-            var win = window;
-            let uid = win.getCookie("userId");
-            let username = win.getCookie("username");
+            //var win = window;
+            let uid = window.getCookie("userId");
+            let username = window.getCookie("username");
             if(uid != undefined && uid.length>0){
                 if(ws == undefined){
                     let wsUrl = window.localStorage.getItem("wshost_pre")+'myHandler';
@@ -50,19 +50,23 @@ class Messgae extends React.Component {
     connectWithWS(wsUrl) {
         
         ws = new WebSocket(wsUrl);
-
+        window.ws = ws;
         let result = "";
 
         ws.onopen = (e) => {
             this.setState({connected:true});
 
             console.log('连接上 ws 服务端了');
-            ws.send(JSON.stringify({ flag: wsUrl, data: "Hello WebSocket!" }));
+            //var win = window;
+            let uid = window.getCookie("userId");
+            let username = window.getCookie("username");
+            //handshake hello msg
+            ws.send(JSON.stringify({ flag: "msg", toId:0, toName:username,content: "Hello WebSocket!" }));
         }
         ws.onmessage = (msg) => {
             console.log('接收服务端发过来的消息: %o', msg);
             var msgJson = JSON.parse(msg.data);
-
+            var winWs = window.ws;
 
             result += msgJson.MsgBody + '\n';
             if (msgJson.flag == "login") {//多设备在线的异常发生时;
