@@ -188,7 +188,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             let popwin: any = this.refs.logwin;
             popwin.setState({modalIsOpen:true});
         }
-        this.props.history.push('/placeOrder',this.state.data);
+        this.props.history.push({pathname:'/placeOrder',state:this.state.data});
 
     }
     render(){
