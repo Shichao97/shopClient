@@ -7,10 +7,13 @@ const $ = jquery;
 export default class PlaceOrder extends React.Component<any,any> {
     constructor(props:any){
         super(props);
-        let sta:any = this.props.location.state;
         this.state={
-            goodsdata:sta
         }
+    }
+
+    componentWillMount(){
+        let sta:any = this.props.location.state;
+        this.setState({goodsdata:sta});
     }
 
     handlePlace(){
