@@ -17,7 +17,19 @@ export default class PlaceOrder extends React.Component<any,any> {
        
     }
 
+    getImgSrc(gid:string):string{
+        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
+        return imgSrc;
+        }
+
     render(){
+        let gid:string = this.state.goodsdata.id;
+        let m:number= this.state.goodsdata.sellingMethod;
+        let arrMethod:number[] = [];
+        if((m & 1) == 1) arrMethod.push(1);
+        if((m & 2) == 2) arrMethod.push(2);
+        if((m & 4) == 4) arrMethod.push(4);
+        let imgSrc:string = this.getImgSrc(gid);
         return(
             <div>
                 <form id="buyform">
@@ -27,7 +39,7 @@ export default class PlaceOrder extends React.Component<any,any> {
 
                             </td>
                             <td>
-                                <img></img>
+                                <img src={imgSrc}></img>
                             </td>
                         </tr>
 
@@ -46,8 +58,26 @@ export default class PlaceOrder extends React.Component<any,any> {
                             </td>
                             <td>
                                <select>
-                                   
-                                   //map option
+                               {arrMethod.map((element:any) =>{
+                                   if(element == 1){
+                                    return(
+                                        <option value={element}>shipping</option>
+                                    )
+                                   }
+                                   if(element == 2){
+                                    return(
+                                        <option value={element}>self-pick</option>
+                                    )
+                                   }
+                                   if(element == 4){
+                                    return(
+                                        <option value={element}>home-dilivery</option>
+                                    )
+                                   }
+                            
+                                }
+
+                            )}
                                </select>
                             </td>
                         </tr>
