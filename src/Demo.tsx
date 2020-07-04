@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginModal from './LoginModal';
 import jquery from "jquery";
+import { Button, Row, Col } from 'antd'
 const $ = jquery;
 
 export default class Demo extends React.Component<any,any> {
