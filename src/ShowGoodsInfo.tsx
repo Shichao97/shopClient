@@ -185,7 +185,9 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
     clickBuy(){
         //未登录
-        if(this.state.uid == ""){
+        var win:any = window;
+        let uid:string = win.getCookie("userId");
+        if(uid == ""){
             let popwin: any = this.refs.logwin;
             popwin.setState({modalIsOpen:true});
         }

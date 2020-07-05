@@ -14,6 +14,7 @@ import jquery from "jquery";
 import EditSellGoods from './EditSellGoods';
 import ShowGoodsInfo from './ShowGoodsInfo';
 import PlaceOrder from './PlaceOrder';
+import MyAccount from './MyAccount';
 const $ = jquery;
 
 const Home = () => (
@@ -81,6 +82,7 @@ class App extends Component {
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/chat">Chat Test</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
          
           <hr/>
           <Route path="/" exact component={Home}></Route>
@@ -98,6 +100,7 @@ class App extends Component {
           <Route path="/editsellgoods/:gid" component={EditSellGoods}></Route>
           <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
           <Route path="/placeOrder" component={PlaceOrder}></Route>
+          <Route path="/myAccount" component={MyAccount}></Route>
         </div>
         
       </Router>
