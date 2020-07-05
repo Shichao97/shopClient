@@ -1,0 +1,16 @@
+.my-table{
+    width: 80%;
+    margin: auto;
+  
+    border: 1px solid black;
+    border-collapse: separate;
+    
+}
+
+.tr1{
+    border: 1px solid black;
+}
+
+.td1{
+    border: 1px solid black;
+}

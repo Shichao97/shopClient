@@ -26,7 +26,7 @@ export default class GoodsItem extends React.Component<any,any> {
                     <br />
                     <div className='goods-title'>{this.props.data.g.name}</div> <br/>
                     <span className='price'>${this.props.data.g.price} </span>
-                    <span ><img src={memberImgSrc}/> {this.props.data.m.userName} ({this.props.data.m.location})</span>
+                    <span ><img src={memberImgSrc}/> {this.props.data.m.userName} ({this.props.data.m.schoolCode})</span>
                 </div>
             </Link>
         )
