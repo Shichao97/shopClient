@@ -13,7 +13,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         super(props);
         let sta:any = this.props.location.state;
         this.state = {
-            data:sta,
+            data:sta.g,
+            seller:sta.m,
             uid:""
         }
     }
@@ -204,8 +205,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             popwin.setState({modalIsOpen:true});
         }
         else{
-            let popwin: any = this.refs.msgwin;
-            popwin.setState({modalIsOpen:true,toId:uid,toName:username});
+            let popwin: any = win.msgwin;
+            popwin.setState({modalIsOpen:true,toId:this.state.seller.id,toName:this.state.seller.userName});
         }
     }
 
@@ -283,6 +284,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         </tr>
         <ImageModal ref="bigimg"/>
         <LoginModal ref="logwin"/>
+ 
     </table>
 
         if(this.state.uid == this.state.data.sellerId){ //self-goods
@@ -319,7 +321,6 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                         <img src={collectIconSrc} onClick={() => this.clickCollect()}/>
                         <input type="button" value="Leave a note" />
                         <input type="button" value="Talk to seller" onClick={()=>this.openTalkWindow()}/>
-                        <MessageModal ref="msgWin"/>
                     </div>
                 )
             }else{

@@ -93,7 +93,7 @@ export default class SearchGoods extends React.Component<any,any> {
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType,searchValue
         let plusnew:string = "&pageSize=8";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search?"+plus+plusnew;
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus+plusnew;
       
         _this.state={url:searchUrl};
         _this.setState({url:searchUrl});

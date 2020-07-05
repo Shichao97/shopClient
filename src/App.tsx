@@ -15,6 +15,7 @@ import EditSellGoods from './EditSellGoods';
 import ShowGoodsInfo from './ShowGoodsInfo';
 import PlaceOrder from './PlaceOrder';
 import MyAccount from './MyAccount';
+import MessageModal from './MessageModal';
 const $ = jquery;
 
 const Home = () => (
@@ -52,6 +53,9 @@ class App extends Component {
         sessionStorage.setItem('goods_types', str); 
       },
       })
+
+      var win:any = window;
+      win.msgwin = this.refs.msgwin;
   }
 
 
@@ -70,6 +74,7 @@ class App extends Component {
     return (
       <div>
          <Message/>
+         <MessageModal  ref="msgwin"/>
       <Router>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
