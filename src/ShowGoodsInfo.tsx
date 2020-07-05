@@ -5,6 +5,7 @@ import ImageModal from './ImageModal';
 import './SearchGoods.css';
 import './Register.css';
 import jquery from "jquery";
+import MessageModal from './MessageModal';
 const $ = jquery;
 
 export default class ShowGoodsInfo extends React.Component<any,any> {
@@ -191,6 +192,21 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         this.props.history.push({pathname:'/placeOrder',state:this.state.data});
 
     }
+
+    openTalkWindow(){
+        let win:any = window;
+        let uid = win.getCookie("userId");
+        let username = win.getCookie("username");
+        if(uid==""){
+            let popwin: any = this.refs.logwin;
+            popwin.setState({modalIsOpen:true});
+        }
+        else{
+            let popwin: any = this.refs.msgwin;
+            popwin.setState({modalIsOpen:true,toId:uid,toName:username});
+        }
+    }
+
     render(){
         let gid = this.state.data.id;
         let fullTypeName:string = this.getTypes(this.state.data.typeCode);
@@ -300,7 +316,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                         
                         <img src={collectIconSrc} onClick={() => this.clickCollect()}/>
                         <input type="button" value="Leave a note" />
-                        
+                        <input type="button" value="Talk to seller" onClick={()=>openTalkWindow()}/>
+                        <MessageModal ref="msgWin"/>
                     </div>
                 )
             }else{
