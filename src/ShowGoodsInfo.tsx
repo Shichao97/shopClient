@@ -318,7 +318,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                         
                         <img src={collectIconSrc} onClick={() => this.clickCollect()}/>
                         <input type="button" value="Leave a note" />
-                        <input type="button" value="Talk to seller" onClick={()=>openTalkWindow()}/>
+                        <input type="button" value="Talk to seller" onClick={()=>this.openTalkWindow()}/>
                         <MessageModal ref="msgWin"/>
                     </div>
                 )
