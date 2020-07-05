@@ -168,14 +168,17 @@ export default class SearchGoods extends React.Component<any,any> {
       let uid:string = _this.state.uid;
       console.log(uid); 
       let col:number = 2; //显示商品列数
-      let forms =                 
-      <form id="searchForm">
-    
+      let forms =            
+      /*
       * choose to search by:
       <select name="searchType" value={_this.state.searchType} onChange={_this.handleSelect2} id="dropdown2">
           <option value="name">goods name</option>
           <option value="desc">description</option>
       </select><br/>
+      */     
+      <form id="searchForm">
+    
+
       <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
       <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
       
