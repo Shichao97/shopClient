@@ -15,6 +15,7 @@ import EditSellGoods from './EditSellGoods';
 import ShowGoodsInfo from './ShowGoodsInfo';
 import PlaceOrder from './PlaceOrder';
 import MyAccount from './MyAccount';
+import ShowOrderInfo from './ShowOrderInfo';
 import MessageModal from './MessageModal';
 const $ = jquery;
 
@@ -106,6 +107,7 @@ class App extends Component {
           <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
           <Route path="/placeOrder" component={PlaceOrder}></Route>
           <Route path="/myAccount" component={MyAccount}></Route>
+          <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
         </div>
         
       </Router>

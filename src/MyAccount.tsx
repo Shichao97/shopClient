@@ -177,12 +177,13 @@ export default class MyAccount extends React.Component<any,any> {
                       let sellerIcon:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.sellerId+"&size=0";
                       let payment:string = this.getpayment(element.paymentStatus);
                       let goodsImgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+element.goodsId;
+                      let link1:string = "/showOrderInfo/"+element.id;
                       return(
                         <tr className="tr1">
                           
-                          <td className="td1">{element.orderNo}</td>
-                          <td className="td1"><img height="100px" width="100px" src={goodsImgSrc}/> </td>
-                          <td className="td1">{element.goodsName}</td>
+                          <td className="td1"><Link to={link1}>{element.orderNo}</Link></td>
+                          <td className="td1"><Link to={link1}><img height="100px" width="100px" src={goodsImgSrc}/></Link> </td>
+                          <td className="td1"><Link to={link1}>{element.goodsName}</Link></td>
                           <td className="td1">{element.orderPrice}</td>
                           <td className="td1">{element.orderTime}</td>
                           <td className="td1">{payment}</td>
@@ -190,7 +191,6 @@ export default class MyAccount extends React.Component<any,any> {
                           
                         </tr>
                       )
-                      
                     }
 
                     )}
