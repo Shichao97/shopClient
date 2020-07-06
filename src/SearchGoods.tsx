@@ -110,6 +110,13 @@ export default class SearchGoods extends React.Component<any,any> {
           case "searchValue":
             this.setState({searchValue: event.target.value});
             break;
+          case "gotoPage":
+            let page:any = this.state.page;
+            let totalPages = page.totalPages;
+            if(event.target.value >= 1 && event.target.value <=totalPages){
+                this.setState({gotoPage: event.target.value});
+            }
+            break;
          
         }
       }

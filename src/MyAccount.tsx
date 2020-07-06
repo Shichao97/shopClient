@@ -98,6 +98,53 @@ export default class MyAccount extends React.Component<any,any> {
         if(status == 1) return "not yet paid";
         else return "already paid";
     }
+
+    handlePreviousPage(){
+        let _this: MyAccount = this;
+        let page:any = _this.state.page;
+        let pn:number = page.number;
+        pn -= 1;
+        
+        let totalPages = page.totalPages;
+        if(pn > (-1)){
+          _this.loadData(pn);
+        }
+      }
+  
+    handleNextPage(){
+    let _this: MyAccount = this;
+    let page:any = _this.state.page;
+    let pn:number = page.number;
+    pn += 1;
+    
+    let totalPages = page.totalPages;
+    if(pn<totalPages){
+        _this.loadData(pn);
+    }
+    
+    }
+
+    handleGoto(){
+    let page:any = this.state.page;
+    let totalPages = page.totalPages;
+    let pn:number = this.state.gotoPage;
+    this.loadData(pn-1);
+    }
+
+    handleChange = (event:any) =>  {
+        
+        switch(event.target.name){
+          case "gotoPage":
+            let page:any = this.state.page;
+            let totalPages = page.totalPages;
+            if(event.target.value >= 1 && event.target.value <=totalPages){
+                this.setState({gotoPage: event.target.value});
+            }
+            break;
+         
+        }
+      }
+
     render(){
         let page:any = this.state.page;
         let arry:any[] = page.content;
@@ -105,6 +152,7 @@ export default class MyAccount extends React.Component<any,any> {
         let uid:string = win.getCookie("userId");
         let username:string = win.getCookie("username");
         let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
+        
         return(
             <div>
                 <div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
@@ -116,6 +164,7 @@ export default class MyAccount extends React.Component<any,any> {
                     <thead>
                         <tr>
                             <th className="td1">Order No.</th>
+                            <th className="td1">image</th>
                             <th className="td1">Goods Name</th>
                             <th className="td1">price</th>
                             <th className="td1">Order time</th>
@@ -127,10 +176,12 @@ export default class MyAccount extends React.Component<any,any> {
                     {arry.map((element:any) =>{
                       let sellerIcon:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.sellerId+"&size=0";
                       let payment:string = this.getpayment(element.paymentStatus);
+                      let goodsImgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+element.goodsId;
                       return(
                         <tr className="tr1">
                           
                           <td className="td1">{element.orderNo}</td>
+                          <td className="td1"><img height="100px" width="100px" src={goodsImgSrc}/> </td>
                           <td className="td1">{element.goodsName}</td>
                           <td className="td1">{element.orderPrice}</td>
                           <td className="td1">{element.orderTime}</td>
@@ -145,6 +196,12 @@ export default class MyAccount extends React.Component<any,any> {
                     )}
                     </tbody>
                 </table>
+                <input type="button" value="previous page" onClick={() => this.handlePreviousPage()}/>
+                <input type="button" value="next page" onClick={() => this.handleNextPage()}/><br />  <br />
+
+                <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={this.handleChange}/>
+                <input type="button" value="Go" onClick={() => this.handleGoto()}/><br />  <br />
+        
                 <LoginModal ref="logwin"/>
             </div>
         )
