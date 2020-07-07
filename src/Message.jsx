@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router, Link, Route } from 'react-router-dom';
-import Login from './Login';
+import ChatMemberList from './ChatMemberList';
+import { createHashHistory } from 'history'
+import { Button, Row, Col } from 'antd'
+import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
 
 var ws;
 
 
 class Messgae extends React.Component {
-    constructor() {
-        super();
-        this.state = { msgs: [],connected:false };
-        //this.setState({loginUser:{}});
+    constructor(props) {
+        super(props);
+        this.state = { msgs: [],connected:false,chatMembersArr:[],chatMembers:{}};
         this.taskRemindInterval = null;
     }
 
@@ -61,7 +63,7 @@ class Messgae extends React.Component {
             let uid = window.getCookie("userId");
             let username = window.getCookie("username");
             //handshake hello msg
-            ws.send(JSON.stringify({ flag: "msg", toId:0, toName:username,content: "Hello WebSocket!" }));
+            ws.send(JSON.stringify({ flag: "msg_new"}));
         }
         ws.onmessage = (msg) => {
             console.log('接收服务端发过来的消息: %o', msg);
@@ -76,13 +78,16 @@ class Messgae extends React.Component {
                 ws.close();
                 this.setState({});
             }
+            else if (msgJson.flag == "msg_new") {//用户退出系统的时候;
+                this.state.chatMembersArr.push(msgJson);
+                var fromId = msgJson.fromId;
+                this.state.chatMembers[fromId] = msgJson;
+                this.setState({});
+            }
             else if (msgJson.flag == "msg") {//用户退出系统的时候;
-                var from = msgJson.from;
-                var fromMsgArr = this.state.msgs[from];
-                if(fromMsgArr == undefined){
-                    this.state.msgs[from] = [];
-                }
-                this.state.msgs[from].push(msgJson);
+                var fromId = msgJson.fromId;
+
+                this.state.chatMembers[fromId].count++;
                 this.setState({});
             }
 
@@ -94,22 +99,37 @@ class Messgae extends React.Component {
         }
     }
 
-    getNewMsgNum(){
+    getTotalNewNum(){
         var n = 0;
-        this.state.msgs.forEach(element => {
-            n += element.length;
+        this.state.chatMembers.forEach(element => {
+            n += element.count;
         });
+        return n;
     }
  
+    messageListClicked(){
+        var sta = {
+            pathname: '/chatMemberList',
+            state: {mesComp:this}//'我是通过state传值'
+        }
+        this.props.history.push(sta);
+    }
 
     render() {
         var win = window;
         let uid = win.getCookie("userId");
         let username = win.getCookie("username");
+        
+        
         if(uid != undefined && uid.length>0){
             return (
             <div>
-                Hello,{username}
+                
+                Hello,{username} 
+                
+                    <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message</Button>
+                
+                
             </div>
             )
         }
@@ -133,4 +153,4 @@ class Messgae extends React.Component {
 
 }
 
-export default Messgae;
+export default withRouter(Messgae);

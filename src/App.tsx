@@ -17,7 +17,9 @@ import PlaceOrder from './PlaceOrder';
 import MyAccount from './MyAccount';
 import ShowOrderInfo from './ShowOrderInfo';
 import MessageModal from './MessageModal';
+import ChatMemberList from './ChatMemberList';
 const $ = jquery;
+
 
 const Home = () => (
   <div>
@@ -74,9 +76,9 @@ class App extends Component {
 	
     return (
       <div>
-         <Message/>
-         <MessageModal  ref="msgwin"/>
       <Router>
+         <Message app={this}/>
+         <MessageModal  ref="msgwin"/>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchGoods">Demo id</Link>&nbsp;&nbsp;&nbsp;
@@ -108,6 +110,7 @@ class App extends Component {
           <Route path="/placeOrder" component={PlaceOrder}></Route>
           <Route path="/myAccount" component={MyAccount}></Route>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
+          <Route path="/chatMemberList" component={ChatMemberList}></Route>
         </div>
         
       </Router>

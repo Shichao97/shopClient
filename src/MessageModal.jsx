@@ -160,38 +160,8 @@ const $ = jquery;
 
 
 
-
-
-    getRecentMsg(){
-      let _this = this
-      let params = $("#log_form").serializeArray();
-      $.ajax({
-          type:"POST",
-          crossDomain: true, 
-          xhrFields: {
-              withCredentials: true 
-          },
-          url:window.localStorage.getItem("host_pre")+"member/login",
-          data:params,
-          dataType:"json",
-          success: function(data) {
-              console.log(data)
-              if(data.success == 1){
-                _this.setState({modalIsOpen:false});
-              }
-              else if(data.success==0){
-                alert(data.msg);
-              }
-
-          },
-          error: function(xhr, textStatus, errorThrown){
-            console.log("request status:"+xhr.status+" msg:"+textStatus)
-            if(xhr.status=='604'){//未登录错误
-              console.log("Login Error")
-            }
-             
-          }
-      })    
+    componentDidMount(){
+      var ws = window.ws;
     }
 
 
