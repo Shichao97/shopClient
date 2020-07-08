@@ -10,7 +10,7 @@ var ws;
 class ChatMemberList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {mesComp:this.props.location.state.mesComp};
+        this.state = {mesState:this.props.location.state.mesState};
     }
 
 
@@ -25,7 +25,7 @@ class ChatMemberList extends React.Component {
         let uid = win.getCookie("userId");
         let username = win.getCookie("username");
         return <div>
-            {this.state.mesComp.state.chatMembersArr[0].fromName}
+            {this.state.mesState.chatMembersArr[0].fromName}
         </div>
     }
 

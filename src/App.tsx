@@ -96,7 +96,7 @@ class App extends Component<any,any> {
    };
    var sta = {
 		pathname: '/state',
-		state: {id:5,username:"Petter Lynch.",app:this}//'我是通过state传值'
+		state: {id:5,username:"Petter Lynch."}//'我是通过state传值'
 	}
 	
     return (
@@ -115,7 +115,7 @@ class App extends Component<any,any> {
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/chat">Chat Test</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
          
           <hr/>
           <Route path="/" exact component={Home}></Route>
@@ -133,7 +133,7 @@ class App extends Component<any,any> {
           <Route path="/editsellgoods/:gid" component={EditSellGoods}></Route>
           <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
           <Route path="/placeOrder" component={PlaceOrder}></Route>
-          <Route path="/myAccount" component={MyAccount}></Route>
+          <Route path="/_myAccount" component={MyAccount}></Route>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
         </div>
