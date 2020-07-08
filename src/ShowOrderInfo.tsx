@@ -4,7 +4,6 @@ import jquery from "jquery";
 import LoginModal from './LoginModal';
 const $ = jquery;
 
-
 export default class ShowOrderInfo extends React.Component<any,any> {
     constructor(props:any){
         super(props);
