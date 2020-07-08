@@ -164,8 +164,8 @@ const $ = jquery;
      
         </div>
         <div className='chat_center'>
-            <input type="text" id="msgtext" name="test"/>
-            <input type="button" value="send" onClick={() => this.sendout()} />       
+            <input type="text" id="msgtext" name="test" className="chat_input"/>
+            <input type="button" value="Send" onClick={() => this.sendout()} />       
             </div>      
       </div>
     );

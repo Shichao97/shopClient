@@ -156,6 +156,13 @@
   width:80%; 
 
 }
+
+.chat_input {
+  
+  width: 300px;
+  font-size: 16px;
+}
+
 .chat_panel {
 
   min-width: 300px;
