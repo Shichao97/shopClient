@@ -4,11 +4,13 @@ import jquery from "jquery";
 import LoginModal from './LoginModal';
 const $ = jquery;
 
-
 export default class ShowOrderInfo extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state={
+            payMsg:"",
+            cancelMsg:"",
+            confirmMsg:""
         }
     }
 
@@ -38,57 +40,196 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             }
           })
     }
+    getReceiveMethod(m:number):string{
+        if(m == 1){
+            return "shipping";
+        }else if(m == 2){
+            return "self-pick";
+        }else if(m == 4){
+            return "home-dilivery";
+        }else{
+            return "";
+        }
+    }
 
+    handlePay(){
+        let oid = this.props.match.params.oid;
+        let _this:ShowOrderInfo = this;
+        let newUrl:string = window.localStorage.getItem("host_pre")+"order/payOrder?orderId="+oid;
+        console.log(newUrl);
+        $.ajax({
+            type:"GET",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+            url:newUrl,
+            dataType:"json",
+            success:function(data){
+                if(data.success == 0){
+                    alert(data.msg);
+                }
+                else if(data.success == 1){
+                    _this.setState({payMsg:"Payment Success"});
+                }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                if(xhr.status=='604'){//未登录错误
+                    let popwin: any = this.refs.logwin;
+                    popwin.setState({modalIsOpen:true})
+                }
+                
+            }
+          })
+    }
+    handleCancel(){
+        let oid = this.props.match.params.oid;
+        let _this:ShowOrderInfo = this;
+        let newUrl:string = window.localStorage.getItem("host_pre")+"order/cancelOrder?id="+oid;
+        console.log(newUrl);
+        $.ajax({
+            type:"GET",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+            url:newUrl,
+            dataType:"json",
+            success:function(data){
+                if(data.success == 0){
+                    alert(data.msg);
+                }
+                else if(data.success == 1){
+                    _this.setState({cancelMsg:"Cancel Success"});
+                }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                if(xhr.status=='604'){//未登录错误
+                    let popwin: any = this.refs.logwin;
+                    popwin.setState({modalIsOpen:true})
+                }
+                
+            }
+          })
+    }
+    handleConfirm(){
+        let oid = this.props.match.params.oid;
+        let _this:ShowOrderInfo = this;
+        let newUrl:string = window.localStorage.getItem("host_pre")+"order/completeOrder?orderId="+oid;
+        console.log(newUrl);
+        $.ajax({
+            type:"GET",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+            url:newUrl,
+            dataType:"json",
+            success:function(data){
+                if(data.success == 0){
+                    alert(data.msg);
+                }
+                else if(data.success == 1){
+                    _this.setState({confirmMsg:"Confirm Success"});
+                }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                if(xhr.status=='604'){//未登录错误
+                    let popwin: any = this.refs.logwin;
+                    popwin.setState({modalIsOpen:true})
+                }
+                
+            }
+          }) 
+    }
     render(){
         let orderdata:any = this.state.orderdata;
-        if(orderdata == null){
+        if(orderdata == undefined){
+            return(
+                <div></div>
+            )
+        }
+        let goodsImgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+orderdata.goods.id;
+        let receiveMethod:string = this.getReceiveMethod(orderdata.order.receiveMethod);
+        let ordertable = <table>
+        <tr>
+            <td>Order No.</td>
+            <td>{orderdata.order.orderNo}</td>
+        </tr>
+        <tr>
+            <td>Goods Image</td>
+            <td><img src={goodsImgSrc}/></td>
+        </tr>
+        <tr>
+            <td>Goods Name</td>
+            <td>{orderdata.goods.name}</td>
+        </tr>
+        <tr>
+            <td>Order Price</td>
+            <td>${orderdata.goods.price}</td>
+        </tr>
+        <tr>
+            <td>Order Time</td>
+            <td>{orderdata.order.orderTime}</td>
+        </tr>
+        <tr>
+            <td>Receive Method</td>
+            <td>{receiveMethod}</td>
+        </tr>
+        <tr>
+            <td>Receive Address</td>
+            <td>{orderdata.order.receiveAddr}</td>
+        </tr>
+        <tr>
+            <td>Order Status</td>
+            <td>{orderdata.order.status}</td>
+        </tr>
+        <tr>
+            <td>Payment Status</td>
+            <td>{orderdata.order.paymentStatus}</td>
+        </tr>
+    </table>
+
+        if(orderdata == undefined){
+            return(
+                <div></div>
+            )
+        }else if(orderdata == null){
             return(
                 <div>
                     This order does not exist!
                 </div>
             )
+        }else if(orderdata.order.paymentStatus == 0){
+                      
+            return(
+                <div>
+                  {ordertable}
+                  <input type="button" value="pay for this order" onClick={() => this.handlePay()}/>
+                  <input type="button" value="cancel the order" onClick={() => this.handleCancel()}/>
+                  <LoginModal ref="logwin"/>
+                  <span>{this.state.payMsg}</span>
+                  <span>{this.state.cancelMsg}</span>
+                </div>
+            )
+        }else if(orderdata.order.status == 0 && orderdata.order.paymentStatus == 1){
+            return(
+                <div>
+                  {ordertable}
+                  <input type="button" value="Confirm Received" onClick={() => this.handleConfirm()}/>
+                  <LoginModal ref="logwin"/>
+                  <span>{this.state.confirmMsg}</span>
+                </div>
+            )
         }else{
             return(
                 <div>
-                  <table>
-                      <tr>
-                          <td>Order No.</td>
-                          <td>{orderdata.order.orderNo}</td>
-                      </tr>
-                      <tr>
-                          <td>Goods Image</td>
-                          <td><img /></td>
-                      </tr>
-                      <tr>
-                          <td>Goods Name</td>
-                          <td>{orderdata.goods.name}</td>
-                      </tr>
-                      <tr>
-                          <td>Order Price</td>
-                          <td>${orderdata.goods.price}</td>
-                      </tr>
-                      <tr>
-                          <td>Order Time</td>
-                          <td>{orderdata.order.orderTime}</td>
-                      </tr>
-                      <tr>
-                          <td>Receive Method</td>
-                          <td>{orderdata.order.receiveMethod}</td>
-                      </tr>
-                      <tr>
-                          <td>Receive Address</td>
-                          <td>{orderdata.order.receiveAddr}</td>
-                      </tr>
-                      <tr>
-                          <td>Order Status</td>
-                          <td>{orderdata.order.status}</td>
-                      </tr>
-                      <tr>
-                          <td>Payment Status</td>
-                          <td>{orderdata.order.paymentStatus}</td>
-                      </tr>
-                  </table>
-                  <LoginModal ref="logwin"/>
+                  {ordertable}
+                 <LoginModal ref="logwin"/>
+                 
                 </div>
             )
         }

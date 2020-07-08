@@ -95,7 +95,7 @@ export default class MyAccount extends React.Component<any,any> {
     }
 
     getpayment(status:number):string{
-        if(status == 1) return "not yet paid";
+        if(status == 0) return "not yet paid";
         else return "already paid";
     }
 
