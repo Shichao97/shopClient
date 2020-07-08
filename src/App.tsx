@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component , useRef } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types';
@@ -39,9 +39,10 @@ const Home = () => (
 class App extends Component<any,any> {
   constructor(props:any){
     super(props);
+    
   }
 
-
+  //msgwin = React.createRef();
 
   checkHash(){
     var str: string = window.location.hash;
@@ -85,12 +86,12 @@ class App extends Component<any,any> {
       win.msgwin = this.refs.msgwin;
   }
 
-
+  
   
 
   render() {
     //this.checkHash();
-
+    //const msgwin:any = useRef();
     var query = {
       pathname: '/query',
       query: '我是通过query传值 '
