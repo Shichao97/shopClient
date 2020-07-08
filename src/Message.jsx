@@ -137,9 +137,9 @@ class Messgae extends React.Component {
     messageListClicked(){
         var sta = {
             pathname: '/chatMemberList',
-            state: {mesComp:this}//'我是通过state传值'
+            state: {mesState:this.state}//'我是通过state传值'
         }
-        this.props.history.push("/");
+        this.props.history.push(sta);
     }
 
     render() {
