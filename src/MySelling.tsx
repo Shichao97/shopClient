@@ -104,7 +104,7 @@ export default class MySelling extends React.Component<any,any> {
         })
           
       }
-    handleSearch(){
+    handleSearch1(){
         let _this: MySelling = this;
         let uid:string = _this.state.uid;
         console.log(uid + "handle");
@@ -117,22 +117,44 @@ export default class MySelling extends React.Component<any,any> {
         _this.loadData();
     }
 
-    handleSelect1 = (event:any) =>  {
-        this.setState({searchType1:event.target.value});
+    handleSearch2(){
+        let _this: MySelling = this;
+        let uid:string = _this.state.uid;
+        console.log(uid + "handle");
+        let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
+        let plusnew:string = "&pageSize=2";//没写 sortby
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
+      
+        _this.state={url:searchUrl};
+        _this.setState({url:searchUrl});
+        _this.loadData();
     }
-    handleSelect2 = (event:any) =>  {
-        this.setState({searchType2:event.target.value});
-    }
-    handleChange = (event:any) =>  {
-        
-        switch(event.target.name){
-          case "searchValue":
-            this.setState({searchValue: event.target.value});
-            break;
-         
-        }
-      }
-     
+
+    handleSearch3(){
+      let _this: MySelling = this;
+      let uid:string = _this.state.uid;
+      console.log(uid + "handle");
+      let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
+      let plusnew:string = "&pageSize=2";//没写 sortby
+      let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
+    
+      _this.state={url:searchUrl};
+      _this.setState({url:searchUrl});
+      _this.loadData();
+  }
+    
+  handleSearch4(){
+    let _this: MySelling = this;
+    let uid:string = _this.state.uid;
+    console.log(uid + "handle");
+    let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
+    let plusnew:string = "&pageSize=2";//没写 sortby
+    let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
+  
+    _this.state={url:searchUrl};
+    _this.setState({url:searchUrl});
+    _this.loadData();
+}
     sellingMethod(m:number):string{
       //let re:string = "";
       let re1= ((m & 1) == 1) ? "shipping":"";
@@ -196,23 +218,16 @@ export default class MySelling extends React.Component<any,any> {
       //console.log("render: "+_this.state.uid);
       let uid:string = _this.state.uid;
       console.log(uid); 
-      let forms =                 
-      <form id="searchForm">
-      * choose goods status:
-      <select name="searchType1" value={_this.state.searchType1} onChange={_this.handleSelect1} id="dropdown1">
-          <option value="1">selling now</option>
-          <option value="-1">sold out</option>
-          <option value="0">remove off the shelves</option>
-      </select> <br/>
-      * choose to search by:
-      <select name="searchType2" value={_this.state.searchType2} onChange={_this.handleSelect2} id="dropdown2">
-          <option value="name">goods name</option>
-          <option value="desc">description</option>
-      </select><br/>
-      <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
-      <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
-      <LoginModal ref="logwin"/>
-  </form>
+      let forms =   
+      <div>
+
+          <input type="button" value="selling now" onClick={() => this.handleSearch1()}></input>&nbsp;&nbsp;
+          <input type="button" value="on the way" onClick={() => this.handleSearch2()}></input> &nbsp;&nbsp;
+          <input type="button" value="already sold out" onClick={() => this.handleSearch3()}></input> &nbsp;&nbsp;
+          <input type="button" value="removed off from shelf" onClick={() => this.handleSearch4()}></input>
+      </div>
+      
+     
       if(_this.state.flag != 1){
         return forms;
       }
