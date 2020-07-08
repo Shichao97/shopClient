@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import jquery from "jquery";
 import { Button, Row, Col } from 'antd'
 import { SmileOutlined } from '@ant-design/icons';
+import MessagePanel from './MessagePanel';
 //import { stringify } from 'querystring';
 const $ = jquery;
 
@@ -192,18 +193,10 @@ const $ = jquery;
             <SmileOutlined  type="cross" className='group_head_close' onClick={this.handleCancel} />
             <img src={memberImgSrc}/> {this.state.toName}
             </div>                  
-            <div className='demo' id="msgdiv">
-                {
-                    this.state.msgs.map(function (m) {
-                        return <span>{m.data}<p></p></span>
-                    })
 
-                }
+              <MessagePanel/>
 
             </div>
-            <input type="text" id="msgtext" name="test"/>
-            <input type="button" value="send" onClick={() => this.sendout()} />       
-              </div>
           </Modal>
       </div>
     );

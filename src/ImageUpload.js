@@ -41,7 +41,7 @@ export default class ImageUpload extends React.Component {
             })
         }
         <div  className="upimgs">
-        <a class="file">+图片
+        <a className="file">+图片
 	    <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
         </a>
         </div> 
