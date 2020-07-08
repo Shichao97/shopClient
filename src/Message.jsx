@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import ChatMemberList from './ChatMemberList';
 import { createHashHistory } from 'history'
 import { Button, Row, Col } from 'antd'
@@ -16,9 +16,36 @@ class Messgae extends React.Component {
         this.taskRemindInterval = null;
     }
 
+    checkHash(){
+        var str = window.location.hash;
+        //console.log("Hash changed to: "+str.substr(0,3));
+        //startsWith()函数 IE浏览器不支持，所以改为 substr
+        if(str.substr(0,1) == "_"){
+          window.checkLogin();
+        }
+    }
 
+    componentWillReceiveProps(nextProps){
+        var str = nextProps.location.pathname;
+        //console.log("Hash changed to: "+str.substr(0,3));
+        //startsWith()函数 IE浏览器不支持，所以改为 substr
+        if(str != undefined && str.substr(0,2) == "/_"){
+            let obj = new Object();
+            obj.id = window.getCookie("userId");
+            obj.username = window.getCookie("username");
+            //console.log("Hi! "+uid);
+            if(obj.id == ""){
+                this.props.history.push( "/login" );
+            }    
+               
+        }
+    }
+    
     componentDidMount() {
-
+        // let _this = this;
+        // this.props.history.listen(() => {
+        //   _this.checkHash();
+        // })   
         setTimeout(this.iTimer,0);
     }
 
@@ -112,7 +139,7 @@ class Messgae extends React.Component {
             pathname: '/chatMemberList',
             state: {mesComp:this}//'我是通过state传值'
         }
-        this.props.history.push(sta);
+        this.props.history.push("/");
     }
 
     render() {
@@ -137,17 +164,11 @@ class Messgae extends React.Component {
             return (
                 
             <div>
-                <Router>
-                
-                <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
-
-                </Router>
-                
+                    <Button key="back" type="text" size="large" onClick={()=>this.props.history.push("/login")}>Login</Button>
             </div>
             )
         }
     }
-
 
 
 

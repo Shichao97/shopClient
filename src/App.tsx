@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { HashRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
+import PropTypes from 'prop-types';
 import './App.css';
 import WebChatTest from './WebChatTest';
 import Demo from './Demo';
@@ -33,7 +35,13 @@ const Home = () => (
 
 
 
-class App extends Component {
+class App extends Component<any,any> {
+  constructor(props:any){
+    super(props);
+  }
+
+
+
   checkHash(){
     var str: string = window.location.hash;
     //console.log("Hash changed to: "+str.substr(0,3));
@@ -43,9 +51,24 @@ class App extends Component {
       win.checkLogin();
     }
   }
-  
+
+  staticcontextTypes={
+    router:PropTypes.shape({
+    history:PropTypes.shape({
+    push:PropTypes.func.isRequired,
+    replace:PropTypes.func.isRequired,
+    createHref:PropTypes.func.isRequired
+    }).isRequired
+    }).isRequired
+  }  
+
+
   componentDidMount() {
-    onhashchange=this.checkHash
+    //onhashchange=this.checkHash
+    //let pathname: any;
+    // this.context.router.history.listen(()=>{
+    //   this.checkHash();
+    // })
 
     $.ajax({
       type:"GET",
@@ -65,6 +88,8 @@ class App extends Component {
   
 
   render() {
+    //this.checkHash();
+
     var query = {
       pathname: '/query',
       query: '我是通过query传值 '
