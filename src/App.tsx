@@ -17,6 +17,7 @@ import EditSellGoods from './EditSellGoods';
 import ShowGoodsInfo from './ShowGoodsInfo';
 import PlaceOrder from './PlaceOrder';
 import MyAccount from './MyAccount';
+import MySelling from './MySelling';
 import ShowOrderInfo from './ShowOrderInfo';
 import MessageModal from './MessageModal';
 import ChatMemberList from './ChatMemberList';
@@ -117,6 +118,7 @@ class App extends Component<any,any> {
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/chat">Chat Test</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
          
           <hr/>
           <Route path="/" exact component={Home}></Route>
@@ -135,6 +137,7 @@ class App extends Component<any,any> {
           <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
           <Route path="/placeOrder" component={PlaceOrder}></Route>
           <Route path="/_myAccount" component={MyAccount}></Route>
+          <Route path="/_mySelling" component={MySelling}></Route>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
         </div>

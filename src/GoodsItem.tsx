@@ -19,7 +19,7 @@ export default class GoodsItem extends React.Component<any,any> {
         let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+this.props.data.g.id;
         //let linkto:string = "/showgoodsinfo/"+this.props.data.id;
         let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.props.data.g.sellerId+"&size=1"+"&refresh=";
-        return (
+        return(
             <Link to={sta} >
                 <div>
                     <img width="240px" height="240px" src={imgSrc}/>
