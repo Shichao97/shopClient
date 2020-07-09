@@ -223,6 +223,8 @@ export default class MySelling extends React.Component<any,any> {
       let uid:string = _this.state.uid;
       console.log(uid); 
       let col:number = 2; //显示商品列数
+      var win:any = window;
+      let un:string = win.getCookie("username");
       let forms =   
       <div>
 
@@ -252,7 +254,7 @@ export default class MySelling extends React.Component<any,any> {
                         return <tr className='tr1'>
                           {arry.map((element2:any,index2:number) =>{
                             if(index2>=nstart && index2<=index)
-                             return <td className='td1'><GoodsItem data={element2}/></td>
+                             return <td className='td1'><GoodsItem data={{g:element2,m:{id:uid,userName:un}}}/></td>
                           })}
 
                           </tr>
