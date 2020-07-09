@@ -5,9 +5,12 @@ import ChatMemberList from './ChatMemberList';
 import { createHashHistory } from 'history'
 import { Button, Row, Col } from 'antd'
 import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
+import jquery from "jquery";
+const $ = jquery;
+
 
 var ws;
-
+var timerNum = 0;
 
 class Messgae extends React.Component {
     constructor(props) {
@@ -55,22 +58,50 @@ class Messgae extends React.Component {
         clearInterval(this.timer);
     }
 
+    refreshNewMsg(uid){
+        let _this = this;
+        let url = window.localStorage.getItem("host_pre")+"msg/getNewMsgCount?toId="+uid;
+        $.ajax({
+            type:"GET",
+            // crossDomain: true, 
+            // xhrFields: {
+            //     withCredentials: true 
+            // },
+            url:url,
+            dataType:"json",
+            success:function(data){
+                _this.setState({newNum: data});
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                
+            }
+          })
+    }
+
     iTimer = () => {
+        let _this = this;
         this.timer = setInterval(() => {
-            //var win = window;
+            timerNum++;
+
+
             let uid = window.getCookie("userId");
             let username = window.getCookie("username");
             if(uid != undefined && uid.length>0){
+                if(timerNum % 5==0){
+                    //_this.refreshNewMsg(uid);
+                }
+                    
                 if(ws == undefined){
                     let wsUrl = window.localStorage.getItem("wshost_pre")+'myHandler';
-                    this.connectWithWS(wsUrl);
-                    this.setState({});
+                    _this.connectWithWS(wsUrl);
+                    _this.setState({});
                 }
             }
             else if(ws != undefined){
                 ws.close();
                 ws = undefined;
-                this.setState({});
+                _this.setState({});
             }
             
         }, 1000);
@@ -98,20 +129,20 @@ class Messgae extends React.Component {
             var winWs = window.ws;
 
             result += msgJson.MsgBody + '\n';
-            if (msgJson.flag == "login") {//多设备在线的异常发生时;
+            if (msgJson.flag == "login") {
                 this.setState({});
             } 
-            else if (msgJson.flag == "logout") {//用户退出系统的时候;
+            else if (msgJson.flag == "logout") {
                 ws.close();
                 this.setState({});
             }
-            else if (msgJson.flag == "msg_new") {//用户退出系统的时候;
+            else if (msgJson.flag == "msg_new") {
                 this.state.chatMembersArr.push(msgJson);
                 var fromId = msgJson.fromId;
                 this.state.chatMembers[fromId] = msgJson;
                 this.setState({});
             }
-            else if (msgJson.flag == "msg") {//用户退出系统的时候;
+            else if (msgJson.flag == "msg") {
                 var fromId = msgJson.fromId;
 
                 this.state.chatMembers[fromId].count++;

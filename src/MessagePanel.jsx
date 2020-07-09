@@ -18,153 +18,100 @@ const $ = jquery;
         this.state = {msgs:[]}
     }
 
-    componentDidMount(){
-      var ws = window.ws;
+    init(toId,toName){
+      let ws = window.ws;
+      this.state.toId = toId;
+      this.state.toName = toName;
+      let uid = window.getCookie("userId");
+      ws.send(JSON.stringify({ flag: "msg_init",toId: uid}));
+      let result = "";
+      ws.onmessage = (msg) => {
+        console.log('MessagePanel: ', msg);
+        var msgJson = JSON.parse(msg.data);
+        var winWs = window.ws;
+
+        result += msgJson.MsgBody + '\n';
+        if(msgJson.flag == "msg_init") {//MainPanel init
+            if(msgJson.fromId == this.state.fromId){
+                this.state.msgs.push(msgJson);
+                this.setState({});
+            }
+        }
+        else if (msgJson.flag == "msg") {
+            if(msgJson.fromId == this.state.fromId){
+                this.state.msgs.push(msgJson);
+                this.setState({});
+            }
+        }
+
+      };
+      document.addEventListener('keypress', this.handleKeyDown);
+
+    }
+    
+    
+
+    handleKeyDown = (event) => {
+        if (event.keyCode == 13) {
+            this.sendout();
+        }
     }
 
+    sendout() {
+        let ws = window.ws;
+        let uid = window.getCookie("userId");
+        if(this.toId !== undefined){
+            var s = document.getElementById("panel_text").value;
+            ws.send(JSON.stringify({ flag: 'msg', content: s ,fromId:uid, toId: this.state.toId}));
+            document.getElementById("msgtext").value = ""
+        }
+    }
 
+    scrollbottom() {
+        var ele = document.getElementById('panel_div');
+        ele.scrollTop = ele.scrollHeight;
+    }
+
+    componentDidUpdate() {
+        this.scrollbottom();
+    }
     render(){
-
-    return (
-      <div>
-            <div className='chat_panel' id="msgdiv">
+        let uid = window.getCookie("userId");
+        return (
+        <div>
+            <div className='chat_panel' id="panel_div">
                 {
-                    this.state.msgs.map(function (m) {
-                        return <span>{m.data}<p></p></span>
+                    this.state.msgs.map((element,index) => {
+                        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=0";
+
+                        if(element.fromId==uid){
+                            return <p className="rightd">
+                                <span className="rightd_h">
+                                    <img src={memberImgSrc} />
+                                </span>
+                                <p className="speech right"> 
+                                    {element.content}
+                                </p>
+                            </p>
+                        }
+                        else{
+                            return <p className="leftd"> 
+                                <span className="leftd_h">                           
+                                    <img src={memberImgSrc} />                            
+                                </span>                           
+                                <p className="speech left">                             
+                                    {element.content}                         
+                                </p>                           
+                           </p>
+                        }
                     })
                     
                 }
-<p className="leftd">
- 
- <span className="leftd_h">
 
-     <img src="./img/c_pic.pn" />
-
- </span>
-
- <p className="speech left"> 
-
-     二货，你看你傻样！
-
- </p>
-
-</p>
-
-<p className="rightd">
-
- <span className="rightd_h">
-
-     <img src="./img/u_pic.pn" />
-
- </span>
-
- <p className="speech right"> 
-
-     嘻嘻嘻嘻。。。。。。
-
- </p>
-
-</p>
-
-<p className="leftd">
-
- <span className="leftd_h">
-
-     <img src="./img/c_pic.pn" />
-
- </span>
-
- <p className="speech left"> 
-
-     笑什么笑，没看到本宝宝今天变漂亮了吗？
-
- </p>
-
-</p>
-
-<p className="rightd">
-
- <span className="rightd_h">
-
-     <img src="./img/u_pic.pn" />
-
- </span>
-
- <p className="speech right"> 
-
-      不不不，每天你都很漂亮的啦！
-
- </p>
-
-</p>
-
-<p className="leftd">
- 
- <span className="leftd_h">
-
-     <img src="./img/c_pic.pn" />
-
- </span>
-
- <p className="speech left"> 
-
-     二货，你看你傻样！
-
- </p>
-
-</p>
-
-<p className="rightd">
-
- <span className="rightd_h">
-
-     <img src="./img/u_pic.pn" />
-
- </span>
-
- <p className="speech right"> 
-
-     嘻嘻嘻嘻。。。。。。
-
- </p>
-
-</p>
-
-<p className="leftd">
-
- <span className="leftd_h">
-
-     <img src="./img/c_pic.pn" />
-
- </span>
-
- <p className="speech left"> 
-
-     笑什么笑，没看到本宝宝今天变漂亮了吗？
-
- </p>
-
-</p>
-
-<p className="rightd">
-
- <span className="rightd_h">
-
-     <img src="./img/u_pic.pn" />
-
- </span>
-
- <p className="speech right"> 
-
-      不不不，每天你都很漂亮的啦！
-
- </p>
-
-</p>
      
         </div>
         <div className='chat_center'>
-            <input type="text" id="msgtext" name="test" className="chat_input"/>
+            <input type="text" id="panel_text" name="test" className="chat_input"/>
             <input type="button" value="Send" onClick={() => this.sendout()} />       
             </div>      
       </div>

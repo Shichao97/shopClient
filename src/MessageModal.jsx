@@ -159,10 +159,13 @@ const $ = jquery;
     
       }
 
-
+      init(){
+        
+      }
 
     componentDidMount(){
-      var ws = window.ws;
+      if(this.state.toId !== undefined)
+      this.refs.msgPanel.init(this.state.toId,this.state.toName);
     }
 
 
@@ -194,7 +197,7 @@ const $ = jquery;
             <img src={memberImgSrc}/> {this.state.toName}
             </div>                  
 
-              <MessagePanel/>
+              <MessagePanel ref="msgPanel"/>
 
             </div>
           </Modal>
