@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './SearchGoods.css';
+import GoodsItem from './GoodsItem';
 import jquery from "jquery";
-import './MyAccount.css';
 import LoginModal from './LoginModal';
 const $ = jquery;
 
@@ -11,9 +12,6 @@ export default class MySelling extends React.Component<any,any> {
         super(props);
         this.state = {
           uid:"",
-          searchType1:0,
-          searchType2:"",
-          searchValue:"",
           url:"",
           page:{"content":[]},
           gotoPage:1,
@@ -107,10 +105,8 @@ export default class MySelling extends React.Component<any,any> {
     handleSearch1(){
         let _this: MySelling = this;
         let uid:string = _this.state.uid;
-        console.log(uid + "handle");
-        let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
-        let plusnew:string = "&pageSize=2";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
+        let plus:string = "&searchType=1&pageSize=2";//没写 sortby
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?sellerId=" + uid + plus;
       
         _this.state={url:searchUrl};
         _this.setState({url:searchUrl});
@@ -118,42 +114,36 @@ export default class MySelling extends React.Component<any,any> {
     }
 
     handleSearch2(){
-        let _this: MySelling = this;
-        let uid:string = _this.state.uid;
-        console.log(uid + "handle");
-        let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
-        let plusnew:string = "&pageSize=2";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
-      
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
-    }
-
-    handleSearch3(){
       let _this: MySelling = this;
       let uid:string = _this.state.uid;
-      console.log(uid + "handle");
-      let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
-      let plusnew:string = "&pageSize=2";//没写 sortby
-      let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
+      let plus:string = "&searchType=2&pageSize=2";//没写 sortby
+      let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?sellerId=" + uid + plus;
     
       _this.state={url:searchUrl};
       _this.setState({url:searchUrl});
       _this.loadData();
+    }
+
+    handleSearch3(){
+      let _this: MySelling = this;
+        let uid:string = _this.state.uid;
+        let plus:string = "&searchType=3&pageSize=2";//没写 sortby
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?sellerId=" + uid + plus;
+      
+        _this.state={url:searchUrl};
+        _this.setState({url:searchUrl});
+        _this.loadData();
   }
     
   handleSearch4(){
     let _this: MySelling = this;
-    let uid:string = _this.state.uid;
-    console.log(uid + "handle");
-    let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
-    let plusnew:string = "&pageSize=2";//没写 sortby
-    let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
-  
-    _this.state={url:searchUrl};
-    _this.setState({url:searchUrl});
-    _this.loadData();
+        let uid:string = _this.state.uid;
+        let plus:string = "&searchType=4&pageSize=2";//没写 sortby
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?sellerId=" + uid + plus;
+      
+        _this.state={url:searchUrl};
+        _this.setState({url:searchUrl});
+        _this.loadData();
 }
     sellingMethod(m:number):string{
       //let re:string = "";
@@ -210,6 +200,20 @@ export default class MySelling extends React.Component<any,any> {
       let pn:number = this.state.gotoPage;
       this.loadData(pn-1);
     }
+
+    handleChange = (event:any) =>  {
+        
+      switch(event.target.name){
+        case "gotoPage":
+          let page:any = this.state.page;
+          let totalPages = page.totalPages;
+          if(event.target.value >= 1 && event.target.value <=totalPages){
+              this.setState({gotoPage: event.target.value});
+          }
+          break;
+       
+      }
+    }
     
     render(){
       let _this: MySelling = this;
@@ -218,6 +222,7 @@ export default class MySelling extends React.Component<any,any> {
       //console.log("render: "+_this.state.uid);
       let uid:string = _this.state.uid;
       console.log(uid); 
+      let col:number = 2; //显示商品列数
       let forms =   
       <div>
 
@@ -225,6 +230,7 @@ export default class MySelling extends React.Component<any,any> {
           <input type="button" value="on the way" onClick={() => this.handleSearch2()}></input> &nbsp;&nbsp;
           <input type="button" value="already sold out" onClick={() => this.handleSearch3()}></input> &nbsp;&nbsp;
           <input type="button" value="removed off from shelf" onClick={() => this.handleSearch4()}></input>
+          <LoginModal ref="logwin"/>
       </div>
       
      
@@ -234,58 +240,36 @@ export default class MySelling extends React.Component<any,any> {
       else{
         return(
           
-            <div>
-              {forms}
-                <table>
-                  <thead>
-                    <tr>
-                      <th>goods name</th>
-                      <th>type</th>
-                      <th>description</th>
-                      <th>location</th>
-                      <th>price</th>
-                      <th>selling method</th>
-                      <th>goods status</th>
-                      <th>goods image</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {arry.map((element:any) =>{
-                      let s:string = ""+element.id;
-                      //let s:string = "?id="+id;
-                      let sm:string = this.sellingMethod(element.sellingMethod);
-                      let fullTypeName:string = this.getTypes(element.typeCode);
-                      let statusName:string = this.getStatus(element.status);
-                      let imgSrc:string = this.getImgSrc(s);
-                      let link:string ="/editsellgoods/" +s;
-                      return(
-                        <tr>
-                          
-                          <td><Link to={link} >{element.name}</Link></td>
-                          <td>{fullTypeName}</td>
-                          <td>{element.description}</td>
-                          <td>{element.location}</td>
-                          <td>{element.price}</td>
-                          <td>{sm}</td>
-                          <td>{statusName}</td>
-                          <td><img src={imgSrc}/></td>
-                        </tr>
-                      )
-                      
+          <div>
+          {forms}
+            <table className="goods-table">
+              <tbody> 
+                {arry.map((element:any,index:number) =>{
+                    let isRowEnd:boolean = (index%col == col-1);
+                    let isLast:boolean = index==arry.length-1;
+                    if(isRowEnd || isLast){
+                      let nstart:number = Math.floor(index/col)*col;
+                        return <tr className='tr1'>
+                          {arry.map((element2:any,index2:number) =>{
+                            if(index2>=nstart && index2<=index)
+                             return <td className='td1'><GoodsItem data={element2}/></td>
+                          })}
+
+                          </tr>
                     }
+                })}
+                
+                </tbody>   
+            </table>
+            <br/><br/>
 
-                    )}
-                  </tbody>
-                </table>
-                <br/><br/>
+            <input type="button" value="previous page" onClick={() => _this.handlePreviousPage()}/>
+            <input type="button" value="next page" onClick={() => _this.handleNextPage()}/><br />  <br />
 
-                <input type="button" value="previous page" onClick={() => _this.handlePreviousPage()}/>
-                <input type="button" value="next page" onClick={() => _this.handleNextPage()}/><br />  <br />
-
-                <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={_this.handleChange}/>
-                <input type="button" value="Go" onClick={() => _this.handleGoto()}/><br />  <br />
-        
-            </div>
+            <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={_this.handleChange}/>
+            <input type="button" value="Go" onClick={() => _this.handleGoto()}/><br />  <br />
+    
+        </div>
         )
       }
     }
