@@ -241,7 +241,7 @@ export default class MySelling extends React.Component<any,any> {
       }
       else{
         return(
-          
+        
           <div>
           {forms}
             <table className="goods-table">
