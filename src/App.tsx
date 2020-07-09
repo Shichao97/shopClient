@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import './App.css';
-import WebChatTest from './WebChatTest';
+//import WebChatTest from './WebChatTest';
 import Demo from './Demo';
 import Login from './Login';
 import AddGoods from './AddGoods';
@@ -116,7 +116,7 @@ class App extends Component<any,any> {
           <Link to="/_addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/chat">Chat Test</Link>&nbsp;&nbsp;&nbsp;
+
           <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
          
@@ -131,7 +131,7 @@ class App extends Component<any,any> {
           <Route path="/login" component={Login}></Route>
 
           <Route path="/_searchsell" component={SearchSellGoods}></Route>
-          <Route path="/chat" component={WebChatTest}></Route>
+
           <Route path="/searchGoods" component={SearchGoods}></Route>
           <Route path="/editsellgoods/:gid" component={EditSellGoods}></Route>
           <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
