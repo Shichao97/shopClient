@@ -18,7 +18,9 @@ class ChatMemberList extends React.Component {
     componentDidMount() {
     }
 
- 
+    memberClicked(element,index){
+
+    }
 
     render() {
         var win = window;
@@ -29,38 +31,16 @@ class ChatMemberList extends React.Component {
         <div className='chat_body'>
             username
         <div className='chat_left'>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <Row>444</Row>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-        <li>444</li>
-            {this.state.mesState.chatMembersArr.map((element,index) =>{
-                return element.fromName
+        {this.state.mesState.chatMembersArr.map((element,index) =>{
+                let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=0";
+
+                return <Row><img src={memberImgSrc}/>
+                <Button key="back" type="text" size="large" onClick={()=>this.memberClicked(element,index)}>
+                    {element.fromName}</Button></Row>
             })}
+
+
+            
         </div>
         <div className='chat_right'>
         <MessagePanel/>
