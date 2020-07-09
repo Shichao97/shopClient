@@ -18,12 +18,11 @@ const $ = jquery;
         this.state = {msgs:[]}
     }
 
-    init(toId,toName){
+    initMsg(toId,toName){
       let ws = window.ws;
-      this.state.toId = toId;
-      this.state.toName = toName;
+      this.setState({toId:toId,toName:toName});
       let uid = window.getCookie("userId");
-      ws.send(JSON.stringify({ flag: "msg_init",toId: uid}));
+      ws.send(JSON.stringify({ flag: "msg_init",toId: toId}));
       let result = "";
       ws.onmessage = (msg) => {
         console.log('MessagePanel: ', msg);
@@ -32,13 +31,13 @@ const $ = jquery;
 
         result += msgJson.MsgBody + '\n';
         if(msgJson.flag == "msg_init") {//MainPanel init
-            if(msgJson.fromId == this.state.fromId){
+            if(msgJson.fromId == uid || msgJson.toId == uid){
                 this.state.msgs.push(msgJson);
                 this.setState({});
             }
         }
         else if (msgJson.flag == "msg") {
-            if(msgJson.fromId == this.state.fromId){
+            if(msgJson.fromId == uid || msgJson.toId == uid){
                 this.state.msgs.push(msgJson);
                 this.setState({});
             }
@@ -60,10 +59,10 @@ const $ = jquery;
     sendout() {
         let ws = window.ws;
         let uid = window.getCookie("userId");
-        if(this.toId !== undefined){
+        if(this.state.toId !== undefined){
             var s = document.getElementById("panel_text").value;
-            ws.send(JSON.stringify({ flag: 'msg', content: s ,fromId:uid, toId: this.state.toId}));
-            document.getElementById("msgtext").value = ""
+            ws.send(JSON.stringify({ flag: 'msg', content: s , toId: this.state.toId}));
+            document.getElementById("panel_text").value = ""
         }
     }
 

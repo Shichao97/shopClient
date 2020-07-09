@@ -159,14 +159,23 @@ const $ = jquery;
     
       }
 
-      init(){
-        
-      }
+      handleAfterOpenFunc = () => {
 
-    componentDidMount(){
-      if(this.state.toId !== undefined)
-      this.refs.msgPanel.init(this.state.toId,this.state.toName);
-    }
+        console.log('open~'+this.state.toId)
+        this.refs.msgPanel.state = {toId:this.state.toId,toName:this.state.toName,msgs:[]};
+        this.refs.msgPanel.initMsg(this.state.toId,this.state.toName);
+      }      
+
+    // handleOk(){
+    //   this.refs.msgPanel.setState({toId:this.state.toId,toName:this.state.toName});
+    //   this.refs.msgPanel.initMsg(this.state.toId,this.state.toName);
+    // }
+
+    // componentDidMount(){
+    //   if(this.state.toId !== undefined){
+    //     this.refs.msgPanel.init(this.state.toId,this.state.toName);
+    //   }
+    // }
 
 
     render(){
@@ -175,7 +184,9 @@ const $ = jquery;
 
     return (
       <div>
-          <Modal className="demo234"  isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:false})}>
+          <Modal className="demo234"  isOpen={this.state.modalIsOpen} 
+          onRequestClose={() => this.setState({modalIsOpen:false})} 
+          onAfterOpen={this.handleAfterOpenFunc}>
           <div
           className='group'
 

@@ -138,8 +138,8 @@ class Messgae extends React.Component {
             }
             else if (msgJson.flag == "msg_new") {
                 this.state.chatMembersArr.push(msgJson);
-                var fromId = msgJson.fromId;
-                this.state.chatMembers[fromId] = msgJson;
+                var otherId = msgJson.otherId;
+                this.state.chatMembers[otherId] = msgJson;
                 this.setState({});
             }
             else if (msgJson.flag == "msg") {

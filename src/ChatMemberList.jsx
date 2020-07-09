@@ -44,7 +44,7 @@ class ChatMemberList extends React.Component {
 
     memberClicked(element,index){
         this.setState({toId:element.otherId,toName:element.otherName});
-        this.refs.msgPanel.init(element.otherId,element.otherName);
+        this.refs.msgPanel.initMsg(element.otherId,element.otherName);
     }
 
     render() {
@@ -64,7 +64,7 @@ class ChatMemberList extends React.Component {
 
                 return <Row><img src={memberImgSrc}/>
                 <Button key="back" type="text" size="large" onClick={()=>this.memberClicked(element,index)}>
-                    {element.fromName}</Button></Row>
+                    {element.otherName}</Button></Row>
             })}
 
 

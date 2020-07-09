@@ -207,7 +207,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         else{
             let popwin: any = win.msgwin;
             popwin.setState({modalIsOpen:true,toId:this.state.seller.id,toName:this.state.seller.userName});
-            popwin.init();
+            //popwin.init();
         }
     }
 
