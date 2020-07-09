@@ -19,6 +19,7 @@ export default class GoodsItem extends React.Component<any,any> {
         let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+this.props.data.g.id;
         //let linkto:string = "/showgoodsinfo/"+this.props.data.id;
         let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.props.data.g.sellerId+"&size=1"+"&refresh=";
+        let school = this.props.data.m.schoolCode == undefined?"":"("+this.props.data.m.schoolCode+")";
         return(
             <Link to={sta} >
                 <div>
@@ -26,7 +27,7 @@ export default class GoodsItem extends React.Component<any,any> {
                     <br />
                     <div className='goods-title'>{this.props.data.g.name}</div> <br/>
                     <span className='price'>${this.props.data.g.price} </span>
-                    <span ><img src={memberImgSrc}/> {this.props.data.m.userName} ({this.props.data.m.schoolCode})</span>
+                    <span ><img src={memberImgSrc}/> {this.props.data.m.userName} {school}</span>
                 </div>
             </Link>
         )
