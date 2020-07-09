@@ -168,7 +168,7 @@ const $ = jquery;
 
     render(){
         let { pageX, pageY, diffX, diffY } = this.state
-        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=1"+"&refresh=";
+        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=0";
 
     return (
       <div>
