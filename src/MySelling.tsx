@@ -238,6 +238,7 @@ export default class MySelling extends React.Component<any,any> {
      
       if(_this.state.flag != 1){
         return forms;
+        
       }
       else{
         return(
