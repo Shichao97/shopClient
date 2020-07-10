@@ -21,6 +21,7 @@ import MySelling from './MySelling';
 import ShowOrderInfo from './ShowOrderInfo';
 import MessageModal from './MessageModal';
 import ChatMemberList from './ChatMemberList';
+import RegistrationForm from './test2';
 const $ = jquery;
 
 
@@ -116,7 +117,7 @@ class App extends Component<any,any> {
           <Link to="/_addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
-
+          <Link to="/test2">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
          
@@ -129,6 +130,7 @@ class App extends Component<any,any> {
           <Route path="/_editIcon" component={EditIcon}></Route>
           <Route path="/_addgoods" component={AddGoods}></Route>
           <Route path="/login" component={Login}></Route>
+          <Route path="/test2" component={RegistrationForm}></Route>
 
           <Route path="/_searchsell" component={SearchSellGoods}></Route>
 

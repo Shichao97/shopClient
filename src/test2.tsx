@@ -102,6 +102,7 @@ const RegistrationForm = () => {
     }
   };
 
+  
   const websiteOptions = autoCompleteResult.map(website => ({
     label: website,
     value: website,
@@ -253,5 +254,5 @@ const RegistrationForm = () => {
     </Form>
   );
 };
-
-ReactDOM.render(<RegistrationForm />, document.getElementById('app'));
+export default RegistrationForm;
+//ReactDOM.render(<RegistrationForm />, document.getElementById('app'));
