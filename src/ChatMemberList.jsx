@@ -17,29 +17,18 @@ class ChatMemberList extends React.Component {
 
     componentWillMount() {
         let ws = window.ws;
+        if(ws === undefined){
+            this.props.history.push("/");
+            return;
+        }
         let uid = window.getCookie("userId");
         ws.send(JSON.stringify({ flag: "msg_init",toId: uid}));
         let result = "";
-        ws.onmessage = (msg) => {
-          console.log('MessagePanel: ', msg);
-          var msgJson = JSON.parse(msg.data);
-          var winWs = window.ws;
+        ws.addEventListener('message', (msg) => {
+          console.log('MessageList: ', msg);
+          this.setState({});
   
-          result += msgJson.MsgBody + '\n';
-          if(msgJson.flag == "msg_init") {//MainPanel init
-              if(msgJson.fromId == this.state.fromId){
-                  this.state.msgs.push(msgJson);
-                  this.setState({});
-              }
-          }
-          else if (msgJson.flag == "msg") {
-              if(msgJson.fromId == this.state.fromId){
-                  this.state.msgs.push(msgJson);
-                  this.setState({});
-              }
-          }
-  
-        };
+        });
     }
 
     memberClicked(element,index){
@@ -52,7 +41,10 @@ class ChatMemberList extends React.Component {
         let uid = win.getCookie("userId");
         let username = win.getCookie("username");
         let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=0";
-        let title = this.state.toId == undefined?<div></div>:<div><img src={memberImgSrc}/> {this.state.toName}</div>
+        let title = this.state.toId == undefined?<div>Select chat member</div>:<div>
+            <img src={memberImgSrc}/> 
+            {this.state.toName}
+            </div>
         
         return <div>
         
@@ -64,7 +56,7 @@ class ChatMemberList extends React.Component {
 
                 return <Row><Col><img src={memberImgSrc}/></Col>
                 <Col><Button key="back" type="text" size="large" onClick={()=>this.memberClicked(element,index)}>
-                    {element.otherName}</Button></Col></Row>
+                    {element.otherName} <sup><font color="red" size="3">{element.count==0?"":""+element.count}</font></sup></Button></Col></Row>
             })}
 
 

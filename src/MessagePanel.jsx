@@ -19,12 +19,17 @@ const $ = jquery;
     }
 
     initMsg(toId,toName){
-      let ws = window.ws;
+      if(this.state.toId === toId) return;
+      this.state.msgs=[];
       this.setState({toId:toId,toName:toName});
       let uid = window.getCookie("userId");
+      let ws = window.ws;
       ws.send(JSON.stringify({ flag: "msg_init",toId: toId}));
       let result = "";
-      ws.onmessage = (msg) => {
+      document.addEventListener('keypress', this.handleKeyDown);
+      if(this.state.toId !== undefined) return;
+      //ws.onmessage = (msg) => {
+      ws.addEventListener('message', (msg) => {
         console.log('MessagePanel: ', msg);
         var msgJson = JSON.parse(msg.data);
         var winWs = window.ws;
@@ -36,15 +41,23 @@ const $ = jquery;
                 this.setState({});
             }
         }
+        if(msgJson.flag == "msg_inited") {//MainPanel init ended
+            //TODO enable send commond
+            ws.send(JSON.stringify({ flag: "msg_readAll",otherId: this.state.toId}));
+            this.setState({});
+        }
         else if (msgJson.flag == "msg") {
             if(msgJson.fromId == uid || msgJson.toId == uid){
                 this.state.msgs.push(msgJson);
+                if(msgJson.toId == uid){
+                    ws.send(JSON.stringify({ flag: "msg_read",otherId: this.state.toId}));
+                }
                 this.setState({});
             }
         }
 
-      };
-      document.addEventListener('keypress', this.handleKeyDown);
+      });
+      
 
     }
     
@@ -61,8 +74,13 @@ const $ = jquery;
         let uid = window.getCookie("userId");
         if(this.state.toId !== undefined){
             var s = document.getElementById("panel_text").value;
-            ws.send(JSON.stringify({ flag: 'msg', content: s , toId: this.state.toId}));
-            document.getElementById("panel_text").value = ""
+            if(s.length>255){
+                alert("Words is too long! Please be less than 255.");
+            }
+            else{
+                ws.send(JSON.stringify({ flag: 'msg', content: s , toId: this.state.toId, toName:this.state.toName}));
+                document.getElementById("panel_text").value = ""
+            }
         }
     }
 

@@ -162,7 +162,7 @@ const $ = jquery;
       handleAfterOpenFunc = () => {
 
         console.log('open~'+this.state.toId)
-        this.refs.msgPanel.state = {toId:this.state.toId,toName:this.state.toName,msgs:[]};
+        //this.refs.msgPanel.state = {toId:this.state.toId,toName:this.state.toName,msgs:[]};
         this.refs.msgPanel.initMsg(this.state.toId,this.state.toName);
       }      
 

@@ -123,11 +123,12 @@ class Messgae extends React.Component {
             //handshake hello msg
             ws.send(JSON.stringify({ flag: "msg_new"}));
         }
-        ws.onmessage = (msg) => {
+        ws.addEventListener('message', (msg) => {
+        //ws.onmessage = (msg) => {
             console.log('接收服务端发过来的消息: %o', msg);
             var msgJson = JSON.parse(msg.data);
             var winWs = window.ws;
-
+            let uid = window.getCookie("userId");
             result += msgJson.MsgBody + '\n';
             if (msgJson.flag == "login") {
                 this.setState({});
@@ -143,13 +144,35 @@ class Messgae extends React.Component {
                 this.setState({});
             }
             else if (msgJson.flag == "msg") {
-                var fromId = msgJson.fromId;
-
-                this.state.chatMembers[fromId].count++;
+                var otherId = this.getOtherId(msgJson);
+                var otherName = this.getOtherName(msgJson);
+                var member = this.state.chatMembers[otherId];
+                if(member === undefined){
+                    member ={count:0,fromId:msgJson.fromId,toId:msgJson.toId,otherId:otherId,otherName:otherName};
+                    this.state.chatMembersArr.push(member);
+                    this.state.chatMembers[otherId] = member;
+                    this.setState({});
+                }
+                if(msgJson.fromId !== uid ){
+                    member.count++;
+                    this.setState({});
+                }
+            }
+            else if (msgJson.flag == "msg_read") {
+                var otherId = msgJson.otherId;
+                if(this.state.chatMembers[otherId].count>0){
+                    this.state.chatMembers[otherId].count--;
+                }
+                this.setState({});
+            }
+            else if (msgJson.flag == "msg_readAll") {//msg_readAll
+                var otherId = msgJson.otherId;
+                this.state.chatMembers[otherId].count = 0;
+                let totalNew = this.getTotalNewNum();
                 this.setState({});
             }
 
-        };
+        });
         ws.onclose = (e) =>{
             this.setState({connected:false});
             console.log('ws 连接关闭了');
@@ -157,9 +180,22 @@ class Messgae extends React.Component {
         }
     }
 
+    getOtherId(msgJson){
+        //if(msgJson.otherId !== undefined) return msgJson.otherId;
+        let uid = window.getCookie("userId");
+        if(uid == msgJson.fromId) return msgJson.toId;
+        else return msgJson.fromId;
+    }
+    getOtherName(msgJson){
+        //if(msgJson.otherName !== undefined) return msgJson.otherName;
+        let uid = window.getCookie("userId");
+        if(uid == msgJson.fromId) return msgJson.toName;
+        else return msgJson.fromName;
+    }
+
     getTotalNewNum(){
         var n = 0;
-        this.state.chatMembers.forEach(element => {
+        this.state.chatMembersArr.forEach(element => {
             n += element.count;
         });
         return n;
@@ -177,8 +213,9 @@ class Messgae extends React.Component {
         var win = window;
         let uid = win.getCookie("userId");
         let username = win.getCookie("username");
-        
-        let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message</Button>;
+        let newNum = this.getTotalNewNum();
+        let sNum = newNum==0?"":""+newNum;
+        let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message <sup><font color="red" size="3">{sNum}</font></sup></Button>;
         if(this.state.chatMembersArr.length==0) btn=<div></div>
         if(uid != undefined && uid.length>0){
             return (
