@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Form,
   Input,
@@ -77,7 +78,7 @@ const tailFormItemLayout = {
 const RegistrationForm = () => {
   const [form] = Form.useForm();
 
-  const onFinish = values => {
+  const onFinish = (values:any) => {
     console.log('Received values of form: ', values);
   };
 
@@ -92,11 +93,12 @@ const RegistrationForm = () => {
 
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
 
-  const onWebsiteChange = value => {
+  const onWebsiteChange = (value:any) => {
     if (!value) {
       setAutoCompleteResult([]);
     } else {
-      setAutoCompleteResult(['.com', '.org', '.net'].map(domain => `${value}${domain}`));
+      let arr:any = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
+      setAutoCompleteResult(arr);
     }
   };
 
@@ -252,4 +254,4 @@ const RegistrationForm = () => {
   );
 };
 
-ReactDOM.render(<RegistrationForm />, mountNode);
+ReactDOM.render(<RegistrationForm />, document.getElementById('app'));
