@@ -62,9 +62,9 @@ class ChatMemberList extends React.Component {
         {this.state.mesState.chatMembersArr.map((element,index) =>{
                 let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=0";
 
-                return <Row><img src={memberImgSrc}/>
-                <Button key="back" type="text" size="large" onClick={()=>this.memberClicked(element,index)}>
-                    {element.otherName}</Button></Row>
+                return <Row><Col><img src={memberImgSrc}/></Col>
+                <Col><Button key="back" type="text" size="large" onClick={()=>this.memberClicked(element,index)}>
+                    {element.otherName}</Button></Col></Row>
             })}
 
 

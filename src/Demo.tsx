@@ -38,6 +38,7 @@ export default class Demo extends React.Component<any,any> {
                 <input type="checkbox" name="method1" value = "1" defaultChecked={this.state.agreeMethod1} /> shipping
                 <LoginModal ref="logwin"/>
                 <input type="button" value="Popup login" onClick={() => this.showLogin()}/>
+                <Button key="back" type="text" size="large">Hello</Button>
              </div>
              
         )

@@ -178,14 +178,14 @@ class Messgae extends React.Component {
         let uid = win.getCookie("userId");
         let username = win.getCookie("username");
         
-        
+        let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message</Button>;
+        if(this.state.chatMembersArr.length==0) btn=<div></div>
         if(uid != undefined && uid.length>0){
             return (
             <div>
                 
-                Hello,{username} 
-                
-                    <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message</Button>
+                <Button key="back" type="text" size="large">Hello,{username}</Button>
+                    {btn}
                 
                 
             </div>
