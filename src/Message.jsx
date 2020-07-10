@@ -171,7 +171,6 @@ class Messgae extends React.Component {
                 let totalNew = this.getTotalNewNum();
                 this.setState({});
             }
-
         });
         ws.onclose = (e) =>{
             this.setState({connected:false});
