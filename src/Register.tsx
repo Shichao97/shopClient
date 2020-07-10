@@ -1,4 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {
+  Form,
+  Input,
+  Tooltip,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete,
+} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+
 import jquery from "jquery";
 import './Register.css';
 const $ = jquery;
@@ -81,7 +95,7 @@ export default class Register extends React.Component<any,any> {
         return(
             <div>
                 <h2>Welcome to our website, please regsiter first!</h2>
-                <form method="post" id="registerForm">
+                <form method="post" id="registerForm" className="Form.useForm">
                     <table className="content-table">
                         <tr>  
                             <td>  
