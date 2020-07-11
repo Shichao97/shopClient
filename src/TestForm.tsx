@@ -94,6 +94,8 @@ export default class TestForm extends React.Component<any,any> {
   };
 
   onFinish = (values:any) => {
+    let _this = this;
+    let t = this.formRef;
     console.log(values);
   };
 
@@ -112,7 +114,7 @@ export default class TestForm extends React.Component<any,any> {
 
   //const [form] = Form.useForm();
   render(){
-    
+    let _this = this;    
 
     const onFinish = (values:any) => {
       console.log('Received values of form: ', values);
@@ -155,7 +157,7 @@ export default class TestForm extends React.Component<any,any> {
         {...formItemLayout}
         ref={this.formRef} 
         name="register"
-        onFinish={onFinish}
+        onFinish={this.onFinish}
         initialValues={{
           residence: ['zhejiang', 'hangzhou', 'xihu'],
           prefix: '86',
@@ -166,13 +168,7 @@ export default class TestForm extends React.Component<any,any> {
       <Form.Item
         name="userName"
         label="Username"
-        rules={[
-          
-          {
-            required: true,
-            message: 'Please input your Username!',
-          },
-        ]}
+        rules={ [{required:true, pattern: new RegExp(/^[1-9]\d*$/, "g"),message: '请输入数字!' }]}
       >
         <Input />
       </Form.Item>
