@@ -99,7 +99,7 @@ export default class TestForm extends React.Component<any,any> {
 
   onReset = () => {
     let obj:any = this.formRef.current;
-    obj.current.resetFields();
+    obj.resetFields();
   };
 
   onFill = () => {
@@ -162,6 +162,20 @@ export default class TestForm extends React.Component<any,any> {
         }}
         scrollToFirstError
       >
+      
+      <Form.Item
+        name="userName"
+        label="Username"
+        rules={[
+          
+          {
+            required: true,
+            message: 'Please input your Username!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
       <Form.Item
         name="email"
@@ -179,7 +193,43 @@ export default class TestForm extends React.Component<any,any> {
       >
         <Input />
       </Form.Item>
+      
+      <Form.Item
+        name="password"
+        label="Password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password!',
+          },
+        ]}
+        hasFeedback
+      >
+        <Input.Password />
+      </Form.Item>
 
+      <Form.Item
+        name="confirm"
+        label="Confirm Password"
+        dependencies={['password']}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: 'Please confirm your password!',
+          },
+          ({ getFieldValue }) => ({
+            validator(rule, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject('The two passwords that you entered do not match!');
+            },
+          }),
+        ]}
+      >
+        <Input.Password />
+      </Form.Item>
       </Form>
 
 
