@@ -148,7 +148,7 @@ export default class TestForm extends React.Component<any,any> {
 
 
     return(
-    <div>
+    <div  className='demo2'>
 
 
       <Form
@@ -192,7 +192,7 @@ export default class TestForm extends React.Component<any,any> {
           },
         ]}
       >
-        <Input />
+        <Input  placeholder="test@163.net"/>
       </Form.Item>
       
       <Form.Item
@@ -212,7 +212,7 @@ export default class TestForm extends React.Component<any,any> {
       <Form.Item
         name="confirm"
         label="Confirm Password"
-        dependencies={['password']}
+        dependencies={['password']} 
         hasFeedback
         rules={[
           {
