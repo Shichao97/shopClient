@@ -157,6 +157,15 @@
 
 }
 
+.test_input {
+  text-align: left;
+  position: absolute;
+  width: 300px;
+  font-size: 16px;
+  left: 0%;
+  top:0%;
+}
+
 .chat_input {
   
   width: 300px;
@@ -307,11 +316,11 @@
 .demo2 {
   position: absolute; 
   width: 50%;
-  height: 70%;
-  left: 25%;
-  top: 15%;
   
-  background-color: #ff3;  
+  left: 25%;
+  
+  
+  background-color: rgb(250, 250, 228);  
 }
 
 .showimgs {
