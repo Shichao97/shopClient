@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
+import jquery from "jquery";
+import './Register.css';
 import {
   Form,
   Input,
