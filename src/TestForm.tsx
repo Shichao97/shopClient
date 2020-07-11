@@ -99,7 +99,7 @@ export default class TestForm extends React.Component<any,any> {
 
   onReset = () => {
     let obj:any = this.formRef.current;
-    obj.current.resetFields();
+    obj.resetFields();
   };
 
   onFill = () => {
@@ -180,6 +180,23 @@ export default class TestForm extends React.Component<any,any> {
         <Input />
       </Form.Item>
 
+
+      <Form.Item
+        name="phone"
+        label="Phone Number"
+        rules={[{ required: true, message: 'Please input your phone number!' }]}
+      >
+        <Input addonBefore={prefixSelector} style={{ width: '100%' }}/>
+      </Form.Item>
+
+      <Form.Item {...tailFormItemLayout}>
+        <Button type="primary" htmlType="submit">
+          Register
+        </Button>
+      </Form.Item>
+
+
+      
       </Form>
 
 
