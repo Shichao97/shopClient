@@ -170,6 +170,7 @@ export default class TestForm extends React.Component<any,any> {
           
           {
             required: true,
+            pattern: new RegExp(/^[1-9]\d*$/, "g"),
             message: 'Please input your Username!',
           },
         ]}
@@ -227,7 +228,7 @@ export default class TestForm extends React.Component<any,any> {
             },
           }),
         ]}
-        
+
       >
         <Input.Password />
       </Form.Item>
