@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Form,
@@ -13,6 +13,7 @@ import {
   AutoComplete,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { FormInstance } from 'antd/lib/form';
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -83,8 +84,35 @@ export default class TestForm extends React.Component<any,any> {
       this.state={autoCompleteResult:[]}
   }
   
+  formRef:RefObject<FormInstance> = React.createRef();
+
+  onGenderChange = (value:any) => {
+    let obj:any = this.formRef.current;
+    obj.setFieldsValue({
+      note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
+    });
+  };
+
+  onFinish = (values:any) => {
+    console.log(values);
+  };
+
+  onReset = () => {
+    let obj:any = this.formRef.current;
+    obj.current.resetFields();
+  };
+
+  onFill = () => {
+    let obj:any = this.formRef.current;
+    obj.setFieldsValue({
+      note: 'Hello world!',
+      gender: 'male',
+    });
+  };
+
+  //const [form] = Form.useForm();
   render(){
-    //const [form] = Form.useForm();
+    
 
     const onFinish = (values:any) => {
       console.log('Received values of form: ', values);
@@ -123,7 +151,7 @@ export default class TestForm extends React.Component<any,any> {
 
       <Form
         {...formItemLayout}
-
+        ref={this.formRef} 
         name="register"
         onFinish={onFinish}
         initialValues={{
