@@ -146,9 +146,10 @@ export default class TestForm extends React.Component<any,any> {
   
     //let form=Form.create();
 
-    
+
     return(
     <div>
+
 
       <Form
         {...formItemLayout}
