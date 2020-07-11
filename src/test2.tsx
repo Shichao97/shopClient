@@ -174,7 +174,6 @@ const RegistrationForm = () => {
         <Input.Password />
       </Form.Item>
 
-
       <Form.Item
         name="nickname"
         label={
