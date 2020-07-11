@@ -186,7 +186,7 @@ const RegistrationForm = () => {
         }
         rules={[{ required: true, message: 'Please input your nickname!', whitespace: true }]}
       >
-        <Input />
+        <Input/>
       </Form.Item>
 
       <Form.Item
@@ -204,7 +204,7 @@ const RegistrationForm = () => {
         label="Phone Number"
         rules={[{ required: true, message: 'Please input your phone number!' }]}
       >
-        <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+        <Input addonBefore={prefixSelector} style={{ width: '100%' }}/>
       </Form.Item>
 
       <Form.Item
