@@ -22,6 +22,7 @@ import ShowOrderInfo from './ShowOrderInfo';
 import MessageModal from './MessageModal';
 import ChatMemberList from './ChatMemberList';
 import RegistrationForm from './test2';
+import test from './test';
 const $ = jquery;
 
 
@@ -125,7 +126,7 @@ class App extends Component<any,any> {
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
           <Route path="/query" component={Demo}></Route>
-          <Route path = "/register" component={Register}></Route>
+          <Route path = "/register" component={test}></Route>
           <Route path="/userid/:id" component={Demo}></Route>
           <Route path="/_editIcon" component={EditIcon}></Route>
           <Route path="/_addgoods" component={AddGoods}></Route>

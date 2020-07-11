@@ -1,18 +1,4 @@
-import React, { useState } from 'react';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-} from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-
+import React from 'react';
 import jquery from "jquery";
 import './Register.css';
 const $ = jquery;
