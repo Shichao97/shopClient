@@ -227,9 +227,21 @@ export default class TestForm extends React.Component<any,any> {
             },
           }),
         ]}
+        
       >
         <Input.Password />
       </Form.Item>
+
+      
+
+      <Form.Item {...tailFormItemLayout}>
+        <Button type="primary" htmlType="submit">
+          Register
+        </Button>
+      </Form.Item>
+
+
+      
       </Form>
 
 
