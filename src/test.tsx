@@ -1,6 +1,5 @@
-import React from 'react';
-import jquery from "jquery";
-import './Register.css';
+import React, { RefObject } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Form,
   Input,
@@ -14,134 +13,230 @@ import {
   AutoComplete,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { FormInstance } from 'antd/lib/form';
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 
+const residences = [
+  {
+    value: 'zhejiang',
+    label: 'Zhejiang',
+    children: [
+      {
+        value: 'hangzhou',
+        label: 'Hangzhou',
+        children: [
+          {
+            value: 'xihu',
+            label: 'West Lake',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    value: 'jiangsu',
+    label: 'Jiangsu',
+    children: [
+      {
+        value: 'nanjing',
+        label: 'Nanjing',
+        children: [
+          {
+            value: 'zhonghuamen',
+            label: 'Zhong Hua Men',
+          },
+        ],
+      },
+    ],
+  },
+];
 
-class test extends React.Component<any,any> {
-//export default class TestForm extends React.Component{
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
+
+//const [form] = Form.useForm();
+
+export default class TestForm extends React.Component<any,any> {
   constructor(props:any){
-    super(props);
-    this.state = {autoCompleteResult:[]};
+      super(props);
+      this.state={autoCompleteResult:[],username:135}
   }
   
-  render() {
-    //const [form] = Form.useForm();
+  formRef:RefObject<FormInstance> = React.createRef();
+
+  onGenderChange = (value:any) => {
+    let obj:any = this.formRef.current;
+    obj.setFieldsValue({
+      note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
+    });
+  };
+
+  onFinish = (values:any) => {
+    let _this = this;
+    let t = this.formRef;
+    let ob = this.formRef.current?.getFieldsValue();
+
+    this.formRef.current?.setFieldsValue({userName:"ttt"});
+    ob = this.formRef.current?.getFieldsValue();
+    console.log(values);
+  };
+
+  onReset = () => {
+    this.formRef.current?.resetFields();
+  };
+
+  onFill = () => {
+    this.formRef.current?.setFieldsValue({
+      userName: 'Helloworld'
+    });
+  };
+
+  componentDidMount(){
+    this.onFill();
+  }
+
+  //const [form] = Form.useForm();
+  render(){
+    let _this = this;    
 
     const onFinish = (values:any) => {
       console.log('Received values of form: ', values);
     };
-
-    
-
+  
+    const prefixSelector = (
+      <Form.Item name="prefix" noStyle>
+        <Select style={{ width: 70 }}>
+          <Option value="86">+86</Option>
+          <Option value="87">+87</Option>
+        </Select>
+      </Form.Item>
+    );
+  
     //const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
+  
     const onWebsiteChange = (value:any) => {
       if (!value) {
         this.setState({autoCompleteResult:[]});
       } else {
         let arr:any = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-        this.setState({autoCompleteResult:arr});
+        this.setState({autoCompleteResult:arr});//(arr);
       }
     };
-
-    let ac:any[] = [];//this.state.autoCompleteResult;
-    const websiteOptions = ac.map((website:any) => ({
+  
+    
+    const websiteOptions = this.state.autoCompleteResult.map((website: any) => ({
       label: website,
       value: website,
     }));
+  
+    //let form=Form.create();
 
+    
+    return(
+    <div  className='demo2'>
 
-    return (
       <Form
+        {...formItemLayout}
+        ref={this.formRef} 
         name="register"
-        onFinish={onFinish}
-        /*
+        onFinish={this.onFinish}
         initialValues={{
           residence: ['zhejiang', 'hangzhou', 'xihu'],
           prefix: '86',
         }}
-        */
         scrollToFirstError
       >
-        <Form.Item
-          name="email"
-          label="E-mail"
-          rules={[
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+      
+      <Form.Item
+        name="userName"
+        label="Username"
+        rules={ [{required:false, message: '请输入数字!' }]}
+      >
+        <Input />
+      </Form.Item>
 
-        <Form.Item
-          name="password"
-          label="Password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
 
-        <Form.Item
-          name="confirm"
-          label="Confirm Password"
-          dependencies={['password']}
-          hasFeedback
-          rules={[
+
             {
-              required: true,
-              message: 'Please confirm your password!',
-            },
-            ({ getFieldValue }) => ({
-              validator(rule, value) {  //rule?
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject('The two passwords that you entered do not match!');
+/*
+        getFieldDecorator('userName',{//userName实际上就是你获取整个表单数据对象之后，此输入框的名字
+
+          initialValue:'qqqq',//这是用来初始化表单数据的
+
+          rules:[//这是用来校验表单数据的，具体用法请看文档
+
+              {
+
+                  required:true,
+
+                  message:'用户名不能为空'
+
               },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
 
-        
+              {
 
-        <Form.Item
-          name="agreement"
-          valuePropName="checked"
-          rules={[
-            { validator:(_, value) => value ? Promise.resolve() : Promise.reject('Should accept agreement') },
-          ]}
-          
-        >
-          <Checkbox>
-            I have read the <a href="">agreement</a>
-          </Checkbox>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
-        </Form.Item>
+                  min:5,max:10,
+
+                  message:'长度不在范围内'
+
+              },
+
+              {
+
+                  pattern:new RegExp('^\\w+$','g'),
+
+                  message:'用户名必须为字母或者数字'
+
+              }
+
+          ]
+
+        })(
+
+    <Input  placeholder="请输入用户名" />
+
+)
+*/
+}       
+      
+
+
+
+      
+
+      <Form.Item {...tailFormItemLayout}>
+        <Button type="primary" htmlType="submit">
+          Register
+        </Button>
+      </Form.Item>
+
+
+      
       </Form>
-    );
-  };
-}
 
-//export default TestForm
-//ReactDOM.render(<RegistrationForm />, document.getElementById('app'));
+
+      </div>);
+    }
+}

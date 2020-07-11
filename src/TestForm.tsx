@@ -81,7 +81,7 @@ const tailFormItemLayout = {
 export default class TestForm extends React.Component<any,any> {
   constructor(props:any){
       super(props);
-      this.state={autoCompleteResult:[]}
+      this.state={autoCompleteResult:[],username:135}
   }
   
   formRef:RefObject<FormInstance> = React.createRef();
@@ -100,17 +100,20 @@ export default class TestForm extends React.Component<any,any> {
   };
 
   onReset = () => {
-    let obj:any = this.formRef.current;
-    obj.resetFields();
+    this.formRef.current?.resetFields();
   };
 
   onFill = () => {
-    let obj:any = this.formRef.current;
-    obj.setFieldsValue({
-      note: 'Hello world!',
-      gender: 'male',
+    this.formRef.current?.setFieldsValue({
+      userName: '12345',
+      password: '123abc',
+      confirm: '123abc',
     });
   };
+
+  componentDidMount(){
+    this.onFill();
+  }
 
   //const [form] = Form.useForm();
   render(){
@@ -171,6 +174,7 @@ export default class TestForm extends React.Component<any,any> {
       >
         <Input />
       </Form.Item>
+
 
       <Form.Item
         name="email"
