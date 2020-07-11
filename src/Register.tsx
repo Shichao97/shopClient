@@ -1,8 +1,47 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import jquery from "jquery";
 import './Register.css';
-const $ = jquery;
+import ReactDOM from 'react-dom';
+import {
+  Form,
+  Input,
+  Tooltip,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete,
+} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { FormInstance } from 'antd/lib/form';
 
+
+
+const $ = jquery;
+const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 8 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 16 },
+    },
+  };
+  const tailFormItemLayout = {
+    wrapperCol: {
+      xs: {
+        span: 24,
+        offset: 0,
+      },
+      sm: {
+        span: 16,
+        offset: 8,
+      },
+    },
+  };
 
 
 export default class Register extends React.Component<any,any> {
@@ -20,6 +59,15 @@ export default class Register extends React.Component<any,any> {
             msg:""
         }
     }
+
+    formRef:RefObject<FormInstance> = React.createRef();
+
+    onFinish = (values:any) => {
+        let _this = this;
+        let t = this.formRef;
+        console.log(values);
+      };
+    /*
     checkPassword(passWord:string):boolean{
         let reg:any = new RegExp("^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,16})$");
         let f:boolean = reg.test(passWord);
@@ -36,8 +84,10 @@ export default class Register extends React.Component<any,any> {
         let f:boolean = reg.test(email);
         return f;
     }
+    */
     handleRegister(){
         //this.setState({});
+        /*
         let un:string = this.state.un;
         if(!this.checkUsername(un)){
             this.setState({un_msg:"Your username is of wrong format!"});
@@ -59,6 +109,7 @@ export default class Register extends React.Component<any,any> {
             this.setState({em_msg:"Your email is of wrong format!"});
             return;
         }
+        */
 
         let _this: Register = this;
         let data= $("#registerForm").serializeArray();
@@ -78,60 +129,116 @@ export default class Register extends React.Component<any,any> {
         })
     }
     render(){
+        let _this = this;    
+    
+        const onFinish = (values:any) => {
+          console.log('Received values of form: ', values);
+        };
+      
         return(
-            <div>
-                <h2>Welcome to our website, please regsiter first!</h2>
-                <form method="post" id="registerForm" className="Form.useForm">
-                    <table className="content-table">
-                        <tr>  
-                            <td>  
-                                *userName：<input name="userName" id="un" type="text" value={this.state.un} onChange={this.handleChange}/>
-                            </td> 
-                            <td className="error_msg">
-                                {this.state.un_msg}
-                            </td>
-                        </tr>
-                        
-                        <tr>  
-                            <td>  
-                                *passWord：<input name="passWord" id="pw" type="password" value={this.state.pw} onChange={this.handleChange}/>
-                            </td> 
-                            <td className="error_msg">
-                                {this.state.pw_msg}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                *Confirm password: <input name="confirm" id="con" type="password" value={this.state.con} onChange={this.handleChange}/>
-                            </td>
-                            <td className="error_msg">
-                                {this.state.confirm_msg}
-                            </td>
-                        </tr>
-                        <tr>  
-                            <td >  
-                                *email：<input name="email" type="text" id="em" value={this.state.em} onChange={this.handleChange}/>
-                            </td> 
-                            <td className="error_msg">
-                                {this.state.em_msg}
-                            </td>
-                        </tr>
-                        
-                        <tr> 
-                            <td>  
-                                <button name="regsiter" id='regsiter' type="button" onClick={() => this.handleRegister()}>register</button>
-                            </td>  
-                        </tr> 
-                        
-                    </table>
-                </form>
-
-                <div className="error_msg">{this.state.msg}</div>
-            </div>
-        )
-    }
-
+        <div>
+    
+    
+          <Form
+            {...formItemLayout}
+            ref={this.formRef} 
+            name="register"
+            onFinish={this.onFinish}
+            initialValues={{
+              residence: ['zhejiang', 'hangzhou', 'xihu'],
+              prefix: '86',
+            }}
+            scrollToFirstError
+          >
+          
+          <Form.Item
+            name="userName"
+            label="Username"
+            rules={[
+              {
+                pattern: new RegExp("^\\w{3,32}$", "g"),
+                message: 'The input is not valid username, please type 3-32 characters!',
+              },
+              {
+                required: true,
+                message: 'Please input your Username!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+    
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password />
+          </Form.Item>
+    
+          <Form.Item
+            name="confirm"
+            label="Confirm Password"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject('The two passwords that you entered do not match!');
+                },
+              }),
+            ]}
+    
+          >
+            <Input.Password />
+          </Form.Item>
+    
+          
+    
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+              Register
+            </Button>
+          </Form.Item>
+    
+    
+          
+          </Form>
+    
+    
+          </div>);
+        }
+    /*
     handleChange = (event:any) =>  {
         
         switch(event.target.name){
@@ -156,4 +263,5 @@ export default class Register extends React.Component<any,any> {
         }
         //console.log(this)
     }
+    */
 }
