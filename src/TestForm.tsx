@@ -152,7 +152,6 @@ export default class TestForm extends React.Component<any,any> {
     return(
     <div  className='demo2'>
 
-
       <Form
         {...formItemLayout}
         ref={this.formRef} 
