@@ -145,6 +145,12 @@
   overflow: auto;
   background-color: rgb(203, 235, 211);
 }
+
+.chat_left .ant-col {
+  text-align: left;
+  border: 1px solid rgb(184, 216, 143);
+}
+
 .chat_right{
   float:right ; 
   width:80%; 

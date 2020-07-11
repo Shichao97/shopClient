@@ -1,4 +1,4 @@
-import React, { Component , useRef } from 'react';
+import React, { Component , useRef, RefObject, MutableRefObject } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types';
@@ -46,7 +46,9 @@ class App extends Component<any,any> {
     
   }
 
-  //msgwin = React.createRef();
+  msgwin:RefObject<MessageModal> = React.createRef();
+  //msgwin:MutableRefObject<MessageModal|undefined> = useRef();
+  //msgwin:any = useRef();
 
   checkHash(){
     var str: string = window.location.hash;
@@ -87,7 +89,8 @@ class App extends Component<any,any> {
       })
 
       var win:any = window;
-      win.msgwin = this.refs.msgwin;
+      //win.msgwin = this.refs.msgwin;
+      win.msgwin = this.msgwin.current;
   }
 
   
@@ -109,7 +112,7 @@ class App extends Component<any,any> {
       <div>
       <Router>
          <Message app={this}/>
-         <MessageModal  ref="msgwin"/>
+         <MessageModal  ref={this.msgwin}/>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchGoods">Demo id</Link>&nbsp;&nbsp;&nbsp;
