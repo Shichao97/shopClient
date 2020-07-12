@@ -232,7 +232,7 @@ export default class TestForm extends React.Component<any,any> {
         {...tailFormItemLayout}
       >
         <Checkbox>Shipping</Checkbox>
-        <Checkbox>Self-pick</Checkbox>
+        <Checkbox name="method">Self-pick</Checkbox>
         <Checkbox>Dome-dilivery</Checkbox>
       </Form.Item>
 

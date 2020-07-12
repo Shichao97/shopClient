@@ -12,7 +12,7 @@ export default class EditIcon extends React.Component<any,any> {
         }
     }
     
-    componentWillMount(){
+    componentDitMount(){
         var win:any = window;
         var uobj = win.checkLogin();
         

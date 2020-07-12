@@ -44,8 +44,22 @@ class Messgae extends React.Component {
         }
     }
     
+    checkLogin(){
+        let obj = new Object();
+        obj.id = this.getCookie("userId");
+        obj.username = this.getCookie("username");
+        //console.log("Hi! "+uid);
+        if(obj.id == ""){
+            //location.hash = "/login";
+            this.props.history.push( "/login" );
+        }    
+        return obj;
+    }
+
     componentDidMount() {
         window.getCookie = this.getCookie;
+        window.checkLogin = this.checkLogin;
+
         // let _this = this;
         // this.props.history.listen(() => {
         //   _this.checkHash();
@@ -55,6 +69,7 @@ class Messgae extends React.Component {
 
  
     componentWillUnmount(){
+        
         if(ws != undefined) ws.close();
         clearInterval(this.timer);
     }
