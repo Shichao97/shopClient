@@ -30,7 +30,7 @@ export default class Active extends React.Component<any,any> {
 
 
     render(){
-        if(this.state.actMsg == undefined){
+        if(true){
             return(
                 <div>
                     You are in the process of activation now, thanks a lot for your patience!
