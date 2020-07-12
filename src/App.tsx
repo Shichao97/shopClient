@@ -23,6 +23,7 @@ import MessageModal from './MessageModal';
 import ChatMemberList from './ChatMemberList';
 import RegistrationForm from './test2';
 import TestForm from './TestForm';
+import Active from './Active';
 
 const $ = jquery;
 
@@ -127,7 +128,7 @@ class App extends Component<any,any> {
           <Link to="/test2">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
-         
+          
           <hr/>
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
@@ -150,6 +151,7 @@ class App extends Component<any,any> {
           <Route path="/_mySelling" component={MySelling}></Route>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
+          <Route path="/active/:params" component={Active}></Route>
         </div>
         
       </Router>

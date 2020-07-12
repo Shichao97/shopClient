@@ -52,9 +52,6 @@ export default class Register extends React.Component<any,any> {
             pw:"",
             em:"",
             con:"",
-            un_msg:"",
-            pw_msg:"",
-            em_msg:"",
             confirm_msg:"",
             msg:""
         }
@@ -66,6 +63,23 @@ export default class Register extends React.Component<any,any> {
         let _this = this;
         let t = this.formRef;
         console.log(values);
+        console.log('Received values of form: ', values);
+       
+        let data= values;
+        $.ajax({
+            type:"POST",
+            url:window.localStorage.getItem("host_pre")+"member/register",
+            data:data,
+            dataType:"json",
+            success:function(d){
+                _this.setState({msg:"register success!"});
+            },error:function(xhr:any,textStatus,errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus);
+                if(xhr.status=='601'){
+                    _this.setState({msg:"register failed!"+"request status:"+xhr.status+" msg:"+textStatus});
+                }
+            }
+        })
       };
     /*
     checkPassword(passWord:string):boolean{
@@ -109,7 +123,7 @@ export default class Register extends React.Component<any,any> {
             this.setState({em_msg:"Your email is of wrong format!"});
             return;
         }
-        */
+        
 
         let _this: Register = this;
         let data= $("#registerForm").serializeArray();
@@ -127,17 +141,13 @@ export default class Register extends React.Component<any,any> {
                 }
               }
         })
+        */
     }
+    
     render(){
         let _this = this;    
-    
-        const onFinish = (values:any) => {
-          console.log('Received values of form: ', values);
-        };
-      
         return(
         <div>
-    
     
           <Form
             {...formItemLayout}
@@ -145,8 +155,7 @@ export default class Register extends React.Component<any,any> {
             name="register"
             onFinish={this.onFinish}
             initialValues={{
-              residence: ['zhejiang', 'hangzhou', 'xihu'],
-              prefix: '86',
+              
             }}
             scrollToFirstError
           >
@@ -186,7 +195,7 @@ export default class Register extends React.Component<any,any> {
           </Form.Item>
           
           <Form.Item
-            name="password"
+            name="passWord"
             label="Password"
             rules={[
               {
@@ -202,7 +211,7 @@ export default class Register extends React.Component<any,any> {
           <Form.Item
             name="confirm"
             label="Confirm Password"
-            dependencies={['password']}
+            dependencies={['passWord']}
             hasFeedback
             rules={[
               {
@@ -211,7 +220,7 @@ export default class Register extends React.Component<any,any> {
               },
               ({ getFieldValue }) => ({
                 validator(rule, value) {
-                  if (!value || getFieldValue('password') === value) {
+                  if (!value || getFieldValue('passWord') === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject('The two passwords that you entered do not match!');
@@ -235,7 +244,7 @@ export default class Register extends React.Component<any,any> {
           
           </Form>
     
-    
+          {this.state.msg}
           </div>);
         }
     /*
