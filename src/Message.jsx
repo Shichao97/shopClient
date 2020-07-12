@@ -45,6 +45,7 @@ class Messgae extends React.Component {
     }
     
     componentDidMount() {
+        window.getCookie = this.getCookie;
         // let _this = this;
         // this.props.history.listen(() => {
         //   _this.checkHash();
