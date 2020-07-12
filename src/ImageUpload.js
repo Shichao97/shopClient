@@ -9,6 +9,10 @@ export default class ImageUpload extends React.Component {
         this.state = {imgs:[]};
     }
 
+    reset(){
+        this.setState({imgs:[]});
+    }
+
     multiImagePreview() {
  
         var upMultilImagesObj = document.getElementById("upMultilImages");
@@ -18,11 +22,19 @@ export default class ImageUpload extends React.Component {
             this.state.imgs.push(upMultilImagesObj.files[i]);
         }  
         this.setState({});
+        let parent = this.props.parent;
+        if(parent !=undefined){
+            parent.imgUploadChanged();
+        } 
     }   
 
     imgClicked(index){
         this.state.imgs.splice(index,1);
         this.setState({});
+        let parent = this.props.parent;
+        if(parent !=undefined){
+            parent.imgUploadChanged();
+        } 
     }
     
     render(){
@@ -41,7 +53,7 @@ export default class ImageUpload extends React.Component {
             })
         }
         <div  className="upimgs">
-        <a className="file">+图片
+        <a className="file">+Image
 	    <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
         </a>
         </div> 

@@ -1,296 +1,397 @@
-import React from 'react';
-import LoginModal from './LoginModal';
-import * as ReactDOM from 'react-dom';
-import jquery from "jquery";
+import React, { RefObject } from 'react';
+import ReactDOM from 'react-dom';
+import {
+  Form,
+  Input,
+  Tooltip,
+  Cascader,
+  Select,
+  Row,
+  Col,
+  Checkbox,
+  Button,
+  AutoComplete,
+} from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { FormInstance } from 'antd/lib/form';
 import ImageUpload from './ImageUpload';
+import jquery from "jquery";
+import LoginModal from './LoginModal';
 const $ = jquery;
 
-export default class EditSellGoods extends React.Component<any,any>{
-    constructor(props:any){
-        super(props);
-        this.state = {
-          imgName:[],
-          goodsname:"",
-          location:"",
-          types:[],
-          typeCode:"",
-          price:0,
-          sellingmethod:0,
-          agreeMethod1:false,
-          agreeMethod2:false,
-          agreeMethod3:false,
-          method1:0,
-          method2:0,
-          method3:0,
-          msg:""
-        }
-      }
 
-    componentDidMount(){
-      let gid:number = this.props.match.params.gid;
-      this.getGoodsInfo(gid);
+const { Option } = Select;
+const AutoCompleteOption = AutoComplete.Option;
 
-      let getDatas:any =  sessionStorage.getItem('goods_types');
-        if(getDatas != null){
-            let data = JSON.parse(getDatas);
-            this.setState({types:data});
-        }
-    }
+const options = [
+  { label: 'Shipping', value: '1' },
+  { label: 'Self-pick', value: '2' },
+  { label: 'Home-delivery', value: '4' },
+];
 
-    
-    getGoodsInfo(gid:number){
-        let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
-        let _this:EditSellGoods = this;
-        $.ajax({
-            type:"GET",
-            // crossDomain: true, 
-            // xhrFields: {
-            //     withCredentials: true 
-            // },
-            url:newUrl,
-            dataType:"json",
-            success:function(data){
-                let imgStr:string = data.imgNames;
-                let arr:string[];
-                if(imgStr == null){
-                  arr = [];
-                }
-                arr= imgStr.split(";");
-                _this.setState({imgName:arr});
-                _this.setState({goodsname:data.name});
-                _this.setState({location:data.location});
-                _this.setState({typeCode:data.typeCode});
-                _this.setState({price:data.price});
-                _this.setState({sellingmethod:data.sellingMethod});
-                if((data.sellingMethod & 1) == 1){
-                  _this.setState({agreeMethod1:true});
-                }
-                if((data.sellingMethod & 2) == 2){
-                  _this.setState({agreeMethod2:true});
-                }
-                if((data.sellingMethod & 4) == 4){
-                  _this.setState({agreeMethod3:true});
-                }
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 
-            },
-            error: function(xhr:any, textStatus, errorThrown){
-              console.log("getgoodsinfo error!");
+//const [form] = Form.useForm();
+
+export default class EditSellGoods extends React.Component<any,any> {
+  constructor(props:any){
+      super(props);
+      this.state={autoCompleteResult:[],imgErrMsg:"",imgName:[]}
+  }
+  
+  formRef:RefObject<FormInstance> = React.createRef();
+  imgupRef:RefObject<ImageUpload> = React.createRef();
+
+  componentDidMount(){
+      let id:number = this.props.match.params.id;
+      this.getGoodsInfo(id);
+  }
+
+
+  getGoodsInfo(gid:number){
+    let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
+    let _this = this;
+    $.ajax({
+        type:"GET",
+        // crossDomain: true, 
+        // xhrFields: {
+        //     withCredentials: true 
+        // },
+        url:newUrl,
+        dataType:"json",
+        success:function(data){
+            let imgStr:string = data.imgNames;
+            let arr:string[];
+            if(imgStr == null){
+              arr = [];
             }
-          })
-    }
-
-    imgClicked(index:number){
-      this.state.imgName.splice(index,1);
-      this.setState({});
-    }
-
-    //拼接分号字符串
-    combineImgNames(arr:number[]){
-      if(arr == null || arr.length == 0){
-        return "";
-      }
-      let re:string = "";
-      for(let ele of arr){
-        re += (ele)+";";
-      }
-      return re.substring(0,re.length-1);
-    }
+            arr= imgStr.split(";");
+            _this.setState({imgName:arr,data:data});
+            _this.onFill(data);
 
 
-    handleEditGoods(){
-        let _this: EditSellGoods = this;
-        let formData = new FormData();
-        let imgup:any = _this.refs.imgup;
-        let totalLength:number = _this.state.imgName.length+imgup.state.imgs.length;
-        if(totalLength < 1 ){
-          alert("You must upload at least one image for your second-hand goods!");
-          return;
-      }else if(totalLength > 16){
-          alert("You cannot upload more than 16 images！");
-          return;
-      }
-        //old:this.state.imgName
-        let oldimgnames = _this.combineImgNames(_this.state.imgName);
-        formData.append("oldimgnames",oldimgnames);
-
-        //new
-        
-        let i = 0; //新图怎么编号？
-        for (let entry of imgup.state.imgs) {
-          //console.log(entry); // 1, "string", false
-          formData.append("img"+i,entry);
-          i++;
+        },
+        error: function(xhr:any, textStatus, errorThrown){
+          console.log("getgoodsinfo error!");
         }
-
-        //Other info
-        let data= $("#editForm").serializeArray();  //不用拼data
-        for(var p in data){
-            formData.append(data[p].name,data[p].value);
-        }
-        
-        let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/edit";
-        $.ajax({
-          type:"POST",
-          crossDomain: true, 
-          xhrFields: {
-              withCredentials: true 
-          },
-          url:url1,
-          cache: false,
-          data:formData,
-          dataType:"json",
-          processData: false,
-          contentType: false,
-          success:function(d){
-              if(d.success == 1){
-                _this.setState({msg:"edit success!"});
-                 
-              }else{
-                _this.setState({msg:"edit failed! " + d.msg});
-                  
-                  
-              }
-          },
-          error: function(xhr:any, textStatus, errorThrown){
-              console.log("request status:"+xhr.status+" msg:"+textStatus)
-              if(xhr.status=='604'){//未登录错误
-                  let popwin: any = _this.refs.logwin;
-                  popwin.setState({modalIsOpen:true})
-              }
-              
-          }
       })
+}
 
+  onFinish = (values:object) => {
+    
+    console.log("onFinish:",values);
 
-
+    if(this.imgUploadChanged()) {
+      //this.setState({success:true});
+      this.doEdit(values);
     }
+  };
 
-    handleChange = (event:any) =>  {
-        
-      switch(event.target.name){
-        case "name":
-          this.setState({goodsname: event.target.value});
-          break;
-        case "location":
-          this.setState({location: event.target.value});
-          break;
-        case "typeCode":
-          this.setState({typeCode: event.target.value});
-          break;
-        case "price":
-          this.setState({price: event.target.value});
-          break;
-        case "method1":
-          this.setState({agreeMethod1: !this.state.agreeMethod1});
-          break;
-        case "method2":
-          this.setState({agreeMethod2: !this.state.agreeMethod2});
-          break;
-        case "method3":
-          this.setState({agreeMethod3: !this.state.agreeMethod3});
-          break;
-       
+  imgUploadChanged():boolean{
+    let imgup:ImageUpload|null = this.imgupRef.current;
+    if(this.state.imgName.length==0){
+      if(imgup ==null || imgup.state.imgs.length < 1 ){
+        this.setState({imgErrMsg : "You must upload at least one image for your second-hand goods!"});
+        return false;
+      }else if(imgup ==null || imgup.state.imgs.length > 16){
+        this.setState({imgErrMsg : "You cannot upload more than 16 images！"});
+        return false;
       }
+    }
+    this.setState({imgErrMsg : ""});
+    return true;
+  }
+
+  doEdit(values:any){
+    let _this = this;
+    let formData = new FormData();
+    let id:string = this.props.match.params.id;
+    //let ele: any = $('#upfile')[0];
+    //let appendTemp:any = ele.files[0];
+    let i = 0;
+    let imgup:any = this.imgupRef.current;
+    
+    for (let entry of imgup.state.imgs) {
+        
+        formData.append("img"+i,entry);
+        i++;
+    }
+    let oldimgnames = _this.combineImgNames(_this.state.imgName);
+    formData.append("oldimgnames",oldimgnames);
+
+    formData.append("gid",id);
+    
+    let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/edit";
+    let data= values;  //不用拼data
+    for(var p in data){
+        console.log(data[p]);
+        console.log(data[p]);
+        if(p == "typeCode"){
+            let ele = data[p];
+            formData.append("typeCode",ele[1]);
+        }
+        else if(p=="method"){
+          data[p].forEach((element:any) => {
+            if(element=="1"){
+              formData.append("method1","1");
+            }
+            if(element=="2"){
+              formData.append("method2","2");
+            }
+            if(element=="4"){
+              formData.append("method3","4");
+            }
+          });
+        }
+        else formData.append(p,data[p]);
     }
     
-    render(){
-        let _this:EditSellGoods = this;
-        let gid:number = this.props.match.params.gid;
-        let imgname:string[] = this.state.imgName;
-        let arry:any[] = this.state.types;
-        let m:number = this.state.sellingmethod;
-        
-        let checked1 = <input type="checkbox" name="method1" value = "1" checked onChange={_this.handleChange}/>;
-        if(this.state.agreeMethod1 == false){
-          checked1 = <input type="checkbox" name="method1" value = "1" onChange={_this.handleChange}/> ;
-        }
-        let checked2 =<input type="checkbox" name="method2" value = "2" checked onChange={_this.handleChange}/>;
-        if(this.state.agreeMethod2 == false){
-          checked2 = <input type="checkbox" name="method2" value = "2" onChange={_this.handleChange}/>;
-        }
-        let checked3 = <input type="checkbox" name="method3" value = "4" checked onChange={_this.handleChange}/> ;
-        if(this.state.agreeMethod3 == false){
-          checked3 = <input type="checkbox" name="method3" value = "4" onChange={_this.handleChange}/>;
-        }
 
-        
-        return(
-            <div >
-              <form method="post" action="#" id="editForm">
-                   <table className="content-table">
-                       <tr>
-                          <td>goods name: </td>
-                          <td><input type="text" id="name" name="name" value={this.state.goodsname} onChange={_this.handleChange}/>
-                          </td>
-                         </tr>
-
-                       <tr>
-                          <td>location: </td>
-                          <td> <input type="text" id="location" name="location" value={this.state.location} onChange={_this.handleChange}/></td>
-                       </tr>
-
-                       <tr>
-                       <td>classification:  </td>
-                          <td>
-                              <select name="typeCode" value={this.state.typeCode} onChange={_this.handleChange}>
-                              {arry.map((element:any) =>{
-                                
-                                  return(
-                                    <option value={element.code} >{element.categoryName}--{element.name}</option>
-                                )
-                                
-                                
-                                }
-
-                            )}
-                              </select>
-                          </td>
-                       </tr>
-
-                       <tr>
-                       <td>price: </td>
-                          <td><input type="number" id="price" name='price' value={this.state.price} onChange={_this.handleChange}/></td>
-                       </tr>
-
-                       <tr>
-                       <td>Selling Method:  </td>
-                          <td>
-                                {checked1} shipping
-                                {checked2} self-pick
-                                {checked3} home-dilivery
-                              
-                          </td>
-                       </tr>
-
-                       <tr>
-                          <td>Images: </td>
-                          <td>
-                          {imgname.map((element:any,index:number) =>{
-                      
-                              let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+element;
-      
-                              return(
-                                <div className="upimgs"> 
-                                <a><span><h1>Click to delete</h1></span>
-                                  <img src={imgSrc} onClick={()=> this.imgClicked(index)} width="100px" height="100px"/>
-                                </a>
-                                </div>
-                              )
-                            
-                              }
-                              )}
-
-                             <ImageUpload ref="imgup"/>
-                          </td>
-                       </tr>
-                   </table>
-                   <input name="gid" value = {gid} type="hidden"/>
-                   <button name="confirm" id='button' type="button" onClick={() => this.handleEditGoods()}>Confirm Edit</button>
-                   <div>{this.state.msg}</div>
-                </form>
-                <LoginModal ref="logwin"/>
+    $.ajax({
+        type:"POST",
+        crossDomain: true, 
+        xhrFields: {
+            withCredentials: true 
+        },
+        url:url1,
+        cache: false,
+        data:formData,
+        dataType:"json",
+        processData: false,
+        contentType: false,
+        success:function(d){
+            if(d == null){
+                alert("Add failed dure to server error!");
+            }else{
+              _this.setState({success:true});
+                
+            }
+        },
+        error: function(xhr:any, textStatus, errorThrown){
+            console.log("request status:"+xhr.status+" msg:"+textStatus)
+            if(xhr.status=='604'){//未登录错误
+                let popwin: any = _this.refs.logwin;
+                popwin.setState({modalIsOpen:true})
+            }
             
-            </div>
-        )
+        }
+    })    
+  }
+
+  onReset = () => {
+    this.formRef.current?.resetFields();
+    this.imgupRef.current?.reset();
+    this.setState({imgErrMsg:"",success:undefined});
+    //this.setState({success:true});
+  };
+
+  onFill = (data:any) => {
+    //let data = this.state.data;
+    let n = data.typeCode.indexOf("_");
+    let cate = data.typeCode.substring(0,n);
+    let methods:any = [];
+    if((data.sellingMethod & 1) == 1){
+      methods.push("1");
     }
+    if((data.sellingMethod & 2) == 2){
+      methods.push("2");
+    }
+    if((data.sellingMethod & 4) == 4){
+      methods.push("4");
+    }    
+    this.setState({methods:methods});
+
+    this.formRef.current?.setFieldsValue({
+      name: data.name,
+      location: data.location,
+      price: data.price,
+      typeCode:[cate,data.typeCode],
+      method:methods,
+    });
+  };
+
+
+
+  getGoodsTypes(){
+    let win:any = window;
+    return win.goods_types;
+  }
+
+  imgClicked(index:number){
+    this.state.imgName.splice(index,1);
+    this.setState({});
+  }
+
+  //拼接分号字符串
+  combineImgNames(arr:number[]){
+    if(arr == null || arr.length == 0){
+      return "";
+    }
+    let re:string = "";
+    for(let ele of arr){
+      re += (ele)+";";
+    }
+    return re.substring(0,re.length-1);
+  }
+
+
+
+  onChange = (checkedValues:any) =>  {
+    this.setState({methods:checkedValues})
+    console.log('checked = ', checkedValues);
+  }
+  //const [form] = Form.useForm();
+  render(){
+    let _this = this;    
+    let id:number = this.props.match.params.id;
+    let imgname:string[] = this.state.imgName;
+
+
+    if(this.state.success !== undefined){
+      return <div className='demo2'>
+        <h1>Change goods successed!</h1><p/> <Button type="default" size="large"  onClick={() => this.props.history.push("/searchGoods")}>Back</Button>
+      </div>
+    }
+  
+    else   
+    return(
+    <div  className='demo2'>
+      <h2>Edit goods here!</h2>
+      <table className="content-table">
+        <tr>
+          <td><h3> Uploaded images: </h3></td><td>
+            {imgname.map((element:any,index:number) =>{
+                      
+            let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+id+"&fname="+element;
+            console.log(imgSrc);
+            return(
+              <div className="upimgs"> 
+              <a><span><h1>Click to delete</h1></span>
+                <img src={imgSrc} onClick={()=> this.imgClicked(index)} width="100px" height="100px"/>
+              </a>
+              </div>
+            )
+          
+            }
+            )}
+            <ImageUpload ref={this.imgupRef} parent={this}/></td>
+        </tr>
+        <tr><td></td>
+    <td><span className="error_msg">{this.state.imgErrMsg}</span></td>
+        </tr>
+      </table>
+      <Row><Col className='demo3'>
+
+      <Form
+        {...formItemLayout}
+        ref={this.formRef} 
+        name="register"
+        onFinish={this.onFinish}
+        // initialValues={{
+        //   typeCode: ['Furniture', 'Bed'],
+        // }}        
+        scrollToFirstError
+      >
+      
+      <Form.Item
+        name="name"
+        label="Goods Name"
+        rules={ [{required:true, message: 'Please enter goods name!' }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="location"
+        label="Location"
+        rules={ [{required:true, message: 'Please enter location!' }]}
+      >
+        <Input />
+      </Form.Item>
+
+
+      <Form.Item
+        name="typeCode"
+        label="Classification"
+        rules={[
+          { type: 'array', required: true, message: 'Please select goods Classification!' },
+        ]}
+      >
+        <Cascader options={this.getGoodsTypes()} />
+      </Form.Item>
+
+
+      <Form.Item
+        name="price"
+        label="Price"
+        rules={[{ required: true, message: 'Please input goods price!' },
+        {pattern: new RegExp(/^[1-9]\d*$/, "g"),message: 'Please enter number!' }]}
+      >
+        <Input style={{ width: '100%' }}/>
+      </Form.Item>
+
+      <Form.Item
+        name="method"
+        label="Support deliver method"
+        valuePropName="checked"
+        rules={[
+          { 
+            validator:(_, value) => {
+              if(value.length > 0) {
+                  return Promise.resolve()
+              }else{
+                  return Promise.reject('Should select at least one deliver-methed')
+              }
+            },
+          }
+        ]}
+        
+      >
+        <Checkbox.Group options={options} value={this.state.methods} onChange={this.onChange} />
+      </Form.Item>
+
+      
+
+ 
+
+      <Form.Item {...tailFormItemLayout}>
+        <Button type="primary" htmlType="submit">
+          Submit Change
+        </Button>
+      </Form.Item>
+
+
+      
+      </Form>
+      </Col>
+      </Row>
+      <LoginModal ref="logwin"/>
+      </div>);
+    }
+
+    // {...tailFormItemLayout}
+    // <Checkbox name="method" value="2">Self-pick</Checkbox>
+    // <Checkbox name="method" value="4">Home-dilivery</Checkbox>
+
 }

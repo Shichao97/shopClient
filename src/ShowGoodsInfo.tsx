@@ -15,11 +15,12 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         this.state = {
             data:sta.g,
             seller:sta.m,
-            uid:""
+            uid:"",
+            imgName:[],
         }
     }
 
-    componentWillMount(){
+    componentDidMount(){
         var win:any = window;
         let uid:string = win.getCookie("userId");
         /*

@@ -15,43 +15,18 @@ import {
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import ImageUpload from './ImageUpload';
+import jquery from "jquery";
+import LoginModal from './LoginModal';
+const $ = jquery;
+
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
+const options = [
+  { label: 'Shipping', value: '1' },
+  { label: 'Self-pick', value: '2' },
+  { label: 'Home-delivery', value: '4' },
 ];
 
 const formItemLayout = {
@@ -82,87 +57,248 @@ const tailFormItemLayout = {
 export default class TestForm extends React.Component<any,any> {
   constructor(props:any){
       super(props);
-      this.state={autoCompleteResult:[],username:135}
+      this.state={autoCompleteResult:[],imgErrMsg:"",imgName:[]}
   }
   
   formRef:RefObject<FormInstance> = React.createRef();
+  imgupRef:RefObject<ImageUpload> = React.createRef();
 
-  onGenderChange = (value:any) => {
-    let obj:any = this.formRef.current;
-    obj.setFieldsValue({
-      note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-    });
-  };
+  componentDidMount(){
+      let id:number = this.props.match.params.id;
+      this.getGoodsInfo(id);
+  }
 
-  onFinish = (values:any) => {
+
+  getGoodsInfo(gid:number){
+    let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
     let _this = this;
-    let t = this.formRef;
-    console.log(values);
+    $.ajax({
+        type:"GET",
+        // crossDomain: true, 
+        // xhrFields: {
+        //     withCredentials: true 
+        // },
+        url:newUrl,
+        dataType:"json",
+        success:function(data){
+            let imgStr:string = data.imgNames;
+            let arr:string[];
+            if(imgStr == null){
+              arr = [];
+            }
+            arr= imgStr.split(";");
+            _this.setState({imgName:arr,data:data});
+            _this.onFill(data);
+
+
+        },
+        error: function(xhr:any, textStatus, errorThrown){
+          console.log("getgoodsinfo error!");
+        }
+      })
+}
+
+  onFinish = (values:object) => {
+    
+    console.log("onFinish:",values);
+
+    if(this.imgUploadChanged()) {
+      //this.setState({success:true});
+      this.doEdit(values);
+    }
   };
+
+  imgUploadChanged():boolean{
+    let imgup:ImageUpload|null = this.imgupRef.current;
+    if(this.state.imgName.length==0){
+      if(imgup ==null || imgup.state.imgs.length < 1 ){
+        this.setState({imgErrMsg : "You must upload at least one image for your second-hand goods!"});
+        return false;
+      }else if(imgup ==null || imgup.state.imgs.length > 16){
+        this.setState({imgErrMsg : "You cannot upload more than 16 images！"});
+        return false;
+      }
+    }
+    this.setState({imgErrMsg : ""});
+    return true;
+  }
+
+  doEdit(values:any){
+    let _this = this;
+    let formData = new FormData();
+    let id:string = this.props.match.params.id;
+    //let ele: any = $('#upfile')[0];
+    //let appendTemp:any = ele.files[0];
+    let i = 0;
+    let imgup:any = this.imgupRef.current;
+    
+    for (let entry of imgup.state.imgs) {
+        
+        formData.append("img"+i,entry);
+        i++;
+    }
+    let oldimgnames = _this.combineImgNames(_this.state.imgName);
+    formData.append("oldimgnames",oldimgnames);
+
+    formData.append("gid",id);
+    
+    let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/edit";
+    let data= values;  //不用拼data
+    for(var p in data){
+        console.log(data[p]);
+        console.log(data[p]);
+        if(p == "typeCode"){
+            let ele = data[p];
+            formData.append("typeCode",ele[1]);
+        }
+        else if(p=="method"){
+          data[p].forEach((element:any) => {
+            if(element=="1"){
+              formData.append("method1","1");
+            }
+            if(element=="2"){
+              formData.append("method2","2");
+            }
+            if(element=="4"){
+              formData.append("method3","4");
+            }
+          });
+        }
+        else formData.append(p,data[p]);
+    }
+    
+
+    $.ajax({
+        type:"POST",
+        crossDomain: true, 
+        xhrFields: {
+            withCredentials: true 
+        },
+        url:url1,
+        cache: false,
+        data:formData,
+        dataType:"json",
+        processData: false,
+        contentType: false,
+        success:function(d){
+            if(d == null){
+                alert("Add failed dure to server error!");
+            }else{
+              _this.setState({success:true});
+                
+            }
+        },
+        error: function(xhr:any, textStatus, errorThrown){
+            console.log("request status:"+xhr.status+" msg:"+textStatus)
+            if(xhr.status=='604'){//未登录错误
+                let popwin: any = _this.refs.logwin;
+                popwin.setState({modalIsOpen:true})
+            }
+            
+        }
+    })    
+  }
 
   onReset = () => {
     this.formRef.current?.resetFields();
+    this.imgupRef.current?.reset();
+    this.setState({imgErrMsg:"",success:undefined});
+    //this.setState({success:true});
   };
 
-  onFill = () => {
+  onFill = (data:any) => {
+    //let data = this.state.data;
+    let n = data.typeCode.indexOf("_");
+    let cate = data.typeCode.substring(0,n);
+    let methods:any = [];
+    if((data.sellingMethod & 1) == 1){
+      methods.push("1");
+    }
+    if((data.sellingMethod & 2) == 2){
+      methods.push("2");
+    }
+    if((data.sellingMethod & 4) == 4){
+      methods.push("4");
+    }    
+    this.setState({methods:methods});
+
     this.formRef.current?.setFieldsValue({
-      userName: '12345',
-      password: '123abc',
-      confirm: '123abc',
+      name: data.name,
+      location: data.location,
+      price: data.price,
+      typeCode:[cate,data.typeCode],
+      method:methods,
     });
   };
 
-  componentDidMount(){
-    //this.onFill();
-  }
+
 
   getGoodsTypes(){
     let win:any = window;
     return win.goods_types;
   }
 
+  imgClicked(index:number){
+    this.state.imgName.splice(index,1);
+    this.setState({});
+  }
+
+  //拼接分号字符串
+  combineImgNames(arr:number[]){
+    if(arr == null || arr.length == 0){
+      return "";
+    }
+    let re:string = "";
+    for(let ele of arr){
+      re += (ele)+";";
+    }
+    return re.substring(0,re.length-1);
+  }
+
+
+
+  onChange = (checkedValues:any) =>  {
+    this.setState({methods:checkedValues})
+    console.log('checked = ', checkedValues);
+  }
   //const [form] = Form.useForm();
   render(){
     let _this = this;    
+    let id:number = this.props.match.params.id;
+    let imgname:string[] = this.state.imgName;
 
-    const onFinish = (values:any) => {
-      console.log('Received values of form: ', values);
-    };
+
+    if(this.state.success !== undefined){
+      return <div className='demo2'>
+        <h1>Change goods successed!</h1><p/> <Button type="default" size="large"  onClick={() => this.props.history.goBack()}>Back</Button>
+      </div>
+    }
   
-    const prefixSelector = (
-      <Form.Item name="prefix" noStyle>
-        <Select style={{ width: 70 }}>
-          <Option value="86">+86</Option>
-          <Option value="87">+87</Option>
-        </Select>
-      </Form.Item>
-    );
-  
-    //const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-  
-    const onWebsiteChange = (value:any) => {
-      if (!value) {
-        this.setState({autoCompleteResult:[]});
-      } else {
-        let arr:any = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-        this.setState({autoCompleteResult:arr});//(arr);
-      }
-    };
-  
-    
-    const websiteOptions = this.state.autoCompleteResult.map((website: any) => ({
-      label: website,
-      value: website,
-    }));
-  
-  
-    
+    else   
     return(
     <div  className='demo2'>
-      <h2>Add your second-hand goods here!</h2>
+      <h2>Edit goods here!</h2>
       <table className="content-table">
         <tr>
-          <td><h3> Upload Images: </h3></td><td><ImageUpload ref="imgup"/></td>
+          <td><h3> Images: </h3></td><td>
+            {imgname.map((element:any,index:number) =>{
+                      
+            let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+id+"&fname="+element;
+            console.log(imgSrc);
+            return(
+              <div className="upimgs"> 
+              <a><span><h1>Click to delete</h1></span>
+                <img src={imgSrc} onClick={()=> this.imgClicked(index)} width="100px" height="100px"/>
+              </a>
+              </div>
+            )
+          
+            }
+            )}
+            <ImageUpload ref={this.imgupRef} parent={this}/></td>
+        </tr>
+        <tr><td></td>
+    <td><span className="error_msg">{this.state.imgErrMsg}</span></td>
         </tr>
       </table>
       <Row><Col className='demo3'>
@@ -172,9 +308,9 @@ export default class TestForm extends React.Component<any,any> {
         ref={this.formRef} 
         name="register"
         onFinish={this.onFinish}
-        initialValues={{
-          typeCode: ['Furniture', 'Bed'],
-        }}        
+        // initialValues={{
+        //   typeCode: ['Furniture', 'Bed'],
+        // }}        
         scrollToFirstError
       >
       
@@ -217,11 +353,12 @@ export default class TestForm extends React.Component<any,any> {
 
       <Form.Item
         name="method"
+        label="Support deliver method"
         valuePropName="checked"
         rules={[
           { 
             validator:(_, value) => {
-              if(true) {
+              if(value.length > 0) {
                   return Promise.resolve()
               }else{
                   return Promise.reject('Should select at least one deliver-methed')
@@ -229,20 +366,18 @@ export default class TestForm extends React.Component<any,any> {
             },
           }
         ]}
-        {...tailFormItemLayout}
+        
       >
-        <Checkbox>Shipping</Checkbox>
-        <Checkbox name="method">Self-pick</Checkbox>
-        <Checkbox>Dome-dilivery</Checkbox>
+        <Checkbox.Group options={options} value={this.state.methods} onChange={this.onChange} />
       </Form.Item>
 
-
+      
 
  
 
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Add
+          Submit Change
         </Button>
       </Form.Item>
 
@@ -251,6 +386,12 @@ export default class TestForm extends React.Component<any,any> {
       </Form>
       </Col>
       </Row>
+      <LoginModal ref="logwin"/>
       </div>);
     }
+
+    // {...tailFormItemLayout}
+    // <Checkbox name="method" value="2">Self-pick</Checkbox>
+    // <Checkbox name="method" value="4">Home-dilivery</Checkbox>
+
 }

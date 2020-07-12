@@ -170,7 +170,7 @@ class App extends Component<any,any> {
           <Link to="/_addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/test">test</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/test/22">test</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/test2">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
@@ -184,13 +184,13 @@ class App extends Component<any,any> {
           <Route path="/_editIcon" component={EditIcon}></Route>
           <Route path="/_addgoods" component={AddGoods}></Route>
           <Route path="/login" component={Login}></Route>
-          <Route path="/test" component={TestForm}></Route>
+          <Route path="/test/:id" component={TestForm}></Route>
           <Route path="/test2" component={RegistrationForm}></Route>
 
           <Route path="/_searchsell" component={SearchSellGoods}></Route>
 
           <Route path="/searchGoods" component={SearchGoods}></Route>
-          <Route path="/editsellgoods/:gid" component={EditSellGoods}></Route>
+          <Route path="/editsellgoods/:id" component={EditSellGoods}></Route>
           <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
           <Route path="/placeOrder" component={PlaceOrder}></Route>
           <Route path="/_myAccount" component={MyAccount}></Route>
