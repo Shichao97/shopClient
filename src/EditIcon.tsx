@@ -66,7 +66,9 @@ export default class EditIcon extends React.Component<any,any> {
     }
     
     render(){
-        let id:string = this.state.id;
+        let win:any = window;
+        if(win.getCookie == undefined) return <div></div>
+        let id:string = win.getCookie("userId");
        // id = "1006";
         var myDate = new Date();
         let imgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+id+"&size=1"+"&refresh="+myDate.getMilliseconds();

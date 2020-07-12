@@ -4,6 +4,19 @@ import LoginModal from './LoginModal';
 import ImageModal from './ImageModal';
 import './SearchGoods.css';
 import './Register.css';
+import {
+    Form,
+    Input,
+    Tooltip,
+    Cascader,
+    Select,
+    Row,
+    Col,
+    Checkbox,
+    Button,
+    AutoComplete,
+  } from 'antd';
+  import { SmileTwoTone, HeartTwoTone, HeartFilled ,HeartOutlined} from '@ant-design/icons';
 import jquery from "jquery";
 import MessageModal from './MessageModal';
 const $ = jquery;
@@ -52,13 +65,37 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
 
     getTypes(typeCode:string):string{
-        let types:any = this.state.types;
+        let win:any = window;
+        let types:any = win.goods_types;
         if(types==undefined){
             return "";
         }
-        let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
-        return fullTypeName;
-      }
+
+        let n = typeCode.indexOf("_");
+        let cate = typeCode.substring(0,n);
+        //let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
+        let cateObj = this.findCateObj(types,cate);
+        return this.findTypeObj(cateObj,typeCode);
+    }
+
+    findCateObj(types:any[],cate:String){
+        let arr:any[] = [];
+        for (var i=0;i<types.length;i++)
+        { 
+            let element = types[i];
+            if(element.value == cate) return element;
+        }       
+        return arr;
+    }
+    findTypeObj(cateObj:any,typeCode:String){
+        for (var i=0;i<cateObj.children.length;i++)
+        { 
+            let element = cateObj.children[i];
+            if(element.value == typeCode) return cateObj.label+"/"+element.label;
+        }
+        
+        return ""
+    }
 
     getImgSrc(gid:string):string{
     let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
@@ -171,7 +208,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                     alert(data.msg);
                 }
                 else if(data.success == 1){
-                    _this.setState({});
+                    _this.setState({like:data.like});
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
@@ -212,18 +249,124 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         }
     }
 
+    getLikeIcon(){
+
+        var win:any = window;
+        let gid = this.state.data.id;
+        if(win.getCookie == undefined) return undefined;
+        let uid:string = win.getCookie("userId");
+        let outline = <HeartOutlined style={{ color: 'hotpink',fontSize: '22px' }} onClick={() => this.clickCollect()}/>;
+        let filled = <HeartFilled  style={{ color: 'hotpink',fontSize: '22px' }} onClick={() => this.clickCollect()}/>;
+        if(uid=="") return outline;
+        else if(this.state.like!=undefined){
+            this.loadIconState(gid,uid);
+            return undefined;
+        }
+        else{
+            return  this.state.like == true?
+                filled:outline;
+
+        }
+
+    }
+
+    loadIconState(gid:any,uid:any){
+        let newUrl:string = window.localStorage.getItem("host_pre")+"collect/edit/getIsLike?goodsId="+gid+"&memberId="+uid;
+        let _this:ShowGoodsInfo = this;
+        $.ajax({
+            type:"GET",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+            url:newUrl,
+            dataType:"json",
+            success:function(data){
+                if(data.success == 0){
+                    alert(data.msg);
+                }
+                else if(data.success == 1){
+                    _this.setState({like:data.like});
+                }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                console.log("request status:"+xhr.status+" msg:"+textStatus)
+                if(xhr.status=='604'){//未登录错误
+                    let popwin: any = _this.refs.logwin;
+                    popwin.setState({modalIsOpen:true})
+                }
+                
+            }
+          })        
+        return false;
+    }
+
     render(){
         let gid = this.state.data.id;
         let fullTypeName:string = this.getTypes(this.state.data.typeCode);
         let imgSrc:string = this.getImgSrc(this.state.data.id);
         let imgname:string[] = this.state.imgName;
         let collectIconSrc:string = this.getCollectIconSrc(gid);
-        let tables = <table className="content-table">
+        //let tables = <table className="content-table">
+        let btns;
+
+        if(this.state.uid == this.state.data.sellerId){ //self-goods
+            if(this.state.data.status == 1){  //selling now
+                //return(
+                    
+                    btns = <Col span={24}>
+ 
+                        <Button type="primary" onClick={() => this.clickEdit()}>Edit</Button>
+                        &nbsp;&nbsp;
+                        <Button type="primary"  onClick={() => this.clickRemoveFromShelf()}>Remove from the shelf</Button>
+                    </Col>
+                    
+                //)
+            }else if(this.state.data.status == 0){ //下架
+                // return(
+                    btns = <Col span={24}>
+                        {/* {tables} */}
+                        <Button  type="primary" onClick={() => this.clickPutOnShelf()}>Put on the shelf again</Button>
+                    </Col>
+                // )
+            }else{//sold out
+                // return(
+                    btns =  <Col span={24}>
+                        {/* {tables} */}
+                        Sold out !!!
+                    </Col>
+                // )
+            }
+        }else{ //未登录或者不是自己商品
+            if(this.state.data.status == 1){  //selling now
+
+                btns =   <Col span={24}>
+                         
+                        
+                        <Button  type="primary" onClick={() => this.clickBuy()}>Buy Now</Button>
+                        &nbsp;&nbsp;
+                        <Button  type="primary" >Leave a note</Button>
+                        &nbsp;&nbsp;
+                        <Button type="primary" onClick={()=>this.openTalkWindow()}>Talk to seller</Button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {this.getLikeIcon()}
+                    </Col>
+                // )
+            }else{
+                // return(
+                    btns =   <Col span={24}>
+                        {/* {tables} */}
+                        Not on the shelf!
+                    </Col>
+                // )
+            }
+        }
+
       
-        
-        <tr> 
-            <td></td>
-            <td>
+        return <div className="show_goods_info">
+        <Row> 
+            <Col span={3}> </Col>
+            <Col span={21}>
             {imgname.map((element:any,index:number) =>{
                       
                       let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+element;
@@ -237,102 +380,60 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                       )
                     
                       }
-                      )}
-            </td>
-        </tr>
-        <tr>
-            <td>
+            )}
+        </Col>       
+        </Row>
+        <Row  gutter={[16, 6]}>
+            <Col span={8} className="right_info">
                 name: 
-            </td>
-            <td>
-                {this.state.data.name}
-            </td>
-        </tr>
-        <tr>
-            <td>
+            </Col>
+            <Col span={16}>
+            {this.state.data.name}
+            </Col>
+        </Row>
+        <Row gutter={[16, 6]}>
+            <Col span={8} className="right_info">
                 price:           
-            </td>
-            <td>
+            </Col>
+            <Col span={16}>
                 {this.state.data.price}    
-            </td>
+            </Col>
             
-        </tr>
-        <tr>
-            <td>
+        </Row>
+        <Row gutter={[16, 6]}>
+            <Col span={8} className="right_info">
                 location: 
-            </td>
-            <td>
-                {this.state.data.location}
-            </td>
+            </Col> 
+            <Col span={16}>
+            {this.state.data.location}
+            </Col>
             
-        </tr>
-        <tr>
-            <td>
+        </Row>
+        <Row gutter={[16, 6]}>
+            <Col span={8} className="right_info">
                 type: 
-            </td>
-            <td>
-                {fullTypeName}
-            </td>
+            </Col>
+            <Col span={16}>
+            {fullTypeName}
+            </Col>
             
-        </tr>
-        <tr>
-            <td>
+        </Row>
+        <Row gutter={[16, 6]}>
+            <Col span={8} className="right_info">
                 desciption:
-            </td>
-            <td>
-                {this.state.description}
-            </td>
+            </Col>
+            <Col span={16}>
+            {this.state.description}
+            </Col>
              
-        </tr>
+        </Row>
+
         <ImageModal ref="bigimg"/>
         <LoginModal ref="logwin"/>
  
-    </table>
+        {btns}
+        </div>
 
-        if(this.state.uid == this.state.data.sellerId){ //self-goods
-            if(this.state.data.status == 1){  //selling now
-                return(
-                    <div>
-                        {tables}
-                        <input type="button" value="Edit" onClick={() => this.clickEdit()}/>
-                        <input type="button" value="Remove from the shelf" onClick={() => this.clickRemoveFromShelf()}/>
-                    </div>
-                )
-            }else if(this.state.data.status == 0){ //下架
-                return(
-                    <div>
-                        {tables}
-                        <input type="button" value="Put on the shelf again" onClick={() => this.clickPutOnShelf()}/>
-                    </div>
-                )
-            }else{//sold out
-                return(
-                    <div>
-                        {tables}
-                        Sold out !!!
-                    </div>
-                )
-            }
-        }else{ //未登录或者不是自己商品
-            if(this.state.data.status == 1){  //selling now
-                return(
-                    <div>
-                        {tables}
-                        <input type="button" value="Buy Now" onClick={() => this.clickBuy()}/>
-                        
-                        <img src={collectIconSrc} onClick={() => this.clickCollect()}/>
-                        <input type="button" value="Leave a note" />
-                        <input type="button" value="Talk to seller" onClick={()=>this.openTalkWindow()}/>
-                    </div>
-                )
-            }else{
-                return(
-                    <div>
-                        {tables}
-                        Not on the shelf!
-                    </div>
-                )
-            }
-        }
+        
     }
 }

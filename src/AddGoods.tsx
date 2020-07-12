@@ -16,6 +16,9 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import ImageUpload from './ImageUpload';
 import LoginModal from './LoginModal';
+import jquery from "jquery";
+
+const $ = jquery;
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
