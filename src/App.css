@@ -324,11 +324,19 @@
   width: 50%;
   
   left: 25%;
+  text-align: center;
   
   
-  background-color: rgb(250, 250, 228);  
 }
 
+.demo3 {
+  position: absolute; 
+  width: 100%;
+  
+  left: 0%;
+  text-align: center;
+   
+}
 .showimgs {
   display: block; 
   float: left;

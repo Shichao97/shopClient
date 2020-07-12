@@ -22,7 +22,7 @@ import ShowOrderInfo from './ShowOrderInfo';
 import MessageModal from './MessageModal';
 import ChatMemberList from './ChatMemberList';
 import RegistrationForm from './test2';
-import TestForm from './TestForm';
+import TestForm from './test';
 
 const $ = jquery;
 
@@ -70,6 +70,50 @@ class App extends Component<any,any> {
     }).isRequired
   }  
 
+  componentWillMount(){
+    var win:any = window;
+    const goods_types = [
+      {
+        value: 'A',
+        label: 'Furniture',
+        children: [
+          {
+            value: 'A_0001',
+            label: 'Bed',
+          },
+          {
+            value: 'A_0002',
+            label: 'Chair',
+          },
+          {
+            value: 'A_0003',
+            label: 'Table',
+          },
+        ],
+      },
+      {
+        value: 'B',
+        label: 'Books',
+        children: [
+          {
+            value: 'B_0001',
+            label: 'Math',
+          },
+          {
+            value: 'B_0002',
+            label: 'English',
+          },
+          {
+            value: 'B_0003',
+            label: 'Magazine',
+          },
+        ],
+      },
+    ];
+
+    win.goods_types = goods_types;
+    //sessionStorage.setItem('Goods_types', JSON.stringify(goods_types));
+  }
 
   componentDidMount() {
     //onhashchange=this.checkHash
@@ -91,6 +135,7 @@ class App extends Component<any,any> {
       var win:any = window;
       //win.msgwin = this.refs.msgwin;
       win.msgwin = this.msgwin.current;
+
   }
 
   

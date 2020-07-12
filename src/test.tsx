@@ -14,6 +14,7 @@ import {
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
+import ImageUpload from './ImageUpload';
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -96,10 +97,6 @@ export default class TestForm extends React.Component<any,any> {
   onFinish = (values:any) => {
     let _this = this;
     let t = this.formRef;
-    let ob = this.formRef.current?.getFieldsValue();
-
-    this.formRef.current?.setFieldsValue({userName:"ttt"});
-    ob = this.formRef.current?.getFieldsValue();
     console.log(values);
   };
 
@@ -109,12 +106,19 @@ export default class TestForm extends React.Component<any,any> {
 
   onFill = () => {
     this.formRef.current?.setFieldsValue({
-      userName: 'Helloworld'
+      userName: '12345',
+      password: '123abc',
+      confirm: '123abc',
     });
   };
 
   componentDidMount(){
-    this.onFill();
+    //this.onFill();
+  }
+
+  getGoodsTypes(){
+    let win:any = window;
+    return win.goods_types;
   }
 
   //const [form] = Form.useForm();
@@ -151,11 +155,17 @@ export default class TestForm extends React.Component<any,any> {
       value: website,
     }));
   
-    //let form=Form.create();
-
+  
     
     return(
     <div  className='demo2'>
+      <h2>Add your second-hand goods here!</h2>
+      <table className="content-table">
+        <tr>
+          <td><h3> Upload Images: </h3></td><td><ImageUpload ref="imgup"/></td>
+        </tr>
+      </table>
+      <Row><Col className='demo3'>
 
       <Form
         {...formItemLayout}
@@ -163,80 +173,65 @@ export default class TestForm extends React.Component<any,any> {
         name="register"
         onFinish={this.onFinish}
         initialValues={{
-          residence: ['zhejiang', 'hangzhou', 'xihu'],
-          prefix: '86',
-        }}
+          typeCode: ['Furniture', 'Bed'],
+        }}        
         scrollToFirstError
       >
       
       <Form.Item
-        name="userName"
-        label="Username"
-        rules={ [{required:false, message: '请输入数字!' }]}
+        name="name"
+        label="Goods Name"
+        rules={ [{required:true, message: 'Please enter goods name!' }]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="location"
+        label="Location"
+        rules={ [{required:true, message: 'Please enter location!' }]}
       >
         <Input />
       </Form.Item>
 
 
+      <Form.Item
+        name="typeCode"
+        label="Classification"
+        rules={[
+          { type: 'array', required: true, message: 'Please select goods Classification!' },
+        ]}
+      >
+        <Cascader options={this.getGoodsTypes()} />
+      </Form.Item>
 
-            {
-/*
-        getFieldDecorator('userName',{//userName实际上就是你获取整个表单数据对象之后，此输入框的名字
 
-          initialValue:'qqqq',//这是用来初始化表单数据的
-
-          rules:[//这是用来校验表单数据的，具体用法请看文档
-
-              {
-
-                  required:true,
-
-                  message:'用户名不能为空'
-
-              },
-
-              {
-
-                  min:5,max:10,
-
-                  message:'长度不在范围内'
-
-              },
-
-              {
-
-                  pattern:new RegExp('^\\w+$','g'),
-
-                  message:'用户名必须为字母或者数字'
-
-              }
-
-          ]
-
-        })(
-
-    <Input  placeholder="请输入用户名" />
-
-)
-*/
-}       
-      
+      <Form.Item
+        name="price"
+        label="Price"
+        rules={[{ required: true, message: 'Please input goods price!' },
+        {pattern: new RegExp(/^[1-9]\d*$/, "g"),message: 'Please enter number!' }]}
+      >
+        <Input style={{ width: '100%' }}/>
+      </Form.Item>
 
 
 
-      
+
+
+ 
 
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Register
+          Add
         </Button>
       </Form.Item>
 
 
       
       </Form>
-
-
+      </Col>
+      </Row>
       </div>);
     }
 }
