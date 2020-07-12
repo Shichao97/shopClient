@@ -79,15 +79,21 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
 
     findCateObj(types:any[],cate:String){
-        types.forEach(element => {
-            
-        });
-        return []
+        let arr:any[] = [];
+        for (var i=0;i<types.length;i++)
+        { 
+            let element = types[i];
+            if(element.value == cate) return element;
+        }       
+        return arr;
     }
-    findTypeObj(types:any[],cate:String){
-        types.forEach(element => {
-            
-        });
+    findTypeObj(cateObj:any,typeCode:String){
+        for (var i=0;i<cateObj.children.length;i++)
+        { 
+            let element = cateObj.children[i];
+            if(element.value == typeCode) return cateObj.label+"/"+element.label;
+        }
+        
         return ""
     }
 
