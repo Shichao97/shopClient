@@ -337,6 +337,31 @@
   text-align: center;
    
 }
+
+.show_goods_info {
+  position: absolute; 
+  width: 50%;
+  
+  left: 25%;
+  text-align: center;
+  
+  font-size: larger;
+}
+
+.left_info {
+
+  text-align: left;
+  
+  
+}
+
+.right_info {
+
+  text-align: right;
+  
+
+}
+
 .showimgs {
   display: block; 
   float: left;
