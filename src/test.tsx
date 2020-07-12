@@ -215,7 +215,26 @@ export default class TestForm extends React.Component<any,any> {
         <Input style={{ width: '100%' }}/>
       </Form.Item>
 
-
+      <Form.Item
+        name="method"
+        valuePropName="checked"
+        rules={[
+          { 
+            validator:(_, value) => {
+              if(true) {
+                  return Promise.resolve()
+              }else{
+                  return Promise.reject('Should select at least one deliver-methed')
+              }
+            },
+          }
+        ]}
+        {...tailFormItemLayout}
+      >
+        <Checkbox>Shipping</Checkbox>
+        <Checkbox>Self-pick</Checkbox>
+        <Checkbox>Dome-dilivery</Checkbox>
+      </Form.Item>
 
 
 

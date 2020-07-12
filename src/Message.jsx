@@ -85,8 +85,8 @@ class Messgae extends React.Component {
             timerNum++;
 
 
-            let uid = window.getCookie("userId");
-            let username = window.getCookie("username");
+            let uid = this.getCookie("userId");
+            let username = this.getCookie("username");
             if(uid != undefined && uid.length>0){
                 if(timerNum % 5==0){
                     //_this.refreshNewMsg(uid);
@@ -207,11 +207,23 @@ class Messgae extends React.Component {
         }
         this.props.history.push(sta);
     }
-
+    
+    
+    getCookie(key){
+        const name =key+"=";
+        const ca = document.cookie.split(';'); 
+        for(let i=0;i<ca.length;i++){
+          const c = ca[i].trim();
+          if(c.indexOf(name) === 0){
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+    }
     render() {
         var win = window;
-        let uid = win.getCookie("userId");
-        let username = win.getCookie("username");
+        let uid = this.getCookie("userId");
+        let username = this.getCookie("username");
         let newNum = this.getTotalNewNum();
         let sNum = newNum==0?"":""+newNum;
         let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message <sup><font color="red" size="3">{sNum}</font></sup></Button>;

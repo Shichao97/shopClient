@@ -23,7 +23,7 @@ import MessageModal from './MessageModal';
 import ChatMemberList from './ChatMemberList';
 import RegistrationForm from './test2';
 import TestForm from './test';
-import Active from './Active';
+
 const $ = jquery;
 
 
@@ -160,7 +160,8 @@ class App extends Component<any,any> {
          <MessageModal  ref={this.msgwin}/>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/searchGoods">Demo id</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/searchGoods">searchGoods</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
           <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
@@ -172,7 +173,7 @@ class App extends Component<any,any> {
           <Link to="/test2">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
-          
+         
           <hr/>
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
@@ -195,7 +196,6 @@ class App extends Component<any,any> {
           <Route path="/_mySelling" component={MySelling}></Route>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
-          <Route path="/active/:params" component={Active}></Route>
         </div>
         
       </Router>
