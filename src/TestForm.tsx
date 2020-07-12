@@ -14,6 +14,7 @@ import {
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
+import ImageUpload from './ImageUpload';
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -147,11 +148,16 @@ export default class TestForm extends React.Component<any,any> {
       value: website,
     }));
   
-    //let form=Form.create();
-
-
+  
+    
     return(
     <div  className='demo2'>
+      <table className="content-table">
+        <tr>
+          <td><h3> Upload Images: </h3></td><td><ImageUpload ref="imgup"/></td>
+        </tr>
+      </table>
+      <Row><Col className='demo3'>
 
       <Form
         {...formItemLayout}
@@ -236,7 +242,6 @@ export default class TestForm extends React.Component<any,any> {
         <Input.Password />
       </Form.Item>
 
-      
 
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
@@ -247,7 +252,8 @@ export default class TestForm extends React.Component<any,any> {
 
       
       </Form>
-
+      </Col>
+      </Row>
       </div>);
     }
 }
