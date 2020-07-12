@@ -29,6 +29,7 @@ export default class Active extends React.Component<any,any> {
     }
 
     
+    
     render(){
         if(this.state.actMsg == undefined){
             return(
