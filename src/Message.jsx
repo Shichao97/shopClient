@@ -22,14 +22,14 @@ class Messgae extends React.Component {
         this.taskRemindInterval = null;
     }
 
-    checkHash(){
-        var str = window.location.hash;
-        //console.log("Hash changed to: "+str.substr(0,3));
-        //startsWith()函数 IE浏览器不支持，所以改为 substr
-        if(str.substr(0,1) == "_"){
-          window.checkLogin();
-        }
-    }
+    // checkHash(){
+    //     var str = window.location.hash;
+    //     //console.log("Hash changed to: "+str.substr(0,3));
+    //     //startsWith()函数 IE浏览器不支持，所以改为 substr
+    //     if(str.substr(0,1) == "_"){
+    //       window.checkLogin();
+    //     }
+    // }
 
     componentWillReceiveProps(nextProps){
         var str = nextProps.location.pathname;
@@ -47,17 +47,17 @@ class Messgae extends React.Component {
         }
     }
     
-    checkLogin(){
-        let obj = new Object();
-        obj.id = conf.getCookie("userId");
-        obj.username = conf.getCookie("username");
-        //console.log("Hi! "+uid);
-        if(obj.id == ""){
-            //location.hash = "/login";
-            this.props.history.push( "/login" );
-        }    
-        return obj;
-    }
+    // checkLogin(){
+    //     let obj = new Object();
+    //     obj.id = conf.getCookie("userId");
+    //     obj.username = conf.getCookie("username");
+    //     //console.log("Hi! "+uid);
+    //     if(obj.id == ""){
+    //         //location.hash = "/login";
+    //         this.props.history.push( "/login" );
+    //     }    
+    //     return obj;
+    // }
 
     componentDidMount() {
         // window.getCookie = this.getCookie;

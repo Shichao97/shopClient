@@ -49,6 +49,8 @@ class App extends Component<any,any> {
   constructor(props:any){
     super(props);
     
+    window.localStorage.setItem("host_pre", "http://localhost:8080/");
+    window.localStorage.setItem("wshost_pre", "ws://localhost:8080/");
   }
 
   msgwin:RefObject<MessageModal> = React.createRef();
@@ -56,15 +58,15 @@ class App extends Component<any,any> {
   //msgwin:MutableRefObject<MessageModal|undefined> = useRef();
   //msgwin:any = useRef();
 
-  checkHash(){
-    var str: string = window.location.hash;
-    //console.log("Hash changed to: "+str.substr(0,3));
-    //startsWith()函数 IE浏览器不支持，所以改为 substr
-    if(str.substr(0,3) == "#/_"){
-      let win:any = window;
-      win.checkLogin();
-    }
-  }
+  // checkHash(){
+  //   var str: string = window.location.hash;
+  //   //console.log("Hash changed to: "+str.substr(0,3));
+  //   //startsWith()函数 IE浏览器不支持，所以改为 substr
+  //   if(str.substr(0,3) == "#/_"){
+  //     let win:any = window;
+  //     win.checkLogin();
+  //   }
+  // }
 
   staticcontextTypes={
     router:PropTypes.shape({

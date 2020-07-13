@@ -16,6 +16,7 @@ const $ = jquery;
       }
 
     doLogin(){
+      let url = window.localStorage.getItem("host_pre")+"member/login";
       let _this = this
       let params = $("#log_form").serializeArray();
       $.ajax({
@@ -24,7 +25,7 @@ const $ = jquery;
           xhrFields: {
               withCredentials: true 
           },
-          url:window.localStorage.getItem("host_pre")+"member/login",
+          url:url,
           data:params,
           dataType:"json",
           success: function(data) {

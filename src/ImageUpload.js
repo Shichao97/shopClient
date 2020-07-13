@@ -14,18 +14,27 @@ export default class ImageUpload extends React.Component {
     }
 
     multiImagePreview() {
- 
-        var upMultilImagesObj = document.getElementById("upMultilImages");
-        var fileList = upMultilImagesObj.files;
-        
-        for (var i = 0; i < fileList.length; i++) { 
-            this.state.imgs.push(upMultilImagesObj.files[i]);
-        }  
-        this.setState({});
-        let parent = this.props.parent;
-        if(parent !=undefined){
-            parent.imgUploadChanged();
-        } 
+        if(this.props.single == true){
+            var upMultilImagesObj = document.getElementById("upMultilImages");
+            var fileList = upMultilImagesObj.files;
+            this.setState({imgs:[upMultilImagesObj.files[0]]});
+
+            this.setState({});
+        }
+        else
+        {
+            var upMultilImagesObj = document.getElementById("upMultilImages");
+            var fileList = upMultilImagesObj.files;
+            
+            for (var i = 0; i < fileList.length; i++) { 
+                this.state.imgs.push(upMultilImagesObj.files[i]);
+            }  
+            this.setState({});
+            let parent = this.props.parent;
+            if(parent !=undefined){
+                parent.imgUploadChanged();
+            } 
+        }
     }   
 
     imgClicked(index){
@@ -53,9 +62,18 @@ export default class ImageUpload extends React.Component {
             })
         }
         <div  className="upimgs">
-        <a className="file">+Image
-	    <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
-        </a>
+        
+        {
+            (this.props.single == true)?
+            <a className="file">+Image
+            <input type="file"  name="file" id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
+            </a>
+            :
+            <a className="file">+Image
+            <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
+            </a>
+        }
+
         </div> 
         </div>  
     }
