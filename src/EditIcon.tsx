@@ -80,7 +80,7 @@ export default class EditIcon extends React.Component<any,any> {
             <div className="demo2">
                 <Row><Col span={24}><h2>Hello! {un}</h2></Col></Row>
                 <Row><Col span={24}><h2>&nbsp;</h2></Col></Row>
-                <Row><Col span={4}></Col><Col span={10}>Edit you icon: <img src={imgSrc} />&nbsp;&nbsp;&nbsp;&nbsp; =&gt; </Col><Col span={10}>
+                <Row justify="space-around" align="middle"><Col span={4}></Col><Col span={10}>Edit you icon: <img src={imgSrc} />&nbsp;&nbsp;&nbsp;&nbsp; =&gt; </Col><Col span={10}>
                     
                 <Upload
                     name="avatar"
