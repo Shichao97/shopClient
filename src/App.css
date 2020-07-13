@@ -310,13 +310,13 @@
   min-width: 300px;
   min-height: 400px;
   max-height: 400px;
-  width: 90%;
+  width: 70%;
   height: 50%;
-  background: hsl(120, 14%, 90%);
+  background: hsl(59, 63%, 62%);
   text-align: center;
   overflow: auto;
-  left: 5%;
-  top: 5%;
+  left: 15%;
+  top: 15%;
   position: relative;
 }
 .demo2 {

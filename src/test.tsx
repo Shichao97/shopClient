@@ -16,7 +16,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import ImageUpload from './ImageUpload';
 import jquery from "jquery";
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
 const $ = jquery;
 
 
@@ -191,7 +191,7 @@ export default class TestForm extends React.Component<any,any> {
         error: function(xhr:any, textStatus, errorThrown){
             console.log("request status:"+xhr.status+" msg:"+textStatus)
             if(xhr.status=='604'){//未登录错误
-                let popwin: any = _this.refs.logwin;
+                let popwin: any = conf.loginWin;
                 popwin.setState({modalIsOpen:true})
             }
             
@@ -386,7 +386,8 @@ export default class TestForm extends React.Component<any,any> {
       </Form>
       </Col>
       </Row>
-      <LoginModal ref="logwin"/>
+
+
       </div>);
     }
 

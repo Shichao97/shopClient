@@ -1,6 +1,8 @@
 import React from 'react';
 import jquery from "jquery";
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
+import conf from './Conf'
+
 const $ = jquery;
 
 export default class EditIcon extends React.Component<any,any> {
@@ -52,7 +54,7 @@ export default class EditIcon extends React.Component<any,any> {
            },error: function(xhr:any, textStatus, errorThrown){
             console.log("request status:"+xhr.status+" msg:"+textStatus)
             if(xhr.status=='604'){//未登录错误
-                let popwin: any = _this.refs.logwin;
+                let popwin: any = conf.loginWin;
                 popwin.setState({modalIsOpen:true})
             }else if(xhr.status=='606'){ //id differences
                 alert("No right to do this!");
@@ -74,9 +76,9 @@ export default class EditIcon extends React.Component<any,any> {
     //     return "";
     //   }
     render(){
-        let win:any = window;
-        if(win.getCookie == undefined) return <div></div>
-        let id:string = win.getCookie("userId");
+        let cf:any = conf;
+        if(cf.getCookie == undefined) return <div></div>
+        let id:string = cf.getCookie("userId");
        // id = "1006";
         var myDate = new Date();
         let imgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+id+"&size=1"+"&refresh="+myDate.getMilliseconds();
@@ -89,7 +91,6 @@ export default class EditIcon extends React.Component<any,any> {
                     Edit you icon: <input id="upfile" type="file" name="upfile"/>
                     <button id="upload" type="button" value="Upload" onClick={() => this.handleIcon(id)}>upload</button>
                 </form>
-                <LoginModal ref="logwin"/>
             </div>
         )
     

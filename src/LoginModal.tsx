@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 //import './App.css';
 import { render } from '@testing-library/react';
 import jquery from "jquery";
+import { compileFunction } from 'vm';
 //import { stringify } from 'querystring';
 const $ = jquery;
 
@@ -31,6 +32,9 @@ const $ = jquery;
               console.log(data)
               if(data.success == 1){
                 _this.setState({modalIsOpen:false});
+                //if(_this.state.comp != undefined){
+                  _this.state.comp?.setState({});
+                //}
               }
               else if(data.success==0){
                 alert(data.msg);

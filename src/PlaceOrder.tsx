@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import jquery from "jquery";
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
+import conf from './Conf'
+
 const $ = jquery;
 
 
@@ -19,8 +21,8 @@ export default class PlaceOrder extends React.Component<any,any> {
 
     handlePlace(){
         let _this:PlaceOrder = this;
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        //var win:any = window;
+        let uid:string = (conf as any).getCookie("userId");
         let newUrl:string = window.localStorage.getItem("host_pre")+"order/placeOrder?goodsId="+this.state.goodsdata.id+"&buyerId="+uid;
         let plus:string = $("#buyForm").serialize(); //receiveMethod,addr
         newUrl =  newUrl + "&" + plus;
@@ -43,7 +45,7 @@ export default class PlaceOrder extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = _this.refs.logwin;
+                    let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
                 
@@ -135,7 +137,7 @@ export default class PlaceOrder extends React.Component<any,any> {
                         </table>
                         <input type="button" value="place your order" onClick={() => this.handlePlace()}/>
                     </form>
-                    <LoginModal ref="logwin"/>
+
                 </div>
             )
         }

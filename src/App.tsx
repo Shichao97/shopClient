@@ -25,6 +25,10 @@ import RegistrationForm from './test2';
 import TestForm from './test';
 import Active from './Active';
 
+import conf from './Conf'
+import LoginModal from './LoginModal';
+
+
 const $ = jquery;
 
 
@@ -48,6 +52,7 @@ class App extends Component<any,any> {
   }
 
   msgwin:RefObject<MessageModal> = React.createRef();
+  logwin:RefObject<LoginModal> = React.createRef();
   //msgwin:MutableRefObject<MessageModal|undefined> = useRef();
   //msgwin:any = useRef();
 
@@ -72,51 +77,23 @@ class App extends Component<any,any> {
   }  
 
   componentWillMount(){
-    var win:any = window;
-    const goods_types = [
-      {
-        value: 'A',
-        label: 'Furniture',
-        children: [
-          {
-            value: 'A_0001',
-            label: 'Bed',
-          },
-          {
-            value: 'A_0002',
-            label: 'Chair',
-          },
-          {
-            value: 'A_0003',
-            label: 'Table',
-          },
-        ],
-      },
-      {
-        value: 'B',
-        label: 'Books',
-        children: [
-          {
-            value: 'B_0001',
-            label: 'Math',
-          },
-          {
-            value: 'B_0002',
-            label: 'English',
-          },
-          {
-            value: 'B_0003',
-            label: 'Magazine',
-          },
-        ],
-      },
-    ];
 
-    win.goods_types = goods_types;
+
+   
+    var win:any = window;
+
+
+    // win.goods_types = goods_types;
     //sessionStorage.setItem('Goods_types', JSON.stringify(goods_types));
   }
 
   componentDidMount() {
+    //conf.test1();
+    //let n = conf.ttt;
+    //conf.ttt=8;
+    //let c:any = conf;
+    (conf as any).msgWin = this.msgwin.current;  
+    (conf as any).loginWin = this.logwin.current;    
     //onhashchange=this.checkHash
     //let pathname: any;
     // this.context.router.history.listen(()=>{
@@ -159,6 +136,7 @@ class App extends Component<any,any> {
       <Router>
          <Message app={this}/>
          <MessageModal  ref={this.msgwin}/>
+         <LoginModal  ref={this.logwin}/>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchGoods">searchGoods</Link>&nbsp;&nbsp;&nbsp;
@@ -176,6 +154,7 @@ class App extends Component<any,any> {
           <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
          
           <hr/>
+          <switch>
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
           <Route path="/query" component={Demo}></Route>
@@ -198,6 +177,9 @@ class App extends Component<any,any> {
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
+
+          <Redirect to="/"/>
+          </switch>
         </div>
         
       </Router>

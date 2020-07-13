@@ -16,7 +16,7 @@ import {
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
-
+import conf from './Conf'
 
 
 const $ = jquery;
@@ -147,8 +147,8 @@ export default class Register extends React.Component<any,any> {
     render(){
         let _this = this;    
         return(
-        <div>
-    
+        <div className="demo2">
+    <h1>Free Member Register</h1>
           <Form
             {...formItemLayout}
             ref={this.formRef} 
@@ -172,7 +172,25 @@ export default class Register extends React.Component<any,any> {
                 required: true,
                 message: 'Please input your Username!',
               },
+              {
+                validator:(rule,value,callback)=>{
+                  let n = value;
+                  $.ajax({
+                    type:"GET",
+                    url:window.localStorage.getItem("host_pre")+"member/checkUsername?userName="+value,
+                    //data:value,
+                    dataType:"json",
+                    success:function(d){
+                      if(d.success == 1) callback();
+                      else callback(d.msg);
+                    },error:function(xhr:any,textStatus,errorThrown){
+                        callback("Unknown error.Maybe the registery server is down");
+                    }
+                });
+                }
+              },
             ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>
@@ -232,7 +250,15 @@ export default class Register extends React.Component<any,any> {
             <Input.Password />
           </Form.Item>
     
-          
+          <Form.Item
+            name="schoolCode"
+            label="School"
+            rules={[
+              { type: 'array', required: true, message: 'Please select school!' },
+            ]}
+          >
+            <Cascader options={conf.schools} />
+          </Form.Item>        
     
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">

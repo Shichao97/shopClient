@@ -4,6 +4,7 @@ import { HashRouter as Router, Link, Route } from 'react-router-dom';
 import Login from './Login';
 import { Button, Row, Col } from 'antd'
 import MessagePanel from './MessagePanel';
+import conf from './Conf'
 
 var ws;
 
@@ -37,9 +38,9 @@ class ChatMemberList extends React.Component {
     }
 
     render() {
-        var win = window;
-        let uid = win.getCookie("userId");
-        let username = win.getCookie("username");
+        //var win = window;
+        let uid = conf.getCookie("userId");
+        let username = conf.getCookie("username");
         let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=0";
         let title = this.state.toId == undefined?<div>Select chat member</div>:<div>
             <img src={memberImgSrc}/> 

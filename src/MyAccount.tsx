@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import jquery from "jquery";
 import './MyAccount.css';
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
+import conf from './Conf'
+
 const $ = jquery;
 
 
@@ -46,7 +48,7 @@ export default class MyAccount extends React.Component<any,any> {
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
               if(xhr.status=='604'){//未登录错误
-                  let popwin: any = _this.refs.logwin;
+                  let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
               
@@ -57,8 +59,8 @@ export default class MyAccount extends React.Component<any,any> {
 
     handleSearchNotPaid(){
         let _this: MyAccount = this;
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
         let plus:string = "&searchStatus=notPaid";
         let plusnew:string = "&pageSize=5";//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
@@ -70,8 +72,8 @@ export default class MyAccount extends React.Component<any,any> {
 
     handleSearchNotFinished(){
         let _this: MyAccount = this;
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
         let plus:string = "&searchStatus=notFinished";
         let plusnew:string = "&pageSize=5";//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
@@ -83,8 +85,8 @@ export default class MyAccount extends React.Component<any,any> {
 
     handleSearchAll(){
         let _this: MyAccount = this;
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
         let plus:string = "";
         let plusnew:string = "&pageSize=5";//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
@@ -148,9 +150,9 @@ export default class MyAccount extends React.Component<any,any> {
     render(){
         let page:any = this.state.page;
         let arry:any[] = page.content;
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
-        let username:string = win.getCookie("username");
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
+        let username:string = cf.getCookie("username");
         let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
         
         return(
@@ -202,7 +204,6 @@ export default class MyAccount extends React.Component<any,any> {
                 <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={this.handleChange}/>
                 <input type="button" value="Go" onClick={() => this.handleGoto()}/><br />  <br />
         
-                <LoginModal ref="logwin"/>
             </div>
         )
     }

@@ -4,6 +4,8 @@ import './SearchGoods.css';
 import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
+import conf from './Conf'
+
 const $ = jquery;
 
 export default class SearchGoods extends React.Component<any,any> {
@@ -17,32 +19,32 @@ export default class SearchGoods extends React.Component<any,any> {
           page:{"content":[]},
           gotoPage:1,
           flag:0,
-          types:[]
+          types:conf.goods_types
         }
       }
       
       componentWillMount(){
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        //var win:any = window;
+        let uid:string = (conf as any).getCookie("userId");
         this.setState({uid:uid});
 
-        let getDatas:any =  sessionStorage.getItem('goods_types');
-        let obj:any = new Object();
-        if(getDatas != null){
-            let data = JSON.parse(getDatas);
-          for (let ele of data) {
-            obj[ele.code] = ele;
-          }
-        }
+        // let getDatas:any =  sessionStorage.getItem('goods_types');
+        // let obj:any = new Object();
+        // if(getDatas != null){
+        //     let data = JSON.parse(getDatas);
+        //   for (let ele of data) {
+        //     obj[ele.code] = ele;
+        //   }
+        // }
         
 
-        this.setState({types:obj});
+        // this.setState({types:obj});
       }
 
       getTypes(typeCode:string):string{
-        let types:any = this.state.types;
-        let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
-        return fullTypeName;
+        // let types:any = this.state.types;
+        // let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
+        return conf.getFullTypeName(typeCode);
       }
 
       
@@ -76,7 +78,7 @@ export default class SearchGoods extends React.Component<any,any> {
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
               if(xhr.status=='604'){//未登录错误
-                  let popwin: any = _this.refs.logwin;
+                  let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
               
@@ -87,8 +89,8 @@ export default class SearchGoods extends React.Component<any,any> {
     handleSearch(){
         let _this: SearchGoods = this;
         //let uid:string = _this.state.uid;
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        //var win:any = window;
+        let uid:string = (conf as any).getCookie("userId");
 
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType,searchValue

@@ -53,7 +53,7 @@ const $ = jquery;
     //const [modalIsOpen, setModalIsOpen] = useState(false)  
     return (
       <div>
-              <div className='demo'>
+              <div className='demo2'>
               
                 
               <form id="log_form">

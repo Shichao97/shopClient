@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import './SearchGoods.css';
 import GoodsItem from './GoodsItem';
 import jquery from "jquery";
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
+import conf from './Conf'
+
 const $ = jquery;
 
 
@@ -16,13 +18,13 @@ export default class MySelling extends React.Component<any,any> {
           page:{"content":[]},
           gotoPage:1,
           flag:0,
-          types:[]
+          types:conf.goods_types
         }
       }
       
       componentWillMount(){
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
         /*
         if(uid == ""){
             this.props.history.push(  "/login"  );
@@ -31,17 +33,17 @@ export default class MySelling extends React.Component<any,any> {
         this.setState({uid:uid});
        // console.log("Hi "+this.state.id);
 
-        let getDatas:any =  sessionStorage.getItem('goods_types');
-        let obj:any = new Object();
-        if(getDatas != null){
-            let data = JSON.parse(getDatas);
-          for (let ele of data) {
-            obj[ele.code] = ele;
-          }
-        }
+        // let getDatas:any =  sessionStorage.getItem('goods_types');
+        // let obj:any = new Object();
+        // if(getDatas != null){
+        //     let data = JSON.parse(getDatas);
+        //   for (let ele of data) {
+        //     obj[ele.code] = ele;
+        //   }
+        // }
         
 
-        this.setState({types:obj});
+        // this.setState({types:obj});
       }
 /*
       getCookie(key:string){
@@ -58,9 +60,8 @@ export default class MySelling extends React.Component<any,any> {
 */
 
       getTypes(typeCode:string):string{
-        let types:any = this.state.types;
-        let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
-        return fullTypeName;
+        
+        return conf.getFullTypeName(typeCode);
       }
 
       
@@ -223,8 +224,8 @@ export default class MySelling extends React.Component<any,any> {
       let uid:string = _this.state.uid;
       console.log(uid); 
       let col:number = 2; //显示商品列数
-      var win:any = window;
-      let un:string = win.getCookie("username");
+      //var win:any = window;
+      let un:string = (conf as any).getCookie("username");
       let forms =   
       <div>
 
@@ -232,7 +233,7 @@ export default class MySelling extends React.Component<any,any> {
           <input type="button" value="on the way" onClick={() => this.handleSearch2()}></input> &nbsp;&nbsp;
           <input type="button" value="already sold out" onClick={() => this.handleSearch3()}></input> &nbsp;&nbsp;
           <input type="button" value="removed off from shelf" onClick={() => this.handleSearch4()}></input>
-          <LoginModal ref="logwin"/>
+
       </div>
       
      

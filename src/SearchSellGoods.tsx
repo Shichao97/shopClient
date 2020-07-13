@@ -1,9 +1,11 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 //import './SearchSellGoods.css';
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
+import conf from './Conf'
+
 const $ = jquery;
 
 export default class SearchSellGoods extends React.Component<any,any> {
@@ -18,13 +20,13 @@ export default class SearchSellGoods extends React.Component<any,any> {
           page:{"content":[]},
           gotoPage:1,
           flag:0,
-          types:[]
+          types:conf.goods_types
         }
       }
       
       componentWillMount(){
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        //var win:any = window;
+        let uid:string = (conf as any).getCookie("userId");
         /*
         if(uid == ""){
             this.props.history.push(  "/login"  );
@@ -33,17 +35,17 @@ export default class SearchSellGoods extends React.Component<any,any> {
         this.setState({uid:uid});
        // console.log("Hi "+this.state.id);
 
-        let getDatas:any =  sessionStorage.getItem('goods_types');
-        let obj:any = new Object();
-        if(getDatas != null){
-            let data = JSON.parse(getDatas);
-          for (let ele of data) {
-            obj[ele.code] = ele;
-          }
-        }
+        // let getDatas:any =  sessionStorage.getItem('goods_types');
+        // let obj:any = new Object();
+        // if(getDatas != null){
+        //     let data = JSON.parse(getDatas);
+        //   for (let ele of data) {
+        //     obj[ele.code] = ele;
+        //   }
+        // }
         
 
-        this.setState({types:obj});
+        // this.setState({types:obj});
       }
 /*
       getCookie(key:string){
@@ -60,9 +62,9 @@ export default class SearchSellGoods extends React.Component<any,any> {
 */
 
       getTypes(typeCode:string):string{
-        let types:any = this.state.types;
-        let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
-        return fullTypeName;
+        // let types:any = this.state.types;
+        // let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
+        return conf.getFullTypeName(typeCode);
       }
 
       
@@ -96,7 +98,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
               if(xhr.status=='604'){//未登录错误
-                  let popwin: any = _this.refs.logwin;
+                  let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
               
@@ -211,7 +213,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
       </select><br/>
       <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
       <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
-      <LoginModal ref="logwin"/>
+      
   </form>
       if(_this.state.flag != 1){
         return forms;

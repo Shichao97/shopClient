@@ -5,6 +5,9 @@ import ChatMemberList from './ChatMemberList';
 import { createHashHistory } from 'history'
 import { Button, Row, Col } from 'antd'
 import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
+import conf from './Conf'
+
+
 import jquery from "jquery";
 const $ = jquery;
 
@@ -34,8 +37,8 @@ class Messgae extends React.Component {
         //startsWith()函数 IE浏览器不支持，所以改为 substr
         if(str != undefined && str.substr(0,2) == "/_"){
             let obj = new Object();
-            obj.id = window.getCookie("userId");
-            obj.username = window.getCookie("username");
+            obj.id = conf.getCookie("userId");
+            obj.username = conf.getCookie("username");
             //console.log("Hi! "+uid);
             if(obj.id == ""){
                 this.props.history.push( "/login" );
@@ -46,8 +49,8 @@ class Messgae extends React.Component {
     
     checkLogin(){
         let obj = new Object();
-        obj.id = this.getCookie("userId");
-        obj.username = this.getCookie("username");
+        obj.id = conf.getCookie("userId");
+        obj.username = conf.getCookie("username");
         //console.log("Hi! "+uid);
         if(obj.id == ""){
             //location.hash = "/login";
@@ -57,14 +60,15 @@ class Messgae extends React.Component {
     }
 
     componentDidMount() {
-        window.getCookie = this.getCookie;
-        window.checkLogin = this.checkLogin;
+        // window.getCookie = this.getCookie;
+        // window.checkLogin = this.checkLogin;
 
         // let _this = this;
         // this.props.history.listen(() => {
         //   _this.checkHash();
         // })   
         setTimeout(this.iTimer,0);
+
     }
 
  
@@ -101,8 +105,8 @@ class Messgae extends React.Component {
             timerNum++;
 
 
-            let uid = this.getCookie("userId");
-            let username = this.getCookie("username");
+            let uid = conf.getCookie("userId");
+            let username = conf.getCookie("username");
             if(uid != undefined && uid.length>0){
                 if(timerNum % 5==0){
                     //_this.refreshNewMsg(uid);
@@ -134,8 +138,8 @@ class Messgae extends React.Component {
 
             console.log('连接上 ws 服务端了');
             //var win = window;
-            let uid = window.getCookie("userId");
-            let username = window.getCookie("username");
+            let uid = conf.getCookie("userId");
+            let username = conf.getCookie("username");
             //handshake hello msg
             ws.send(JSON.stringify({ flag: "msg_new"}));
         }
@@ -144,7 +148,7 @@ class Messgae extends React.Component {
             console.log('接收服务端发过来的消息: %o', msg);
             var msgJson = JSON.parse(msg.data);
             var winWs = window.ws;
-            let uid = window.getCookie("userId");
+            let uid = conf.getCookie("userId");
             result += msgJson.MsgBody + '\n';
             if (msgJson.flag == "login") {
                 this.setState({});
@@ -197,13 +201,13 @@ class Messgae extends React.Component {
 
     getOtherId(msgJson){
         //if(msgJson.otherId !== undefined) return msgJson.otherId;
-        let uid = window.getCookie("userId");
+        let uid = conf.getCookie("userId");
         if(uid == msgJson.fromId) return msgJson.toId;
         else return msgJson.fromId;
     }
     getOtherName(msgJson){
         //if(msgJson.otherName !== undefined) return msgJson.otherName;
-        let uid = window.getCookie("userId");
+        let uid = conf.getCookie("userId");
         if(uid == msgJson.fromId) return msgJson.toName;
         else return msgJson.fromName;
     }
@@ -222,24 +226,28 @@ class Messgae extends React.Component {
             state: {mesState:this.state}//'我是通过state传值'
         }
         this.props.history.push(sta);
+
+        // let msgwin = conf.msgWin;
+        // let n =5;
+        // msgwin.setState({modalIsOpen:true})
     }
     
     
-    getCookie(key){
-        const name =key+"=";
-        const ca = document.cookie.split(';'); 
-        for(let i=0;i<ca.length;i++){
-          const c = ca[i].trim();
-          if(c.indexOf(name) === 0){
-            return c.substring(name.length, c.length);
-          }
-        }
-        return "";
-    }
+    // getCookie(key){
+    //     const name =key+"=";
+    //     const ca = document.cookie.split(';'); 
+    //     for(let i=0;i<ca.length;i++){
+    //       const c = ca[i].trim();
+    //       if(c.indexOf(name) === 0){
+    //         return c.substring(name.length, c.length);
+    //       }
+    //     }
+    //     return "";
+    // }
     render() {
         var win = window;
-        let uid = this.getCookie("userId");
-        let username = this.getCookie("username");
+        let uid = conf.getCookie("userId");
+        let username = conf.getCookie("username");
         let newNum = this.getTotalNewNum();
         let sNum = newNum==0?"":""+newNum;
         let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message <sup><font color="red" size="3">{sNum}</font></sup></Button>;

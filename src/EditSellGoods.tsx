@@ -16,7 +16,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import ImageUpload from './ImageUpload';
 import jquery from "jquery";
-import LoginModal from './LoginModal';
+import conf from './Conf';
 const $ = jquery;
 
 
@@ -191,7 +191,7 @@ export default class EditSellGoods extends React.Component<any,any> {
         error: function(xhr:any, textStatus, errorThrown){
             console.log("request status:"+xhr.status+" msg:"+textStatus)
             if(xhr.status=='604'){//未登录错误
-                let popwin: any = _this.refs.logwin;
+                let popwin: any = conf.loginWin;
                 popwin.setState({modalIsOpen:true})
             }
             
@@ -234,8 +234,8 @@ export default class EditSellGoods extends React.Component<any,any> {
 
 
   getGoodsTypes(){
-    let win:any = window;
-    return win.goods_types;
+    let cf:any = conf;
+    return cf.goods_types;
   }
 
   imgClicked(index:number){
@@ -386,8 +386,7 @@ export default class EditSellGoods extends React.Component<any,any> {
       </Form>
       </Col>
       </Row>
-      <LoginModal ref="logwin"/>
-      </div>);
+     </div>);
     }
 
     // {...tailFormItemLayout}

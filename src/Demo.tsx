@@ -1,7 +1,9 @@
 import React from 'react';
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
 import jquery from "jquery";
 import { Button, Row, Col } from 'antd'
+import conf from './Conf'
+
 const $ = jquery;
 
 export default class Demo extends React.Component<any,any> {
@@ -12,10 +14,14 @@ export default class Demo extends React.Component<any,any> {
     
     componentDidMount(){
         this.setState({agreeMethod1:true});
+        // let msgwin = conf.msgWin;
+        // if((conf as any).msgWin != undefined) {
+        //     (conf as any).msgWin.setState({modalIsOpen:true})
+        // }
     }
 
     showLogin(){
-        let popwin: any = this.refs.logwin;
+        let popwin: any = conf.loginWin;
         popwin.setState({modalIsOpen:true});
         var win:any = window;
         console.log("testval="+win.testVal);
@@ -36,7 +42,6 @@ export default class Demo extends React.Component<any,any> {
                 <h2>Hello! {query}</h2>
                 <h2>Hello! {s}</h2>
                 <input type="checkbox" name="method1" value = "1" defaultChecked={this.state.agreeMethod1} /> shipping
-                <LoginModal ref="logwin"/>
                 <input type="button" value="Popup login" onClick={() => this.showLogin()}/>
                 <Button key="back" type="text" size="large">Hello</Button>
              </div>

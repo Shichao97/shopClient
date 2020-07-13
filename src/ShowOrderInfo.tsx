@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import jquery from "jquery";
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
+import conf from './Conf';
 const $ = jquery;
 
 export default class ShowOrderInfo extends React.Component<any,any> {
@@ -33,7 +34,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = this.refs.logwin;
+                    let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
                 
@@ -76,7 +77,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = this.refs.logwin;
+                    let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
                 
@@ -107,7 +108,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = this.refs.logwin;
+                    let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
                 
@@ -138,7 +139,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = this.refs.logwin;
+                    let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
                 
@@ -210,7 +211,8 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                   {ordertable}
                   <input type="button" value="pay for this order" onClick={() => this.handlePay()}/>
                   <input type="button" value="cancel the order" onClick={() => this.handleCancel()}/>
-                  <LoginModal ref="logwin"/>
+                  
+                  
                   <span>{this.state.payMsg}</span>
                   <span>{this.state.cancelMsg}</span>
                 </div>
@@ -220,7 +222,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                 <div>
                   {ordertable}
                   <input type="button" value="Confirm Received" onClick={() => this.handleConfirm()}/>
-                  <LoginModal ref="logwin"/>
+                  
                   <span>{this.state.confirmMsg}</span>
                 </div>
             )
@@ -228,7 +230,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             return(
                 <div>
                   {ordertable}
-                 <LoginModal ref="logwin"/>
+                 
                  
                 </div>
             )

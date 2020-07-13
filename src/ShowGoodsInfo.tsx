@@ -1,6 +1,6 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
 import ImageModal from './ImageModal';
 import './SearchGoods.css';
 import './Register.css';
@@ -19,6 +19,8 @@ import {
   import { SmileTwoTone, HeartTwoTone, HeartFilled ,HeartOutlined} from '@ant-design/icons';
 import jquery from "jquery";
 import MessageModal from './MessageModal';
+import conf from './Conf'
+
 const $ = jquery;
 
 export default class ShowGoodsInfo extends React.Component<any,any> {
@@ -30,27 +32,28 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             seller:sta.m,
             uid:"",
             imgName:[],
+            types: conf.goods_types
         }
     }
 
     componentDidMount(){
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        //var win:any = window;
+        let uid:string = (conf as any).getCookie("userId");
         /*
         if(uid == ""){
             this.props.history.push(  "/login"  );
         }
         */
-        this.setState({uid:uid});
-        let getDatas:any =  sessionStorage.getItem('goods_types');
-        let obj:any = new Object();
-        if(getDatas != null){
-            let data = JSON.parse(getDatas);
-          for (let ele of data) {
-            obj[ele.code] = ele;
-          }
-        }
-        this.setState({types:obj});
+        //this.setState({uid:uid});
+        // let getDatas:any =  sessionStorage.getItem('goods_types');
+        // let obj:any = new Object();
+        // if(getDatas != null){
+        //     let data = JSON.parse(getDatas);
+        //   for (let ele of data) {
+        //     obj[ele.code] = ele;
+        //   }
+        // }
+        // this.setState({types:obj});
 
         let imgStr:string = this.state.data.imgNames;
         let arr:string[];
@@ -64,38 +67,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         
     }
 
-    getTypes(typeCode:string):string{
-        let win:any = window;
-        let types:any = win.goods_types;
-        if(types==undefined){
-            return "";
-        }
 
-        let n = typeCode.indexOf("_");
-        let cate = typeCode.substring(0,n);
-        //let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
-        let cateObj = this.findCateObj(types,cate);
-        return this.findTypeObj(cateObj,typeCode);
-    }
-
-    findCateObj(types:any[],cate:String){
-        let arr:any[] = [];
-        for (var i=0;i<types.length;i++)
-        { 
-            let element = types[i];
-            if(element.value == cate) return element;
-        }       
-        return arr;
-    }
-    findTypeObj(cateObj:any,typeCode:String){
-        for (var i=0;i<cateObj.children.length;i++)
-        { 
-            let element = cateObj.children[i];
-            if(element.value == typeCode) return cateObj.label+"/"+element.label;
-        }
-        
-        return ""
-    }
 
     getImgSrc(gid:string):string{
     let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
@@ -135,8 +107,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = _this.refs.logwin;
-                    popwin.setState({modalIsOpen:true})
+                    let popwin: any = conf.loginWin;
+                    popwin.setState({modalIsOpen:true,comp:_this})
                 }
                 
             }
@@ -166,8 +138,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = _this.refs.logwin;
-                    popwin.setState({modalIsOpen:true})
+                    let popwin: any = conf.loginWin;
+                    popwin.setState({modalIsOpen:true,comp:_this})
                 }
                 
             }
@@ -180,19 +152,15 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
 
     clickCollect(){
-        /*
+        
         //未登录
-        if(this.state.uid == ""){
-            let popwin: any = this.refs.logwin;
-            popwin.setState({modalIsOpen:true});
-        }
-        */
+
        
         //已登录
-        var win:any = window;
+        //var win:any = window;
         let gid = this.state.data.id;
         let _this:ShowGoodsInfo = this;
-        let uid:string = win.getCookie("userId");
+        let uid:string = (conf as any).getCookie("userId");
         let newUrl:string = window.localStorage.getItem("host_pre")+"collect/edit/clickcollect?goodsId="+gid+"&memberId="+uid;
         
         $.ajax({
@@ -214,8 +182,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = _this.refs.logwin;
-                    popwin.setState({modalIsOpen:true})
+                    let popwin: any = conf.loginWin;
+                    popwin.setState({modalIsOpen:true,comp:_this})
                 }
                 
             }
@@ -224,47 +192,49 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
     clickBuy(){
         //未登录
-        var win:any = window;
-        let uid:string = win.getCookie("userId");
+        //var win:any = window;
+        let uid:string = (conf as any).getCookie("userId");
         if(uid == ""){
-            let popwin: any = this.refs.logwin;
-            popwin.setState({modalIsOpen:true});
+            let popwin: any = conf.loginWin;
+            popwin.setState({modalIsOpen:true,comp:this});
         }
         this.props.history.push({pathname:'/placeOrder',state:this.state.data});
 
     }
 
     openTalkWindow(){
-        let win:any = window;
-        let uid = win.getCookie("userId");
-        let username = win.getCookie("username");
+        let cf:any = conf;
+        let uid = cf.getCookie("userId");
+        let username = cf.getCookie("username");
         if(uid==""){
-            let popwin: any = this.refs.logwin;
-            popwin.setState({modalIsOpen:true});
+            let popwin: any = conf.loginWin;
+            popwin.setState({modalIsOpen:true,comp:this});
         }
         else{
-            let popwin: any = win.msgwin;
+            let popwin: any = conf.msgWin;
             popwin.setState({modalIsOpen:true,toId:this.state.seller.id,toName:this.state.seller.userName});
             //popwin.init();
         }
     }
 
+    hasLoadIcon = false;
     getLikeIcon(){
 
-        var win:any = window;
+        var cf:any = conf;
         let gid = this.state.data.id;
-        if(win.getCookie == undefined) return undefined;
-        let uid:string = win.getCookie("userId");
-        let outline = <HeartOutlined style={{ color: 'hotpink',fontSize: '22px' }} onClick={() => this.clickCollect()}/>;
-        let filled = <HeartFilled  style={{ color: 'hotpink',fontSize: '22px' }} onClick={() => this.clickCollect()}/>;
+        if(cf.getCookie == undefined) return undefined;
+        let uid:string = cf.getCookie("userId");
+        let outline = <HeartOutlined style={{ color: 'hotpink',fontSize: '30px' }} onClick={() => this.clickCollect()}/>;
+        let filled = <HeartFilled  style={{ color: 'hotpink',fontSize: '30px' }} onClick={() => this.clickCollect()}/>;
         if(uid=="") return outline;
-        else if(this.state.like!=undefined){
+        else if(this.state.like == undefined && this.hasLoadIcon == false){
+            this.hasLoadIcon = true;
+
             this.loadIconState(gid,uid);
             return undefined;
         }
         else{
-            return  this.state.like == true?
-                filled:outline;
+            return  this.state.like == true?filled:outline;
 
         }
 
@@ -292,8 +262,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
-                    let popwin: any = _this.refs.logwin;
-                    popwin.setState({modalIsOpen:true})
+                    let popwin: any = conf.loginWin;
+                    popwin.setState({modalIsOpen:true,comp:_this})
                 }
                 
             }
@@ -303,14 +273,15 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
     render(){
         let gid = this.state.data.id;
-        let fullTypeName:string = this.getTypes(this.state.data.typeCode);
+        let uid = conf.getCookie("userId");
+        let fullTypeName:string = conf.getFullTypeName(this.state.data.typeCode);
         let imgSrc:string = this.getImgSrc(this.state.data.id);
         let imgname:string[] = this.state.imgName;
         let collectIconSrc:string = this.getCollectIconSrc(gid);
         //let tables = <table className="content-table">
         let btns;
 
-        if(this.state.uid == this.state.data.sellerId){ //self-goods
+        if(uid == this.state.data.sellerId){ //self-goods
             if(this.state.data.status == 1){  //selling now
                 //return(
                     
@@ -429,7 +400,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         </Row>
 
         <ImageModal ref="bigimg"/>
-        <LoginModal ref="logwin"/>
+        
+        
  
         {btns}
         </div>
