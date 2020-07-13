@@ -65,11 +65,11 @@ export default class Register extends React.Component<any,any> {
         console.log(values);
         console.log('Received values of form: ', values);
         values.schoolCode = values.school[1];
-        let data= values;
+        //let data= values;
         $.ajax({
             type:"POST",
             url:window.localStorage.getItem("host_pre")+"member/register",
-            data:data,
+            data:values,
             dataType:"json",
             success:function(d){
                 _this.setState({msg:"register success!"});
