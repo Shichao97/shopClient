@@ -184,7 +184,7 @@ export default class Register extends React.Component<any,any> {
                       if(d.success == 1) callback();
                       else callback(d.msg);
                     },error:function(xhr:any,textStatus,errorThrown){
-                        callback("Unknown error.Maybe the registery server is down");
+                        callback("Unknown error  status:"+xhr.status+".");
                     }
                 });
                 }
