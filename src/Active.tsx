@@ -12,6 +12,7 @@ export default class Active extends React.Component<any,any> {
     }
 
     componentDidMount(){
+        let _this = this;
         let params:string = this.props.match.params.params;
         let newUrl:string = window.localStorage.getItem("host_pre")+"member/active?"+params;
         $.ajax({
@@ -20,9 +21,9 @@ export default class Active extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 1){
-                    this.setState({actMsg:"Successfully activate your account, "+data.msg});
+                    _this.setState({actMsg:"Successfully activate your account, "+data.msg});
                 }else{
-                    this.setState({actMsg:data.msg});
+                    _this.setState({actMsg:data.msg});
                 }
             }
           })
@@ -30,7 +31,7 @@ export default class Active extends React.Component<any,any> {
 
 
     render(){
-        if(true){
+        if(this.state.actMsg == undefined){
             return(
                 <div>
                     You are in the process of activation now, thanks a lot for your patience!

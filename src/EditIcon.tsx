@@ -22,6 +22,8 @@ export default class EditIcon extends React.Component<any,any> {
         this.setState({id:id});
         let un:string = uobj.username;
         this.setState({un:un});
+
+        this.setState({});
         
     }
 
@@ -64,17 +66,7 @@ export default class EditIcon extends React.Component<any,any> {
        })
 
     }
-    // getCookie(key:string){
-    //     const name =key+"=";
-    //     const ca = document.cookie.split(';'); 
-    //     for(let i=0;i<ca.length;i++){
-    //       const c = ca[i].trim();
-    //       if(c.indexOf(name) === 0){
-    //         return c.substring(name.length, c.length);
-    //       }
-    //     }
-    //     return "";
-    //   }
+    
     render(){
         let cf:any = conf;
         if(cf.getCookie == undefined) return <div></div>
