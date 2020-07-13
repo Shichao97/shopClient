@@ -233,10 +233,7 @@ export default class EditSellGoods extends React.Component<any,any> {
 
 
 
-  getGoodsTypes(){
-    let cf:any = conf;
-    return cf.goods_types;
-  }
+
 
   imgClicked(index:number){
     this.state.imgName.splice(index,1);
@@ -338,7 +335,7 @@ export default class EditSellGoods extends React.Component<any,any> {
           { type: 'array', required: true, message: 'Please select goods Classification!' },
         ]}
       >
-        <Cascader options={this.getGoodsTypes()} />
+        <Cascader options={conf.goods_types} />
       </Form.Item>
 
 

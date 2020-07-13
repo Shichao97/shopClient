@@ -183,10 +183,7 @@ export default class AddGoods extends React.Component<any,any> {
     //this.onFill();
   }
 
-  getGoodsTypes(){
-    let cf:any = conf;
-    return cf.goods_types;
-  }
+
 
   
 
@@ -252,7 +249,7 @@ export default class AddGoods extends React.Component<any,any> {
           { type: 'array', required: true, message: 'Please select goods classification!' },
         ]}
       >
-        <Cascader options={this.getGoodsTypes()} />
+        <Cascader options={conf.goods_types} />
       </Form.Item>
 
 

@@ -16,7 +16,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import ImageUpload from './ImageUpload';
 import jquery from "jquery";
-//import LoginModal from './LoginModal';
+import conf from './Conf';
 const $ = jquery;
 
 
@@ -233,10 +233,7 @@ export default class TestForm extends React.Component<any,any> {
 
 
 
-  getGoodsTypes(){
-    let win:any = window;
-    return win.goods_types;
-  }
+
 
   imgClicked(index:number){
     this.state.imgName.splice(index,1);
@@ -338,7 +335,7 @@ export default class TestForm extends React.Component<any,any> {
           { type: 'array', required: true, message: 'Please select goods Classification!' },
         ]}
       >
-        <Cascader options={this.getGoodsTypes()} />
+        <Cascader options={conf.goods_types} />
       </Form.Item>
 
 
