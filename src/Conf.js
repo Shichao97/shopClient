@@ -92,38 +92,56 @@ const Conf = {
 
     schools : [
       {
-        value: '加州',
-        label: '加利福尼亚州',
+        value: 'CA',
+        label: 'California',
         children: [
           {
-            value: '伯克利',
-            label: '加州大学伯克利分校',
+            value: 'UCB',
+            label: 'University of California, Berkeley',
           },
           {
-            value: '斯坦福',
-            label: '斯坦福大学',
+            value: 'Stanford',
+            label: 'Stanford University',
           },
           {
-            value: '洛杉矶',
-            label: '加州大学洛杉矶分校',
+            value: 'UCLA',
+            label: 'University of California, Los Angeles',
           },
         ],
       },
       {
-        value: '密歇根',
-        label: '密歇根州',
+        value: 'NY',
+        label: 'New York',
         children: [
           {
-            value: '安娜堡',
-            label: '密歇根大学安娜堡分校',
+            value: 'Columbia',
+            label: 'Columbia University',
           },
           {
-            value: '密歇根州立大学',
-            label: '密歇根州立大学',
+            value: 'NYU',
+            label: 'New York University',
           },
           {
-            value: '安德鲁大学',
-            label: '安德鲁大学',
+            value: 'Cornell',
+            label: 'Cornell University',
+          },
+        ],
+      },
+      {
+        value: 'MI',
+        label: 'Michigan',
+        children: [
+          {
+            value: 'UMich',
+            label: 'University of Michigan, Ann Arbor',
+          },
+          {
+            value: 'MSU',
+            label: 'Michigan State University',
+          },
+          {
+            value: 'Andrews',
+            label: 'Andrews University',
           },
         ],
       },
