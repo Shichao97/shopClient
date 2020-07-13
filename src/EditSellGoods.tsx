@@ -295,9 +295,10 @@ export default class EditSellGoods extends React.Component<any,any> {
             <ImageUpload ref={this.imgupRef} parent={this}/></td>
         </tr>
         <tr><td></td>
-    <td><span className="error_msg">{this.state.imgErrMsg}</span></td>
+    <td><span className="error_msg">{this.state.imgErrMsg}&nbsp;</span></td>
         </tr>
       </table>
+      
       <Row><Col className='demo3'>
 
       <Form

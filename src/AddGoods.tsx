@@ -209,9 +209,11 @@ export default class AddGoods extends React.Component<any,any> {
           <td><h3> Upload Images: </h3></td><td><ImageUpload ref={this.imgupRef} parent={this}/></td>
         </tr>
         <tr><td></td>
-    <td><span className="error_msg">{this.state.imgErrMsg}</span></td>
+    <td><span className="error_msg">{this.state.imgErrMsg}&nbsp;</span></td>
         </tr>
       </table>
+
+      <Row><Col></Col><Col></Col></Row>
       <Row><Col className='demo3'>
 
       <Form
