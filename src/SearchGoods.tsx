@@ -306,14 +306,6 @@ export default class SearchGoods extends React.Component<any,any> {
 
       }
 
-    /*
-      <form id="searchForm">
-    
-
-      <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
-      <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
-      
-  </form>*/
 
       let forms = 
       
