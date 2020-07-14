@@ -48,43 +48,54 @@ const Conf = {
   ],   
   
   
-
-
-    getFullTypeName(typeCode,types){
-       if(types==undefined){
-          types = this.goods_types;
-      }
-      let n = typeCode.indexOf("_");
-      let cateCode = typeCode.substring(0,n);
-
-      let cateObj = this.getCateObj(types,cateCode);
-      return cateObj.label+"/"+this.getTypeObj(cateObj,typeCode).label;
+    getFullTypeName(typeCode){
+      return this.getFullName(typeCode,this.goods_types);
     },  
+
+    getFullName(code,catesArr){
+       if(catesArr==undefined){
+        catesArr = this.goods_types;
+      }
+      let n = code.indexOf("_");
+      if(n<0) n = code.indexOf("/");
+      if(n<0) return code;
+
+      let cateCode = code.substring(0,n);
+
+      let cateObj = this.getCateObj(catesArr,cateCode);
+      return cateObj.label+"/"+this.getTypeObj(cateObj,code).label;
+    },  
+
 
     getCateByCode(typeCode){
       let n = typeCode.indexOf("_");
+      if(n<0) n = typeCode.indexOf("/");
+      if(n<0) return typeCode;
+
       let cateCode = typeCode.substring(0,n);
       let cateObj = this.getCateObj(this.goods_types,cateCode);
       return this.getTypeObj(cateObj,typeCode);
     },
 
     getCateObj(types,cateCode){
-        let arr = [];
+        if(types==undefined||types==null) return cateCode;
+
         for (var i=0;i<types.length;i++)
         { 
             let element = types[i];
             if(element.value == cateCode) return element;
         }       
-        return arr;
+        return undefined;
     },
     getTypeObj(cateObj,typeCode){
+        if(cateObj==undefined||cateObj==null) return typeCode;
         for (var i=0;i<cateObj.children.length;i++)
         { 
             let element = cateObj.children[i];
             if(element.value == typeCode) return element;
         }
         
-        return ""
+        return undefined
     },
 
 
@@ -151,7 +162,7 @@ const Conf = {
 
 
     getFullShoolName(schoolCode){
-      return this.getFullTypeName(schoolCode,this.schools);
+      return this.getFullName(schoolCode,this.schools);
     },  
 
     getShoolObj(schoolCode){

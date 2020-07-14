@@ -64,7 +64,7 @@ export default class Register extends React.Component<any,any> {
         let t = this.formRef;
         console.log(values);
         console.log('Received values of form: ', values);
-        values.schoolCode = values.school[1];
+        values.schoolCode = values.school[0]+"/"+values.school[1];
         //let data= values;
         $.ajax({
             type:"POST",
