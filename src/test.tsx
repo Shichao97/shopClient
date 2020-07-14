@@ -1,74 +1,191 @@
-import { Upload, message } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import jquery from "jquery";
+import './MyAccount.css';
+import {
+  
+  Button,
+  Table, Tag, Space
+} from 'antd';
+//import LoginModal from './LoginModal';
+import conf from './Conf'
 
-function getBase64(img:any, callback:any) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
+const $ = jquery;
 
-function beforeUpload(file:any) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
 
-class Avatar extends React.Component {
-  state = {
-    loading: false,
-  };
-
-  handleChange = (info:any) => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
+export default class MyAccount extends React.Component<any,any> {
+    constructor(props:any){
+        super(props);
+        this.state={
+            url:"",
+            page:{"content":[]},
+            gotoPage:1,
+            flag:0,
+        }
     }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl:any) =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        }),
-      );
+    columns = [
+      {
+        title: 'Order No.',
+        dataIndex: 'orderNo',
+        key: 'orderNo',
+      },
+      {
+        title: 'Image',
+        key: 'image',
+        render: (text:any, record:any) => (
+          <a onClick={()=>this.showOrderInfo(record.id)}>
+            <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId}      />  
+    
+          </ a>
+    
+        ),
+      },
+    ]
+
+    showOrderInfo(rid:number){
+      this.props.history.push("/showOrderInfo/"+rid);
     }
-  };
 
+    loadData(pageNo?:number) {
+      
+        let _this:MyAccount = this;
+        let newUrl:string = "";
+        if(pageNo != undefined){
+          newUrl = _this.state.url;
+          //newUrl = searchUrl;
+          newUrl = newUrl+ "&pageNo="+pageNo;
+         
+        }else{
+          newUrl = _this.state.url;
+          //newUrl = searchUrl;
+        }
+        console.log(newUrl);
+        $.ajax({
+          type:"GET",
+          crossDomain: true, 
+          xhrFields: {
+              withCredentials: true 
+          },
+          url:newUrl,
+          dataType:"json",
+          success:function(data){
+              _this.setState({page:data,gotoPage:data.number+1});
+              _this.setState({flag:1});
+          },
+          error: function(xhr:any, textStatus, errorThrown){
+              console.log("request status:"+xhr.status+" msg:"+textStatus)
+              if(xhr.status=='604'){//未登录错误
+                  let popwin: any = conf.loginWin;
+                  popwin.setState({modalIsOpen:true})
+              }
+              
+          }
+        })
+          
+      }
 
-  render() {
-    const uploadButton = (
-      <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-    let s:any = this.state;
-    let imageUrl:any = s.imageUrl;
-    let url = window.localStorage.getItem("host_pre")+'member/edit/upIcon?id=1005';
-    //const { imageUrl } = this.state;
-    return (
-      <Upload
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        //crossDomain={true}
-        action={url}
-        withCredentials={true}
-        beforeUpload={beforeUpload}
-        onChange={this.handleChange}
-      >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-      </Upload>
-    );
-  }
+    handleSearchNotPaid(){
+        let _this: MyAccount = this;
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
+        let plus:string = "&searchStatus=notPaid";
+        let plusnew:string = "&pageSize=5";//没写 sortby
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
+      
+        _this.state={url:searchUrl};
+        _this.setState({url:searchUrl});
+        _this.loadData();
+    }
+
+    handleSearchNotFinished(){
+        let _this: MyAccount = this;
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
+        let plus:string = "&searchStatus=notFinished";
+        let plusnew:string = "&pageSize=5";//没写 sortby
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
+      
+        _this.state={url:searchUrl};
+        _this.setState({url:searchUrl});
+        _this.loadData();
+    }
+
+    handleSearchAll(){
+        let _this: MyAccount = this;
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
+        let plus:string = "";
+        let plusnew:string = "&pageSize=5";//没写 sortby
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
+      
+        _this.state={url:searchUrl};
+        _this.setState({url:searchUrl});
+        _this.loadData();
+    }
+
+    getpayment(status:number):string{
+        if(status == 0) return "not yet paid";
+        else return "already paid";
+    }
+
+    handlePreviousPage(){
+        let _this: MyAccount = this;
+        let page:any = _this.state.page;
+        let pn:number = page.number;
+        pn -= 1;
+        
+        let totalPages = page.totalPages;
+        if(pn > (-1)){
+          _this.loadData(pn);
+        }
+      }
+  
+    handleNextPage(){
+    let _this: MyAccount = this;
+    let page:any = _this.state.page;
+    let pn:number = page.number;
+    pn += 1;
+    
+    let totalPages = page.totalPages;
+    if(pn<totalPages){
+        _this.loadData(pn);
+    }
+    
+    }
+
+    handleGoto(){
+    let page:any = this.state.page;
+    let totalPages = page.totalPages;
+    let pn:number = this.state.gotoPage;
+    this.loadData(pn-1);
+    }
+
+    handleChange = (event:any) =>  {
+        
+        switch(event.target.name){
+          case "gotoPage":
+            let page:any = this.state.page;
+            let totalPages = page.totalPages;
+            if(event.target.value >= 1 && event.target.value <=totalPages){
+                this.setState({gotoPage: event.target.value});
+            }
+            break;
+         
+        }
+      }
+
+    render(){
+        let page:any = this.state.page;
+        let arry:any[] = page.content;
+        var cf:any = conf;
+        let uid:string = cf.getCookie("userId");
+        let username:string = cf.getCookie("username");
+        let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
+        
+        return(
+            <div>
+              <Table dataSource={arry} columns={this.columns} />;
+            </div>
+        )
+    }
 }
-
-export default Avatar;
