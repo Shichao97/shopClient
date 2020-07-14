@@ -5,7 +5,7 @@ import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Form,Input,Button, Row } from 'antd';
+import { Table,Form,Input,Button, Row, Col } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 
 const $ = jquery;
@@ -313,7 +313,7 @@ export default class SearchGoods extends React.Component<any,any> {
   </form>*/
 
       let forms = 
-      <div className="demo2_search">
+      
 
   <Form layout="inline"
  
@@ -341,20 +341,20 @@ export default class SearchGoods extends React.Component<any,any> {
 
 
 
-      </div>  
+     
 
 
       if(_this.state.flag != 1){
-        return forms;
+        return <Row><Col span={8}>&nbsp;</Col><Col span={8}>{forms}</Col><Col span={8}>&nbsp;</Col></Row>
       }
       else{
         return(
           
             <div>
-              <Row>{forms}</Row>
-              <Row>
+              <Row><Col span={8}>&nbsp;</Col><Col span={8}>{forms}</Col><Col span={8}>&nbsp;</Col></Row>
+              <Row><Col>
               <Table dataSource={allDatas}  columns={columns}  showHeader={false}/>
-              </Row>
+              </Col></Row>
 
                 <br/><br/>
 
