@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import conf from './Conf'
 import { Table,Form,Input,Button, Row, Col } from 'antd';
 import { FormInstance } from 'antd/lib/form';
+import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 
 const $ = jquery;
 const formItemLayout = {
@@ -282,7 +283,9 @@ export default class SearchGoods extends React.Component<any,any> {
       let n = Math.floor(document.body.clientWidth/280);
       if(n<=0) n = 1;
       else if(n>this.columns.length) n = this.columns.length;
-      
+      if(arry.length>0 && arry.length<n) {
+        n = arry.length;
+      }
       let columns:any[] = [];
       for(var k=0;k<n;k++){
         columns.push(this.columns[k]);
@@ -328,7 +331,7 @@ export default class SearchGoods extends React.Component<any,any> {
         //label="              &nbsp;"
         rules={ [{required:false, message: 'Please enter goods name!' }]}
       >
-        <Input placeholder="Goods Name"/>
+        <Input placeholder="Goods Name" prefix={<SearchOutlined />}/>
   </Form.Item>
   <Form.Item  >
         <Button type="primary" htmlType="submit">
@@ -352,7 +355,7 @@ export default class SearchGoods extends React.Component<any,any> {
           
             <div>
               <Row><Col span={8}>&nbsp;</Col><Col span={8}>{forms}</Col><Col span={8}>&nbsp;</Col></Row>
-              <Row><Col>
+              <Row><Col span="24">
               <Table dataSource={allDatas}  columns={columns}  showHeader={false}/>
               </Col></Row>
 
