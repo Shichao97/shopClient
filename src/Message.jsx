@@ -251,16 +251,17 @@ class Messgae extends React.Component {
         let uid = conf.getCookie("userId");
         let username = conf.getCookie("username");
         let newNum = this.getTotalNewNum();
-        let sNum = newNum==0?"":""+newNum;
-        let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message </Button>;
-        if(this.state.chatMembersArr.length==0) btn=<div></div>
+        console.log("Msg newNum="+newNum)
+        //let sNum = newNum==0?"":""+newNum;
+        //let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message </Button>;
+        //if(this.state.chatMembersArr.length==0) btn=<div></div>
         if(uid != undefined && uid.length>0){
             return (
             <div>
                 
                 <Button key="back" type="text" size="middle">Hello,<a href="#" onClick={()=>this.props.history.push("/_editicon")}>{username}</a></Button>
                     {this.state.chatMembersArr.length==0?<div></div>:
-                    <Badge count={sNum}  ><a href="#" onClick={()=>this.messageListClicked()}>
+                    <Badge count={newNum}  ><a href="#" onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 
                 }
             </div>
