@@ -306,6 +306,14 @@
   height: 40vmin;
   pointer-events: none;
 }
+
+.dant-table-tbody > tr > td {
+  text-align: center;
+}
+.column-goods {
+  text-align: center;
+}
+
 .demo {
   min-width: 300px;
   min-height: 400px;
@@ -324,6 +332,15 @@
   width: 50%;
   
   left: 25%;
+  text-align: center;
+  
+}
+
+.demo2_search {
+  position: absolute; 
+  width: 300px;
+  
+  left: 38%;
   text-align: center;
   
   

@@ -1,13 +1,36 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import * as ReactDOM from 'react-dom';
 import './SearchGoods.css';
 import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
+import { Table,Form,Input,Button, Row } from 'antd';
+import { FormInstance } from 'antd/lib/form';
 
 const $ = jquery;
-
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 export default class SearchGoods extends React.Component<any,any> {
     constructor(props:any){
         super(props);
@@ -85,17 +108,20 @@ export default class SearchGoods extends React.Component<any,any> {
           }
         })
           
-      }
-    handleSearch(){
+    }
+
+
+    onFinish=(values:any)=>{
         let _this: SearchGoods = this;
         //let uid:string = _this.state.uid;
         //var win:any = window;
         let uid:string = (conf as any).getCookie("userId");
 
         console.log(uid + "handle");
-        let plus:string = $("#searchForm").serialize();  //serachType,searchValue
+        //let plus:string = $("#searchForm").serialize();  //serachType,searchValue
         let plusnew:string = "&pageSize=8";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus+plusnew;
+        let searchValue = values.searchValue==undefined?"":values.searchValue;
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?searchValue="+searchValue+plusnew;
       
         _this.state={url:searchUrl};
         _this.setState({url:searchUrl});
@@ -168,7 +194,81 @@ export default class SearchGoods extends React.Component<any,any> {
       let pn:number = this.state.gotoPage;
       this.loadData(pn-1);
     }
-    
+
+    columns:any[] = [
+      {
+        title: 'Item0',
+        key: 'c_0',
+        
+        render:(text:any, record:any) =>{
+          let ele = record["c_0"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )},
+        align:'center',
+      },
+      {
+        title: 'Item1',
+        key: 'c_1',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_1"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      },
+      {
+        title: 'Item2',
+        key: 'c_2',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_2"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      },
+      {
+        title: 'Item3',
+        key: 'c_3',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_3"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      },
+      {
+        title: 'Item4',
+        key: 'c_4',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_4"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      },
+      {
+        title: 'Item5',
+        key: 'c_5',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_5"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      }
+    ]
+    componentDidMount(){
+      let _this = this;
+      window.onresize = function(){
+  
+        _this.setState({});
+      }
+    }
+    formRef:RefObject<FormInstance> = React.createRef();
+
+
+
     render(){
       let _this: SearchGoods = this;
       let page:any = _this.state.page;
@@ -177,21 +277,73 @@ export default class SearchGoods extends React.Component<any,any> {
       let uid:string = _this.state.uid;
       console.log(uid); 
       let col:number = 2; //显示商品列数
-      let forms =            
-      /*
-      * choose to search by:
-      <select name="searchType" value={_this.state.searchType} onChange={_this.handleSelect2} id="dropdown2">
-          <option value="name">goods name</option>
-          <option value="desc">description</option>
-      </select><br/>
-      */     
+
+
+      let n = Math.floor(document.body.clientWidth/280);
+      if(n<=0) n = 1;
+      else if(n>this.columns.length) n = this.columns.length;
+      
+      let columns:any[] = [];
+      for(var k=0;k<n;k++){
+        columns.push(this.columns[k]);
+      }
+
+
+      let allDatas = [];
+      
+      let rowNum = Math.ceil(arry.length/n);
+     for(var i=0;i<rowNum;i++){
+        let rowDatas:any = {key:"r_"+i};//key:"r_"+i
+        for(var j=0;j<n;j++){
+          if(i*n+j>= arry.length) break
+          let ele = arry[i*n+j];
+          rowDatas["c_"+j] = (ele);
+        }
+        allDatas.push(rowDatas);
+
+      }
+
+    /*
       <form id="searchForm">
     
 
       <input type="text" name="searchValue" id="si" value ={_this.state.searchValue} onChange={_this.handleChange}/>
       <input type="button" value="Search" onClick={() => _this.handleSearch()}/><br/><br/>
       
-  </form>
+  </form>*/
+
+      let forms = 
+      <div className="demo2_search">
+
+  <Form layout="inline"
+ 
+        ref={this.formRef} 
+        name="search"
+        onFinish={this.onFinish}
+   
+        scrollToFirstError
+      >
+  <Form.Item 
+        name="searchValue"
+        //label="              &nbsp;"
+        rules={ [{required:false, message: 'Please enter goods name!' }]}
+      >
+        <Input placeholder="Goods Name"/>
+  </Form.Item>
+  <Form.Item  >
+        <Button type="primary" htmlType="submit">
+          Search
+        </Button>
+  </Form.Item>
+</Form>
+
+
+
+
+
+      </div>  
+
+
       if(_this.state.flag != 1){
         return forms;
       }
@@ -199,8 +351,23 @@ export default class SearchGoods extends React.Component<any,any> {
         return(
           
             <div>
-              {forms}
-                <table className="goods-table">
+              <Row>{forms}</Row>
+              <Row>
+              <Table dataSource={allDatas}  columns={columns}  showHeader={false}/>
+              </Row>
+
+                <br/><br/>
+
+                <input type="button" value="previous page" onClick={() => _this.handlePreviousPage()}/>
+                <input type="button" value="next page" onClick={() => _this.handleNextPage()}/><br />  <br />
+
+                <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={_this.handleChange}/>
+                <input type="button" value="Go" onClick={() => _this.handleGoto()}/><br />  <br />
+        
+            </div>
+        )
+      }
+      /*                <table className="goods-table">
                   <tbody> 
                     {arry.map((element:any,index:number) =>{
                         let isRowEnd:boolean = (index%col == col-1);
@@ -218,17 +385,6 @@ export default class SearchGoods extends React.Component<any,any> {
                     })}
                     
                     </tbody>   
-                </table>
-                <br/><br/>
-
-                <input type="button" value="previous page" onClick={() => _this.handlePreviousPage()}/>
-                <input type="button" value="next page" onClick={() => _this.handleNextPage()}/><br />  <br />
-
-                <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={_this.handleChange}/>
-                <input type="button" value="Go" onClick={() => _this.handleGoto()}/><br />  <br />
-        
-            </div>
-        )
-      }
+                </table>*/
     }
 }

@@ -4,6 +4,7 @@ import * as ReactDOM from 'react-dom';
 import ImageModal from './ImageModal';
 import './SearchGoods.css';
 import './Register.css';
+
 import {
     Form,
     Input,
@@ -320,7 +321,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                         &nbsp;&nbsp;
                         <Button type="primary" onClick={()=>this.openTalkWindow()}>Talk to seller</Button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        {this.getLikeIcon()}
+                        <Tooltip title="Like & Dislike">{this.getLikeIcon()}</Tooltip>
                     </Col>
                 // )
             }else{
