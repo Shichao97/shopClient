@@ -54,7 +54,41 @@ export default class EditIcon extends React.Component<any,any> {
       };    
 
 
- 
+    logout(){
+      let url = window.localStorage.getItem("host_pre")+"member/logout";
+      let _this = this;
+      let uid = conf.getCookie("userId");
+      let params = {id:uid};
+      $.ajax({
+          type:"POST",
+          crossDomain: true, 
+          xhrFields: {
+              withCredentials: true 
+          },
+          url:url,
+          data:params,
+          dataType:"json",
+          success: function(data) {
+              console.log(data)
+              if(data.success == 1){
+                _this.props.history.push("/");
+              }
+              else if(data.success==0){
+                alert(data.msg);
+                _this.props.history.push("/");
+              }
+              
+
+          },
+          error: function(xhr:any, textStatus, errorThrown){
+            console.log("request status:"+xhr.status+" msg:"+textStatus)
+            if(xhr.status=='604'){//未登录错误
+              //_this.props.listComp.refs.logwin.set
+            }
+             
+          }
+      })          
+    }
     
     render(){
         let cf:any = conf;
@@ -78,7 +112,7 @@ export default class EditIcon extends React.Component<any,any> {
  
         return(
             <div className="demo2">
-                <Row><Col span={24}><h2>Hello! {un}</h2></Col></Row>
+                <Row><Col span={24}><h2>Hello! {un}&nbsp;&nbsp;&nbsp;(<a href="#" onClick={() => this.logout()}>Logout</a>)</h2></Col></Row>
                 <Row><Col span={24}><h2>&nbsp;</h2></Col></Row>
                 <Row justify="space-around" align="middle"><Col span={4}></Col><Col span={10}>Edit you icon: <img src={imgSrc} />&nbsp;&nbsp;&nbsp;&nbsp; =&gt; </Col><Col span={10}>
                     
@@ -97,7 +131,9 @@ export default class EditIcon extends React.Component<any,any> {
                 </Upload>
                 </Col></Row>
                 <Row><Col span={24}><h2>&nbsp;</h2></Col></Row>
-                <Row><Col span={24}><Button type="default" onClick={() => this.props.history.push("/")}>Back Home</Button></Col></Row>
+                <Row><Col span={24}></Col></Row>
+                <Row><Col span={24}>
+                  <Button type="default" onClick={() => this.props.history.push("/")}>Back Home</Button></Col></Row>
             </div>
         )
     

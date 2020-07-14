@@ -260,7 +260,7 @@ class Messgae extends React.Component {
                 
                 <Button key="back" type="text" size="middle">Hello,{username}</Button>
                     {this.state.chatMembersArr.length==0?<div></div>:
-                    <Badge count={sNum}  ><a href="#" className="head-example"  onClick={()=>this.messageListClicked()}>
+                    <Badge count={sNum}  ><a href="#" onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 
                 }
             </div>
