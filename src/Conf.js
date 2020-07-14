@@ -8,6 +8,7 @@ import MessageModal from "./MessageModal";
 const Conf = {
   loginWin:undefined,
   msgWin:undefined,
+  app:undefined,
   goods_types : [
     {
       value: 'A',

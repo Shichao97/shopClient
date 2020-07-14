@@ -112,22 +112,7 @@ export default class SearchGoods extends React.Component<any,any> {
     }
 
 
-    onFinish=(values:any)=>{
-        let _this: SearchGoods = this;
-        //let uid:string = _this.state.uid;
-        //var win:any = window;
-        let uid:string = (conf as any).getCookie("userId");
 
-        console.log(uid + "handle");
-        //let plus:string = $("#searchForm").serialize();  //serachType,searchValue
-        let plusnew:string = "&pageSize=8";//没写 sortby
-        let searchValue = values.searchValue==undefined?"":values.searchValue;
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?searchValue="+searchValue+plusnew;
-      
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
-    }
 
     
     handleSelect2 = (event:any) =>  {
@@ -265,14 +250,70 @@ export default class SearchGoods extends React.Component<any,any> {
   
         _this.setState({});
       }
+      window.onhashchange = function(){
+        var str = window.location.pathname;
+        console.log("query:"+str);
+      }
+
+
+      //第一次进入用这个
+      let plus:string = this.props.match.params.id
+        //let str:string = "";
+      console.log("ids:"+plus);
+      if(plus.indexOf("=")>0){
+        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
+        console.log("searchUrl:"+searchUrl);
+        _this.state={url:searchUrl};
+        //_this.setState({url:searchUrl});
+        this.loadData();
+      }
     }
+
+    // componentWillUpdate(){
+    //   console.log("componentWillUpdate: ");
+    // }
+
+    //在内部push用这个
+    componentWillReceiveProps(nextProps:any){
+      var str = nextProps.location.pathname;
+      console.log("Hash changed to: "+str);
+      if(str.indexOf("=")<0) return;
+      let n = "/searchGoods/".length;
+      let plus = str.substr(n);
+      let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
+      this.state={url:searchUrl};
+      //this.setState({url:searchUrl});
+
+      this.loadData();
+    }
+
+
     formRef:RefObject<FormInstance> = React.createRef();
 
+    onFinish=(values:any)=>{
+      let _this: SearchGoods = this;
+      //let uid:string = _this.state.uid;
+      //var win:any = window;
+      let uid:string = (conf as any).getCookie("userId");
 
+      console.log(uid + "handle");
+      //let plus:string = $("#searchForm").serialize();  //serachType,searchValue
+      let plusnew:string = "&pageSize=8";//没写 sortby
+      let searchValue = values.searchValue==undefined?"":values.searchValue;
+      let plus = "searchValue="+searchValue+plusnew;
+      let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
+    
+      //_this.state={url:searchUrl};
+      //_this.setState({url:searchUrl});
+      //_this.loadData();
+
+      this.props.history.push("/searchGoods/"+plus);
+  }
 
     render(){
       let _this: SearchGoods = this;
       let page:any = _this.state.page;
+      if(page == undefined) return <div></div>
       let arry:any[] = page.content;
       //console.log("render: "+_this.state.uid);
       let uid:string = _this.state.uid;
