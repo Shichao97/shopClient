@@ -2,9 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import jquery from "jquery";
 import './MyAccount.css';
+import {
+  
+  Button,
+  Table, Tag, Space
+} from 'antd';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
-import { Table } from 'antd';
 
 const $ = jquery;
 
@@ -18,6 +22,38 @@ export default class MyAccount extends React.Component<any,any> {
             gotoPage:1,
             flag:0,
         }
+    }
+    columns = [
+      {
+        title: 'Order No.',
+        dataIndex: 'orderNo',
+        key: 'orderNo',
+      },
+      {
+        title: 'Image',
+        key: 'image',
+        render: (text:any, record:any) => (
+          <a onClick={()=>this.showOrderInfo(record.id)}>
+            <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId}      />  
+    
+          </ a>
+    
+        ),
+      },
+      {
+        title: 'Seller Info',
+        key: 'seller_info',
+        render:(text:any, record:any) => (
+          <div><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+record.sellerId+"&size=0"}/> &nbsp;
+          <span>{record.sellerName}</span>
+          </div>
+          
+        )
+      }
+    ]
+
+    showOrderInfo(rid:number){
+      this.props.history.push("/showOrderInfo/"+rid);
     }
 
     loadData(pageNo?:number) {
@@ -84,8 +120,6 @@ export default class MyAccount extends React.Component<any,any> {
         _this.loadData();
     }
 
-
-
     handleSearchAll(){
         let _this: MyAccount = this;
         var cf:any = conf;
@@ -150,28 +184,6 @@ export default class MyAccount extends React.Component<any,any> {
         }
       }
 
-      ttt="hahaha"
-
-      columns = [
-        {
-          title: 'id',
-          dataIndex: 'id',
-          key: 'id',
-        },
-        {
-          title: 'Image',
-          key: 'image',
-          render: (text:any, record:any) => (
-            <a href="#" onClick={()=>this.props.history.push("/showOrderInfo/"+record.id)}>
-            <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId} /> 
-           
-            </ a>
-            
-          ),
-        },
-      ]
-// {window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId}
-      //<img src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId} />  
     render(){
         let page:any = this.state.page;
         let arry:any[] = page.content;
@@ -181,13 +193,13 @@ export default class MyAccount extends React.Component<any,any> {
         let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
         
         return(
-            <div>                 
-              <input type="button" value="not paid" onClick={()=>this.handleSearchNotPaid()}></input>&nbsp;&nbsp;
-            <input type="button" value="not finished" onClick={()=>this.handleSearchNotFinished()}></input> &nbsp;&nbsp;
-            <input type="button" value="All Orders" onClick={()=>this.handleSearchAll()}></input> 
-
-              <Table columns={this.columns} dataSource={this.state.page.content} />
-   </div>
+            <div>
+               <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>not paid</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+               <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>not finished</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+               <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                
+              <Table dataSource={arry} columns={this.columns} />;
+            </div>
         )
     }
 }
