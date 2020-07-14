@@ -5,6 +5,9 @@ import { render } from '@testing-library/react';
 import jquery from "jquery";
 import { Button, Row, Col } from 'antd'
 import { SmileOutlined } from '@ant-design/icons';
+import conf from './Conf'
+
+
 //import { stringify } from 'querystring';
 const $ = jquery;
 
@@ -22,7 +25,7 @@ const $ = jquery;
       if(this.state.toId === toId) return;
       this.state.msgs=[];
       this.setState({toId:toId,toName:toName});
-      let uid = window.getCookie("userId");
+      let uid = conf.getCookie("userId");
       let ws = window.ws;
       ws.send(JSON.stringify({ flag: "msg_init",toId: toId}));
       let result = "";
@@ -71,7 +74,7 @@ const $ = jquery;
 
     sendout() {
         let ws = window.ws;
-        let uid = window.getCookie("userId");
+        let uid = conf.getCookie("userId");
         if(this.state.toId !== undefined){
             var s = document.getElementById("panel_text").value;
             if(s.length>255){
@@ -93,7 +96,7 @@ const $ = jquery;
         this.scrollbottom();
     }
     render(){
-        let uid = window.getCookie("userId");
+        let uid = conf.getCookie("userId");
         return (
         <div>
             <div className='chat_panel' id="panel_div">

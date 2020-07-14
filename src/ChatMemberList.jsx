@@ -22,7 +22,7 @@ class ChatMemberList extends React.Component {
             this.props.history.push("/");
             return;
         }
-        let uid = window.getCookie("userId");
+        let uid = conf.getCookie("userId");
         ws.send(JSON.stringify({ flag: "msg_init",toId: uid}));
         let result = "";
         ws.addEventListener('message', (msg) => {
