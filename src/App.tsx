@@ -180,7 +180,7 @@ class App extends Component<any,any> {
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
 
-          <Redirect to="/"/>
+          
           </switch>
         </div>
         
@@ -189,6 +189,7 @@ class App extends Component<any,any> {
       </div>
     );
   }
+  //<Redirect to="/"/>
 }
 
 export default App;

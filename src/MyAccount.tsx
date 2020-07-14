@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import jquery from "jquery";
 import './MyAccount.css';
+import {
+  
+  Button
+} from 'antd';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
 
@@ -158,9 +162,9 @@ export default class MyAccount extends React.Component<any,any> {
         return(
             <div>
                 <div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
-                <input type="button" value="not paid" onClick={()=>this.handleSearchNotPaid()}></input>&nbsp;&nbsp;
-                <input type="button" value="not finished" onClick={()=>this.handleSearchNotFinished()}></input> &nbsp;&nbsp;
-                <input type="button" value="All Orders" onClick={()=>this.handleSearchAll()}></input> 
+                <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>not paid</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>not finished</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                 <hr/>
                 <table className="my-table">
                     <thead>
@@ -198,11 +202,13 @@ export default class MyAccount extends React.Component<any,any> {
                     )}
                     </tbody>
                 </table>
-                <input type="button" value="previous page" onClick={() => this.handlePreviousPage()}/>
-                <input type="button" value="next page" onClick={() => this.handleNextPage()}/><br />  <br />
+                <Button type="default" onClick={()=>this.handlePreviousPage()}>previous page</Button>
+                <Button type="default" onClick={()=>this.handleNextPage()}>next page</Button><br />  <br />
 
+               
                 <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={this.handleChange}/>
-                <input type="button" value="Go" onClick={() => this.handleGoto()}/><br />  <br />
+                <Button type="default" onClick={()=>this.handleGoto()}>Go</Button><br />  <br />
+
         
             </div>
         )
