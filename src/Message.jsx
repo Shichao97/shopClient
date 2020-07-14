@@ -6,6 +6,8 @@ import { createHashHistory } from 'history'
 import { Button, Row, Col } from 'antd'
 import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
 import conf from './Conf'
+import { Badge } from 'antd';
+import { ClockCircleOutlined } from '@ant-design/icons';
 
 
 import jquery from "jquery";
@@ -222,7 +224,7 @@ class Messgae extends React.Component {
  
     messageListClicked(){
         var sta = {
-            pathname: '/chatMemberList',
+            pathname: '/chatMemberList/',
             state: {mesState:this.state}//'我是通过state传值'
         }
         this.props.history.push(sta);
@@ -250,16 +252,17 @@ class Messgae extends React.Component {
         let username = conf.getCookie("username");
         let newNum = this.getTotalNewNum();
         let sNum = newNum==0?"":""+newNum;
-        let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message <sup><font color="red" size="3">{sNum}</font></sup></Button>;
+        let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message </Button>;
         if(this.state.chatMembersArr.length==0) btn=<div></div>
         if(uid != undefined && uid.length>0){
             return (
             <div>
                 
-                <Button key="back" type="text" size="large">Hello,{username}</Button>
-                    {btn}
-                
-                
+                <Button key="back" type="text" size="middle">Hello,{username}</Button>
+                    {this.state.chatMembersArr.length==0?<div></div>:
+                    <Badge count={sNum}  ><a href="#" className="head-example"  onClick={()=>this.messageListClicked()}>
+                    Message </a> </Badge> 
+                }
             </div>
             )
         }
@@ -267,7 +270,9 @@ class Messgae extends React.Component {
             return (
                 
             <div>
-                    <Button key="back" type="text" size="large" onClick={()=>this.props.history.push("/login")}>Login</Button>
+                  <Button key="back" type="text" size="large" onClick={()=>this.props.history.push("/login")}>Login</Button> 
+                  
+                  
             </div>
             )
         }

@@ -227,6 +227,7 @@ export default class AddGoods extends React.Component<any,any> {
         scrollToFirstError
       >
       
+      
       <Form.Item
         name="name"
         label="Goods Name"
