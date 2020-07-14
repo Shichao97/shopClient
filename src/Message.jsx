@@ -123,7 +123,7 @@ class Messgae extends React.Component {
             else if(ws != undefined){
                 ws.close();
                 ws = undefined;
-                _this.setState({});
+                _this.setState({ msgs: [],connected:false,chatMembersArr:[],chatMembers:{}});
             }
             
         }, 1000);
@@ -258,7 +258,7 @@ class Messgae extends React.Component {
             return (
             <div>
                 
-                <Button key="back" type="text" size="middle">Hello,{username}</Button>
+                <Button key="back" type="text" size="middle">Hello,<a href="#" onClick={()=>this.props.history.push("/_editicon")}>{username}</a></Button>
                     {this.state.chatMembersArr.length==0?<div></div>:
                     <Badge count={sNum}  ><a href="#" onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 
