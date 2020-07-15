@@ -14,20 +14,21 @@ export default class GoodsItem extends React.Component<any,any> {
         if(this.props.data == undefined||this.props.data.g == undefined) {
             return (<div></div>)
         }
-        var sta = {
-            pathname: '/showgoodsinfo',
-            state: this.props.data//'我是通过state传值'
-        }
+        // var sta = {
+        //     pathname: '/showgoodsinfo',
+        //     state: this.props.data//'我是通过state传值'
+        // }
         
         let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+this.props.data.g.id;
         //let linkto:string = "/showgoodsinfo/"+this.props.data.id;
         let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.props.data.g.sellerId+"&size=0"+"&refresh=";
         let school = this.props.data.m.schoolCode == undefined?"":"("+this.props.data.m.schoolCode+")";
+        let linkto = '/showgoodsinfo/'+this.props.data.g.id;
         return(
             
                 <div>
-                    <Link to={sta} >
-                    <img width="240px" height="240px" src={imgSrc}/>
+                    <Link to= {linkto}>
+                    <img width="240px" height="160px" src={imgSrc}/>
                     <br />
                     <div className='goods-title'>{this.props.data.g.name}</div> <br/>
                     </Link>
