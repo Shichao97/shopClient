@@ -1,84 +1,75 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { RefObject } from 'react';
+import * as ReactDOM from 'react-dom';
 import './SearchGoods.css';
 import GoodsItem from './GoodsItem';
 import jquery from "jquery";
-//import LoginModal from './LoginModal';
+import { Link } from 'react-router-dom';
 import conf from './Conf'
+import { Table,Form,Input,Button, Row, Col } from 'antd';
+import { FormInstance } from 'antd/lib/form';
+import { SearchOutlined,UserOutlined } from '@ant-design/icons';
+import { Pagination } from 'antd';
 
 const $ = jquery;
-
-
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
 export default class MySelling extends React.Component<any,any> {
     constructor(props:any){
         super(props);
+        
         this.state = {
           uid:"",
+          searchType:"",
+          searchValue:"",
           url:"",
           page:{"content":[]},
           gotoPage:1,
-          flag:0,
+          //flag:0,
           types:conf.goods_types
         }
+        this.pageSize=2;
       }
-      
-      componentWillMount(){
-        var cf:any = conf;
-        let uid:string = cf.getCookie("userId");
-        /*
-        if(uid == ""){
-            this.props.history.push(  "/login"  );
-        }
-        */
-        this.setState({uid:uid});
-       // console.log("Hi "+this.state.id);
 
-        // let getDatas:any =  sessionStorage.getItem('goods_types');
-        // let obj:any = new Object();
-        // if(getDatas != null){
-        //     let data = JSON.parse(getDatas);
-        //   for (let ele of data) {
-        //     obj[ele.code] = ele;
-        //   }
-        // }
-        
-
-        // this.setState({types:obj});
-      }
-/*
-      getCookie(key:string){
-        const name =key+"=";
-        const ca = document.cookie.split(';'); 
-        for(let i=0;i<ca.length;i++){
-          const c = ca[i].trim();
-          if(c.indexOf(name) === 0){
-            return c.substring(name.length, c.length);
-          }
-        }
-        return "";
-      }
-*/
+      pageSize = 4;
+      routeName = "/_mySelling";
+      params:any;
+ 
 
       getTypes(typeCode:string):string{
-        
+        // let types:any = this.state.types;
+        // let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
         return conf.getFullTypeName(typeCode);
       }
 
       
 
       loadData(pageNo?:number) {
-      
-        let _this: MySelling = this;
-        let newUrl:string = "";
-        if(pageNo != undefined){
-          newUrl = _this.state.url;
-          //newUrl = searchUrl;
-          newUrl = newUrl+ "&pageNo="+pageNo;
-         
-        }else{
-          newUrl = _this.state.url;
-          //newUrl = searchUrl;
-        }
+        let uid = conf.getCookie("userId");
+        let uname = conf.getCookie("username");
+        let plus = conf.getQueryStrFromObj(this.params);
+        let _this = this;
+        let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?" + plus;
+
         console.log(newUrl);
         $.ajax({
           type:"GET",
@@ -89,8 +80,14 @@ export default class MySelling extends React.Component<any,any> {
           url:newUrl,
           dataType:"json",
           success:function(data){
+            var arr:any[] = [];
+            var member = {id:uid,userName:uname}
+            data.content.forEach((element:any) => {
+              arr.push({g:element,m:member});
+            });
+            data.content = arr;
               _this.setState({page:data,gotoPage:data.number+1});
-              _this.setState({flag:1});
+              //_this.setState({flag:1});
           },
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
@@ -102,50 +99,32 @@ export default class MySelling extends React.Component<any,any> {
           }
         })
           
+    }
+
+
+
+
+    
+    handleSelect2 = (event:any) =>  {
+        this.setState({searchType:event.target.value});
+    }
+    handleChange = (event:any) =>  {
+        
+        switch(event.target.name){
+          case "searchValue":
+            this.setState({searchValue: event.target.value});
+            break;
+          case "gotoPage":
+            let page:any = this.state.page;
+            let totalPages = page.totalPages;
+            if(event.target.value >= 1 && event.target.value <=totalPages){
+                this.setState({gotoPage: event.target.value});
+            }
+            break;
+         
+        }
       }
-    handleSearch1(){
-        let _this: MySelling = this;
-        let uid:string = _this.state.uid;
-        let plus:string = "&searchType=1&pageSize=2";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?sellerId=" + uid + plus;
-      
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
-    }
-
-    handleSearch2(){
-      let _this: MySelling = this;
-      let uid:string = _this.state.uid;
-      let plus:string = "&searchType=2&pageSize=2";//没写 sortby
-      let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?sellerId=" + uid + plus;
-    
-      _this.state={url:searchUrl};
-      _this.setState({url:searchUrl});
-      _this.loadData();
-    }
-
-    handleSearch3(){
-      let _this: MySelling = this;
-        let uid:string = _this.state.uid;
-        let plus:string = "&searchType=3&pageSize=2";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?sellerId=" + uid + plus;
-      
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
-  }
-    
-  handleSearch4(){
-    let _this: MySelling = this;
-        let uid:string = _this.state.uid;
-        let plus:string = "&searchType=4&pageSize=2";//没写 sortby
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?sellerId=" + uid + plus;
-      
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
-}
+     
     sellingMethod(m:number):string{
       //let re:string = "";
       let re1= ((m & 1) == 1) ? "shipping":"";
@@ -155,126 +134,258 @@ export default class MySelling extends React.Component<any,any> {
       return re1 + " " + re2 + " " + re3;
     }
 
-    getStatus(s:number):string{
-      if(s == 0){
-        return "remove off the shelves";
-      }else if(s == 1){
-        return "selling now";
-        
-      }else{
-        return "sold out";
-      }
-    }
 
     getImgSrc(gid:string):string{
       let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
       return imgSrc;
     }
 
-    handlePreviousPage(){
-      let _this: MySelling = this;
-      let page:any = _this.state.page;
-      let pn:number = page.number;
-      pn -= 1;
+    // handlePreviousPage(){
+    //   let _this: SearchGoods = this;
+    //   let page:any = _this.state.page;
+    //   let pn:number = page.number;
+    //   pn -= 1;
       
-      let totalPages = page.totalPages;
-      if(pn > (-1)){
-        _this.loadData(pn);
-      }
-    }
+    //   let totalPages = page.totalPages;
+    //   if(pn > (-1)){
+    //     _this.loadData(pn);
+    //   }
+    // }
 
-    handleNextPage(){
-      let _this: MySelling = this;
-      let page:any = _this.state.page;
-      let pn:number = page.number;
-      pn += 1;
+    // handleNextPage(){
+    //   let _this: SearchGoods = this;
+    //   let page:any = _this.state.page;
+    //   let pn:number = page.number;
+    //   pn += 1;
       
-      let totalPages = page.totalPages;
-      if(pn<totalPages){
-        _this.loadData(pn);
-      }
+    //   let totalPages = page.totalPages;
+    //   if(pn<totalPages){
+    //     _this.loadData(pn);
+    //   }
       
-    }
-    handleGoto(){
-      let page:any = this.state.page;
-      let totalPages = page.totalPages;
-      let pn:number = this.state.gotoPage;
-      this.loadData(pn-1);
-    }
+    // }
+    // handleGoto(){
+    //   let page:any = this.state.page;
+    //   let totalPages = page.totalPages;
+    //   let pn:number = this.state.gotoPage;
+    //   this.loadData(pn-1);
+    // }
 
-    handleChange = (event:any) =>  {
+    columns:any[] = [
+      {
+        title: 'Item0',
+        key: 'c_0',
         
-      switch(event.target.name){
-        case "gotoPage":
-          let page:any = this.state.page;
-          let totalPages = page.totalPages;
-          if(event.target.value >= 1 && event.target.value <=totalPages){
-              this.setState({gotoPage: event.target.value});
-          }
-          break;
-       
+        render:(text:any, record:any) =>{
+          let ele = record["c_0"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )},
+        align:'center',
+      },
+      {
+        title: 'Item1',
+        key: 'c_1',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_1"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      },
+      {
+        title: 'Item2',
+        key: 'c_2',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_2"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      },
+      {
+        title: 'Item3',
+        key: 'c_3',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_3"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      },
+      {
+        title: 'Item4',
+        key: 'c_4',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_4"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
+      },
+      {
+        title: 'Item5',
+        key: 'c_5',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_5"]
+          return (
+          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+        )}
       }
+    ]
+    handleSearch(type:number){
+      let _this = this;
+      let uid:string = conf.getCookie("userId");
+      //let plus:string = "&searchType=1&pageSize="+this.pageSize;//没写 sortby
+      this.params = {searchType:type,pageSize:this.pageSize,sellerId:uid};
+
+      let qs = conf.getQueryStrFromObj(this.params);
+      this.props.history.push(this.routeName+"/"+qs);
+  }
+
+ 
+
+
+    componentDidMount(){
+      let _this = this;
+      window.onresize = function(){
+  
+        _this.setState({});
+      }
+
+
     }
-    
+
+    //第一次进入用这个
+    componentWillMount(){
+      
+      let plus:string = conf.getUrlQueryString(this.routeName);
+      this.params = conf.getQueryObjFromStr(plus);
+        //let str:string = "";
+      console.log("plus:"+plus);
+      if(plus.indexOf("=")>0){
+        let s:string = this.params.pageNo;
+        let pageNo:number = s==""?0:parseInt(s);
+        if(pageNo>0) pageNo--;
+        this.loadData((pageNo));
+      }      
+    }
+
+    // componentWillUpdate(){
+    //   console.log("componentWillUpdate: ");
+    // }
+
+    //在内部push用这个
+    componentWillReceiveProps(nextProps:any){
+      var str = nextProps.location.pathname;
+      console.log("Hash changed to: "+str);
+      if(str.indexOf("=")<0) return;
+      let n = this.routeName.length;
+      let plus = str.substr(n+1);
+      this.params = conf.getQueryObjFromStr(plus);
+
+      
+      let s:string = this.params.pageNo;
+      let pageNo:number = s==""?0:parseInt(s);
+      if(pageNo>0) pageNo--;
+      this.loadData((pageNo));
+    }
+
+
+
+    onFinish=(values:any)=>{
+      let _this = this;
+
+      let uid:string = (conf as any).getCookie("userId");
+      
+      let searchValue = values.searchValue==undefined?"":values.searchValue;
+
+      let obj = {searchValue:searchValue,pageSize:this.pageSize};
+      let plus = conf.getQueryStrFromObj(obj);
+      this.props.history.push(this.routeName+"/"+plus);
+  }
+
+  pageChanged=(pn:any)=>{
+    var obj = this.params;
+    obj.pageNo = pn;
+    let plus = conf.getQueryStrFromObj(obj);
+    this.props.history.push(this.routeName+"/"+plus);
+  }
+
     render(){
-      let _this: MySelling = this;
+      let _this = this;
       let page:any = _this.state.page;
+      if(page == undefined) return <div></div>
       let arry:any[] = page.content;
+      
       
       let uid:string = conf.getCookie("userId");
       console.log(uid); 
-      let col:number = 2; //显示商品列数
-      //var win:any = window;
-      let un:string = (conf as any).getCookie("username");
-      let forms =   
-      <div>
-
-          <input type="button" value="selling now" onClick={() => this.handleSearch1()}></input>&nbsp;&nbsp;
-          <input type="button" value="on the way" onClick={() => this.handleSearch2()}></input> &nbsp;&nbsp;
-          <input type="button" value="already sold out" onClick={() => this.handleSearch3()}></input> &nbsp;&nbsp;
-          <input type="button" value="removed off from shelf" onClick={() => this.handleSearch4()}></input>
-
-      </div>
-      
      
-      if(_this.state.flag != 1){
-        return forms;
-        
+      let plus:string = conf.getUrlQueryString(this.routeName);
+
+      
+
+      let n = Math.floor(document.body.clientWidth/280);
+      if(n<=0) n = 1;
+      else if(n>this.columns.length) n = this.columns.length;
+      if(arry.length>0 && arry.length<n) {
+        n = arry.length;
+      }
+      let columns:any[] = [];
+      for(var k=0;k<n;k++){
+        columns.push(this.columns[k]);
+      }
+
+
+      let allDatas = [];
+      
+      let rowNum = Math.ceil(arry.length/n);
+     for(var i=0;i<rowNum;i++){
+        let rowDatas:any = {key:"r_"+i};//key:"r_"+i
+        for(var j=0;j<n;j++){
+          if(i*n+j>= arry.length) break
+          let ele = arry[i*n+j];
+          rowDatas["c_"+j] = (ele);
+        }
+        allDatas.push(rowDatas);
+
+      }
+
+
+      let forms = 
+<div>
+<Button type="default" size='large' onClick={()=>this.handleSearch(1)}>Selling Onow</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' onClick={()=>this.handleSearch(2)}>On the way</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' onClick={()=>this.handleSearch(3)}>Already sold out</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' onClick={()=>this.handleSearch(4)}>Removed off from shelf</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+</div>
+
+
+
+
+
+     
+
+
+      if(plus.length<3){
+        return <Row><Col span={24}>{forms}</Col></Row>
       }
       else{
         return(
-        
-          <div>
-          {forms}
-            <table className="goods-table">
-              <tbody> 
-                {arry.map((element:any,index:number) =>{
-                    let isRowEnd:boolean = (index%col == col-1);
-                    let isLast:boolean = index==arry.length-1;
-                    if(isRowEnd || isLast){
-                      let nstart:number = Math.floor(index/col)*col;
-                        return <tr className='tr1'>
-                          {arry.map((element2:any,index2:number) =>{
-                            if(index2>=nstart && index2<=index)
-                             return <td className='td1'><GoodsItem data={{g:element2,m:{id:uid,userName:un}}}/></td>
-                          })}
-
-                          </tr>
-                    }
-                })}
-                
-                </tbody>   
-            </table>
-            <br/><br/>
-
-            <input type="button" value="previous page" onClick={() => _this.handlePreviousPage()}/>
-            <input type="button" value="next page" onClick={() => _this.handleNextPage()}/><br />  <br />
-
-            <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={_this.handleChange}/>
-            <input type="button" value="Go" onClick={() => _this.handleGoto()}/><br />  <br />
-    
-        </div>
+          
+            <div>
+              <Row><Col span={24}>{forms}</Col></Row>
+              <Row><Col span="24">
+              <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
+              </Col></Row>
+              <Row><Col span={24}><Pagination pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
+            </div>
         )
       }
+      
     }
 }
