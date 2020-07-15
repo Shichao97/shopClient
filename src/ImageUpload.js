@@ -54,16 +54,27 @@ export default class ImageUpload extends React.Component {
             this.state.imgs.map((element,index) =>{
                 return <div className="upimgs"> 
                 <a><span><h1>Click to delete</h1></span>
+
+                
+
+                <table  className="wrap">
+                <tr><td>
                 <img width="100px" height="100px" onClick={()=> this.imgClicked(index)}
                 id={"img_"+index} 
                 src={window.URL.createObjectURL(element)} /> 
+                    
+                    
+                    </td></tr>
+              </table>
                 </a>
                 </div>
             })
         }
         <div  className="upimgs">
-        
+        <table  className="wrap">
+                <tr><td>
         {
+
             (this.props.single == true)?
             <a className="file">+Image
             <input type="file"  name="file" id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
@@ -73,7 +84,8 @@ export default class ImageUpload extends React.Component {
             <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
             </a>
         }
-
+</td></tr>
+              </table>
         </div> 
         </div>  
     }

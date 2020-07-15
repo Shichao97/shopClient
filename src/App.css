@@ -162,6 +162,12 @@
   width:80%; 
 
 }
+.wrap{
+  width: 240px;
+  height: 240px;
+  border: 1px solid rgb(224, 224, 224);
+}
+
 
 .test_input {
   text-align: left;
