@@ -2,7 +2,7 @@ import React from 'react';
 import jquery from "jquery";
 //import LoginModal from './LoginModal';
 import conf from './Conf'
-import ImageUpload from './ImageUpload';
+
 import { Button, Row, Col } from 'antd'
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';

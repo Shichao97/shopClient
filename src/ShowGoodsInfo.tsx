@@ -16,11 +16,13 @@ import {
     Checkbox,
     Button,
     AutoComplete,
+    Table,
   } from 'antd';
   import { SmileTwoTone, HeartTwoTone, HeartFilled ,HeartOutlined} from '@ant-design/icons';
 import jquery from "jquery";
 import MessageModal from './MessageModal';
 import conf from './Conf'
+import GoodsItem from './GoodsItem';
 
 const $ = jquery;
 
@@ -29,43 +31,137 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         super(props);
         let sta:any = this.props.location.state;
         this.state = {
-            data:sta.g,
-            seller:sta.m,
+            // data:sta.g,
+            // seller:sta.m,
             uid:"",
-            imgName:[],
+            imgNames:[],
             types: conf.goods_types
         }
     }
 
-    componentDidMount(){
-        //var win:any = window;
-        let uid:string = (conf as any).getCookie("userId");
-        /*
-        if(uid == ""){
-            this.props.history.push(  "/login"  );
-        }
-        */
-        //this.setState({uid:uid});
-        // let getDatas:any =  sessionStorage.getItem('goods_types');
-        // let obj:any = new Object();
-        // if(getDatas != null){
-        //     let data = JSON.parse(getDatas);
-        //   for (let ele of data) {
-        //     obj[ele.code] = ele;
-        //   }
-        // }
-        // this.setState({types:obj});
-
-        let imgStr:string = this.state.data.imgNames;
-        let arr:string[];
-        if(imgStr == null){
-            arr = [];
-        }
-        else{
-            arr= imgStr.split(";");
-        }
-        this.setState({imgName:arr});
+    imgRender(gid:any,ele:any){
+      //let ele = record["c_5"]
+      let imgSrc=window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+ele
+      if(ele == undefined) return <div></div>
+      else
+      return (
+      <div style={{ alignItems: "center" }}><a onClick={() => this.openImgByName(ele)}><img src={imgSrc}/> </a></div>           
+    )}
+    
+    
+    columns:any[] = [
+      {
+        title: 'Item0',
+        key: 'c_0',
         
+        render:(text:any, record:any) =>{
+          let ele = record["c_0"]
+          return this.imgRender(record.gid,ele);
+        },
+        align:'center',
+      },
+      {
+        title: 'Item1',
+        key: 'c_1',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_1"]
+          return this.imgRender(record.gid,ele);
+        },
+    
+      },
+      {
+        title: 'Item2',
+        key: 'c_2',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_2"]
+          return this.imgRender(record.gid,ele);
+        },
+
+      },
+      {
+        title: 'Item3',
+        key: 'c_3',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_3"]
+          return this.imgRender(record.gid,ele);
+        },
+
+      },
+      {
+        title: 'Item4',
+        key: 'c_4',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_4"]
+          return this.imgRender(record.gid,ele);
+        },
+
+      },
+      {
+        title: 'Item5',
+        key: 'c_5',
+        align:"center",
+        render:(text:any, record:any) =>{
+          let ele = record["c_5"]
+          return this.imgRender(record.gid,ele);
+        },
+
+      }
+    ]
+
+
+
+    componentWillMount(){
+      let id = this.props.match.params.id;
+      let _this = this;
+      let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getGMById?id="+id;
+      console.log(newUrl);
+      $.ajax({
+          type:"GET",
+          // crossDomain: true, 
+          // xhrFields: {
+          //     withCredentials: true 
+          // },
+          url:newUrl,
+          dataType:"json",
+          success:function(data){
+              if(data == null) _this.setState({data:null,seller:null});
+              else {
+                _this.setState({data:data.g,seller:data.m});
+                let imgStr:string = data.g.imgNames;
+                let arr:string[];
+                if(imgStr == null){
+                    arr = [];
+                }
+                else{
+                    arr= imgStr.split(";");
+                }
+                _this.setState({imgNames:arr});
+
+              }
+          },
+          error: function(xhr:any, textStatus, errorThrown){
+              console.log("request status:"+xhr.status+" msg:"+textStatus)
+              if(xhr.status=='604'){//未登录错误
+                  let popwin: any = conf.loginWin;
+                  popwin.setState({modalIsOpen:true})
+              }
+              
+          }
+        })      
+    }
+
+    componentDidMount(){
+      let _this = this;
+      window.onresize = function(){
+  
+        _this.setState({});
+      }
+
+
     }
 
 
@@ -77,9 +173,13 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
     openImgModal(index:number){
         let comp:any = this.refs.bigimg;
-        comp.setState({gid:this.state.data.id,index:index,imgNames:this.state.imgName,modalIsOpen:true})
+        comp.setState({gid:this.state.data.id,index:index,imgNames:this.state.imgNames,modalIsOpen:true})
     }
-
+    openImgByName(fname:string){
+      this.state.imgNames.map((element:any,index:number) =>{
+        if(element == fname)  this.openImgModal(index);
+      })
+  }
     clickEdit(){
         let gid = this.state.data.id;
         this.props.history.push("/editsellgoods/"+gid);
@@ -273,11 +373,45 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
 
     render(){
+        if(this.state.data == null){
+          return <h1 className="msg_error">This goods is missing.</h1>
+        }
+
+        let arry = this.state.imgNames;
+        
+        let n = Math.floor(document.body.clientWidth*0.6/280);
+        if(n<=0) n = 1;
+        else if(n>this.columns.length) n = this.columns.length;
+        if(arry.length>0 && arry.length<n) {
+          n = arry.length;
+        }
+        let columns:any[] = [];
+        for(var k=0;k<n;k++){
+          columns.push(this.columns[k]);
+        }  
+
+        let allDatas = [];
+      
+        let rowNum = Math.ceil(arry.length/n);
+       for(var i=0;i<rowNum;i++){
+          let rowDatas:any = {key:"r_"+i};//key:"r_"+i
+          for(var j=0;j<n;j++){
+            if(i*n+j>= arry.length) break
+            let ele = arry[i*n+j];
+            rowDatas["c_"+j] = (ele);
+            
+          }
+          rowDatas.gid = this.state.data.id;
+          allDatas.push(rowDatas);
+  
+        }
+
+
         let gid = this.state.data.id;
         let uid = conf.getCookie("userId");
         let fullTypeName:string = conf.getFullTypeName(this.state.data.typeCode);
         let imgSrc:string = this.getImgSrc(this.state.data.id);
-        let imgname:string[] = this.state.imgName;
+        
         let collectIconSrc:string = this.getCollectIconSrc(gid);
         //let tables = <table className="content-table">
         let btns;
@@ -336,25 +470,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
       
         return <div className="show_goods_info">
-        <Row> 
-            <Col span={3}> </Col>
-            <Col span={21}>
-            {imgname.map((element:any,index:number) =>{
-                      
-                      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+element;
-
-                      return(
-                        <div className="upimgs"> 
-                        <a><span><h1>Click to bigger</h1></span>
-                          <img src={imgSrc} width="100px" height="100px" onClick={() => this.openImgModal(index)}/>
-                        </a>
-                        </div>
-                      )
-                    
-                      }
-            )}
-        </Col>       
-        </Row>
+          <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
+        
         <Row  gutter={[16, 6]}>
             <Col span={8} className="right_info">
                 name: 
