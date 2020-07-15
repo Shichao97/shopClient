@@ -193,6 +193,7 @@ export default class MyAccount extends React.Component<any,any> {
       let plus = "searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
       this.props.history.push("/_myAccount/"+plus);
     }
+    
     render(){
         let page:any = this.state.page;
         let arry:any[] = page.content;
