@@ -406,13 +406,13 @@ export default class SearchGoods extends React.Component<any,any> {
 
 
       if(plus.length<3){
-        return <Row><Col span={8}>&nbsp;</Col><Col span={8}>{forms}</Col><Col span={8}>&nbsp;</Col></Row>
+        return <Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row>
       }
       else{
         return(
           
             <div>
-              <Row><Col span={8}>&nbsp;</Col><Col span={8}>{forms}</Col><Col span={8}>&nbsp;</Col></Row>
+              <Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row>
               <Row><Col span="24">
               <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
