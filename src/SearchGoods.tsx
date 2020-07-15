@@ -247,9 +247,9 @@ export default class SearchGoods extends React.Component<any,any> {
     //第一次进入用这个
     componentWillMount(){
       
-      let plus:string = this.props.match.params.id
+      let plus:string = conf.getUrlQueryString("/searchGoods");
         //let str:string = "";
-      console.log("ids:"+plus);
+      console.log("plus:"+plus);
       if(plus.indexOf("=")>0){
         let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
         console.log("searchUrl:"+searchUrl);
@@ -326,7 +326,7 @@ export default class SearchGoods extends React.Component<any,any> {
       let uid:string = _this.state.uid;
       console.log(uid); 
       let col:number = 2; //显示商品列数
-      let plus:string = this.props.match.params.id
+      let plus:string = conf.getUrlQueryString("/searchGoods")
 
       let ss = conf.getUrlParam("searchValue",conf.getUrlQueryString("/searchGoods"));
 
