@@ -8,6 +8,7 @@ import conf from './Conf'
 import { Table,Form,Input,Button, Row, Col } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
+import { Pagination } from 'antd';
 
 const $ = jquery;
 const formItemLayout = {
@@ -35,6 +36,7 @@ const tailFormItemLayout = {
 export default class SearchGoods extends React.Component<any,any> {
     constructor(props:any){
         super(props);
+        
         this.state = {
           uid:"",
           searchType:"",
@@ -42,11 +44,15 @@ export default class SearchGoods extends React.Component<any,any> {
           url:"",
           page:{"content":[]},
           gotoPage:1,
-          flag:0,
+          //flag:0,
           types:conf.goods_types
         }
+        this.pageSize=2;
       }
+
+      pageSize = 4;
       
+
       componentWillMount(){
         //var win:any = window;
         let uid:string = (conf as any).getCookie("userId");
@@ -80,7 +86,7 @@ export default class SearchGoods extends React.Component<any,any> {
         if(pageNo != undefined){
           newUrl = _this.state.url;
           //newUrl = searchUrl;
-          newUrl = newUrl+ "&pageNo="+pageNo;
+          //newUrl = newUrl+ "&pageNo="+pageNo;
          
         }else{
           newUrl = _this.state.url;
@@ -97,7 +103,7 @@ export default class SearchGoods extends React.Component<any,any> {
           dataType:"json",
           success:function(data){
               _this.setState({page:data,gotoPage:data.number+1});
-              _this.setState({flag:1});
+              //_this.setState({flag:1});
           },
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
@@ -150,36 +156,36 @@ export default class SearchGoods extends React.Component<any,any> {
       return imgSrc;
     }
 
-    handlePreviousPage(){
-      let _this: SearchGoods = this;
-      let page:any = _this.state.page;
-      let pn:number = page.number;
-      pn -= 1;
+    // handlePreviousPage(){
+    //   let _this: SearchGoods = this;
+    //   let page:any = _this.state.page;
+    //   let pn:number = page.number;
+    //   pn -= 1;
       
-      let totalPages = page.totalPages;
-      if(pn > (-1)){
-        _this.loadData(pn);
-      }
-    }
+    //   let totalPages = page.totalPages;
+    //   if(pn > (-1)){
+    //     _this.loadData(pn);
+    //   }
+    // }
 
-    handleNextPage(){
-      let _this: SearchGoods = this;
-      let page:any = _this.state.page;
-      let pn:number = page.number;
-      pn += 1;
+    // handleNextPage(){
+    //   let _this: SearchGoods = this;
+    //   let page:any = _this.state.page;
+    //   let pn:number = page.number;
+    //   pn += 1;
       
-      let totalPages = page.totalPages;
-      if(pn<totalPages){
-        _this.loadData(pn);
-      }
+    //   let totalPages = page.totalPages;
+    //   if(pn<totalPages){
+    //     _this.loadData(pn);
+    //   }
       
-    }
-    handleGoto(){
-      let page:any = this.state.page;
-      let totalPages = page.totalPages;
-      let pn:number = this.state.gotoPage;
-      this.loadData(pn-1);
-    }
+    // }
+    // handleGoto(){
+    //   let page:any = this.state.page;
+    //   let totalPages = page.totalPages;
+    //   let pn:number = this.state.gotoPage;
+    //   this.loadData(pn-1);
+    // }
 
     columns:any[] = [
       {
@@ -264,8 +270,8 @@ export default class SearchGoods extends React.Component<any,any> {
         let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
         console.log("searchUrl:"+searchUrl);
         _this.state={url:searchUrl};
-        //_this.setState({url:searchUrl});
-        this.loadData();
+        let pageNo:string = this.getUrlParam("pageNo",plus);
+        this.loadData(parseInt(pageNo));
       }
     }
 
@@ -283,10 +289,18 @@ export default class SearchGoods extends React.Component<any,any> {
       let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
       this.state={url:searchUrl};
       //this.setState({url:searchUrl});
-
-      this.loadData();
+      let s:string = this.getUrlParam("pageNo",str);
+      let pageNo:number = s==""?0:parseInt(s);
+      if(pageNo>0) pageNo--;
+      this.loadData((pageNo));
     }
 
+    getUrlParam(name:string,param:string) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); 
+      var r = param.substr(1).match(reg);
+      if (r != null) return unescape(r[2]);
+      return "";
+  }
 
     formRef:RefObject<FormInstance> = React.createRef();
 
@@ -298,7 +312,7 @@ export default class SearchGoods extends React.Component<any,any> {
 
       console.log(uid + "handle");
       //let plus:string = $("#searchForm").serialize();  //serachType,searchValue
-      let plusnew:string = "&pageSize=8";//没写 sortby
+      let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
       let searchValue = values.searchValue==undefined?"":values.searchValue;
       let plus = "searchValue="+searchValue+plusnew;
       let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
@@ -310,6 +324,19 @@ export default class SearchGoods extends React.Component<any,any> {
       this.props.history.push("/searchGoods/"+plus);
   }
 
+  pageChanged=(pn:any)=>{
+    var str:string = window.location.pathname;
+    let arr = str.split("&");
+    let n = str.indexOf("=");
+    let sv = arr[0].substr(n+1);
+    //let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
+    console.log(pn)
+    //this.state={url:searchUrl};
+    //_this.setState({url:searchUrl});
+    let plus = "searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
+    this.props.history.push("/searchGoods/"+plus);
+  }
+
     render(){
       let _this: SearchGoods = this;
       let page:any = _this.state.page;
@@ -319,7 +346,7 @@ export default class SearchGoods extends React.Component<any,any> {
       let uid:string = _this.state.uid;
       console.log(uid); 
       let col:number = 2; //显示商品列数
-
+      let plus:string = this.props.match.params.id
 
       let n = Math.floor(document.body.clientWidth/280);
       if(n<=0) n = 1;
@@ -380,7 +407,7 @@ export default class SearchGoods extends React.Component<any,any> {
      
 
 
-      if(_this.state.flag != 1){
+      if(plus.length<3){
         return <Row><Col span={8}>&nbsp;</Col><Col span={8}>{forms}</Col><Col span={8}>&nbsp;</Col></Row>
       }
       else{
@@ -389,17 +416,9 @@ export default class SearchGoods extends React.Component<any,any> {
             <div>
               <Row><Col span={8}>&nbsp;</Col><Col span={8}>{forms}</Col><Col span={8}>&nbsp;</Col></Row>
               <Row><Col span="24">
-              <Table dataSource={allDatas}  columns={columns}  showHeader={false}/>
+              <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
-
-                <br/><br/>
-
-                <input type="button" value="previous page" onClick={() => _this.handlePreviousPage()}/>
-                <input type="button" value="next page" onClick={() => _this.handleNextPage()}/><br />  <br />
-
-                <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={_this.handleChange}/>
-                <input type="button" value="Go" onClick={() => _this.handleGoto()}/><br />  <br />
-        
+              <Row><Col span={24}><Pagination pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
             </div>
         )
       }
