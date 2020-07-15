@@ -316,6 +316,7 @@ export default class SearchGoods extends React.Component<any,any> {
     this.props.history.push("/searchGoods/"+plus);
   }
 
+
     render(){
       let _this: SearchGoods = this;
       let page:any = _this.state.page;
@@ -327,7 +328,7 @@ export default class SearchGoods extends React.Component<any,any> {
       let col:number = 2; //显示商品列数
       let plus:string = this.props.match.params.id
 
-      let ss = conf.getUrlParam("searchValue",conf.getUrlQueryString());
+      let ss = conf.getUrlParam("searchValue",conf.getUrlQueryString("/searchGoods"));
 
       let n = Math.floor(document.body.clientWidth/280);
       if(n<=0) n = 1;

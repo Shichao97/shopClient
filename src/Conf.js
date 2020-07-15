@@ -173,10 +173,11 @@ const Conf = {
 
 
 
-    getUrlQueryString(){
+    getUrlQueryString(routerName){
       var str = window.location.pathname;
-      var n = str.indexOf("/searchValue=");
-      return str.substr(n+1);
+      var n = str.indexOf(routerName);
+      if(n<0) return ""
+      return str.substr(n+routerName.length+1);
     },
 
     getUrlParam(name,param) {
