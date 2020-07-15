@@ -148,7 +148,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
     getCollectIconSrc(gid:number):string{
         var myDate = new Date();
-        let iconSrc:string = window.localStorage.getItem("host_pre")+"collect/getcollecticon?goodsId="+gid+"&memberId="+this.state.uid+"&size=1"+"&refresh="+myDate.getMilliseconds();
+        let iconSrc:string = window.localStorage.getItem("host_pre")+"collect/getcollecticon?goodsId="+gid+"&memberId="+conf.getCookie("userId")+"&size=1"+"&refresh="+myDate.getMilliseconds();
         return iconSrc;
     }
 

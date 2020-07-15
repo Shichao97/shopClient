@@ -180,6 +180,27 @@ const Conf = {
       return str.substr(n+routerName.length+1);
     },
 
+    getQueryObjFromStr(str){
+      var kvs = str.split("&");
+      var obj = {};
+      kvs.forEach(element => {
+        var arr = element.split("=");
+        obj[arr[0]] = arr[1];
+      });{
+
+      }
+      return obj;
+    },
+
+    getQueryStrFromObj(obj){
+      var s = ""
+      for(var a in obj){
+        if(s.length==0) s += a+"="+obj[a];
+        else s += "&"+a+"="+obj[a];
+      }
+      return s;
+    },
+
     getUrlParam(name,param) {
       var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
       if (reg.test(param))

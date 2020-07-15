@@ -95,7 +95,7 @@ export default class MySelling extends React.Component<any,any> {
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
               if(xhr.status=='604'){//未登录错误
-                  let popwin: any = _this.refs.logwin;
+                  let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
               
@@ -220,8 +220,8 @@ export default class MySelling extends React.Component<any,any> {
       let _this: MySelling = this;
       let page:any = _this.state.page;
       let arry:any[] = page.content;
-      //console.log("render: "+_this.state.uid);
-      let uid:string = _this.state.uid;
+      
+      let uid:string = conf.getCookie("userId");
       console.log(uid); 
       let col:number = 2; //显示商品列数
       //var win:any = window;

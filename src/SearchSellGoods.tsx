@@ -108,7 +108,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
       }
     handleSearch(){
         let _this: SearchSellGoods = this;
-        let uid:string = _this.state.uid;
+        let uid:string = conf.getCookie("userId");
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
         let plusnew:string = "&pageSize=2";//没写 sortby
@@ -195,8 +195,8 @@ export default class SearchSellGoods extends React.Component<any,any> {
       let _this: SearchSellGoods = this;
       let page:any = _this.state.page;
       let arry:any[] = page.content;
-      //console.log("render: "+_this.state.uid);
-      let uid:string = _this.state.uid;
+      
+      let uid:string = conf.getCookie("userId");
       console.log(uid); 
       let forms =                 
       <form id="searchForm">

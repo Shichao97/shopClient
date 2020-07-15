@@ -47,12 +47,12 @@ export default class SearchGoods extends React.Component<any,any> {
           //flag:0,
           types:conf.goods_types
         }
-        this.pageSize=2;
+        this.pageSize=3;
       }
 
       pageSize = 4;
-      
-
+      routeName = "/searchGoods";
+      params:any={};
  
 
       getTypes(typeCode:string):string{
@@ -65,17 +65,11 @@ export default class SearchGoods extends React.Component<any,any> {
 
       loadData(pageNo?:number) {
       
-        let _this: SearchGoods = this;
-        let newUrl:string = "";
-        if(pageNo != undefined){
-          newUrl = _this.state.url;
-          //newUrl = searchUrl;
-          //newUrl = newUrl+ "&pageNo="+pageNo;
-         
-        }else{
-          newUrl = _this.state.url;
-          //newUrl = searchUrl;
-        }
+        let _this = this;
+        let plus = conf.getQueryStrFromObj(this.params);
+        let newUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
+        
+        
         console.log(newUrl);
         $.ajax({
           type:"GET",
@@ -247,15 +241,14 @@ export default class SearchGoods extends React.Component<any,any> {
     //第一次进入用这个
     componentWillMount(){
       
-      let plus:string = conf.getUrlQueryString("/searchGoods");
-        //let str:string = "";
+      let plus:string = conf.getUrlQueryString(this.routeName);
+      this.params = conf.getQueryObjFromStr(plus);
       console.log("plus:"+plus);
       if(plus.indexOf("=")>0){
-        let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
-        console.log("searchUrl:"+searchUrl);
-        this.state={url:searchUrl};
-        let pageNo:string = conf.getUrlParam("pageNo",plus);
-        this.loadData(parseInt(pageNo));
+        let s:string = this.params.pageNo;
+        let pageNo:number = s==""?0:parseInt(s);
+        if(pageNo>0) pageNo--;
+        this.loadData((pageNo));
       }      
     }
 
@@ -268,12 +261,12 @@ export default class SearchGoods extends React.Component<any,any> {
       var str = nextProps.location.pathname;
       console.log("Hash changed to: "+str);
       if(str.indexOf("=")<0) return;
-      let n = "/searchGoods/".length;
-      let plus = str.substr(n);
-      let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
-      this.state={url:searchUrl};
-      //this.setState({url:searchUrl});
-      let s:string = conf.getUrlParam("pageNo",str);
+      let n = this.routeName.length;
+      let plus = str.substr(n+1);
+      this.params = conf.getQueryObjFromStr(plus);
+
+      
+      let s:string = this.params.pageNo;
       let pageNo:number = s==""?0:parseInt(s);
       if(pageNo>0) pageNo--;
       this.loadData((pageNo));
@@ -284,51 +277,38 @@ export default class SearchGoods extends React.Component<any,any> {
     formRef:RefObject<FormInstance> = React.createRef();
 
     onFinish=(values:any)=>{
-      let _this: SearchGoods = this;
-      //let uid:string = _this.state.uid;
-      //var win:any = window;
+      let _this = this;
+
       let uid:string = (conf as any).getCookie("userId");
-
-      console.log(uid + "handle");
-      //let plus:string = $("#searchForm").serialize();  //serachType,searchValue
-      let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
+      
       let searchValue = values.searchValue==undefined?"":values.searchValue;
-      let plus = "searchValue="+searchValue+plusnew;
-      let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
-    
-      //_this.state={url:searchUrl};
-      //_this.setState({url:searchUrl});
-      //_this.loadData();
 
-      this.props.history.push("/searchGoods/"+plus);
+      let obj = {searchValue:searchValue,pageSize:this.pageSize};
+      let plus = conf.getQueryStrFromObj(obj);
+      this.props.history.push(this.routeName+"/"+plus);
   }
 
   pageChanged=(pn:any)=>{
-    var str:string = window.location.pathname;
-    let arr = str.split("&");
-    let n = str.indexOf("=");
-    let sv = arr[0].substr(n+1);
-    //let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
-    console.log(pn)
-    //this.state={url:searchUrl};
-    //_this.setState({url:searchUrl});
-    let plus = "searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
-    this.props.history.push("/searchGoods/"+plus);
+    var obj = this.params;
+    obj.pageNo = pn;
+    let plus = conf.getQueryStrFromObj(obj);
+    this.props.history.push(this.routeName+"/"+plus);
   }
 
 
     render(){
-      let _this: SearchGoods = this;
+      
+      let _this = this;
       let page:any = _this.state.page;
       if(page == undefined) return <div></div>
       let arry:any[] = page.content;
-      //console.log("render: "+_this.state.uid);
-      let uid:string = _this.state.uid;
+      
+      let uid:string = conf.getCookie("userId");
       console.log(uid); 
-      let col:number = 2; //显示商品列数
-      let plus:string = conf.getUrlQueryString("/searchGoods")
-
-      let ss = conf.getUrlParam("searchValue",conf.getUrlQueryString("/searchGoods"));
+      
+      let plus:string = conf.getUrlQueryString(this.routeName);
+      
+      let ss = this.params.searchValue;
 
       let n = Math.floor(document.body.clientWidth/280);
       if(n<=0) n = 1;
