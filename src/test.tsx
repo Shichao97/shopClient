@@ -5,7 +5,7 @@ import './MyAccount.css';
 import {
   
   Button,
-  Table, Tag, Space
+  Table, Tag, Space,Pagination
 } from 'antd';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
@@ -14,6 +14,7 @@ const $ = jquery;
 
 
 export default class MyAccount extends React.Component<any,any> {
+    pageSize:number;
     constructor(props:any){
         super(props);
         this.state={
@@ -22,6 +23,7 @@ export default class MyAccount extends React.Component<any,any> {
             gotoPage:1,
             flag:0,
         }
+        this.pageSize=2;
     }
     columns = [
       {
@@ -41,6 +43,31 @@ export default class MyAccount extends React.Component<any,any> {
         ),
       },
       {
+        title: 'Goods Name',
+        key: 'goodsName',
+        render: (text:any,record:any) => (
+          <a onClick={()=>this.showOrderInfo(record.id)}>
+            {record.goodsName}
+          </a>
+        )
+      },
+      {
+        title: 'Price',
+        dataIndex: 'orderPrice',
+        key:'orderPrice',
+      },
+      {
+        title: 'Order Time',
+        dataIndex: 'orderTime',
+        key: 'orderTime',
+      },
+      {
+        title: 'Payment Status',
+        dataIndex:'paymentStatus',
+        key:'paymentStatus',
+        render: (text:any )=> this.getpayment(text),
+      },
+      {
         title: 'Seller Info',
         key: 'seller_info',
         render:(text:any, record:any) => (
@@ -51,6 +78,10 @@ export default class MyAccount extends React.Component<any,any> {
         )
       }
     ]
+
+    onChange(pageNumber:any) {
+      console.log('Page: ', pageNumber);
+    }
 
     showOrderInfo(rid:number){
       this.props.history.push("/showOrderInfo/"+rid);
@@ -138,38 +169,7 @@ export default class MyAccount extends React.Component<any,any> {
         else return "already paid";
     }
 
-    handlePreviousPage(){
-        let _this: MyAccount = this;
-        let page:any = _this.state.page;
-        let pn:number = page.number;
-        pn -= 1;
-        
-        let totalPages = page.totalPages;
-        if(pn > (-1)){
-          _this.loadData(pn);
-        }
-      }
-  
-    handleNextPage(){
-    let _this: MyAccount = this;
-    let page:any = _this.state.page;
-    let pn:number = page.number;
-    pn += 1;
-    
-    let totalPages = page.totalPages;
-    if(pn<totalPages){
-        _this.loadData(pn);
-    }
-    
-    }
-
-    handleGoto(){
-    let page:any = this.state.page;
-    let totalPages = page.totalPages;
-    let pn:number = this.state.gotoPage;
-    this.loadData(pn-1);
-    }
-
+   
     handleChange = (event:any) =>  {
         
         switch(event.target.name){
@@ -182,8 +182,17 @@ export default class MyAccount extends React.Component<any,any> {
             break;
          
         }
-      }
-
+    }
+    pageChanged=(pn:any)=>{
+      var str:string = window.location.pathname;
+      let arr = str.split("&");
+      let n = str.indexOf("=");
+      let sv = arr[0].substr(n+1);
+      //let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
+      console.log(pn)
+      let plus = "searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
+      this.props.history.push("/_myAccount/"+plus);
+    }
     render(){
         let page:any = this.state.page;
         let arry:any[] = page.content;
@@ -193,12 +202,15 @@ export default class MyAccount extends React.Component<any,any> {
         let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
         
         return(
-            <div>
+            <div className='my-table'>
                <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>not paid</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>not finished</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                 
-              <Table dataSource={arry} columns={this.columns} />;
+              <Table dataSource={arry} columns={this.columns} pagination={ false }/>
+              
+              <Pagination pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/>
+              
             </div>
         )
     }
