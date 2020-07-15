@@ -25,6 +25,12 @@ export default class MyAccount extends React.Component<any,any> {
         }
         this.pageSize=2;
     }
+
+    routeName = "/searchGoods";
+    params:any={};
+
+
+
     columns = [
       {
         title: 'Order No.',
@@ -89,17 +95,9 @@ export default class MyAccount extends React.Component<any,any> {
 
     loadData(pageNo?:number) {
       
-        let _this:MyAccount = this;
-        let newUrl:string = "";
-        if(pageNo != undefined){
-          newUrl = _this.state.url;
-          //newUrl = searchUrl;
-          newUrl = newUrl+ "&pageNo="+pageNo;
-         
-        }else{
-          newUrl = _this.state.url;
-          //newUrl = searchUrl;
-        }
+        let _this = this;
+        let plus = conf.getQueryStrFromObj(this.params);
+        let newUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?"+plus;
         console.log(newUrl);
         $.ajax({
           type:"GET",
@@ -186,11 +184,12 @@ export default class MyAccount extends React.Component<any,any> {
          
         }
     }
+
     pageChanged=(pn:any)=>{
-      var cf:any = conf;
-      let uid:string = cf.getCookie("userId");
-      let pathplus:string = "buyerId="+uid;
-      this.props.history.push("/_myAccount/"+pathplus);
+      var obj = this.params;
+      obj.pageNo = pn;
+      let plus = conf.getQueryStrFromObj(obj);
+      this.props.history.push(this.routeName+"/"+plus);
     }
     
     render(){
@@ -203,6 +202,7 @@ export default class MyAccount extends React.Component<any,any> {
         
         return(
             <div className='my-table'>
+               <div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
                <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>not paid</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>not finished</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
