@@ -53,23 +53,7 @@ export default class SearchGoods extends React.Component<any,any> {
       pageSize = 4;
       
 
-      componentWillMount(){
-        //var win:any = window;
-        let uid:string = (conf as any).getCookie("userId");
-        this.setState({uid:uid});
-
-        // let getDatas:any =  sessionStorage.getItem('goods_types');
-        // let obj:any = new Object();
-        // if(getDatas != null){
-        //     let data = JSON.parse(getDatas);
-        //   for (let ele of data) {
-        //     obj[ele.code] = ele;
-        //   }
-        // }
-        
-
-        // this.setState({types:obj});
-      }
+ 
 
       getTypes(typeCode:string):string{
         // let types:any = this.state.types;
@@ -256,23 +240,23 @@ export default class SearchGoods extends React.Component<any,any> {
   
         _this.setState({});
       }
-      window.onhashchange = function(){
-        var str = window.location.pathname;
-        console.log("query:"+str);
-      }
 
 
-      //第一次进入用这个
+    }
+
+    //第一次进入用这个
+    componentWillMount(){
+      
       let plus:string = this.props.match.params.id
         //let str:string = "";
       console.log("ids:"+plus);
       if(plus.indexOf("=")>0){
         let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
         console.log("searchUrl:"+searchUrl);
-        _this.state={url:searchUrl};
+        this.state={url:searchUrl};
         let pageNo:string = this.getUrlParam("pageNo",plus);
         this.loadData(parseInt(pageNo));
-      }
+      }      
     }
 
     // componentWillUpdate(){
