@@ -130,12 +130,13 @@ export default class MyAccount extends React.Component<any,any> {
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
         let plus:string = "&searchStatus=notPaid";
-        let plusnew:string = "&pageSize=5";//没写 sortby
+        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
+        // _this.state={url:searchUrl};
+        // _this.setState({url:searchUrl});
+        // _this.loadData();
+        this.props.history.push("/_myAccount/"+"buyerId="+uid+plus+plusnew);
     }
 
     handleSearchNotFinished(){
@@ -143,25 +144,27 @@ export default class MyAccount extends React.Component<any,any> {
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
         let plus:string = "&searchStatus=notFinished";
-        let plusnew:string = "&pageSize=5";//没写 sortby
+        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
+        // _this.state={url:searchUrl};
+        // _this.setState({url:searchUrl});
+        // _this.loadData();
+        this.props.history.push("/_myAccount/"+"buyerId="+uid+plus+plusnew);
     }
 
     handleSearchAll(){
         let _this: MyAccount = this;
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
-        let plus:string = "";
-        let plusnew:string = "&pageSize=5";//没写 sortby
+        let plus:string = "&searchStatus=";
+        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
+        // _this.state={url:searchUrl};
+        // _this.setState({url:searchUrl});
+        // _this.loadData();
+        this.props.history.push("/_myAccount/"+"buyerId="+uid+plus+plusnew);
     }
 
     getpayment(status:number):string{
@@ -184,14 +187,10 @@ export default class MyAccount extends React.Component<any,any> {
         }
     }
     pageChanged=(pn:any)=>{
-      var str:string = window.location.pathname;
-      let arr = str.split("&");
-      let n = str.indexOf("=");
-      let sv = arr[0].substr(n+1);
-      //let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
-      console.log(pn)
-      let plus = "searchValue="+sv+"&pageSize="+this.pageSize+"&pageNo="+pn;
-      this.props.history.push("/_myAccount/"+plus);
+      var cf:any = conf;
+      let uid:string = cf.getCookie("userId");
+      let pathplus:string = "buyerId="+uid;
+      this.props.history.push("/_myAccount/"+pathplus);
     }
     
     render(){
