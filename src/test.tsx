@@ -26,9 +26,31 @@ export default class MyAccount extends React.Component<any,any> {
         this.pageSize=2;
     }
 
-    routeName = "/searchGoods";
+    routeName = "/test";
     params:any={};
 
+    //第一次进入用这个
+    componentWillMount(){
+      
+      let plus:string = conf.getUrlQueryString(this.routeName);
+      this.params = conf.getQueryObjFromStr(plus);
+      console.log("plus:"+plus);
+      if(plus.indexOf("=")>0){
+        this.loadData();
+      }      
+    }
+
+
+    //在内部push用这个
+    componentWillReceiveProps(nextProps:any){
+      var str = nextProps.location.pathname;
+      console.log("Hash changed to: "+str);
+      if(str.indexOf("=")<0) return;
+      let n = this.routeName.length;
+      let plus = str.substr(n+1);
+      this.params = conf.getQueryObjFromStr(plus);
+      this.loadData();
+    }
 
 
     columns = [
@@ -93,7 +115,7 @@ export default class MyAccount extends React.Component<any,any> {
       this.props.history.push("/showOrderInfo/"+rid);
     }
 
-    loadData(pageNo?:number) {
+    loadData() {
       
         let _this = this;
         let plus = conf.getQueryStrFromObj(this.params);
@@ -124,45 +146,51 @@ export default class MyAccount extends React.Component<any,any> {
       }
 
     handleSearchNotPaid(){
-        let _this: MyAccount = this;
+        let _this = this;
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
-        let plus:string = "&searchStatus=notPaid";
+        let plus:string = "notPaid";
         let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
         // _this.state={url:searchUrl};
         // _this.setState({url:searchUrl});
         // _this.loadData();
-        this.props.history.push("/_myAccount/"+"buyerId="+uid+plus+plusnew);
+        let obj = {buyerId:uid,searchStatus:plus,pageSize:this.pageSize};
+        let searchPlus = conf.getQueryStrFromObj(obj);
+        this.props.history.push(this.routeName+"/"+searchPlus);
     }
 
     handleSearchNotFinished(){
-        let _this: MyAccount = this;
+        let _this = this;
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
-        let plus:string = "&searchStatus=notFinished";
+        let plus:string = "notFinished";
         let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
         // _this.state={url:searchUrl};
         // _this.setState({url:searchUrl});
         // _this.loadData();
-        this.props.history.push("/_myAccount/"+"buyerId="+uid+plus+plusnew);
+        let obj = {buyerId:uid,searchStatus:plus,pageSize:this.pageSize};
+        let searchPlus = conf.getQueryStrFromObj(obj);
+        this.props.history.push(this.routeName+"/"+searchPlus);
     }
 
     handleSearchAll(){
-        let _this: MyAccount = this;
+        let _this = this;
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
-        let plus:string = "&searchStatus=";
+        let plus:string = "";
         let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
         // _this.state={url:searchUrl};
         // _this.setState({url:searchUrl});
         // _this.loadData();
-        this.props.history.push("/_myAccount/"+"buyerId="+uid+plus+plusnew);
+        let obj = {buyerId:uid,searchStatus:plus,pageSize:this.pageSize};
+        let searchPlus = conf.getQueryStrFromObj(obj);
+        this.props.history.push(this.routeName+"/"+searchPlus);
     }
 
     getpayment(status:number):string{
