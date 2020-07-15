@@ -173,7 +173,18 @@ const Conf = {
 
 
 
+    getUrlQueryString(){
+      var str = window.location.pathname;
+      var n = str.indexOf("/searchValue=");
+      return str.substr(n+1);
+    },
 
+    getUrlParam(name,param) {
+      var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
+      if (reg.test(param))
+       return unescape(RegExp.$2.replace(/\+/g, " "));
+      return "";
+    },
 
 
 

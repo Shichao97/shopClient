@@ -254,7 +254,7 @@ export default class SearchGoods extends React.Component<any,any> {
         let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
         console.log("searchUrl:"+searchUrl);
         this.state={url:searchUrl};
-        let pageNo:string = this.getUrlParam("pageNo",plus);
+        let pageNo:string = conf.getUrlParam("pageNo",plus);
         this.loadData(parseInt(pageNo));
       }      
     }
@@ -273,29 +273,13 @@ export default class SearchGoods extends React.Component<any,any> {
       let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
       this.state={url:searchUrl};
       //this.setState({url:searchUrl});
-      let s:string = this.getUrlParam("pageNo",str);
+      let s:string = conf.getUrlParam("pageNo",str);
       let pageNo:number = s==""?0:parseInt(s);
       if(pageNo>0) pageNo--;
       this.loadData((pageNo));
     }
 
-    getUrlQueryString(){
-      var str = window.location.pathname;
-      var n = str.indexOf("/searchValue=");
-      return str.substr(n+1);
-    }
 
-    getUrlParam(name:string,param:string) {
-      var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
-      if (reg.test(param))
-       return unescape(RegExp.$2.replace(/\+/g, " "));
-      return "";
-/*
-      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); 
-      var r = param.substr(1).match(reg);
-      if (r != null) return unescape(r[2]);
-      return "";*/
-  }
 
     formRef:RefObject<FormInstance> = React.createRef();
 
@@ -343,7 +327,7 @@ export default class SearchGoods extends React.Component<any,any> {
       let col:number = 2; //显示商品列数
       let plus:string = this.props.match.params.id
 
-      let ss = this.getUrlParam("searchValue",this.getUrlQueryString());
+      let ss = conf.getUrlParam("searchValue",conf.getUrlQueryString());
 
       let n = Math.floor(document.body.clientWidth/280);
       if(n<=0) n = 1;
