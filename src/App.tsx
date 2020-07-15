@@ -141,7 +141,7 @@ class App extends Component<any,any> {
          <LoginModal  ref={this.logwin}/>
         <div className="App">
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/searchGoods/sh">searchGoods</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/searchGoods">searchGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
           <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
@@ -170,7 +170,7 @@ class App extends Component<any,any> {
 
           <Route path="/_searchsell" component={SearchSellGoods}></Route>
 
-          <Route path="/searchGoods/:id" component={SearchGoods}></Route>
+          <Route path="/searchGoods" component={SearchGoods}></Route>
           <Route path="/editsellgoods/:id" component={EditSellGoods}></Route>
           <Route path="/showgoodsinfo" component={ShowGoodsInfo}></Route>
           <Route path="/placeOrder" component={PlaceOrder}></Route>
