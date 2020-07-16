@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import jquery from "jquery";
 //import LoginModal from './LoginModal';
 import {
-    
+    Row,
+    Col,
     Button,
   } from 'antd';
 import conf from './Conf';
@@ -214,6 +215,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             return(
                 <div>
                   {ordertable}
+                  <Row><Col span={24}>&nbsp;</Col></Row>
                   <Button type="primary" onClick={() => this.handlePay()}>pay for this order</Button> &nbsp;&nbsp;&nbsp;
                   <Button type="primary" onClick={() => this.handleCancel()}>cancel the order</Button>
                   
@@ -226,7 +228,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             return(
                 <div>
                   {ordertable}
-                  <input type="button" value="Confirm Received" onClick={() => this.handleConfirm()}/>
+                  <Button type="primary" onClick={() => this.handleConfirm()}>Confirm Received</Button>
                   
                   <span>{this.state.confirmMsg}</span>
                 </div>
