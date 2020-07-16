@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {
   Form,
   Input,
-  Tooltip,
+  Alert,
   Cascader,
   Select,
   Row,
@@ -181,7 +181,7 @@ export default class AddGoods extends React.Component<any,any> {
 
   componentDidMount(){
     //this.onFill();
-    alert("111!");
+    
   }
 
 
