@@ -6,6 +6,7 @@ import {
     Row,
     Col,
     Button,
+    Modal,
   } from 'antd';
 import conf from './Conf';
 import './MyAccount.css';
@@ -74,7 +75,11 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 0){
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.error({
+                        title:'Error',
+                        content:data.msg
+                      })
                 }
                 else if(data.success == 1){
                     _this.setState({payMsg:"Payment Success"});
@@ -105,7 +110,11 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 0){
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.error({
+                        title:'Error',
+                        content:data.msg
+                    })
                 }
                 else if(data.success == 1){
                     _this.setState({cancelMsg:"Cancel Success"});
@@ -136,7 +145,11 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 0){
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.error({
+                        title:'Error',
+                        content:data.msg
+                      })
                 }
                 else if(data.success == 1){
                     _this.setState({confirmMsg:"Confirm Success"});

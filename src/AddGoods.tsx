@@ -11,13 +11,14 @@ import {
   Checkbox,
   Button,
   AutoComplete,
+  Modal
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import ImageUpload from './ImageUpload';
 //import LoginModal from './LoginModal';
 import jquery from "jquery";
-import conf from './Conf'
+import conf from './Conf';
 
 const $ = jquery;
 
@@ -151,7 +152,11 @@ export default class AddGoods extends React.Component<any,any> {
         contentType: false,
         success:function(d){
             if(d == null){
-                alert("Add failed dure to server error!");
+                //alert("Add failed dure to server error!");
+                Modal.error({
+                  title:'Error',
+                  content:'Add failed dure to server error!'
+                })
             }else{
               _this.setState({success:true});
                 

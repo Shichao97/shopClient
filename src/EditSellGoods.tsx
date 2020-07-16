@@ -12,6 +12,7 @@ import {
   Button,
   AutoComplete,
   Card,
+  Modal,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
@@ -188,7 +189,11 @@ export default class EditSellGoods extends React.Component<any,any> {
         contentType: false,
         success:function(d){
             if(d.success == 0){
-                alert(d.msg);
+                //alert(d.msg);
+                Modal.error({
+                  title:'Error',
+                  content:d.msg
+                })
             }else{
               _this.setState({success:true});
                 

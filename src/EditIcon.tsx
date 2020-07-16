@@ -3,7 +3,7 @@ import jquery from "jquery";
 //import LoginModal from './LoginModal';
 import conf from './Conf'
 
-import { Button, Row, Col } from 'antd'
+import { Button, Row, Col,Modal } from 'antd'
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -74,7 +74,11 @@ export default class EditIcon extends React.Component<any,any> {
                 _this.props.history.push("/");
               }
               else if(data.success==0){
-                alert(data.msg);
+                //alert(data.msg);
+                Modal.error({
+                  title:'Error',
+                  content: data.msg
+                })
                 _this.props.history.push("/");
               }
               

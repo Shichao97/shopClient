@@ -3,6 +3,7 @@ import React,{useState} from 'react';
 //import { render } from '@testing-library/react';
 import { withRouter } from 'react-router-dom';
 import jquery from "jquery";
+import { Modal } from 'antd';
 //import { stringify } from 'querystring';
 const $ = jquery;
 
@@ -34,7 +35,11 @@ const $ = jquery;
                 _this.props.history.goBack();
               }
               else if(data.success==0){
-                alert(data.msg);
+                //alert(data.msg);
+                Modal.error({
+                  title:'Error',
+                  content:data.msg
+                })
               }
               
 

@@ -18,6 +18,7 @@ import {
     AutoComplete,
     Table,
     Spin,
+    Modal,
   } from 'antd';
   import { SmileTwoTone, HeartTwoTone, HeartFilled ,HeartOutlined} from '@ant-design/icons';
 import jquery from "jquery";
@@ -204,9 +205,17 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 0){
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.error({
+                        title:'Error',
+                        content:data.msg
+                    })
                 }else{
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.success({
+                        title:'Success',
+                        content:data.msg
+                    })
                     _this.props.history.push(  "/searchGoods"  );            
                 }
             },
@@ -235,9 +244,17 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 0){
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.error({
+                        title:'Error',
+                        content:data.msg
+                      })
                 }else{
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.success({
+                        title:'Success',
+                        content:data.msg
+                      })
                     _this.props.history.push(  "/searchGoods"  );            
                 }
             },
@@ -279,7 +296,11 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 0){
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.error({
+                        title:'Error',
+                        content:data.msg
+                    })
                 }
                 else if(data.success == 1){
                     _this.setState({like:data.like});
@@ -359,7 +380,11 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 0){
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.error({
+                        title:'Error',
+                        content:data.msg
+                    })
                 }
                 else if(data.success == 1){
                     _this.setState({like:data.like});

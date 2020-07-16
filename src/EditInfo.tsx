@@ -1,5 +1,7 @@
 import React from 'react';
 import jquery from "jquery";
+import { Modal } from 'antd';
+
 const $ = jquery;
 
 export default class EditInfo extends React.Component<any,any> {
@@ -27,7 +29,11 @@ export default class EditInfo extends React.Component<any,any> {
                 console.log(d.msg);
                 if(d.msg == 1){
                     console.log("gdfhd");
-                    alert("Upload success");
+                    //alert("Upload success");
+                    Modal.error({
+                        title:'Error',
+                        content:'Upload success!'
+                      })
                     _this.setState({});
                 }
             }
