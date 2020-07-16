@@ -181,6 +181,7 @@ export default class AddGoods extends React.Component<any,any> {
 
   componentDidMount(){
     //this.onFill();
+    alert("111!");
   }
 
 

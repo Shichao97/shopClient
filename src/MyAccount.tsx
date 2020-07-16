@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import jquery from "jquery";
 import './MyAccount.css';
 import {
-  
   Button,
   Table, Tag, Space,Pagination
 } from 'antd';
