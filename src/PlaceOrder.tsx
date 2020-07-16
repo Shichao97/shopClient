@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import jquery from "jquery";
 //import LoginModal from './LoginModal';
 import conf from './Conf'
+import { Modal } from 'antd';
 
 const $ = jquery;
 
@@ -36,7 +37,11 @@ export default class PlaceOrder extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 if(data.success == 0){
-                    alert(data.msg);
+                    //alert(data.msg);
+                    Modal.error({
+                        title:'Error',
+                        content:data.msg
+                      })
                 }
                 else{
                     _this.setState({orderId:data.success});

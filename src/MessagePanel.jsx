@@ -78,7 +78,11 @@ const $ = jquery;
         if(this.state.toId !== undefined){
             var s = document.getElementById("panel_text").value;
             if(s.length>255){
-                alert("Words is too long! Please be less than 255.");
+                //alert("Words is too long! Please be less than 255.");
+                Modal.error({
+                    title:'Error',
+                    content:'The message is too long. You cannot enter more than 255 words!'
+                  })
             }
             else{
                 ws.send(JSON.stringify({ flag: 'msg', content: s , toId: this.state.toId, toName:this.state.toName}));
