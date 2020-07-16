@@ -184,7 +184,12 @@ export default class AddGoods extends React.Component<any,any> {
   }
 
 
-
+  imgUpChanged=()=>{
+    this.setState({});
+  }
+  imgUpClicked(index:number){
+    this.imgupRef.current?.imgClicked(index);
+  }
   
 
   onChange(checkedValues:any) {
@@ -193,6 +198,9 @@ export default class AddGoods extends React.Component<any,any> {
   //const [form] = Form.useForm();
   render(){
     let _this = this;    
+    let uploadImgs:any[] = [];
+    if(this.imgupRef.current !=null) uploadImgs = (this.imgupRef as any).current.state.imgs;
+
 
     if(this.state.success !== undefined){
       return <div className='demo2'>
@@ -206,7 +214,26 @@ export default class AddGoods extends React.Component<any,any> {
       <h2>Add your second-hand goods here!</h2>
       <table className="content-table">
         <tr>
-          <td><h3> Upload Images: </h3></td><td><ImageUpload ref={this.imgupRef} parent={this}/></td>
+          <td><h3> Upload Images: </h3></td><td>
+          {  uploadImgs.map((element,index) =>{
+              return <div className="upimgs">
+              <a><span><h1>Click to delete</h1></span>
+              <table  className="wrap">
+              <tr><td>
+              <img className="img_up" onClick={()=> this.imgUpClicked(index)}
+              id={"img_"+index} 
+              src={window.URL.createObjectURL(element)} /> 
+              </td></tr>
+            </table>
+              </a>
+             </div>
+          })  }
+            
+          <table  className="wrap"><tr><td>
+            <ImageUpload ref={this.imgupRef} onChange={this.imgUpChanged}/>
+            </td></tr></table>
+            
+            </td>
         </tr>
         <tr><td></td>
     <td><span className="error_msg">{this.state.imgErrMsg}&nbsp;</span></td>
