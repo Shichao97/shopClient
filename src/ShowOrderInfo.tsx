@@ -2,7 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import jquery from "jquery";
 //import LoginModal from './LoginModal';
+import {
+    Row,
+    Col,
+    Button,
+  } from 'antd';
 import conf from './Conf';
+import './MyAccount.css';
 const $ = jquery;
 
 export default class ShowOrderInfo extends React.Component<any,any> {
@@ -155,7 +161,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
         }
         let goodsImgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+orderdata.goods.id;
         let receiveMethod:string = this.getReceiveMethod(orderdata.order.receiveMethod);
-        let ordertable = <table>
+        let ordertable = <table className="my-table2">
         <tr>
             <td>Order No.</td>
             <td>{orderdata.order.orderNo}</td>
@@ -209,8 +215,9 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             return(
                 <div>
                   {ordertable}
-                  <input type="button" value="pay for this order" onClick={() => this.handlePay()}/>
-                  <input type="button" value="cancel the order" onClick={() => this.handleCancel()}/>
+                  <Row><Col span={24}>&nbsp;</Col></Row>
+                  <Button type="primary" onClick={() => this.handlePay()}>pay for this order</Button> &nbsp;&nbsp;&nbsp;
+                  <Button type="primary" onClick={() => this.handleCancel()}>cancel the order</Button>
                   
                   
                   <span>{this.state.payMsg}</span>
@@ -221,7 +228,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             return(
                 <div>
                   {ordertable}
-                  <input type="button" value="Confirm Received" onClick={() => this.handleConfirm()}/>
+                  <Button type="primary" onClick={() => this.handleConfirm()}>Confirm Received</Button>
                   
                   <span>{this.state.confirmMsg}</span>
                 </div>
