@@ -151,7 +151,7 @@ class App extends Component<any,any> {
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/test/22">test</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/test2/22">test2</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/test2/23">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
          

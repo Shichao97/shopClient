@@ -11,6 +11,7 @@ import {
   Checkbox,
   Button,
   AutoComplete,
+  Card,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
@@ -181,8 +182,8 @@ export default class EditSellGoods extends React.Component<any,any> {
         processData: false,
         contentType: false,
         success:function(d){
-            if(d == null){
-                alert("Add failed dure to server error!");
+            if(d.success == 0){
+                alert(d.msg);
             }else{
               _this.setState({success:true});
                 
@@ -252,7 +253,30 @@ export default class EditSellGoods extends React.Component<any,any> {
     return re.substring(0,re.length-1);
   }
 
+  Wa_SetImgAutoSize(obj:any) {
+    //var img=document.all.img1;//获取图片
+    var img = obj;
+    var MaxWidth = 630; //设置图片宽度界限
+    var MaxHeight = 360; //设置图片高度界限
+    var HeightWidth = img.offsetHeight / img.offsetWidth; //设置高宽比
+    var WidthHeight = img.offsetWidth / img.offsetHeight; //设置宽高比
+    if (img.readyState != "complete") return false; //确保图片完全加载
+    if (img.offsetWidth > MaxWidth) {
+        img.width = MaxWidth;
+        img.height = MaxWidth * HeightWidth;
+    }
+    if (img.offsetHeight > MaxHeight) {
+        img.height = MaxHeight;
+        img.width = MaxHeight * WidthHeight;
+    }
+}
 
+  imgUpChanged=()=>{
+    this.setState({});
+  }
+  imgUpClicked(index:number){
+    this.imgupRef.current?.imgClicked(index);
+  }
 
   onChange = (checkedValues:any) =>  {
     this.setState({methods:checkedValues})
@@ -264,10 +288,13 @@ export default class EditSellGoods extends React.Component<any,any> {
     let id:number = this.props.match.params.id;
     let imgname:string[] = this.state.imgName;
 
+    let uploadImgs:any[] = [];
+    if(this.imgupRef.current !=null) uploadImgs = (this.imgupRef as any).current.state.imgs;
 
     if(this.state.success !== undefined){
       return <div className='demo2'>
-        <h1>Change goods successed!</h1><p/> <Button type="default" size="large"  onClick={() => this.props.history.push("/searchGoods")}>Back</Button>
+        <h1>Change goods successed!</h1><p/> <Button type="default" size="large"  
+        onClick={() => this.props.history.goBack()}>Back</Button>
       </div>
     }
   
@@ -278,21 +305,60 @@ export default class EditSellGoods extends React.Component<any,any> {
       <table className="content-table">
         <tr>
           <td><h3> Uploaded images: </h3></td><td>
+          <div className="upimgs"> 
             {imgname.map((element:any,index:number) =>{
                       
             let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+id+"&fname="+element;
             console.log(imgSrc);
             return(
-              <div className="upimgs"> 
+              
+              
               <a><span><h1>Click to delete</h1></span>
-                <img src={imgSrc} onClick={()=> this.imgClicked(index)} width="100px" height="100px"/>
+
+              <table  className="wrap"><tr><td>
+
+                <img className="img_up"  alt="img" src={imgSrc} onClick={()=> this.imgClicked(index)} />
+                </td></tr></table>
               </a>
-              </div>
+              
+
+              
+              
             )
           
             }
-            )}
-            <ImageUpload ref={this.imgupRef} parent={this}/></td>
+            )
+          }
+            
+          {  uploadImgs.map((element,index) =>{
+              return <div>
+              <a><span><h1>Click to delete</h1></span>
+              <table  className="wrap">
+              <tr><td>
+              <img className="img_up" onClick={()=> this.imgUpClicked(index)}
+              id={"img_"+index} 
+              src={window.URL.createObjectURL(element)} /> 
+              </td></tr>
+            </table>
+              </a>
+             </div>
+          })            
+            
+            
+            
+            
+            
+            
+            }
+            
+            
+            <table  className="wrap"><tr><td>
+            <ImageUpload ref={this.imgupRef} onChange={this.imgUpChanged}/>
+            </td></tr></table>
+            
+            
+            </div>
+            </td>
         </tr>
         <tr><td></td>
     <td><span className="error_msg">{this.state.imgErrMsg}&nbsp;</span></td>

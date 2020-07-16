@@ -55,23 +55,23 @@ const tailFormItemLayout = {
 
 //const [form] = Form.useForm();
 
-export default class EditSellGoods extends React.Component<any,any> {
-  constructor(props:any){
+export default class EditSellGoods extends React.Component {
+  constructor(props){
       super(props);
       this.state={autoCompleteResult:[],imgErrMsg:"",imgName:[]}
   }
   
-  formRef:RefObject<FormInstance> = React.createRef();
-  imgupRef:RefObject<ImageUpload> = React.createRef();
+  formRef = React.createRef();
+  imgupRef = React.createRef();
 
   componentDidMount(){
-      let id:number = this.props.match.params.id;
+      let id = this.props.match.params.id;
       this.getGoodsInfo(id);
   }
 
 
-  getGoodsInfo(gid:number){
-    let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
+  getGoodsInfo(gid){
+    let newUrl = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
     let _this = this;
     $.ajax({
         type:"GET",
@@ -82,8 +82,8 @@ export default class EditSellGoods extends React.Component<any,any> {
         url:newUrl,
         dataType:"json",
         success:function(data){
-            let imgStr:string = data.imgNames;
-            let arr:string[];
+            let imgStr = data.imgNames;
+            let arr;
             if(imgStr == null){
               arr = [];
             }
@@ -93,13 +93,13 @@ export default class EditSellGoods extends React.Component<any,any> {
 
 
         },
-        error: function(xhr:any, textStatus, errorThrown){
+        error: function(xhr, textStatus, errorThrown){
           console.log("getgoodsinfo error!");
         }
       })
 }
 
-  onFinish = (values:object) => {
+  onFinish = (values) => {
     
     console.log("onFinish:",values);
 
@@ -109,8 +109,8 @@ export default class EditSellGoods extends React.Component<any,any> {
     }
   };
 
-  imgUploadChanged():boolean{
-    let imgup:ImageUpload|null = this.imgupRef.current;
+  imgUploadChanged(){
+    let imgup = this.imgupRef.current;
     if(this.state.imgName.length==0){
       if(imgup ==null || imgup.state.imgs.length < 1 ){
         this.setState({imgErrMsg : "You must upload at least one image for your second-hand goods!"});
@@ -124,14 +124,14 @@ export default class EditSellGoods extends React.Component<any,any> {
     return true;
   }
 
-  doEdit(values:any){
+  doEdit(values){
     let _this = this;
     let formData = new FormData();
-    let id:string = this.props.match.params.id;
+    let id = this.props.match.params.id;
     //let ele: any = $('#upfile')[0];
     //let appendTemp:any = ele.files[0];
     let i = 0;
-    let imgup:any = this.imgupRef.current;
+    let imgup = this.imgupRef.current;
     
     for (let entry of imgup.state.imgs) {
         
@@ -143,7 +143,7 @@ export default class EditSellGoods extends React.Component<any,any> {
 
     formData.append("gid",id);
     
-    let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/edit";
+    let url1 = window.localStorage.getItem("host_pre")+"goods/sell/edit";
     let data= values;  //不用拼data
     for(var p in data){
         console.log(data[p]);
@@ -153,7 +153,7 @@ export default class EditSellGoods extends React.Component<any,any> {
             formData.append("typeCode",ele[1]);
         }
         else if(p=="method"){
-          data[p].forEach((element:any) => {
+          data[p].forEach((element) => {
             if(element=="1"){
               formData.append("method1","1");
             }
@@ -182,17 +182,17 @@ export default class EditSellGoods extends React.Component<any,any> {
         processData: false,
         contentType: false,
         success:function(d){
-            if(d.success == 0){
-                alert(d.msg);
+            if(d == null){
+                alert("Add failed dure to server error!");
             }else{
               _this.setState({success:true});
                 
             }
         },
-        error: function(xhr:any, textStatus, errorThrown){
+        error: function(xhr, textStatus, errorThrown){
             console.log("request status:"+xhr.status+" msg:"+textStatus)
             if(xhr.status=='604'){//未登录错误
-                let popwin: any = conf.loginWin;
+                let popwin = conf.loginWin;
                 popwin.setState({modalIsOpen:true})
             }
             
@@ -201,17 +201,17 @@ export default class EditSellGoods extends React.Component<any,any> {
   }
 
   onReset = () => {
-    this.formRef.current?.resetFields();
-    this.imgupRef.current?.reset();
+    this.formRef.current.resetFields();
+    this.imgupRef.current.reset();
     this.setState({imgErrMsg:"",success:undefined});
     //this.setState({success:true});
   };
 
-  onFill = (data:any) => {
+  onFill = (data) => {
     //let data = this.state.data;
     let n = data.typeCode.indexOf("_");
     let cate = data.typeCode.substring(0,n);
-    let methods:any = [];
+    let methods = [];
     if((data.sellingMethod & 1) == 1){
       methods.push("1");
     }
@@ -223,7 +223,7 @@ export default class EditSellGoods extends React.Component<any,any> {
     }    
     this.setState({methods:methods});
 
-    this.formRef.current?.setFieldsValue({
+    this.formRef.current.setFieldsValue({
       name: data.name,
       location: data.location,
       price: data.price,
@@ -236,28 +236,28 @@ export default class EditSellGoods extends React.Component<any,any> {
 
 
 
-  imgClicked(index:number){
+  imgClicked(index){
     this.state.imgName.splice(index,1);
     this.setState({});
   }
 
   //拼接分号字符串
-  combineImgNames(arr:number[]){
+  combineImgNames(arr){
     if(arr == null || arr.length == 0){
       return "";
     }
-    let re:string = "";
+    let re = "";
     for(let ele of arr){
       re += (ele)+";";
     }
     return re.substring(0,re.length-1);
   }
 
-  Wa_SetImgAutoSize(obj:any) {
+  Wa_SetImgAutoSize(obj) {
     //var img=document.all.img1;//获取图片
     var img = obj;
-    var MaxWidth = 630; //设置图片宽度界限
-    var MaxHeight = 360; //设置图片高度界限
+    var MaxWidth = 120; //设置图片宽度界限
+    var MaxHeight = 120; //设置图片高度界限
     var HeightWidth = img.offsetHeight / img.offsetWidth; //设置高宽比
     var WidthHeight = img.offsetWidth / img.offsetHeight; //设置宽高比
     if (img.readyState != "complete") return false; //确保图片完全加载
@@ -271,25 +271,16 @@ export default class EditSellGoods extends React.Component<any,any> {
     }
 }
 
-  imgUpChanged=()=>{
-    this.setState({});
-  }
-  imgUpClicked(index:number){
-    this.imgupRef.current?.imgClicked(index);
-  }
-
-  onChange = (checkedValues:any) =>  {
+  onChange = (checkedValues) =>  {
     this.setState({methods:checkedValues})
     console.log('checked = ', checkedValues);
   }
   //const [form] = Form.useForm();
   render(){
     let _this = this;    
-    let id:number = this.props.match.params.id;
-    let imgname:string[] = this.state.imgName;
+    let id = this.props.match.params.id;
+    let imgname= this.state.imgName;
 
-    let uploadImgs:any[] = [];
-    if(this.imgupRef.current !=null) uploadImgs = (this.imgupRef as any).current.state.imgs;
 
     if(this.state.success !== undefined){
       return <div className='demo2'>
@@ -304,60 +295,30 @@ export default class EditSellGoods extends React.Component<any,any> {
       <table className="content-table">
         <tr>
           <td><h3> Uploaded images: </h3></td><td>
-          <div className="upimgs"> 
-            {imgname.map((element:any,index:number) =>{
+            {imgname.map((element,index) =>{
                       
-            let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+id+"&fname="+element;
+            let imgSrc = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+id+"&fname="+element;
             console.log(imgSrc);
             return(
-              
+              <div className="upimgs"> 
               
               <a><span><h1>Click to delete</h1></span>
+              <table  className="wrap">
+              
 
-              <table  className="wrap"><tr><td>
 
-                <img className="img_up"  alt="img" src={imgSrc} onClick={()=> this.imgClicked(index)} />
-                </td></tr></table>
+            
+                <tr><td><img className="img_up" alt="img" οnLοad="this.Wa_SetImgAutoSize(this)" src={imgSrc} onClick={()=> this.imgClicked(index)} /></td></tr>
+              </table>
               </a>
               
-
-              
-              
+              </div>
             )
           
             }
-            )
-          }
+            )}
             
-          {  uploadImgs.map((element,index) =>{
-              return <div>
-              <a><span><h1>Click to delete</h1></span>
-              <table  className="wrap">
-              <tr><td>
-              <img className="img_up" onClick={()=> this.imgUpClicked(index)}
-              id={"img_"+index} 
-              src={window.URL.createObjectURL(element)} /> 
-              </td></tr>
-            </table>
-              </a>
-             </div>
-          })            
-            
-            
-            
-            
-            
-            
-            }
-            
-            
-            <table  className="wrap"><tr><td>
-            <ImageUpload ref={this.imgupRef} onChange={this.imgUpChanged}/>
-            </td></tr></table>
-            
-            
-            </div>
-            </td>
+            <ImageUpload ref={this.imgupRef} parent={this}/></td>
         </tr>
         <tr><td></td>
     <td><span className="error_msg">{this.state.imgErrMsg}&nbsp;</span></td>

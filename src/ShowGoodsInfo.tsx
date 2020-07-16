@@ -45,7 +45,11 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
       if(ele == undefined) return <div></div>
       else
       return (
-      <div style={{ alignItems: "center" }}><a onClick={() => this.openImgByName(ele)}><img src={imgSrc}/> </a></div>           
+      <div style={{ alignItems: "center" }}>
+          
+          <a onClick={() => this.openImgByName(ele)}><img className="img_big" src={imgSrc}/> </a>
+          
+          </div>           
     )}
     
     
@@ -322,7 +326,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     getLikeIcon(){
 
         var cf:any = conf;
-        let gid = this.state.data.id;
+        let gid = this.props.match.params.id;//this.state.data.id;
         if(cf.getCookie == undefined) return undefined;
         let uid:string = cf.getCookie("userId");
         let outline = <HeartOutlined style={{ color: 'hotpink',fontSize: '30px' }} onClick={() => this.clickCollect()}/>;
@@ -373,10 +377,14 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
 
     render(){
-        if(this.state.data == null){
+        if(this.state.data === undefined){
+            return <div></div>
+        }        
+        if(this.state.data === null){
           return <h1 className="msg_error">This goods is missing.</h1>
         }
 
+  
         let arry = this.state.imgNames;
         
         let n = Math.floor(document.body.clientWidth*0.6/280);
@@ -407,7 +415,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         }
 
 
-        let gid = this.state.data.id;
+        let gid = this.props.match.params.id;//this.state.data.id;
         let uid = conf.getCookie("userId");
         let fullTypeName:string = conf.getFullTypeName(this.state.data.typeCode);
         let imgSrc:string = this.getImgSrc(this.state.data.id);

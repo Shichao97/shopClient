@@ -30,9 +30,9 @@ export default class ImageUpload extends React.Component {
                 this.state.imgs.push(upMultilImagesObj.files[i]);
             }  
             this.setState({});
-            let parent = this.props.parent;
+            let parent = this.props.onChange;
             if(parent !=undefined){
-                parent.imgUploadChanged();
+                this.props.onChange();
             } 
         }
     }   
@@ -40,38 +40,22 @@ export default class ImageUpload extends React.Component {
     imgClicked(index){
         this.state.imgs.splice(index,1);
         this.setState({});
-        let parent = this.props.parent;
+        let parent = this.props.onChange;
         if(parent !=undefined){
-            parent.imgUploadChanged();
+            this.props.onChange();
         } 
     }
     
     render(){
+        //if(true) return <div></div>
     return <div>
        
 
         {
-            this.state.imgs.map((element,index) =>{
-                return <div className="upimgs"> 
-                <a><span><h1>Click to delete</h1></span>
-
-                
-
-                <table  className="wrap">
-                <tr><td>
-                <img width="100px" height="100px" onClick={()=> this.imgClicked(index)}
-                id={"img_"+index} 
-                src={window.URL.createObjectURL(element)} /> 
-                    
-                    
-                    </td></tr>
-              </table>
-                </a>
-                </div>
-            })
+            
         }
         <div  className="upimgs">
-        <table  className="wrap">
+        <table  className="wrap2">
                 <tr><td>
         {
 
@@ -84,7 +68,7 @@ export default class ImageUpload extends React.Component {
             <input type="file"  name="file" multiple id="upMultilImages" onChange={() => this.multiImagePreview()} accept="image/*" />
             </a>
         }
-</td></tr>
+            </td></tr>
               </table>
         </div> 
         </div>  

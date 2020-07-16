@@ -27,14 +27,21 @@ export default class GoodsItem extends React.Component<any,any> {
         return(
             
                 <div>
+
+            
                     <Link to= {linkto}>
-                    <img width="240px" height="160px" src={imgSrc}/>
+                    
+                    <img className="img_big" src={imgSrc}/>
+                    
                     <br />
                     <div className='goods-title'>{this.props.data.g.name}</div> <br/>
                     </Link>
                     <span className='price'>${this.props.data.g.price} </span>
                     
                     <span ><img src={memberImgSrc}/> {this.props.data.m.userName} {school}</span>
+            
+           
+                    
                 </div>
             
         )
