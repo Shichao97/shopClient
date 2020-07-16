@@ -478,6 +478,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
       
         return <div className="show_goods_info">
+            <h2>{this.state.data.name}</h2>
           <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
         
         <Row  gutter={[16, 6]}>

@@ -118,7 +118,7 @@ export default class EditSellGoods extends React.Component<any,any> {
     }
     else if(this.state.imgName.length==0){
       if(imgup ==null || imgup.state.imgs.length < 1 ){
-        this.setState({imgErrMsg : "You must upload at least one image for your second-hand goods!"});
+        this.setState({imgErrMsg : "You must upload at least one image for your goods!"});
         return false;
       }else if(imgup ==null || imgup.state.imgs.length > 16){
         this.setState({imgErrMsg : "You cannot upload more than 16 images！"});

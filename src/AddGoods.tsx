@@ -87,7 +87,7 @@ export default class AddGoods extends React.Component<any,any> {
       return false;
     }
     else if(imgup ==null || imgup.state.imgs.length < 1 ){
-      this.setState({imgErrMsg : "You must upload at least one image for your second-hand goods!"});
+      this.setState({imgErrMsg : "You must upload at least one image for your goods!"});
       return false;
     }else if(imgup ==null || imgup.state.imgs.length > 16){
       this.setState({imgErrMsg : "You cannot upload more than 16 images！"});
@@ -328,7 +328,7 @@ export default class AddGoods extends React.Component<any,any> {
  
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" onClick={()=>this.imgUploadChecked()}>
           Add
         </Button>
       </Form.Item>
