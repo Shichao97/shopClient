@@ -16,9 +16,6 @@ export default class ShowOrderInfo extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state={
-            payMsg:"",
-            cancelMsg:"",
-            confirmMsg:""
         }
     }
 
@@ -59,7 +56,22 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             return "";
         }
     }
-
+    confirmPay(){
+        Modal.confirm({
+            title: 'Confirm pay?',
+            content: '',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'Wait to see',
+            onOk: () => {
+                this.handlePay()
+            }
+            ,
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    }
     handlePay(){
         let oid = this.props.match.params.oid;
         let _this:ShowOrderInfo = this;
@@ -82,7 +94,13 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                       })
                 }
                 else if(data.success == 1){
-                    _this.setState({payMsg:"Payment Success"});
+                    Modal.success({
+                        title:'Success',
+                        content:'Payment Success!'
+                    })
+                    let datas = _this.state.orderdata;
+                    datas.order.paymentStatus = 1;
+                    _this.setState({orderdata:datas});
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
@@ -94,6 +112,22 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                 
             }
           })
+    }
+    confirmCancel(){
+        Modal.confirm({
+            title: 'Confirm cancel?',
+            content: '',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'Wait to see',
+            onOk: () => {
+                this.handleCancel();
+            }
+            ,
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
     handleCancel(){
         let oid = this.props.match.params.oid;
@@ -117,7 +151,13 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                     })
                 }
                 else if(data.success == 1){
-                    _this.setState({cancelMsg:"Cancel Success"});
+                    Modal.success({
+                        title:'Success',
+                        content:'Cancel Success!'
+                    })
+                    let datas = _this.state.orderdata;
+                    datas.order.status = -1;
+                    _this.setState({orderdata:datas});
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
@@ -129,6 +169,22 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                 
             }
           })
+    }
+    confirmConfirm(){
+        Modal.confirm({
+            title: 'Confirm received?',
+            content: '',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'Wait to see',
+            onOk: () => {
+                this.handleConfirm();
+            }
+            ,
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
     }
     handleConfirm(){
         let oid = this.props.match.params.oid;
@@ -152,7 +208,13 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                       })
                 }
                 else if(data.success == 1){
-                    _this.setState({confirmMsg:"Confirm Success"});
+                    Modal.success({
+                        title:'Success',
+                        content:'Confirm Success!'
+                    })
+                    let datas = _this.state.orderdata;
+                    datas.order.status = 1;
+                    _this.setState({orderdata:datas});
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
@@ -229,19 +291,18 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                 <div>
                   {ordertable}
                   <Row><Col span={24}>&nbsp;</Col></Row>
-                  <Button type="primary" onClick={() => this.handlePay()}>pay for this order</Button> &nbsp;&nbsp;&nbsp;
-                  <Button type="primary" onClick={() => this.handleCancel()}>cancel the order</Button>
+                  <Button type="primary" onClick={() => this.confirmPay()}>pay for this order</Button> &nbsp;&nbsp;&nbsp;
+                  <Button type="primary" onClick={() => this.confirmCancel()}>cancel the order</Button>
                   
                   
-                  <span>{this.state.payMsg}</span>
-                  <span>{this.state.cancelMsg}</span>
+                 
                 </div>
             )
         }else if(orderdata.order.status == 0 && orderdata.order.paymentStatus == 1){
             return(
                 <div>
                   {ordertable}
-                  <Button type="primary" onClick={() => this.handleConfirm()}>Confirm Received</Button>
+                  <Button type="primary" onClick={() => this.confirmConfirm()}>Confirm Received</Button>
                   
                   <span>{this.state.confirmMsg}</span>
                 </div>
