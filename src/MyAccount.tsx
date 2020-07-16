@@ -4,7 +4,8 @@ import jquery from "jquery";
 import './MyAccount.css';
 import {
   
-  Button
+  Button,
+  Table, Tag, Space,Pagination
 } from 'antd';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
@@ -13,6 +14,7 @@ const $ = jquery;
 
 
 export default class MyAccount extends React.Component<any,any> {
+    pageSize:number;
     constructor(props:any){
         super(props);
         this.state={
@@ -21,21 +23,103 @@ export default class MyAccount extends React.Component<any,any> {
             gotoPage:1,
             flag:0,
         }
+        this.pageSize=2;
     }
 
-    loadData(pageNo?:number) {
+    routeName = "/_myAccount";
+    params:any={};
+
+    //第一次进入用这个
+    componentWillMount(){
       
-        let _this:MyAccount = this;
-        let newUrl:string = "";
-        if(pageNo != undefined){
-          newUrl = _this.state.url;
-          //newUrl = searchUrl;
-          newUrl = newUrl+ "&pageNo="+pageNo;
-         
-        }else{
-          newUrl = _this.state.url;
-          //newUrl = searchUrl;
-        }
+      let plus:string = conf.getUrlQueryString(this.routeName);
+      this.params = conf.getQueryObjFromStr(plus);
+      console.log("plus:"+plus);
+      if(plus.indexOf("=")>0){
+        this.loadData();
+      }      
+    }
+
+
+    //在内部push用这个
+    componentWillReceiveProps(nextProps:any){
+      var str = nextProps.location.pathname;
+      console.log("Hash changed to: "+str);
+      if(str.indexOf("=")<0) return;
+      let n = this.routeName.length;
+      let plus = str.substr(n+1);
+      this.params = conf.getQueryObjFromStr(plus);
+      this.loadData();
+    }
+
+
+    columns = [
+      {
+        title: 'Order No.',
+        dataIndex: 'orderNo',
+        key: 'orderNo',
+      },
+      {
+        title: 'Image',
+        key: 'image',
+        render: (text:any, record:any) => (
+          <a onClick={()=>this.showOrderInfo(record.id)}>
+            <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId}      />  
+    
+          </ a>
+    
+        ),
+      },
+      {
+        title: 'Goods Name',
+        key: 'goodsName',
+        render: (text:any,record:any) => (
+          <a onClick={()=>this.showOrderInfo(record.id)}>
+            {record.goodsName}
+          </a>
+        )
+      },
+      {
+        title: 'Price',
+        dataIndex: 'orderPrice',
+        key:'orderPrice',
+      },
+      {
+        title: 'Order Time',
+        dataIndex: 'orderTime',
+        key: 'orderTime',
+      },
+      {
+        title: 'Payment Status',
+        dataIndex:'paymentStatus',
+        key:'paymentStatus',
+        render: (text:any )=> this.getpayment(text),
+      },
+      {
+        title: 'Seller Info',
+        key: 'seller_info',
+        render:(text:any, record:any) => (
+          <div><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+record.sellerId+"&size=0"}/> &nbsp;
+          <span>{record.sellerName}</span>
+          </div>
+          
+        )
+      }
+    ]
+
+    onChange(pageNumber:any) {
+      console.log('Page: ', pageNumber);
+    }
+
+    showOrderInfo(rid:number){
+      this.props.history.push("/showOrderInfo/"+rid);
+    }
+
+    loadData() {
+      
+        let _this = this;
+        let plus = conf.getQueryStrFromObj(this.params);
+        let newUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?"+plus;
         console.log(newUrl);
         $.ajax({
           type:"GET",
@@ -62,42 +146,51 @@ export default class MyAccount extends React.Component<any,any> {
       }
 
     handleSearchNotPaid(){
-        let _this: MyAccount = this;
+        let _this = this;
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
-        let plus:string = "&searchStatus=notPaid";
-        let plusnew:string = "&pageSize=5";//没写 sortby
+        let plus:string = "notPaid";
+        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
+        // _this.state={url:searchUrl};
+        // _this.setState({url:searchUrl});
+        // _this.loadData();
+        let obj = {buyerId:uid,searchStatus:plus,pageSize:this.pageSize};
+        let searchPlus = conf.getQueryStrFromObj(obj);
+        this.props.history.push(this.routeName+"/"+searchPlus);
     }
 
     handleSearchNotFinished(){
-        let _this: MyAccount = this;
+        let _this = this;
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
-        let plus:string = "&searchStatus=notFinished";
-        let plusnew:string = "&pageSize=5";//没写 sortby
+        let plus:string = "notFinished";
+        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
+        // _this.state={url:searchUrl};
+        // _this.setState({url:searchUrl});
+        // _this.loadData();
+        let obj = {buyerId:uid,searchStatus:plus,pageSize:this.pageSize};
+        let searchPlus = conf.getQueryStrFromObj(obj);
+        this.props.history.push(this.routeName+"/"+searchPlus);
     }
 
     handleSearchAll(){
-        let _this: MyAccount = this;
+        let _this = this;
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
         let plus:string = "";
-        let plusnew:string = "&pageSize=5";//没写 sortby
+        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
-        _this.state={url:searchUrl};
-        _this.setState({url:searchUrl});
-        _this.loadData();
+        // _this.state={url:searchUrl};
+        // _this.setState({url:searchUrl});
+        // _this.loadData();
+        let obj = {buyerId:uid,searchStatus:plus,pageSize:this.pageSize};
+        let searchPlus = conf.getQueryStrFromObj(obj);
+        this.props.history.push(this.routeName+"/"+searchPlus);
     }
 
     getpayment(status:number):string{
@@ -105,38 +198,7 @@ export default class MyAccount extends React.Component<any,any> {
         else return "already paid";
     }
 
-    handlePreviousPage(){
-        let _this: MyAccount = this;
-        let page:any = _this.state.page;
-        let pn:number = page.number;
-        pn -= 1;
-        
-        let totalPages = page.totalPages;
-        if(pn > (-1)){
-          _this.loadData(pn);
-        }
-      }
-  
-    handleNextPage(){
-    let _this: MyAccount = this;
-    let page:any = _this.state.page;
-    let pn:number = page.number;
-    pn += 1;
-    
-    let totalPages = page.totalPages;
-    if(pn<totalPages){
-        _this.loadData(pn);
-    }
-    
-    }
-
-    handleGoto(){
-    let page:any = this.state.page;
-    let totalPages = page.totalPages;
-    let pn:number = this.state.gotoPage;
-    this.loadData(pn-1);
-    }
-
+   
     handleChange = (event:any) =>  {
         
         switch(event.target.name){
@@ -149,8 +211,15 @@ export default class MyAccount extends React.Component<any,any> {
             break;
          
         }
-      }
+    }
 
+    pageChanged=(pn:any)=>{
+      var obj = this.params;
+      obj.pageNo = pn;
+      let plus = conf.getQueryStrFromObj(obj);
+      this.props.history.push(this.routeName+"/"+plus);
+    }
+    
     render(){
         let page:any = this.state.page;
         let arry:any[] = page.content;
@@ -160,56 +229,16 @@ export default class MyAccount extends React.Component<any,any> {
         let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
         
         return(
-            <div>
-                <div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
-                <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>not paid</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>not finished</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <hr/>
-                <table className="my-table">
-                    <thead>
-                        <tr>
-                            <th className="td1">Order No.</th>
-                            <th className="td1">image</th>
-                            <th className="td1">Goods Name</th>
-                            <th className="td1">price</th>
-                            <th className="td1">Order time</th>
-                            <th className="td1">payment status</th>
-                            <th className="td1">Seller Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {arry.map((element:any) =>{
-                      let sellerIcon:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.sellerId+"&size=0";
-                      let payment:string = this.getpayment(element.paymentStatus);
-                      let goodsImgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+element.goodsId;
-                      let link1:string = "/showOrderInfo/"+element.id;
-                      return(
-                        <tr className="tr1">
-                          
-                          <td className="td1"><Link to={link1}>{element.orderNo}</Link></td>
-                          <td className="td1"><Link to={link1}><img height="100px" width="100px" src={goodsImgSrc}/></Link> </td>
-                          <td className="td1"><Link to={link1}>{element.goodsName}</Link></td>
-                          <td className="td1">{element.orderPrice}</td>
-                          <td className="td1">{element.orderTime}</td>
-                          <td className="td1">{payment}</td>
-                          <td className="td1"><img src={sellerIcon}/> &nbsp; {element.sellerName}</td>
-                          
-                        </tr>
-                      )
-                    }
-
-                    )}
-                    </tbody>
-                </table>
-                <Button type="default" onClick={()=>this.handlePreviousPage()}>previous page</Button>
-                <Button type="default" onClick={()=>this.handleNextPage()}>next page</Button><br />  <br />
-
-               
-                <input type="number" name="gotoPage" value={this.state.gotoPage} placeholder="please enter a page number" onChange={this.handleChange}/>
-                <Button type="default" onClick={()=>this.handleGoto()}>Go</Button><br />  <br />
-
-        
+            <div className='my-table'>
+               <div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
+               <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>not paid</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+               <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>not finished</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+               <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                
+              <Table dataSource={arry} columns={this.columns} pagination={ false }/>
+              
+              <Pagination pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/>
+              
             </div>
         )
     }
