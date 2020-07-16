@@ -5,7 +5,7 @@ import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Form,Input,Button, Row, Col } from 'antd';
+import { Table,Form,Input,Button, Row, Col, Spin } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
@@ -42,12 +42,12 @@ export default class SearchGoods extends React.Component<any,any> {
           searchType:"",
           searchValue:"",
           url:"",
-          page:{"content":[]},
+          //page:{"content":[]},
           gotoPage:1,
           //flag:0,
           types:conf.goods_types
         }
-        this.pageSize=3;
+        this.pageSize=4;
       }
 
       pageSize = 4;
@@ -64,7 +64,7 @@ export default class SearchGoods extends React.Component<any,any> {
       
 
       loadData(pageNo?:number) {
-      
+        this.setState({page:undefined});
         let _this = this;
         let plus = conf.getQueryStrFromObj(this.params);
         let newUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
@@ -300,15 +300,53 @@ export default class SearchGoods extends React.Component<any,any> {
       
       let _this = this;
       let page:any = _this.state.page;
-      if(page == undefined) return <div></div>
-      let arry:any[] = page.content;
+
+      let ss = this.params.searchValue;
+      let forms = 
+      
+
+      <Form layout="inline"
+     
+            ref={this.formRef} 
+            name="search"
+            onFinish={this.onFinish}
+       
+            scrollToFirstError
+          >
+      <Form.Item 
+            name="searchValue"
+            //label="              &nbsp;"
+            initialValue={ss}
+            rules={ [{required:false, message: 'Please enter goods name!' }]}
+          >
+            <Input placeholder="Goods Name" prefix={<SearchOutlined />}/>
+      </Form.Item>
+      <Form.Item  >
+            <Button type="primary" htmlType="submit">
+              Search
+            </Button>
+      </Form.Item>
+    </Form>
+      
+    
+    
+    let plus:string = conf.getUrlQueryString(this.routeName);
+
+      if(this.params.pageSize === undefined){
+        return <div><Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row></div>
+      } 
+      else if(page == undefined) 
+      return  <div> <Spin/></div>
+      
+
+      let arry:any[] = page==undefined?[]:page.content;
       
       let uid:string = conf.getCookie("userId");
       console.log(uid); 
       
-      let plus:string = conf.getUrlQueryString(this.routeName);
       
-      let ss = this.params.searchValue;
+      
+      
 
       let n = Math.floor(document.body.clientWidth/280);
       if(n<=0) n = 1;
@@ -337,35 +375,6 @@ export default class SearchGoods extends React.Component<any,any> {
       }
 
 
-      let forms = 
-      
-
-  <Form layout="inline"
- 
-        ref={this.formRef} 
-        name="search"
-        onFinish={this.onFinish}
-   
-        scrollToFirstError
-      >
-  <Form.Item 
-        name="searchValue"
-        //label="              &nbsp;"
-        initialValue={ss}
-        rules={ [{required:false, message: 'Please enter goods name!' }]}
-      >
-        <Input placeholder="Goods Name" prefix={<SearchOutlined />}/>
-  </Form.Item>
-  <Form.Item  >
-        <Button type="primary" htmlType="submit">
-          Search
-        </Button>
-  </Form.Item>
-</Form>
-
-
-
-
 
      
 
@@ -376,12 +385,13 @@ export default class SearchGoods extends React.Component<any,any> {
       else{
         return(
           
-            <div>
+            <div >
               <Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row>
               <Row><Col span="24">
               <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
-              <Row><Col span={24}><Pagination pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
+              <Row><Col span={24}><Pagination hideOnSinglePage pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
+              <Row><Col>&nbsp;</Col></Row>
             </div>
         )
       }

@@ -17,6 +17,7 @@ import {
     Button,
     AutoComplete,
     Table,
+    Spin,
   } from 'antd';
   import { SmileTwoTone, HeartTwoTone, HeartFilled ,HeartOutlined} from '@ant-design/icons';
 import jquery from "jquery";
@@ -378,7 +379,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
     render(){
         if(this.state.data === undefined){
-            return <div></div>
+            return <div><Spin></Spin></div>
         }        
         if(this.state.data === null){
           return <h1 className="msg_error">This goods is missing.</h1>
@@ -476,25 +477,18 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             }
         }
 
-      
+        let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.seller.id+"&size=1";
         return <div className="show_goods_info">
             <h2>{this.state.data.name}</h2>
           <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
         
-        <Row  gutter={[16, 6]}>
-            <Col span={8} className="right_info">
-                name: 
-            </Col>
-            <Col span={16}>
-            {this.state.data.name}
-            </Col>
-        </Row>
         <Row gutter={[16, 6]}>
             <Col span={8} className="right_info">
                 price:           
             </Col>
             <Col span={16}>
-                {this.state.data.price}    
+            <span className='price'>${this.state.data.price} </span>
+                    
             </Col>
             
         </Row>
@@ -525,11 +519,19 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             </Col>
              
         </Row>
+        <Row  gutter={[16, 6]}>
+            <Col span={8} className="right_info">
+                Seller: 
+            </Col>
+            <Col span={16}>
+            <img src={memberImgSrc}/> &nbsp;{this.state.seller.userName}
+            </Col>
+        </Row>
 
         <ImageModal ref="bigimg"/>
         
         
- 
+        <Row><Col>&nbsp;</Col></Row>
         {btns}
         <Row><Col>&nbsp;</Col></Row>
         </div>

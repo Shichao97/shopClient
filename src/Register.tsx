@@ -149,13 +149,17 @@ export default class Register extends React.Component<any,any> {
         return(
         <div className="demo2">
     <h1>Free Member Register</h1>
+    <div></div>
+    <Row><Col span={18}>
           <Form
             {...formItemLayout}
             ref={this.formRef} 
             name="register"
             onFinish={this.onFinish}
+            
+            
             initialValues={{
-              
+            
             }}
             scrollToFirstError
           >
@@ -269,7 +273,7 @@ export default class Register extends React.Component<any,any> {
     
           
           </Form>
-    
+          </Col><Col span={6}></Col></Row>
           {this.state.msg}
           </div>);
         }

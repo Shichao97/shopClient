@@ -21,7 +21,7 @@ export default class GoodsItem extends React.Component<any,any> {
         
         let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+this.props.data.g.id;
         //let linkto:string = "/showgoodsinfo/"+this.props.data.id;
-        let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.props.data.g.sellerId+"&size=0"+"&refresh=";
+        let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.props.data.g.sellerId+"&size=0";
         let school = this.props.data.m.schoolCode == undefined?"":"("+this.props.data.m.schoolCode+")";
         let linkto = '/showgoodsinfo/'+this.props.data.g.id;
         return(
