@@ -27,13 +27,19 @@ const $ = jquery;
             this.setState({index:n+1});
         }
     }
-
-
+    componentDidMount(){
+        let _this = this;
+        window.onresize = function(){
+            _this.setState({});
+        }
+    }
     render(){
         if(this.state.modalIsOpen == false){
             return <div></div>
         }
 
+        let modalWidth = document.body.clientWidth*.8;
+        let modalHeight = document.body.clientHeight*.8;
 
         let n = this.state.index;
         let imgNames = this.state.imgNames;
@@ -41,11 +47,11 @@ const $ = jquery;
     return (
       <div>
           <Modal isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:false})}>
-              <div className="center-img">
+              <div >
                 <table><tbody>
                 <tr>
                 <td><input type="button" value="Previous" onClick={() => this.previous()} /></td>
-                <td><img src={imgSrc} onClick={() => this.setState({modalIsOpen:false})}/></td>
+                <td><img style={{width: modalWidth,height: modalHeight,objectFit: "contain"}} src={imgSrc} onClick={() => this.setState({modalIsOpen:false})}/></td>
                 <td><input type="button" value="Next" onClick={() => this.next()} /></td>
                 </tr>
                 </tbody></table>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import * as ReactDOM from 'react-dom';
 //import LoginModal from './LoginModal';
 import ImageModal from './ImageModal';
@@ -39,6 +39,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             types: conf.goods_types
         }
     }
+
+    imgModalRef: RefObject<ImageModal> = React.createRef();
 
     imgRender(gid:any,ele:any){
       //let ele = record["c_5"]
@@ -177,7 +179,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
 
     openImgModal(index:number){
-        let comp:any = this.refs.bigimg;
+        let comp:any = this.imgModalRef.current;
         comp.setState({gid:this.state.data.id,index:index,imgNames:this.state.imgNames,modalIsOpen:true})
     }
     openImgByName(fname:string){
@@ -528,7 +530,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             </Col>
         </Row>
 
-        <ImageModal ref="bigimg"/>
+        <ImageModal ref={this.imgModalRef}/>
         
         
         <Row><Col>&nbsp;</Col></Row>

@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 //import './App.css';
 import { render } from '@testing-library/react';
 import jquery from "jquery";
@@ -56,7 +56,7 @@ const $ = jquery;
     //const [modalIsOpen, setModalIsOpen] = useState(false)  
     return (
       <div>
-          <Modal  className='demo' isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:false})}>
+          <ReactModal  className='demo' isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:false})}>
               <div>
               
                 
@@ -71,7 +71,7 @@ const $ = jquery;
               <div>
                   
               </div>
-          </Modal>
+          </ReactModal>
       </div>
     );
   }

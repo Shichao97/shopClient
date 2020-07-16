@@ -305,7 +305,7 @@ export default class AddGoods extends React.Component<any,any> {
 
       <Form.Item
         name="method"
-        label="Support deliver method"
+        label="Deliver method"
         valuePropName="checked"
         rules={[
           { 
