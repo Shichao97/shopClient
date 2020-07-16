@@ -182,11 +182,14 @@ class App extends Component<any,any> {
 
           
           </switch>
+         
         </div>
         
       </Router>
 
       </div>
+
+      
     );
   }
   //<Redirect to="/"/>

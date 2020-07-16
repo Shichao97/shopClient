@@ -103,15 +103,20 @@ export default class EditSellGoods extends React.Component<any,any> {
     
     console.log("onFinish:",values);
 
-    if(this.imgUploadChanged()) {
+    if(this.imgUploadChecked()) {
       //this.setState({success:true});
       this.doEdit(values);
     }
   };
 
-  imgUploadChanged():boolean{
+  imgUploadChecked():boolean{
     let imgup:ImageUpload|null = this.imgupRef.current;
-    if(this.state.imgName.length==0){
+
+    if(this.state.imgName.length+this.imgupRef.current?.state.imgs.length>15){
+      this.setState({imgErrMsg : "Too many images than 15!"});
+      return false;
+    }
+    else if(this.state.imgName.length==0){
       if(imgup ==null || imgup.state.imgs.length < 1 ){
         this.setState({imgErrMsg : "You must upload at least one image for your second-hand goods!"});
         return false;
@@ -238,6 +243,7 @@ export default class EditSellGoods extends React.Component<any,any> {
 
   imgClicked(index:number){
     this.state.imgName.splice(index,1);
+    this.imgUploadChecked();
     this.setState({});
   }
 
@@ -272,6 +278,7 @@ export default class EditSellGoods extends React.Component<any,any> {
 }
 
   imgUpChanged=()=>{
+    this.imgUploadChecked()
     this.setState({});
   }
   imgUpClicked(index:number){
@@ -300,20 +307,23 @@ export default class EditSellGoods extends React.Component<any,any> {
   
     else   
     return(
-    <div  className='demo2'>
-      <h2>Edit goods here!</h2>
-      <table className="content-table">
-        <tr>
-          <td><h3> Uploaded images: </h3></td><td>
-          <div className="upimgs"> 
+    <div  className='add-edit-goods'>
+      
+      <Row><Col span={6} ></Col> <Col span={18}><h2>Edit goods here!</h2></Col></Row>
+      
+      <Row><Col span={8} style={{textAlign:"right"}}>Uploaded images:</Col><Col span={16}>
+
+
+
+      
             {imgname.map((element:any,index:number) =>{
                       
             let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+id+"&fname="+element;
             console.log(imgSrc);
             return(
               
-              
-              <a><span><h1>Click to delete</h1></span>
+              <div className="upimgs">
+              <a><span><h1>X</h1></span>
 
               <table  className="wrap"><tr><td>
 
@@ -321,7 +331,7 @@ export default class EditSellGoods extends React.Component<any,any> {
                 </td></tr></table>
               </a>
               
-
+              </div>
               
               
             )
@@ -331,7 +341,7 @@ export default class EditSellGoods extends React.Component<any,any> {
           }
             
           {  uploadImgs.map((element,index) =>{
-              return <div>
+              return <div className="upimgs">
               <a><span><h1>Click to delete</h1></span>
               <table  className="wrap">
               <tr><td>
@@ -342,14 +352,7 @@ export default class EditSellGoods extends React.Component<any,any> {
             </table>
               </a>
              </div>
-          })            
-            
-            
-            
-            
-            
-            
-            }
+          })  }
             
             
             <table  className="wrap"><tr><td>
@@ -357,14 +360,17 @@ export default class EditSellGoods extends React.Component<any,any> {
             </td></tr></table>
             
             
-            </div>
-            </td>
-        </tr>
-        <tr><td></td>
-    <td><span className="error_msg">{this.state.imgErrMsg}&nbsp;</span></td>
-        </tr>
-      </table>
-      
+            
+
+
+
+      </Col></Row>
+
+      <Row><Col span={8}></Col><Col span={16}>
+        <span className="error_msg">{this.state.imgErrMsg}&nbsp;</span>
+      </Col></Row>
+
+
       <Row><Col className='demo3'>
 
       <Form
@@ -372,6 +378,8 @@ export default class EditSellGoods extends React.Component<any,any> {
         ref={this.formRef} 
         name="register"
         onFinish={this.onFinish}
+        //onAbort={this.imgUploadChecked}
+        
         // initialValues={{
         //   typeCode: ['Furniture', 'Bed'],
         // }}        
@@ -417,7 +425,7 @@ export default class EditSellGoods extends React.Component<any,any> {
 
       <Form.Item
         name="method"
-        label="Support deliver method"
+        label="Deliver method"
         valuePropName="checked"
         rules={[
           { 

@@ -74,15 +74,19 @@ export default class AddGoods extends React.Component<any,any> {
   onFinish = (values:any) => {
     
     console.log(values);
-    if(this.imgUploadChanged()) {
+    if(this.imgUploadChecked()) {
       //this.setState({success:true});
       this.doAdd(values);
     }
   };
 
-  imgUploadChanged():boolean{
+  imgUploadChecked():boolean{
     let imgup:ImageUpload|null = this.imgupRef.current;
-    if(imgup ==null || imgup.state.imgs.length < 1 ){
+    if(0+(this.imgupRef.current as any).state.imgs.length>15){
+      this.setState({imgErrMsg : "Too many images than 15!"});
+      return false;
+    }
+    else if(imgup ==null || imgup.state.imgs.length < 1 ){
       this.setState({imgErrMsg : "You must upload at least one image for your second-hand goods!"});
       return false;
     }else if(imgup ==null || imgup.state.imgs.length > 16){
@@ -185,6 +189,7 @@ export default class AddGoods extends React.Component<any,any> {
 
 
   imgUpChanged=()=>{
+    this.imgUploadChecked();
     this.setState({});
   }
   imgUpClicked(index:number){
@@ -210,16 +215,20 @@ export default class AddGoods extends React.Component<any,any> {
   
     else   
     return(
-    <div  className='demo2'>
-      <h2>Add your second-hand goods here!</h2>
-      <table className="content-table">
-        <tr>
-          <td><h3> Upload Images: </h3></td><td>
+    <div  className='add-edit-goods'>
+      <Row><Col span={4} ></Col> <Col span={20}><h2>Add your second-hand goods here!</h2></Col></Row>
+
+
+      <Row><Col span={8}  style={{textAlign:"right"}}>Upload Images:</Col><Col span={16}>
+        
+        
+
           {  uploadImgs.map((element,index) =>{
               return <div className="upimgs">
-              <a><span><h1>Click to delete</h1></span>
+              <a><span><h1>X</h1></span>
               <table  className="wrap">
               <tr><td>
+                
               <img className="img_up" onClick={()=> this.imgUpClicked(index)}
               id={"img_"+index} 
               src={window.URL.createObjectURL(element)} /> 
@@ -232,16 +241,17 @@ export default class AddGoods extends React.Component<any,any> {
           <table  className="wrap"><tr><td>
             <ImageUpload ref={this.imgupRef} onChange={this.imgUpChanged}/>
             </td></tr></table>
-            
-            </td>
-        </tr>
-        <tr><td></td>
-    <td><span className="error_msg">{this.state.imgErrMsg}&nbsp;</span></td>
-        </tr>
-      </table>
 
-      <Row><Col></Col><Col></Col></Row>
-      <Row><Col className='demo3'>
+
+
+
+      </Col></Row>
+
+
+      <Row><Col span={8}></Col><Col span={16}>
+        <span className="error_msg">{this.state.imgErrMsg}&nbsp;</span>
+      </Col></Row>
+      <Row><Col className='demo3' span={24}>
 
       <Form
         {...formItemLayout}

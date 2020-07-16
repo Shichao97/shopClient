@@ -12,6 +12,8 @@ import {
   Button,
   AutoComplete,
   Card,
+  Alert,
+  Modal,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
@@ -67,10 +69,41 @@ export default class EditSellGoods extends React.Component<any,any> {
   componentDidMount(){
       let id:number = this.props.match.params.id;
       this.getGoodsInfo(id);
+
+ let a = <Alert
+      message="Error"
+      description="This is an error message about copywriting."
+      type="error"
+      showIcon
+    />
+
+    Modal.error({
+      title: '确认删除此项目吗?'
+    })
+
+    Modal.confirm({
+      title: '确认删除此项目吗?',
+      //icon: <ExclamationCircleOutlined/>,
+      content: '',
+      okText: '是',
+      okType: 'danger',
+      cancelText: '否',
+      onOk: () => {
+          //this.handleOk(id)//确认按钮的回调方法，在下面
+      }
+      ,
+      onCancel() {
+          console.log('Cancel');
+      },
+  });
+
   }
 
 
   getGoodsInfo(gid:number){
+
+
+
     let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
     let _this = this;
     $.ajax({

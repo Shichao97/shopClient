@@ -40,8 +40,8 @@ export default class ImageUpload extends React.Component {
     imgClicked(index){
         this.state.imgs.splice(index,1);
         this.setState({});
-        let parent = this.props.onChange;
-        if(parent !=undefined){
+        let call = this.props.onChange;
+        if(call !=undefined){
             this.props.onChange();
         } 
     }

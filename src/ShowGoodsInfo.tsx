@@ -47,7 +47,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
       return (
       <div style={{ alignItems: "center" }}>
           
-          <a onClick={() => this.openImgByName(ele)}><img className="img_big" src={imgSrc}/> </a>
+          <a onClick={() => this.openImgByName(ele)}><img className="img_middle" src={imgSrc}/> </a>
           
           </div>           
     )}
@@ -387,7 +387,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
   
         let arry = this.state.imgNames;
         
-        let n = Math.floor(document.body.clientWidth*0.6/280);
+        let n = Math.floor(document.body.clientWidth*0.4/185);
         if(n<=0) n = 1;
         else if(n>this.columns.length) n = this.columns.length;
         if(arry.length>0 && arry.length<n) {
@@ -530,8 +530,9 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         
  
         {btns}
+        <Row><Col>&nbsp;</Col></Row>
         </div>
 
-        
+       
     }
 }
