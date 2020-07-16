@@ -33,19 +33,6 @@ export default class EditInfo extends React.Component<any,any> {
             }
         })
         
-       /*
-       $.ajax({
-        type: "POST",
-        url:window.localStorage.getItem("host_pre")+"member/upIcon",
-        data:formData,
-        contentType: false,
-        processData: false,
-        success: function(data) {
-            if(data){
-                alert("提交成功");
-            }
-        }
-        });*/
 
 
     }

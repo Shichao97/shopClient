@@ -49,7 +49,7 @@ class WebChatTest extends React.Component {
                 ws.close();
                 window.location.href = '/#/';
             }
-            //alert(msgJson.data);
+           
         };
         ws.onclose = (e) =>{
             this.setState({connected:false});

@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import jquery from "jquery";
 import './MyAccount.css';
 import {
-  
-  Button,
-  Table, Tag, Space,Pagination
+  Button,Alert,
+  Table, Tag, Space,Pagination, Modal
 } from 'antd';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
@@ -146,6 +145,7 @@ export default class MyAccount extends React.Component<any,any> {
       }
 
     handleSearchNotPaid(){
+      
         let _this = this;
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
@@ -159,6 +159,8 @@ export default class MyAccount extends React.Component<any,any> {
         let obj = {buyerId:uid,searchStatus:plus,pageSize:this.pageSize};
         let searchPlus = conf.getQueryStrFromObj(obj);
         this.props.history.push(this.routeName+"/"+searchPlus);
+        
+        
     }
 
     handleSearchNotFinished(){
