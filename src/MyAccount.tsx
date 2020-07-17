@@ -91,6 +91,12 @@ export default class MyAccount extends React.Component<any,any> {
         key: 'orderTime',
       },
       {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        render: (text:any )=> this.getStatus(text),
+      },
+      {
         title: 'Payment Status',
         dataIndex:'paymentStatus',
         key:'paymentStatus',
@@ -235,6 +241,16 @@ export default class MyAccount extends React.Component<any,any> {
     getpayment(status:number):string{
         if(status == 0) return "not yet paid";
         else return "already paid";
+    }
+
+    getStatus(status:number):string{
+      if(status == 0){
+        return "not finished";
+      }else if(status == 1){
+        return "already finished";
+      }else{
+        return "already canceled";
+      }
     }
 
    
