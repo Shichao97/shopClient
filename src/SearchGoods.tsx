@@ -142,13 +142,15 @@ export default class SearchGoods extends React.Component<any,any> {
 
   
       if(ele == undefined) return <div></div>
+      let v = this.cellWidth/24;
+      let n = Math.floor((this.cellWidth-280)/v/2);
       return(
 
-        <Row gutter={8}>
-        <Col span={3}>
+        <Row >
+        <Col span={n}>
   
         </Col>
-        <Col span={21}>
+        <Col span={24-n}>
         <Card
         hoverable
         //actions={[<SearchOutlined />,<SearchOutlined />,<SearchOutlined />]}
@@ -169,6 +171,9 @@ export default class SearchGoods extends React.Component<any,any> {
         
       )
     }
+
+    //为了居中，用心良苦。因为Card总是居左，怎么用css都没有用，自能自己硬调。
+    cellWidth = 400;
 
     columns:any[] = [
       {
@@ -364,6 +369,7 @@ export default class SearchGoods extends React.Component<any,any> {
         columns.push(this.columns[k]);
       }
 
+      this.cellWidth = document.body.clientWidth/n;
 
       let allDatas = [];
       

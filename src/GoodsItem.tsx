@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import LoginModal from './LoginModal';
 import './GoodsItem.css';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,28 @@ export default class GoodsItem extends React.Component<any,any> {
     constructor(props:any,state:any){
         super(props,state);
     }
+    divRef:RefObject<any> = React.createRef();
 
+    componentDidUpdate(){
+        if(this.divRef.current != null){
+            let w = this.divRef.current.clientWidth;
+            let h = this.divRef.current.clientHeight;
+        }        
+    }
+
+    divWidth = 100;
+    componentDidMount(){
+        let _this = this;
+        window.onresize = function(){
+          _this.divWidth = _this.divRef.current.clientWidth;
+          _this.setState({});
+        }
+  
+        this.divRef.current.onresize = function(){
+            _this.divWidth = _this.divRef.current.clientWidth;
+            //_this.setState({});
+          }
+    }
     render(){
         if(this.props.data == undefined||this.props.data.g == undefined) {
             return (<div></div>)
@@ -24,9 +45,14 @@ export default class GoodsItem extends React.Component<any,any> {
         let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.props.data.g.sellerId+"&size=0";
         let school = this.props.data.m.schoolCode == undefined?"":"("+this.props.data.m.schoolCode+")";
         let linkto = '/showgoodsinfo/'+this.props.data.g.id;
+        if(this.divRef.current != null){
+            let w = this.divRef.current.clientWidth;
+            let h = this.divRef.current.clientHeight;
+        }
+        
         return(
             
-                <div>
+                <div ref={this.divRef}>
 
             
                     <Link to= {linkto}>

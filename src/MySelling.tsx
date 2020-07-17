@@ -172,25 +172,42 @@ export default class MySelling extends React.Component<any,any> {
     //   this.loadData(pn-1);
     // }
     cardRender(ele:any) {
+
+  
       if(ele == undefined) return <div></div>
-      //<Row><Col></Col></Row>
+      let v = this.cellWidth/24;
+      let n = Math.floor((this.cellWidth-280)/v/2);
       return(
-        
+
+        <Row >
+        <Col span={n}>
+  
+        </Col>
+        <Col span={24-n}>
         <Card
         hoverable
-        
         //actions={[<SearchOutlined />,<SearchOutlined />,<SearchOutlined />]}
         onClick={()=>this.props.history.push('/showgoodsinfo/'+ele.g.id)}
-        bodyStyle={{ width: 240,alignSelf:"center" }}
-        style={{ width: 262,alignSelf:"center" }}
+        bodyStyle={{ width: 240,textAlign:"center" }}
+        style={{ width: 262,textAlign:"center" }}
         cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id} /></Col></Row>}
       >
         <Meta title={ele.g.name} />
         <Row><Col>&nbsp;</Col></Row>
         <Meta description={ele.m.userName}  avatar={<img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/>}/>
-      </Card>          
+      </Card>  
+        </Col>
+
+      </Row>
+
+
+        
       )
     }
+
+    //为了居中，用心良苦。因为Card总是居左，怎么用css都没有用，自能自己硬调。
+    cellWidth = 400;
+
     columns:any[] = [
       {
         title: 'Item0',
@@ -199,7 +216,7 @@ export default class MySelling extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_0"]
           return (
-            <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>         
+            this.cardRender(ele)
         )},
         align:'center',
       },
@@ -210,7 +227,7 @@ export default class MySelling extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_1"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)           
         )}
       },
       {
@@ -220,7 +237,7 @@ export default class MySelling extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_2"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)           
         )}
       },
       {
@@ -230,7 +247,7 @@ export default class MySelling extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_3"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)          
         )}
       },
       {
@@ -240,7 +257,7 @@ export default class MySelling extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_4"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)           
         )}
       },
       {
@@ -250,10 +267,12 @@ export default class MySelling extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_5"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)           
         )}
       }
     ]
+
+
     handleSearch(type:number){
       let _this = this;
       let uid:string = conf.getCookie("userId");
@@ -358,7 +377,8 @@ export default class MySelling extends React.Component<any,any> {
         columns.push(this.columns[k]);
       }
 
-
+      this.cellWidth = document.body.clientWidth/n;
+      
       let allDatas = [];
       
       let rowNum = Math.ceil(arry.length/n);
