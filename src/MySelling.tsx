@@ -376,7 +376,7 @@ export default class MySelling extends React.Component<any,any> {
 
       let forms = 
 <div>
-<Button type="default" size='large' onClick={()=>this.handleSearch(1)}>Selling Onow</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' onClick={()=>this.handleSearch(1)}>Selling Now</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 <Button type="default" size='large' onClick={()=>this.handleSearch(2)}>On the way</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 <Button type="default" size='large' onClick={()=>this.handleSearch(3)}>Already sold out</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 <Button type="default" size='large' onClick={()=>this.handleSearch(4)}>Removed off from shelf</Button>&nbsp;&nbsp;&nbsp;&nbsp;
