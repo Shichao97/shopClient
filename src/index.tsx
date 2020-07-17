@@ -2,6 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+//4 lines below is For IE compatible, Object.entries not support
+import 'react-app-polyfill/ie11';
+import 'core-js/es'  
+import 'react-app-polyfill/ie9'  
+import 'react-app-polyfill/stable'
+//npm install react-app-polyfill core-js
+
 
 ReactDOM.render(
   
