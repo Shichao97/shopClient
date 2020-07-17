@@ -230,6 +230,11 @@ const Conf = {
           return ''
         }
       },
+
+      isAuthenticated(){
+        return this.getCookie("userId").length>0;
+
+      },
     
       setCookie(key, value, time) {
        //默认保存时间

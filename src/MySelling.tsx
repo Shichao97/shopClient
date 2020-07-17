@@ -378,7 +378,7 @@ export default class MySelling extends React.Component<any,any> {
       }
 
       this.cellWidth = document.body.clientWidth/n;
-      
+
       let allDatas = [];
       
       let rowNum = Math.ceil(arry.length/n);
@@ -422,7 +422,7 @@ export default class MySelling extends React.Component<any,any> {
               <Row><Col span="24">
               <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
-              <Row><Col span={24}><Pagination pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
+              <Row><Col span={24}><Pagination hideOnSinglePage={true} pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
             </div>
         )
       }

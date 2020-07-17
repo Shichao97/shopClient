@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 //import Modal from 'react-modal';
 //import { render } from '@testing-library/react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import jquery from "jquery";
 import { Modal } from 'antd';
 //import { stringify } from 'querystring';
@@ -13,7 +13,7 @@ const $ = jquery;
   class  Login extends React.Component<any,any>{
       constructor(props:any){
           super(props);
-          //this.state={modalIsOpen:false};
+          this.state = { redirectToReferrer: false };
       }
 
     doLogin(){
@@ -32,7 +32,8 @@ const $ = jquery;
           success: function(data) {
               console.log(data)
               if(data.success == 1){
-                _this.props.history.goBack();
+                _this.setState({ redirectToReferrer: true });
+                //_this.props.history.goBack();
               }
               else if(data.success==0){
                 //alert(data.msg);
@@ -56,8 +57,13 @@ const $ = jquery;
 
 
     render(){
-    //const [modalIsOpen, setModalIsOpen] = useState(false)  
-    return (
+      let { from } = this.props.location.state || { from: { pathname: "/" } };
+      let { redirectToReferrer } = this.state;
+      if (redirectToReferrer) return <Redirect to={from} />;
+
+
+      return (
+
       <div>
               <div className='demo2'>
               

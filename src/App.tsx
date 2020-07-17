@@ -40,7 +40,26 @@ const Home = () => (
 )
 
 
-
+function PrivateRoute({ component:Component, ...rest }:any) {
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        
+        conf.isAuthenticated() ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 
 
@@ -143,17 +162,17 @@ class App extends Component<any,any> {
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchGoods">searchGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
-          <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/protected">Demo protected</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/_editicon">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/_addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/editicon">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/_searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/test/22">test</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/test2/23">test2</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/_myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/_MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
          
           <hr/>
           <switch>
@@ -162,24 +181,24 @@ class App extends Component<any,any> {
           <Route path="/query" component={Demo}></Route>
           <Route path = "/register" component={Register}></Route>
           <Route path="/userid/:id" component={Demo}></Route>
-          <Route path="/_editIcon" component={EditIcon}></Route>
-          <Route path="/_addgoods" component={AddGoods}></Route>
+          <PrivateRoute path="/editIcon" component={EditIcon}/>
+          <PrivateRoute path="/addgoods" component={AddGoods}/>
           <Route path="/login" component={Login}></Route>
           <Route path="/test/:id" component={TestForm}></Route>
           <Route path="/test2/:id" component={RegistrationForm}></Route>
 
-          <Route path="/_searchsell" component={SearchSellGoods}></Route>
+          <PrivateRoute path="/searchsell" component={SearchSellGoods}/>
 
           <Route path="/searchGoods" component={SearchGoods}></Route>
           <Route path="/editsellgoods/:id" component={EditSellGoods}></Route>
           <Route path="/showgoodsinfo/:id" component={ShowGoodsInfo}></Route>
           <Route path="/placeOrder" component={PlaceOrder}></Route>
-          <Route path="/_myAccount" component={MyAccount}></Route>
-          <Route path="/_mySelling" component={MySelling}></Route>
+          <PrivateRoute path="/myAccount" component={MyAccount}/>
+          <PrivateRoute path="/mySelling" component={MySelling}/>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
-
+          <PrivateRoute path="/protected" component={Demo} />
           
           </switch>
          
