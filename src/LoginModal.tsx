@@ -86,7 +86,7 @@ const tailLayout = {
               <div style={{textAnchor:"middle"}}>
                 
               
-              <h2>Please login first!</h2><br/>
+              <h2>Session timeout! Please login again!</h2><br/>
 
 
               <Form
