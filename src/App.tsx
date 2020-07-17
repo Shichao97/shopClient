@@ -162,7 +162,7 @@ class App extends Component<any,any> {
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchGoods">searchGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/protected">Demo protected</Link>&nbsp;&nbsp;&nbsp;
+          <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
           
@@ -174,12 +174,12 @@ class App extends Component<any,any> {
           <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/mySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
          
-         
+
           <hr/>
           <switch>
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
-          <Route path="/query" component={Demo}></Route>
+          <PrivateRoute path="/query" component={Demo}/>
           <Route path = "/register" component={Register}></Route>
           <Route path="/userid/:id" component={Demo}></Route>
           <PrivateRoute path="/editIcon" component={EditIcon}/>
@@ -199,7 +199,7 @@ class App extends Component<any,any> {
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
-          <PrivateRoute path="/protected" component={Demo} />
+          
           
           </switch>
          
