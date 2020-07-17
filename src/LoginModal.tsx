@@ -4,9 +4,19 @@ import ReactModal from 'react-modal';
 import { render } from '@testing-library/react';
 import jquery from "jquery";
 import { compileFunction } from 'vm';
-import { Modal, Form, Input, Row, Col, Card } from 'antd';
+import { Modal, Form, Input, Row, Col, Card,Button, Checkbox } from 'antd';
 //import { stringify } from 'querystring';
 const $ = jquery;
+
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 10 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 10 },
+};
+
 
 //
 //{
@@ -17,9 +27,16 @@ const $ = jquery;
           this.state={modalIsOpen:false};
       }
 
-    doLogin(){
+      
+
+      onFinishFailed = (errorInfo:any) => {
+          console.log('Failed:', errorInfo);
+      }
+
+
+      onFinish = (values:any) => {
       let _this = this
-      let params = $("#log_form").serializeArray();
+      
       $.ajax({
           type:"POST",
           crossDomain: true, 
@@ -27,7 +44,7 @@ const $ = jquery;
               withCredentials: true 
           },
           url:window.localStorage.getItem("host_pre")+"member/login",
-          data:params,
+          data:values,
           dataType:"json",
           success: function(data) {
               console.log(data)
@@ -48,10 +65,11 @@ const $ = jquery;
 
           },
           error: function(xhr:any, textStatus, errorThrown){
-            console.log("request status:"+xhr.status+" msg:"+textStatus)
-            if(xhr.status=='604'){//未登录错误
-              console.log("Login Error")
-            }
+            let msg = "request status:"+xhr.status+" msg:"+textStatus
+            Modal.error({
+              title:'Error',
+              content:msg
+            })
              
           }
       })    
@@ -67,22 +85,51 @@ const $ = jquery;
           
               <div style={{textAnchor:"middle"}}>
                 
-              <form id="log_form">
+              
               <h2>Please login first!</h2><br/>
-                  *username:<input type='text' name='userName'></input><br/><br/>
-                  *password: <input type='password' name='passWord'></input><br/><br/>
-                  <input type="button" value="Login" className="button" onClick={() => this.doLogin()}/><br/><br/><br/>
-                  <button className="button" onClick={() => this.setState({modalIsOpen:false})}>Close</button>
-              </form>
-              </div>
-              <div>
 
-                <Row><Col span={6}></Col><Col span={12}>
- 
-            <Input ref="ttt"/>
-          
-          </Col><Col span={6}></Col></Row>
+
+              <Form
+              {...layout}
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={this.onFinish}
+              onFinishFailed={this.onFinishFailed}
+            >
+              <Form.Item
+                label="Username"
+                name="userName"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Password"
+                name="passWord"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+
+
+              <Form.Item {...tailLayout}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                <Button type="default"  onClick={() => this.setState({modalIsOpen:false})}>
+                  Close
+                </Button>
+              </Form.Item>
+            </Form>
+
+
+
+
+
               </div>
+ 
           </ReactModal>
       </div>
     );

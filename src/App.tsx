@@ -165,7 +165,7 @@ class App extends Component<any,any> {
           <Link to="/protected">Demo protected</Link>&nbsp;&nbsp;&nbsp;
           <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/editicon">Edit Member Icon</Link>&nbsp;&nbsp;&nbsp;
+          
           <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;

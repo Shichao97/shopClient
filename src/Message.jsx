@@ -246,7 +246,7 @@ class Messgae extends React.Component {
             return (
             <div>
                 
-                <Button key="back" type="text" size="middle"><img src={iconSrc}/>&nbsp;<a href="#" onClick={()=>this.props.history.push("/editicon")}>{username}</a></Button>
+                <Button key="back" type="text" size="middle"><a href="#" onClick={()=>this.props.history.push("/editicon")}><img src={iconSrc}/>&nbsp;{username}</a></Button>
                     {this.state.chatMembersArr.length==0?<div></div>:
                     <Badge count={newNum}  ><a href="#" onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 

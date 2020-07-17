@@ -3,11 +3,19 @@ import React,{useState} from 'react';
 //import { render } from '@testing-library/react';
 import { withRouter, Redirect } from 'react-router-dom';
 import jquery from "jquery";
-import { Modal } from 'antd';
+import { Modal, Form, Input, Button } from 'antd';
 //import { stringify } from 'querystring';
 const $ = jquery;
 
-//
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 10 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 10 },
+};
+
 //{
   //Modal.setAppElement('#root')
   class  Login extends React.Component<any,any>{
@@ -16,10 +24,15 @@ const $ = jquery;
           this.state = { redirectToReferrer: false };
       }
 
-    doLogin(){
+    onFinishFailed = (errorInfo:any) => {
+        console.log('Failed:', errorInfo);
+    }
+
+
+    onFinish = (values:any) => {
       let url = window.localStorage.getItem("host_pre")+"member/login";
       let _this = this
-      let params = $("#log_form").serializeArray();
+      
       $.ajax({
           type:"POST",
           crossDomain: true, 
@@ -27,7 +40,7 @@ const $ = jquery;
               withCredentials: true 
           },
           url:url,
-          data:params,
+          data:values,
           dataType:"json",
           success: function(data) {
               console.log(data)
@@ -68,14 +81,45 @@ const $ = jquery;
               <div className='demo2'>
               
                 
-              <form id="log_form">
+              
               <h2>Please login first!</h2><br/>
-                  *username:<input type='text' name='userName'></input><br/><br/>
-                  *password: <input type='password' name='passWord'></input><br/><br/>
-                  <input type="button" value="Login" className="button" onClick={() => this.doLogin()}/><br/><br/><br/>
-                  <input type="button" value="Back" onClick={() => this.props.history.goBack()}/>
 
-              </form>
+
+              <Form
+              {...layout}
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={this.onFinish}
+              onFinishFailed={this.onFinishFailed}
+            >
+              <Form.Item
+                label="Username"
+                name="userName"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Password"
+                name="passWord"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+
+
+              <Form.Item {...tailLayout}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                
+              </Form.Item>
+            </Form>
+
+
+
               </div>
               <div>
                   
