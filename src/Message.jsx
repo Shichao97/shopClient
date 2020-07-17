@@ -24,30 +24,21 @@ class Messgae extends React.Component {
         this.taskRemindInterval = null;
     }
 
-    // checkHash(){
-    //     var str = window.location.hash;
-    //     //console.log("Hash changed to: "+str.substr(0,3));
-    //     //startsWith()函数 IE浏览器不支持，所以改为 substr
-    //     if(str.substr(0,1) == "_"){
-    //       window.checkLogin();
+ 
+    // componentWillReceiveProps(nextProps){
+    //     var str = nextProps.location.pathname;
+ 
+    //     if(str != undefined && str.substr(0,2) == "/_"){
+    //         let obj = new Object();
+    //         obj.id = conf.getCookie("userId");
+    //         obj.username = conf.getCookie("username");
+    //         //console.log("Hi! "+uid);
+    //         if(obj.id == ""){
+    //             this.props.history.push( "/login" );
+    //         }    
+               
     //     }
     // }
-
-    componentWillReceiveProps(nextProps){
-        var str = nextProps.location.pathname;
-        //console.log("Hash changed to: "+str.substr(0,3));
-        //startsWith()函数 IE浏览器不支持，所以改为 substr
-        if(str != undefined && str.substr(0,2) == "/_"){
-            let obj = new Object();
-            obj.id = conf.getCookie("userId");
-            obj.username = conf.getCookie("username");
-            //console.log("Hi! "+uid);
-            if(obj.id == ""){
-                this.props.history.push( "/login" );
-            }    
-               
-        }
-    }
     
     // checkLogin(){
     //     let obj = new Object();
@@ -62,13 +53,7 @@ class Messgae extends React.Component {
     // }
 
     componentDidMount() {
-        // window.getCookie = this.getCookie;
-        // window.checkLogin = this.checkLogin;
-
-        // let _this = this;
-        // this.props.history.listen(() => {
-        //   _this.checkHash();
-        // })   
+ 
         setTimeout(this.iTimer,0);
 
     }
@@ -255,11 +240,13 @@ class Messgae extends React.Component {
         //let sNum = newNum==0?"":""+newNum;
         //let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message </Button>;
         //if(this.state.chatMembersArr.length==0) btn=<div></div>
+        let iconSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
+        //<div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
         if(uid != undefined && uid.length>0){
             return (
             <div>
                 
-                <Button key="back" type="text" size="middle">Hello,<a href="#" onClick={()=>this.props.history.push("/_editicon")}>{username}</a></Button>
+                <Button key="back" type="text" size="middle"><a href="#" onClick={()=>this.props.history.push("/editicon")}><img src={iconSrc}/>&nbsp;{username}</a></Button>
                     {this.state.chatMembersArr.length==0?<div></div>:
                     <Badge count={newNum}  ><a href="#" onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 

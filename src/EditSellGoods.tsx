@@ -376,7 +376,7 @@ export default class EditSellGoods extends React.Component<any,any> {
       </Col></Row>
 
 
-      <Row><Col className='demo3'>
+      <Row><Col className='demo3' span={24}>
 
       <Form
         {...formItemLayout}
@@ -462,6 +462,7 @@ export default class EditSellGoods extends React.Component<any,any> {
       
       </Form>
       </Col>
+      <Col span={0}></Col>
       </Row>
      </div>);
     }

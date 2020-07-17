@@ -1,29 +1,120 @@
-import {Card} from 'antd'
-import React from 'react';
+import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
 
-export default () => {
-    const style={
-        width:'400px',
-        minWidth:'400px',
-        maxWidth:'400px',
-        margin:'30px',
-        alignSelf: 'center',
-        msAlignSelf:'center',
-        //left: '40%',
-        boxShadow:'0 4px 8px 0 rgba(0,0,0,0.2)',
-        border:'1px solid #e8e8e8',
-    };
+////////////////////////////////////////////////////////////
+// 1. Click the public page
+// 2. Click the protected page
+// 3. Log in
+// 4. Click the back button, note the URL each time
 
-    const divref:any = React.useRef();
-    return (
-      <div ref={divref}>
-        <Card style={style} actions={[<a>操作一</a>,<a>操作二</a>] }>
-                <Card.Meta avatar={<img alt="" 
-                style={{ width: '64px', height: '64px', borderRadius: '32px' }}
-                src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"/>}
-                title="Alipay"
-                description="在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽离成一套标准规范。"
-            />
-        </Card></div>
-    );
+function AuthExample() {
+  return (
+    <Router>
+      <div>
+        <AuthButton />
+        <ul>
+          <li>
+            <Link to="/public">Public Page</Link>
+          </li>
+          <li>
+            <Link to="/protected">Protected Page</Link>
+          </li>
+        </ul>
+        <Route path="/public" component={Public} />
+        <Route path="/login" component={Login} />
+        <PrivateRoute path="/protected" component={Protected} />
+      </div>
+    </Router>
+  );
 }
+
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb:any) {
+    this.isAuthenticated = true;
+    setTimeout(cb, 100); // fake async
+  },
+  signout(cb:any) {
+    this.isAuthenticated = false;
+    setTimeout(cb, 100);
+  }
+};
+
+const AuthButton = withRouter(
+  ({ history }) =>
+    fakeAuth.isAuthenticated ? (
+      <p>
+        Welcome!{" "}
+        <button
+          onClick={() => {
+            fakeAuth.signout(() => history.push("/"));
+          }}
+        >
+          Sign out
+        </button>
+      </p>
+    ) : (
+      <p>You are not logged in.</p>
+    )
+);
+
+function PrivateRoute({ component:Component, ...rest }:any) {
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        
+        fakeAuth.isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
+function Public() {
+  return <h3>Public</h3>;
+}
+
+function Protected() {
+  return <h3>Protected</h3>;
+}
+
+class Login extends Component <any,any>{
+  state = { redirectToReferrer: false };
+
+  login = () => {
+    fakeAuth.authenticate(() => {
+      this.setState({ redirectToReferrer: true });
+    });
+  };
+
+  render() {
+    let { from } = this.props.location.state || { from: { pathname: "/" } };
+    let { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer) return <Redirect to={from} />;
+
+    return (
+      <div>
+        <p>You must log in to view the page at {from.pathname}</p>
+        <button onClick={this.login}>Log in</button>
+      </div>
+    );
+  }
+}
+
+export default AuthExample;

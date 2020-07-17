@@ -4,10 +4,11 @@ import jquery from "jquery";
 import './MyAccount.css';
 import {
   Button,Alert,
-  Table, Tag, Space,Pagination, Modal
+  Table, Tag, Space,Pagination, Modal, Badge
 } from 'antd';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
+import { Console } from 'console';
 
 const $ = jquery;
 
@@ -25,11 +26,12 @@ export default class MyAccount extends React.Component<any,any> {
         this.pageSize=2;
     }
 
-    routeName = "/_myAccount";
+    routeName = "/myAccount";
     params:any={};
 
     //第一次进入用这个
     componentWillMount(){
+      
       
       let plus:string = conf.getUrlQueryString(this.routeName);
       this.params = conf.getQueryObjFromStr(plus);
@@ -112,6 +114,41 @@ export default class MyAccount extends React.Component<any,any> {
 
     showOrderInfo(rid:number){
       this.props.history.push("/showOrderInfo/"+rid);
+    }
+
+    componentDidMount(){
+      let uid = conf.getCookie("userId")
+      if(uid != "") this.loadCount();
+    }
+
+    loadCount() {
+      
+      let _this = this;
+      //let plus = conf.getQueryStrFromObj(this.params);
+      let newUrl:string = window.localStorage.getItem("host_pre")+"order/getCountOrder";
+      console.log(newUrl);
+      $.ajax({
+        type:"GET",
+        crossDomain: true, 
+        xhrFields: {
+            withCredentials: true 
+        },
+        url:newUrl,
+        dataType:"json",
+        success:function(data){
+            _this.setState({notPaidCount:data.notPaidCount,notFinishCount:data.notFinishCount});
+            console.log("Load count success",data);
+        },
+        error: function(xhr:any, textStatus, errorThrown){
+            console.log("request status:"+xhr.status+" msg:"+textStatus)
+            if(xhr.status=='604'){//未登录错误
+                let popwin: any = conf.loginWin;
+                popwin.setState({modalIsOpen:true})
+            }
+            
+        }
+      })
+        
     }
 
     loadData() {
@@ -229,17 +266,17 @@ export default class MyAccount extends React.Component<any,any> {
         let uid:string = cf.getCookie("userId");
         let username:string = cf.getCookie("username");
         let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
-        
+        //<div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
         return(
             <div className='my-table'>
-               <div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
-               <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>not paid</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-               <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>not finished</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+               <h1>My Orders</h1>
+               <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>Not paid<Badge count={this.state.notPaidCount} /></Button>&nbsp;&nbsp;&nbsp;&nbsp;
+               <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>Not finished<Badge count={this.state.notFinishCount} /></Button>&nbsp;&nbsp;&nbsp;&nbsp;
                <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                 
-              <Table dataSource={arry} columns={this.columns} pagination={ false }/>
+              {conf.getUrlQueryString(this.routeName).length>1?<Table dataSource={arry} columns={this.columns} pagination={ false } />:""}
               
-              <Pagination pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/>
+              <Pagination  hideOnSinglePage={true} pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/>
               
             </div>
         )
