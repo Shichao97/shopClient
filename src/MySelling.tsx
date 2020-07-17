@@ -52,7 +52,7 @@ export default class MySelling extends React.Component<any,any> {
       }
 
       pageSize = 4;
-      routeName = "/_mySelling";
+      routeName = "/mySelling";
       params:any;
  
 
@@ -194,7 +194,8 @@ export default class MySelling extends React.Component<any,any> {
       >
         <Meta title={ele.g.name} />
         <Row><Col>&nbsp;</Col></Row>
-        <Meta description={ele.m.userName}  avatar={<img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/>}/>
+
+        <Meta description={<div style={{textAlign:'center'}}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> {ele.m.userName}</div>}  />
       </Card>  
         </Col>
 

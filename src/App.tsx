@@ -172,7 +172,8 @@ class App extends Component<any,any> {
           <Link to="/test/22">test</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/test2/23">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/MySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/mySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
+         
          
           <hr/>
           <switch>
