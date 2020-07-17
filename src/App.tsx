@@ -27,6 +27,7 @@ import Active from './Active';
 
 import conf from './Conf'
 import LoginModal from './LoginModal';
+import MyCollection from './MyCollection';
 
 
 const $ = jquery;
@@ -173,7 +174,7 @@ class App extends Component<any,any> {
           <Link to="/test2/23">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/mySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
-         
+          <Link to="/myCollection">My Collection</Link>&nbsp;&nbsp;&nbsp;
 
           <hr/>
           <switch>
@@ -196,6 +197,7 @@ class App extends Component<any,any> {
           <Route path="/placeOrder" component={PlaceOrder}></Route>
           <PrivateRoute path="/myAccount" component={MyAccount}/>
           <PrivateRoute path="/mySelling" component={MySelling}/>
+          <PrivateRoute path="/myCollection" component={MyCollection}/>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
