@@ -112,7 +112,7 @@ const tailLayout = {
 
               <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">
-                  Submit
+                  Sign In
                 </Button>&nbsp;&nbsp;&nbsp;&nbsp;
                 
               </Form.Item>
