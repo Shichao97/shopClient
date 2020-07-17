@@ -5,10 +5,11 @@ import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Form,Input,Button, Row, Col, Spin } from 'antd';
+import { Table,Form,Input,Button, Row, Col, Spin, Card } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
+import Meta from 'antd/lib/card/Meta';
 
 const $ = jquery;
 const formItemLayout = {
@@ -34,6 +35,7 @@ const tailFormItemLayout = {
   },
 };
 export default class SearchGoods extends React.Component<any,any> {
+
     constructor(props:any){
         super(props);
         
@@ -134,36 +136,39 @@ export default class SearchGoods extends React.Component<any,any> {
       return imgSrc;
     }
 
-    // handlePreviousPage(){
-    //   let _this: SearchGoods = this;
-    //   let page:any = _this.state.page;
-    //   let pn:number = page.number;
-    //   pn -= 1;
-      
-    //   let totalPages = page.totalPages;
-    //   if(pn > (-1)){
-    //     _this.loadData(pn);
-    //   }
-    // }
 
-    // handleNextPage(){
-    //   let _this: SearchGoods = this;
-    //   let page:any = _this.state.page;
-    //   let pn:number = page.number;
-    //   pn += 1;
-      
-    //   let totalPages = page.totalPages;
-    //   if(pn<totalPages){
-    //     _this.loadData(pn);
-    //   }
-      
-    // }
-    // handleGoto(){
-    //   let page:any = this.state.page;
-    //   let totalPages = page.totalPages;
-    //   let pn:number = this.state.gotoPage;
-    //   this.loadData(pn-1);
-    // }
+
+    cardRender(ele:any) {
+
+  
+      if(ele == undefined) return <div></div>
+      return(
+
+        <Row gutter={8}>
+        <Col span={3}>
+  
+        </Col>
+        <Col span={21}>
+        <Card
+        hoverable
+        //actions={[<SearchOutlined />,<SearchOutlined />,<SearchOutlined />]}
+        onClick={()=>this.props.history.push('/showgoodsinfo/'+ele.g.id)}
+        bodyStyle={{ width: 240,textAlign:"center" }}
+        style={{ width: 262,textAlign:"center" }}
+        cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id} /></Col></Row>}
+      >
+        <Meta title={ele.g.name} />
+        <Row><Col>&nbsp;</Col></Row>
+        <Meta description={ele.m.userName}  avatar={<img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/>}/>
+      </Card>  
+        </Col>
+
+      </Row>
+
+
+        
+      )
+    }
 
     columns:any[] = [
       {
@@ -171,10 +176,10 @@ export default class SearchGoods extends React.Component<any,any> {
         key: 'c_0',
         
         render:(text:any, record:any) =>{
-          let ele = record["c_0"]
-          return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
-        )},
+          let ele = record["c_0"];
+          //let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id;
+          //console.log(imgSrc);
+          return this.cardRender(ele)},
         align:'center',
       },
       {
@@ -184,7 +189,7 @@ export default class SearchGoods extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_1"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)        
         )}
       },
       {
@@ -194,7 +199,7 @@ export default class SearchGoods extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_2"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)           
         )}
       },
       {
@@ -204,7 +209,7 @@ export default class SearchGoods extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_3"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)           
         )}
       },
       {
@@ -214,7 +219,7 @@ export default class SearchGoods extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_4"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)          
         )}
       },
       {
@@ -224,7 +229,7 @@ export default class SearchGoods extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_5"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            this.cardRender(ele)           
         )}
       }
     ]
@@ -348,7 +353,7 @@ export default class SearchGoods extends React.Component<any,any> {
       
       
 
-      let n = Math.floor(document.body.clientWidth/280);
+      let n = Math.floor(document.body.clientWidth/290);
       if(n<=0) n = 1;
       else if(n>this.columns.length) n = this.columns.length;
       if(arry.length>0 && arry.length<n) {
@@ -395,24 +400,6 @@ export default class SearchGoods extends React.Component<any,any> {
             </div>
         )
       }
-      /*                <table className="goods-table">
-                  <tbody> 
-                    {arry.map((element:any,index:number) =>{
-                        let isRowEnd:boolean = (index%col == col-1);
-                        let isLast:boolean = index==arry.length-1;
-                        if(isRowEnd || isLast){
-                          let nstart:number = Math.floor(index/col)*col;
-                            return <tr className='tr1'>
-                              {arry.map((element2:any,index2:number) =>{
-                                if(index2>=nstart && index2<=index)
-                                 return <td className='td1'><GoodsItem data={element2}/></td>
-                              })}
 
-                              </tr>
-                        }
-                    })}
-                    
-                    </tbody>   
-                </table>*/
     }
 }

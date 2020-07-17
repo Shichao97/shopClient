@@ -22,22 +22,22 @@ import conf from './Conf'
 const $ = jquery;
 const formItemLayout = {
     labelCol: {
-      xs: { span: 24 },
-      sm: { span: 8 },
+      xs: { span: 20 },
+      sm: { span: 6 },
     },
     wrapperCol: {
-      xs: { span: 24 },
-      sm: { span: 16 },
+      xs: { span: 20 },
+      sm: { span: 14 },
     },
   };
   const tailFormItemLayout = {
     wrapperCol: {
       xs: {
-        span: 24,
+        span: 20,
         offset: 0,
       },
       sm: {
-        span: 16,
+        span: 10,
         offset: 8,
       },
     },
@@ -150,7 +150,7 @@ export default class Register extends React.Component<any,any> {
         <div className="demo2">
     <h1>Free Member Register</h1>
     <div></div>
-    <Row><Col span={18}>
+    
           <Form
             {...formItemLayout}
             ref={this.formRef} 
@@ -273,7 +273,7 @@ export default class Register extends React.Component<any,any> {
     
           
           </Form>
-          </Col><Col span={6}></Col></Row>
+          
           {this.state.msg}
           </div>);
         }

@@ -5,10 +5,11 @@ import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Form,Input,Button, Row, Col } from 'antd';
+import { Table,Form,Input,Button, Row, Col, Card } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
+import Meta from 'antd/lib/card/Meta';
 
 const $ = jquery;
 const formItemLayout = {
@@ -170,7 +171,26 @@ export default class MySelling extends React.Component<any,any> {
     //   let pn:number = this.state.gotoPage;
     //   this.loadData(pn-1);
     // }
-
+    cardRender(ele:any) {
+      if(ele == undefined) return <div></div>
+      //<Row><Col></Col></Row>
+      return(
+        
+        <Card
+        hoverable
+        
+        //actions={[<SearchOutlined />,<SearchOutlined />,<SearchOutlined />]}
+        onClick={()=>this.props.history.push('/showgoodsinfo/'+ele.g.id)}
+        bodyStyle={{ width: 240,alignSelf:"center" }}
+        style={{ width: 262,alignSelf:"center" }}
+        cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id} /></Col></Row>}
+      >
+        <Meta title={ele.g.name} />
+        <Row><Col>&nbsp;</Col></Row>
+        <Meta description={ele.m.userName}  avatar={<img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/>}/>
+      </Card>          
+      )
+    }
     columns:any[] = [
       {
         title: 'Item0',
@@ -179,7 +199,7 @@ export default class MySelling extends React.Component<any,any> {
         render:(text:any, record:any) =>{
           let ele = record["c_0"]
           return (
-          <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>           
+            <div style={{ alignItems: "center" }}><GoodsItem data={ele}/> </div>         
         )},
         align:'center',
       },

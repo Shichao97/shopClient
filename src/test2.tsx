@@ -1,492 +1,131 @@
-import React, { RefObject } from 'react';
-import ReactDOM from 'react-dom';
-import {
-  Form,
-  Input,
-  Tooltip,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-  Card,
-  Alert,
-  Modal,
-} from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { FormInstance } from 'antd/lib/form';
-import ImageUpload from './ImageUpload';
-import jquery from "jquery";
-import conf from './Conf';
-const $ = jquery;
+import React from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Collapse from '@material-ui/core/Collapse';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import { red } from '@material-ui/core/colors';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-
-const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
-
-const options = [
-  { label: 'Shipping', value: '1' },
-  { label: 'Self-pick', value: '2' },
-  { label: 'Home-delivery', value: '4' },
-];
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      maxWidth: 345,
+      alignSelf: "center",
+      alignItems: "center",
+      left: 100
     },
-    sm: {
-      span: 16,
-      offset: 8,
+    media: {
+      height: 0,
+      paddingTop: '56.25%', // 16:9
     },
-  },
-};
+    expand: {
+      transform: 'rotate(0deg)',
+      marginLeft: 'auto',
+      transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+      }),
+    },
+    expandOpen: {
+      transform: 'rotate(180deg)',
+    },
+    avatar: {
+      backgroundColor: red[500],
+    },
+  }),
+);
 
-//const [form] = Form.useForm();
+export default function RecipeReviewCard() {
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
 
-export default class EditSellGoods extends React.Component<any,any> {
-  constructor(props:any){
-      super(props);
-      this.state={autoCompleteResult:[],imgErrMsg:"",imgName:[]}
-  }
-  
-  formRef:RefObject<FormInstance> = React.createRef();
-  imgupRef:RefObject<ImageUpload> = React.createRef();
-
-  componentDidMount(){
-      let id:number = this.props.match.params.id;
-      this.getGoodsInfo(id);
-
- let a = <Alert
-      message="Error"
-      description="This is an error message about copywriting."
-      type="error"
-      showIcon
-    />
-
-    Modal.error({
-      title: '确认删除此项目吗?'
-    })
-
-    Modal.confirm({
-      title: '确认删除此项目吗?',
-      //icon: <ExclamationCircleOutlined/>,
-      content: '',
-      okText: '是',
-      okType: 'danger',
-      cancelText: '否',
-      onOk: () => {
-          //this.handleOk(id)//确认按钮的回调方法，在下面
-      }
-      ,
-      onCancel() {
-          console.log('Cancel');
-      },
-  });
-
-  }
-
-
-  getGoodsInfo(gid:number){
-
-
-
-    let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
-    let _this = this;
-    $.ajax({
-        type:"GET",
-        // crossDomain: true, 
-        // xhrFields: {
-        //     withCredentials: true 
-        // },
-        url:newUrl,
-        dataType:"json",
-        success:function(data){
-            let imgStr:string = data.imgNames;
-            let arr:string[];
-            if(imgStr == null){
-              arr = [];
-            }
-            arr= imgStr.split(";");
-            _this.setState({imgName:arr,data:data});
-            _this.onFill(data);
-
-
-        },
-        error: function(xhr:any, textStatus, errorThrown){
-          console.log("getgoodsinfo error!");
-        }
-      })
-}
-
-  onFinish = (values:object) => {
-    
-    console.log("onFinish:",values);
-
-    if(this.imgUploadChanged()) {
-      //this.setState({success:true});
-      this.doEdit(values);
-    }
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
 
-  imgUploadChanged():boolean{
-    let imgup:ImageUpload|null = this.imgupRef.current;
-    if(this.state.imgName.length==0){
-      if(imgup ==null || imgup.state.imgs.length < 1 ){
-        this.setState({imgErrMsg : "You must upload at least one image for your second-hand goods!"});
-        return false;
-      }else if(imgup ==null || imgup.state.imgs.length > 16){
-        this.setState({imgErrMsg : "You cannot upload more than 16 images！"});
-        return false;
-      }
-    }
-    this.setState({imgErrMsg : ""});
-    return true;
-  }
-
-  doEdit(values:any){
-    let _this = this;
-    let formData = new FormData();
-    let id:string = this.props.match.params.id;
-    //let ele: any = $('#upfile')[0];
-    //let appendTemp:any = ele.files[0];
-    let i = 0;
-    let imgup:any = this.imgupRef.current;
-    
-    for (let entry of imgup.state.imgs) {
-        
-        formData.append("img"+i,entry);
-        i++;
-    }
-    let oldimgnames = _this.combineImgNames(_this.state.imgName);
-    formData.append("oldimgnames",oldimgnames);
-
-    formData.append("gid",id);
-    
-    let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/edit";
-    let data= values;  //不用拼data
-    for(var p in data){
-        console.log(data[p]);
-        console.log(data[p]);
-        if(p == "typeCode"){
-            let ele = data[p];
-            formData.append("typeCode",ele[1]);
+  return (
+    <div >
+    <Card className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar}>
+            R
+          </Avatar>
         }
-        else if(p=="method"){
-          data[p].forEach((element:any) => {
-            if(element=="1"){
-              formData.append("method1","1");
-            }
-            if(element=="2"){
-              formData.append("method2","2");
-            }
-            if(element=="4"){
-              formData.append("method3","4");
-            }
-          });
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
         }
-        else formData.append(p,data[p]);
-    }
-    
-
-    $.ajax({
-        type:"POST",
-        crossDomain: true, 
-        xhrFields: {
-            withCredentials: true 
-        },
-        url:url1,
-        cache: false,
-        data:formData,
-        dataType:"json",
-        processData: false,
-        contentType: false,
-        success:function(d){
-            if(d.success == 0){
-                alert(d.msg);
-            }else{
-              _this.setState({success:true});
-                
-            }
-        },
-        error: function(xhr:any, textStatus, errorThrown){
-            console.log("request status:"+xhr.status+" msg:"+textStatus)
-            if(xhr.status=='604'){//未登录错误
-                let popwin: any = conf.loginWin;
-                popwin.setState({modalIsOpen:true})
-            }
-            
-        }
-    })    
-  }
-
-  onReset = () => {
-    this.formRef.current?.resetFields();
-    this.imgupRef.current?.reset();
-    this.setState({imgErrMsg:"",success:undefined});
-    //this.setState({success:true});
-  };
-
-  onFill = (data:any) => {
-    //let data = this.state.data;
-    let n = data.typeCode.indexOf("_");
-    let cate = data.typeCode.substring(0,n);
-    let methods:any = [];
-    if((data.sellingMethod & 1) == 1){
-      methods.push("1");
-    }
-    if((data.sellingMethod & 2) == 2){
-      methods.push("2");
-    }
-    if((data.sellingMethod & 4) == 4){
-      methods.push("4");
-    }    
-    this.setState({methods:methods});
-
-    this.formRef.current?.setFieldsValue({
-      name: data.name,
-      location: data.location,
-      price: data.price,
-      typeCode:[cate,data.typeCode],
-      method:methods,
-    });
-  };
-
-
-
-
-
-  imgClicked(index:number){
-    this.state.imgName.splice(index,1);
-    this.setState({});
-  }
-
-  //拼接分号字符串
-  combineImgNames(arr:number[]){
-    if(arr == null || arr.length == 0){
-      return "";
-    }
-    let re:string = "";
-    for(let ele of arr){
-      re += (ele)+";";
-    }
-    return re.substring(0,re.length-1);
-  }
-
-  Wa_SetImgAutoSize(obj:any) {
-    //var img=document.all.img1;//获取图片
-    var img = obj;
-    var MaxWidth = 630; //设置图片宽度界限
-    var MaxHeight = 360; //设置图片高度界限
-    var HeightWidth = img.offsetHeight / img.offsetWidth; //设置高宽比
-    var WidthHeight = img.offsetWidth / img.offsetHeight; //设置宽高比
-    if (img.readyState != "complete") return false; //确保图片完全加载
-    if (img.offsetWidth > MaxWidth) {
-        img.width = MaxWidth;
-        img.height = MaxWidth * HeightWidth;
-    }
-    if (img.offsetHeight > MaxHeight) {
-        img.height = MaxHeight;
-        img.width = MaxHeight * WidthHeight;
-    }
-}
-
-  imgUpChanged=()=>{
-    this.setState({});
-  }
-  imgUpClicked(index:number){
-    this.imgupRef.current?.imgClicked(index);
-  }
-
-  onChange = (checkedValues:any) =>  {
-    this.setState({methods:checkedValues})
-    console.log('checked = ', checkedValues);
-  }
-  //const [form] = Form.useForm();
-  render(){
-    let _this = this;    
-    let id:number = this.props.match.params.id;
-    let imgname:string[] = this.state.imgName;
-
-    let uploadImgs:any[] = [];
-    if(this.imgupRef.current !=null) uploadImgs = (this.imgupRef as any).current.state.imgs;
-
-    if(this.state.success !== undefined){
-      return <div className='demo2'>
-        <h1>Change goods successed!</h1><p/> <Button type="default" size="large"  onClick={() => this.props.history.push("/searchGoods")}>Back</Button>
-      </div>
-    }
-  
-    else   
-    return(
-    <div  className='demo2'>
-      <h2>Edit goods here!</h2>
-      <table className="content-table">
-        <tr>
-          <td><h3> Uploaded images: </h3></td><td>
-          <div className="upimgs"> 
-            {imgname.map((element:any,index:number) =>{
-                      
-            let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+id+"&fname="+element;
-            console.log(imgSrc);
-            return(
-              
-              
-              <a><span><h1>Click to delete</h1></span>
-
-              <table  className="wrap"><tr><td>
-
-                <img className="img_up"  alt="img" src={imgSrc} onClick={()=> this.imgClicked(index)} />
-                </td></tr></table>
-              </a>
-              
-
-              
-              
-            )
-          
-            }
-            )
-          }
-            
-          {  uploadImgs.map((element,index) =>{
-              return <div>
-              <a><span><h1>Click to delete</h1></span>
-              <table  className="wrap">
-              <tr><td>
-              <img className="img_up" onClick={()=> this.imgUpClicked(index)}
-              id={"img_"+index} 
-              src={window.URL.createObjectURL(element)} /> 
-              </td></tr>
-            </table>
-              </a>
-             </div>
-          })            
-            
-            
-            
-            
-            
-            
-            }
-            
-            
-            <table  className="wrap"><tr><td>
-            <ImageUpload ref={this.imgupRef} onChange={this.imgUpChanged}/>
-            </td></tr></table>
-            
-            
-            </div>
-            </td>
-        </tr>
-        <tr><td></td>
-    <td><span className="error_msg">{this.state.imgErrMsg}&nbsp;</span></td>
-        </tr>
-      </table>
-      
-      <Row><Col className='demo3'>
-
-      <Form
-        {...formItemLayout}
-        ref={this.formRef} 
-        name="register"
-        onFinish={this.onFinish}
-        // initialValues={{
-        //   typeCode: ['Furniture', 'Bed'],
-        // }}        
-        scrollToFirstError
-      >
-      
-      <Form.Item
-        name="name"
-        label="Goods Name"
-        rules={ [{required:true, message: 'Please enter goods name!' }]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        name="location"
-        label="Location"
-        rules={ [{required:true, message: 'Please enter location!' }]}
-      >
-        <Input />
-      </Form.Item>
-
-
-      <Form.Item
-        name="typeCode"
-        label="Classification"
-        rules={[
-          { type: 'array', required: true, message: 'Please select goods Classification!' },
-        ]}
-      >
-        <Cascader options={conf.goods_types} />
-      </Form.Item>
-
-
-      <Form.Item
-        name="price"
-        label="Price"
-        rules={[{ required: true, message: 'Please input goods price!' },
-        {pattern: new RegExp(/^[1-9]\d*$/, "g"),message: 'Please enter number!' }]}
-      >
-        <Input style={{ width: '100%' }}/>
-      </Form.Item>
-
-      <Form.Item
-        name="method"
-        label="Support deliver method"
-        valuePropName="checked"
-        rules={[
-          { 
-            validator:(_, value) => {
-              if(value.length > 0) {
-                  return Promise.resolve()
-              }else{
-                  return Promise.reject('Should select at least one deliver-methed')
-              }
-            },
-          }
-        ]}
-        
-      >
-        <Checkbox.Group options={options} value={this.state.methods} onChange={this.onChange} />
-      </Form.Item>
-
-      
-
- 
-
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit Change
-        </Button>
-      </Form.Item>
-
-
-      
-      </Form>
-      </Col>
-      </Row>
-     </div>);
-    }
-
-    // {...tailFormItemLayout}
-    // <Checkbox name="method" value="2">Self-pick</Checkbox>
-    // <Checkbox name="method" value="4">Home-dilivery</Checkbox>
-
+        title="Shrimp and Chorizo Paella"
+        subheader="September 14, 2016"
+      />
+      <CardMedia
+        className={classes.media}
+        image="/static/images/cards/paella.jpg"
+        title="Paella dish"
+      />
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+          This impressive paella is a perfect party dish and a fun meal to cook together with your
+          guests. Add 1 cup of frozen peas along with the mussels, if you like.
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+        <IconButton
+          className={clsx(classes.expand, {
+            [classes.expandOpen]: expanded,
+          })}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>Method:</Typography>
+          <Typography paragraph>
+            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
+            minutes.
+          </Typography>
+          <Typography paragraph>
+            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
+            heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
+            browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken
+            and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion, salt and
+            pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add
+            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
+          </Typography>
+          <Typography paragraph>
+            Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
+            without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
+            medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook
+            again without stirring, until mussels have opened and rice is just tender, 5 to 7
+            minutes more. (Discard any mussels that don’t open.)
+          </Typography>
+          <Typography>
+            Set aside off of the heat to let rest for 10 minutes, and then serve.
+          </Typography>
+        </CardContent>
+      </Collapse>
+    </Card>
+    </div>
+  );
 }

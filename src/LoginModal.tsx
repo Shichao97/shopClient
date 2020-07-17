@@ -4,7 +4,7 @@ import ReactModal from 'react-modal';
 import { render } from '@testing-library/react';
 import jquery from "jquery";
 import { compileFunction } from 'vm';
-import { Modal } from 'antd';
+import { Modal, Form, Input, Row, Col, Card } from 'antd';
 //import { stringify } from 'querystring';
 const $ = jquery;
 
@@ -63,8 +63,9 @@ const $ = jquery;
     return (
       <div>
           <ReactModal className='demo' isOpen={this.state.modalIsOpen} onRequestClose={() => this.setState({modalIsOpen:false})}>
-              <div>
-              
+
+          
+              <div style={{textAnchor:"middle"}}>
                 
               <form id="log_form">
               <h2>Please login first!</h2><br/>
@@ -75,7 +76,12 @@ const $ = jquery;
               </form>
               </div>
               <div>
-                  
+
+                <Row><Col span={6}></Col><Col span={12}>
+ 
+            <Input ref="ttt"/>
+          
+          </Col><Col span={6}></Col></Row>
               </div>
           </ReactModal>
       </div>
