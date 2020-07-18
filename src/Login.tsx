@@ -59,10 +59,12 @@ const tailLayout = {
 
           },
           error: function(xhr:any, textStatus, errorThrown){
-            console.log("request status:"+xhr.status+" msg:"+textStatus)
-            if(xhr.status=='604'){//未登录错误
-              //_this.props.listComp.refs.logwin.set
-            }
+            //console.log("request status:"+xhr.status+" msg:"+textStatus)
+            Modal.error({
+              title:'Error',
+              content: "request status:"+xhr.status+" msg:"+textStatus
+            })
+
              
           }
       })    

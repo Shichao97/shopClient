@@ -21,7 +21,11 @@ export default class EditInfo extends React.Component<any,any> {
         $.ajax({
             url: window.localStorage.getItem("host_pre")+'member/upIcon?id='+id,
             type: 'POST',
-            cache: false,
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+                cache: false,
             data: formData,
             processData: false,
             contentType: false,

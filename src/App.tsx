@@ -98,45 +98,30 @@ class App extends Component<any,any> {
   //   }).isRequired
   // }  
 
-  componentWillMount(){
 
 
-   
-    var win:any = window;
+  // componentDidMount() {
+
+  //   (conf as any).msgWin = this.msgwin.current;  
+  //   (conf as any).loginWin = this.logwin.current;    
 
 
-    // win.goods_types = goods_types;
-    //sessionStorage.setItem('Goods_types', JSON.stringify(goods_types));
-  }
+  //   $.ajax({
+  //     type:"GET",
+  //     crossDomain: true, 
+  //     xhrFields: {
+  //         withCredentials: true 
+  //     },
+  //     url:window.localStorage.getItem("host_pre")+"goodstype/showAll",
+  //     dataType:"json",
+  //     success:function(data){
+  //       var str = JSON.stringify(data); 
+  //       sessionStorage.setItem('goods_types', str); 
+  //     },
+  //     })
 
-  componentDidMount() {
-    //conf.test1();
-    //let n = conf.ttt;
-    //conf.ttt=8;
-    //let c:any = conf;
-    (conf as any).msgWin = this.msgwin.current;  
-    (conf as any).loginWin = this.logwin.current;    
-    //onhashchange=this.checkHash
-    //let pathname: any;
-    // this.context.router.history.listen(()=>{
-    //   this.checkHash();
-    // })
 
-    $.ajax({
-      type:"GET",
-      url:window.localStorage.getItem("host_pre")+"goodstype/showAll",
-      dataType:"json",
-      success:function(data){
-        var str = JSON.stringify(data); 
-        sessionStorage.setItem('goods_types', str); 
-      },
-      })
-
-      //var win:any = window;
-      //win.msgwin = this.refs.msgwin;
-      //win.msgwin = this.msgwin.current;
-
-  }
+  // }
 
   
   
@@ -192,9 +177,9 @@ class App extends Component<any,any> {
           <PrivateRoute path="/searchsell" component={SearchSellGoods}/>
 
           <Route path="/searchGoods" component={SearchGoods}></Route>
-          <Route path="/editsellgoods/:id" component={EditSellGoods}></Route>
+          <PrivateRoute path="/editsellgoods/:id" component={EditSellGoods}/>
           <Route path="/showgoodsinfo/:id" component={ShowGoodsInfo}></Route>
-          <Route path="/placeOrder" component={PlaceOrder}></Route>
+          <PrivateRoute path="/placeOrder" component={PlaceOrder}/>
           <PrivateRoute path="/myAccount" component={MyAccount}/>
           <PrivateRoute path="/mySelling" component={MySelling}/>
           <PrivateRoute path="/myCollection" component={MyCollection}/>

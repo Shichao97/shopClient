@@ -129,10 +129,10 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
       console.log(newUrl);
       $.ajax({
           type:"GET",
-          // crossDomain: true, 
-          // xhrFields: {
-          //     withCredentials: true 
-          // },
+          crossDomain: true, 
+          xhrFields: {
+              withCredentials: true 
+          },
           url:newUrl,
           dataType:"json",
           success:function(data){
@@ -321,12 +321,13 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
     clickBuy(){
         //未登录
-        //var win:any = window;
-        let uid:string = (conf as any).getCookie("userId");
-        if(uid == ""){
-            let popwin: any = conf.loginWin;
-            popwin.setState({modalIsOpen:true,comp:this});
-        }
+        // //var win:any = window;
+        // let uid:string = (conf as any).getCookie("userId");
+        // if(uid == ""){
+        //     let popwin: any = conf.loginWin;
+        //     popwin.setState({modalIsOpen:true,comp:this});
+        // }
+        // else
         this.props.history.push({pathname:'/placeOrder',state:this.state.data});
 
     }
@@ -487,8 +488,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                         
                         <Button  type="primary" onClick={() => this.clickBuy()}>Buy Now</Button>
                         &nbsp;&nbsp;
-                        <Button  type="primary" >Leave a note</Button>
-                        &nbsp;&nbsp;
+                        
                         <Button type="primary" onClick={()=>this.openTalkWindow()}>Talk to seller</Button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <Tooltip title="Like & Dislike">{this.getLikeIcon()}</Tooltip>

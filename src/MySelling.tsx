@@ -192,7 +192,7 @@ export default class MySelling extends React.Component<any,any> {
         style={{ width: 262,textAlign:"center" }}
         cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id} /></Col></Row>}
       >
-        <Meta title={ele.g.name} />
+        <Meta title={ele.g.name}  description={"Price: $"+ele.g.price}/>
         <Row><Col>&nbsp;</Col></Row>
 
         <Meta description={<div style={{textAlign:'center'}}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> {ele.m.userName}</div>}  />

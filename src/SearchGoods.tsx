@@ -5,7 +5,7 @@ import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Form,Input,Button, Row, Col, Spin, Card, Cascader } from 'antd';
+import { Table,Form,Input,Button, Row, Col, Spin, Card, Cascader, Tooltip } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
@@ -76,10 +76,10 @@ export default class SearchGoods extends React.Component<any,any> {
         console.log(newUrl);
         $.ajax({
           type:"GET",
-          // crossDomain: true, 
-          // xhrFields: {
-          //     withCredentials: true 
-          // },
+          crossDomain: true, 
+          xhrFields: {
+              withCredentials: true 
+          },
           url:newUrl,
           dataType:"json",
           success:function(data){
@@ -105,22 +105,22 @@ export default class SearchGoods extends React.Component<any,any> {
     handleSelect2 = (event:any) =>  {
         this.setState({searchType:event.target.value});
     }
-    handleChange = (event:any) =>  {
+    // handleChange = (event:any) =>  {
         
-        switch(event.target.name){
-          case "searchValue":
-            this.setState({searchValue: event.target.value});
-            break;
-          case "gotoPage":
-            let page:any = this.state.page;
-            let totalPages = page.totalPages;
-            if(event.target.value >= 1 && event.target.value <=totalPages){
-                this.setState({gotoPage: event.target.value});
-            }
-            break;
+    //     switch(event.target.name){
+    //       case "searchValue":
+    //         this.setState({searchValue: event.target.value});
+    //         break;
+    //       case "gotoPage":
+    //         let page:any = this.state.page;
+    //         let totalPages = page.totalPages;
+    //         if(event.target.value >= 1 && event.target.value <=totalPages){
+    //             this.setState({gotoPage: event.target.value});
+    //         }
+    //         break;
          
-        }
-      }
+    //     }
+    //   }
      
     sellingMethod(m:number):string{
       //let re:string = "";
@@ -139,7 +139,7 @@ export default class SearchGoods extends React.Component<any,any> {
 
     onUserClicked(ele:any,event:any){
       //let uid:string = (conf as any).getCookie("userId");
-      let obj = {searchValue:this.params.searchValue,sellerId:ele.g.sellerId,pageSize:this.pageSize};
+      let obj = {searchValue:"",sellerId:ele.g.sellerId,pageSize:this.pageSize};
       let plus = conf.getQueryStrFromObj(obj);
 
       this.props.history.push(this.routeName+"/"+plus);
@@ -183,11 +183,15 @@ export default class SearchGoods extends React.Component<any,any> {
         style={{ width: 262,textAlign:"center" }}
         cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id} /></Col></Row>}
       >
-        <Meta title={ele.g.name} />
+        <Meta title={ele.g.name} description={"Price: $"+ele.g.price}/>
         <Row><Col>&nbsp;</Col></Row>
         
-        <Meta description={<div style={{textAlign:'center'}}><a  onClick={this.onUserClicked.bind(this,ele)} ><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
-      &nbsp;{ele.m.userName}</a> - <a  onClick={this.onSchoolClicked.bind(this,ele)} >{schoolName}</a></div>}/>
+        <Meta description={<div style={{textAlign:'center'}}>
+        <Tooltip placement="topLeft" title={"All of "+ele.m.userName}>
+        <a  onClick={this.onUserClicked.bind(this,ele)} ><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
+      &nbsp;{ele.m.userName}</a>
+    </Tooltip>  -- <Tooltip placement="topLeft" title={"Search From "+ schoolName}>
+      <a  onClick={this.onSchoolClicked.bind(this,ele)} >{schoolName}</a></Tooltip></div>}/>
       </Card>  
         </Col>
 
@@ -339,6 +343,10 @@ export default class SearchGoods extends React.Component<any,any> {
       let page:any = _this.state.page;
 
       let ss = this.params.searchValue;
+      let schoolValues;
+      if(this.params.schoolCode!=undefined&&this.params.schoolCode.length>0) 
+        schoolValues = this.params.schoolCode.split("/");
+
       let forms = 
       
 
@@ -347,9 +355,14 @@ export default class SearchGoods extends React.Component<any,any> {
             ref={this.formRef} 
             name="search"
             onFinish={this.onFinish}
-       
+            initialValues={schoolValues==undefined?{}:{
+              school: [schoolValues[0], schoolValues[1]],
+            }}
             scrollToFirstError
           >
+
+
+
           <Form.Item
             name="school"
             //label="School"

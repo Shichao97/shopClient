@@ -1,32 +1,94 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { Link } from 'react-router-dom';
 import jquery from "jquery";
 //import LoginModal from './LoginModal';
 import conf from './Conf'
-import { Modal } from 'antd';
+import { Modal , Form, Input, Button, Select } from 'antd';
+import { FormInstance } from 'antd/lib/form';
 
 const $ = jquery;
+const { Option } = Select;
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 8 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 8 },
+};
+
 
 
 export default class PlaceOrder extends React.Component<any,any> {
     constructor(props:any){
         super(props);
-        this.state={
+        this.state={disableInput:false
         }
     }
+    form:RefObject<FormInstance> = React.createRef();
+    
+    //const [form] = Form.useForm();
+    
+    onMethodChange = (value: any) => {
+        switch (value) {
+        case 2:
+            this.form.current?.setFieldsValue({ receiveAddr: this.state.data.location });
+            let input = (this.form.current as any).getFieldInstance("receiveAddr");
+            input.disabled = true;
+            this.setState({disableInput:true});
+            return;
+        default:this.setState({disableInput:false});
+        }
+    }
+    
+
+    
+    onReset = () => {
+        this.form.current?.resetFields();
+    }
+    
+    onFill = () => {
+        this.form.current?.setFieldsValue({
+        note: 'Hello world!',
+        gender: 'male',
+        })
+    }
+    
+    
 
     componentWillMount(){
         let sta:any = this.props.location.state;
-        this.setState({goodsdata:sta});
+        this.setState({data:sta});
     }
 
-    handlePlace(){
+    onFinish = (values: any) => {
+        console.log(values);
+        Modal.confirm({
+                  title: 'Comfirm buy this goods?',
+                  //icon: <ExclamationCircleOutlined/>,
+                  content: this.state.data.name+" Price: $"+this.state.data.price,
+                  okText: 'Yes',
+                  okType: 'danger',
+                  cancelText: 'No',
+                  onOk: () => {
+                      this.handlePlace(values);
+                  }
+                  ,
+                  onCancel() {
+                      console.log('Cancel');
+                  },
+              });  
+    };
+
+    handlePlace = (values: any) => {
         let _this:PlaceOrder = this;
         //var win:any = window;
         let uid:string = (conf as any).getCookie("userId");
-        let newUrl:string = window.localStorage.getItem("host_pre")+"order/placeOrder?goodsId="+this.state.goodsdata.id+"&buyerId="+uid;
-        let plus:string = $("#buyForm").serialize(); //receiveMethod,addr
-        newUrl =  newUrl + "&" + plus;
+        let newUrl:string = window.localStorage.getItem("host_pre")+"order/placeOrder?goodsId="+this.state.data.id+"&buyerId="+uid;
+        //let plus:string = $("#buyForm").serialize(); //receiveMethod,addr
+        newUrl =  newUrl + "&" + conf.getQueryStrFromObj(values);
+        console.log(newUrl);
+
         $.ajax({
             type:"GET",
             crossDomain: true, 
@@ -64,84 +126,92 @@ export default class PlaceOrder extends React.Component<any,any> {
         }
 
     render(){
-        if(this.state.orderId != undefined){
+        let uid = conf.getCookie("userId");
+        if(this.state.data.sellerId== uid){
             return(
-                <div>
+                <div className="demo2"><h1>
+                    Sorry. 
+                </h1><h2>You can't buy yourself goods.</h2></div>
+            )            
+        }
+        else if(this.state.orderId != undefined){
+            return(
+                <div className="demo2">
+                    <h1>
                     Thanks for placing your order. Your order id is {this.state.orderId}
+                </h1>
                 </div>
             )
-        }else{
-            let gid:string = this.state.goodsdata.id;
-            let m:number= this.state.goodsdata.sellingMethod;
+        }
+        else
+        {
+            let gid:string = this.state.data.id;
+            let m:number= this.state.data.sellingMethod;
             let arrMethod:number[] = [];
             if((m & 1) == 1) arrMethod.push(1);
             if((m & 2) == 2) arrMethod.push(2);
             if((m & 4) == 4) arrMethod.push(4);
             let imgSrc:string = this.getImgSrc(gid);
+
             return(
-                <div>
-                    <form id="buyForm">
-                        <table>
-                            <tr>
-                                <td>
+                <div className="demo2">
+                    <h2>{this.state.data.name}</h2>
+                    <img src={imgSrc}></img>
+                    <h3>price: $   {this.state.data.price}</h3>
 
-                                </td>
-                                <td>
-                                    <img src={imgSrc}></img>
-                                </td>
-                            </tr>
 
-                            <tr>
-                                <td>
-                                    price:
-                                </td>
-                                <td>
-                                    {this.state.goodsdata.price}
-                                </td>
-                            </tr>
 
-                            <tr>
-                                <td>
-                                    Receiving Method:
-                                </td>
-                                <td>
-                                <select name="receiveMethod">
-                                {arrMethod.map((element:any) =>{
+
+
+                    <Form {...layout} ref={this.form} name="control-hooks" onFinish={this.onFinish}>
+                        
+                        <Form.Item name="receiveMethod" label="Receiving Method" rules={[{ required: true }]}>
+                            <Select
+                            placeholder="Select method"
+                            onChange={this.onMethodChange}
+                            allowClear
+                            >
+                            {arrMethod.map((element:any) =>{
                                     if(element == 1){
                                         return(
-                                            <option value={element}>shipping</option>
+                                            <Option value={element}>Shipping</Option>
                                         )
                                     }
                                     if(element == 2){
                                         return(
-                                            <option value={element}>self-pick</option>
+                                            <Option value={element}>Self-pick</Option>
                                         )
                                     }
                                     if(element == 4){
                                         return(
-                                            <option value={element}>home-dilivery</option>
+                                            <Option value={element}>Home-dilivery</Option>
                                         )
                                     }
                                 
                                     }
 
-                                )}
-                                </select>
-                                </td>
-                            </tr>
+                                )}      
 
-                            <tr>
-                                <td>
-                                    Receiving Address:
-                                </td>
-                                <td>
-                                    <input name="receiveAddr"></input>
-                                </td>
-                            </tr>
+                            </Select>
+                        </Form.Item>
 
-                        </table>
-                        <input type="button" value="place your order" onClick={() => this.handlePlace()}/>
-                    </form>
+                        <Form.Item name="receiveAddr" 
+                        label="Receiving Address" 
+                        rules={[{ required: true }]}>
+                            <Input disabled={this.state.disableInput}/>
+                        </Form.Item>
+                        
+
+
+                        <Form.Item {...tailLayout}>
+                            <Button type="primary" htmlType="submit">
+                            Place Order
+                            </Button>
+                            
+                        </Form.Item>
+                        </Form>
+
+
 
                 </div>
             )

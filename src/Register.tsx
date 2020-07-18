@@ -68,7 +68,11 @@ export default class Register extends React.Component<any,any> {
         //let data= values;
         $.ajax({
             type:"POST",
-            url:window.localStorage.getItem("host_pre")+"member/register",
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+                url:window.localStorage.getItem("host_pre")+"member/register",
             data:values,
             dataType:"json",
             success:function(d){
@@ -181,7 +185,11 @@ export default class Register extends React.Component<any,any> {
                   let n = value;
                   $.ajax({
                     type:"GET",
-                    url:window.localStorage.getItem("host_pre")+"member/checkUsername?userName="+value,
+                    crossDomain: true, 
+                    xhrFields: {
+                        withCredentials: true 
+                    },
+                                url:window.localStorage.getItem("host_pre")+"member/checkUsername?userName="+value,
                     //data:value,
                     dataType:"json",
                     success:function(d){

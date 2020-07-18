@@ -76,10 +76,10 @@ export default class EditSellGoods extends React.Component<any,any> {
     let _this = this;
     $.ajax({
         type:"GET",
-        // crossDomain: true, 
-        // xhrFields: {
-        //     withCredentials: true 
-        // },
+        crossDomain: true, 
+        xhrFields: {
+            withCredentials: true 
+        },
         url:newUrl,
         dataType:"json",
         success:function(data){

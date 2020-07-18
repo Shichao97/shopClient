@@ -17,7 +17,11 @@ export default class Active extends React.Component<any,any> {
         let newUrl:string = window.localStorage.getItem("host_pre")+"member/active?"+params;
         $.ajax({
             type:"GET",
-            url:newUrl,
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
+                url:newUrl,
             dataType:"json",
             success:function(data){
                 if(data.success == 1){

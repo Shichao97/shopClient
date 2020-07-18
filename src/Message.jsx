@@ -70,10 +70,10 @@ class Messgae extends React.Component {
         let url = window.localStorage.getItem("host_pre")+"msg/getNewMsgCount?toId="+uid;
         $.ajax({
             type:"GET",
-            // crossDomain: true, 
-            // xhrFields: {
-            //     withCredentials: true 
-            // },
+            crossDomain: true, 
+            xhrFields: {
+                withCredentials: true 
+            },
             url:url,
             dataType:"json",
             success:function(data){
