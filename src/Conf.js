@@ -89,7 +89,7 @@ const Conf = {
         return undefined;
     },
     getTypeObj(cateObj,typeCode){
-        if(cateObj==undefined||cateObj==null) return typeCode;
+        if(cateObj==undefined||cateObj==null||cateObj.children==undefined) return typeCode;
         for (var i=0;i<cateObj.children.length;i++)
         { 
             let element = cateObj.children[i];

@@ -10,6 +10,7 @@ import { FormInstance } from 'antd/lib/form';
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
 import Meta from 'antd/lib/card/Meta';
+import objectFitImages from 'object-fit-images';
 
 const $ = jquery;
 const formItemLayout = {
@@ -144,6 +145,13 @@ export default class SearchGoods extends React.Component<any,any> {
       if(ele == undefined) return <div></div>
       let v = this.cellWidth/24;
       let n = Math.floor((this.cellWidth-280)/v/2);
+      let school = conf.getShoolObj(ele.m.schoolCode);
+      let schoolName = ""
+      if(school) {
+        if(school.label == undefined) schoolName += school;
+        else schoolName += school.label;
+      }
+
       return(
 
         <Row >
@@ -161,7 +169,8 @@ export default class SearchGoods extends React.Component<any,any> {
       >
         <Meta title={ele.g.name} />
         <Row><Col>&nbsp;</Col></Row>
-        <Meta description={<div style={{textAlign:'center'}}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> {ele.m.userName}</div>}  />
+        <Meta description={<div style={{textAlign:'center'}}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
+      &nbsp;{ele.m.userName} - {schoolName}</div>}  />
       </Card>  
         </Col>
 
@@ -250,6 +259,8 @@ export default class SearchGoods extends React.Component<any,any> {
 
     //第一次进入用这个
     componentWillMount(){
+      
+
       
       let plus:string = conf.getUrlQueryString(this.routeName);
       this.params = conf.getQueryObjFromStr(plus);
@@ -386,7 +397,7 @@ export default class SearchGoods extends React.Component<any,any> {
       }
 
 
-
+      
      
 
 
