@@ -137,15 +137,21 @@ export default class SearchGoods extends React.Component<any,any> {
       return imgSrc;
     }
 
-    onUserMetaClicked(ele:any){
-      let uid:string = (conf as any).getCookie("userId");
-      
-      // let searchValue = values.searchValue==undefined?"":values.searchValue;
-      // let searchCode =  values.school==undefined?"":escape(values.school[0]+"/"+values.school[1]);
-      // let obj = {searchValue:searchValue,schoolCode:searchCode,pageSize:this.pageSize};
-      // let plus = conf.getQueryStrFromObj(obj);
-      // //let ttt = escape(plus)
-      // this.props.history.push(this.routeName+"/"+plus);
+    onUserClicked(ele:any,event:any){
+      //let uid:string = (conf as any).getCookie("userId");
+      let obj = {searchValue:this.params.searchValue,sellerId:ele.g.sellerId,pageSize:this.pageSize};
+      let plus = conf.getQueryStrFromObj(obj);
+
+      this.props.history.push(this.routeName+"/"+plus);
+      event?.stopPropagation();
+    }
+    onSchoolClicked(ele:any,event:any){
+      //let uid:string = (conf as any).getCookie("userId");
+      let obj = {searchValue:this.params.searchValue,schoolCode:ele.m.schoolCode,pageSize:this.pageSize};
+      let plus = conf.getQueryStrFromObj(obj);
+
+      this.props.history.push(this.routeName+"/"+plus);
+      event?.stopPropagation();
     }
 
     cardRender(ele:any) {
@@ -154,12 +160,13 @@ export default class SearchGoods extends React.Component<any,any> {
       if(ele == undefined) return <div></div>
       let v = this.cellWidth/24;
       let n = Math.floor((this.cellWidth-280)/v/2);
-      let school = conf.getShoolObj(ele.m.schoolCode);
-      let schoolName = ""
-      if(school) {
-        if(school.label == undefined) schoolName += school;
-        else schoolName += school.label;
-      }
+      // let school = conf.getShoolObj(ele.m.schoolCode);
+      // let schoolName = ""
+      // if(school) {
+      //   if(school.label == undefined) schoolName += school;
+      //   else schoolName += school.label;
+      // }
+      let schoolName = ele.m.schoolCode;
 
       return(
 
@@ -178,9 +185,9 @@ export default class SearchGoods extends React.Component<any,any> {
       >
         <Meta title={ele.g.name} />
         <Row><Col>&nbsp;</Col></Row>
-        <a  onClick={()=>this.onUserMetaClicked(ele)} >
-        <Meta description={<div style={{textAlign:'center'}}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
-      &nbsp;{ele.m.userName} - {schoolName}</div>}/></a>
+        
+        <Meta description={<div style={{textAlign:'center'}}><a  onClick={this.onUserClicked.bind(this,ele)} ><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
+      &nbsp;{ele.m.userName}</a> - <a  onClick={this.onSchoolClicked.bind(this,ele)} >{schoolName}</a></div>}/>
       </Card>  
         </Col>
 
