@@ -5,22 +5,22 @@ import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Form,Input,Button, Row, Col, Spin, Card } from 'antd';
+import { Table,Form,Input,Button, Row, Col, Spin, Card, Cascader } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import objectFitImages from 'object-fit-images';
+//import objectFitImages from 'object-fit-images';
 
 const $ = jquery;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 8 },
+    sm: { span: 4 },
   },
   wrapperCol: {
     xs: { span: 24 },
-    sm: { span: 16 },
+    sm: { span: 8 },
   },
 };
 const tailFormItemLayout = {
@@ -137,7 +137,16 @@ export default class SearchGoods extends React.Component<any,any> {
       return imgSrc;
     }
 
-
+    onUserMetaClicked(ele:any){
+      let uid:string = (conf as any).getCookie("userId");
+      
+      // let searchValue = values.searchValue==undefined?"":values.searchValue;
+      // let searchCode =  values.school==undefined?"":escape(values.school[0]+"/"+values.school[1]);
+      // let obj = {searchValue:searchValue,schoolCode:searchCode,pageSize:this.pageSize};
+      // let plus = conf.getQueryStrFromObj(obj);
+      // //let ttt = escape(plus)
+      // this.props.history.push(this.routeName+"/"+plus);
+    }
 
     cardRender(ele:any) {
 
@@ -169,8 +178,9 @@ export default class SearchGoods extends React.Component<any,any> {
       >
         <Meta title={ele.g.name} />
         <Row><Col>&nbsp;</Col></Row>
+        <a  onClick={()=>this.onUserMetaClicked(ele)} >
         <Meta description={<div style={{textAlign:'center'}}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
-      &nbsp;{ele.m.userName} - {schoolName}</div>}  />
+      &nbsp;{ele.m.userName} - {schoolName}</div>}/></a>
       </Card>  
         </Col>
 
@@ -298,14 +308,13 @@ export default class SearchGoods extends React.Component<any,any> {
     formRef:RefObject<FormInstance> = React.createRef();
 
     onFinish=(values:any)=>{
-      let _this = this;
-
       let uid:string = (conf as any).getCookie("userId");
       
       let searchValue = values.searchValue==undefined?"":values.searchValue;
-
-      let obj = {searchValue:searchValue,pageSize:this.pageSize};
+      let searchCode =  values.school==undefined?"":escape(values.school[0]+"/"+values.school[1]);
+      let obj = {searchValue:searchValue,schoolCode:searchCode,pageSize:this.pageSize};
       let plus = conf.getQueryStrFromObj(obj);
+      //let ttt = escape(plus)
       this.props.history.push(this.routeName+"/"+plus);
   }
 
@@ -334,7 +343,15 @@ export default class SearchGoods extends React.Component<any,any> {
        
             scrollToFirstError
           >
-      <Form.Item 
+          <Form.Item
+            name="school"
+            //label="School"
+            rules={[
+              { type: 'array', required: false, message: 'Please select school!' },
+            ]}
+          >
+            <Cascader options={conf.schools} placeholder="Select school"/>
+          </Form.Item>              <Form.Item 
             name="searchValue"
             //label="              &nbsp;"
             initialValue={ss}
@@ -354,7 +371,7 @@ export default class SearchGoods extends React.Component<any,any> {
     let plus:string = conf.getUrlQueryString(this.routeName);
 
       if(this.params.pageSize === undefined){
-        return <div><Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row></div>
+        return <div><Row><Col span={7}>&nbsp;</Col><Col span={17}>{forms}</Col></Row></div>
       } 
       else if(page == undefined) 
       return  <div> <Spin/></div>
@@ -401,14 +418,11 @@ export default class SearchGoods extends React.Component<any,any> {
      
 
 
-      if(plus.length<3){
-        return <Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row>
-      }
-      else{
+
         return(
           
             <div >
-              <Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row>
+              <Row><Col span={7}>&nbsp;</Col><Col span={17}>{forms}</Col></Row>
               <Row><Col span="24">
               <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
@@ -416,7 +430,7 @@ export default class SearchGoods extends React.Component<any,any> {
               <Row><Col>&nbsp;</Col></Row>
             </div>
         )
-      }
+      
 
     }
 }

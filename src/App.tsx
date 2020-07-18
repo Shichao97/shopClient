@@ -88,15 +88,15 @@ class App extends Component<any,any> {
   //   }
   // }
 
-  staticcontextTypes={
-    router:PropTypes.shape({
-    history:PropTypes.shape({
-    push:PropTypes.func.isRequired,
-    replace:PropTypes.func.isRequired,
-    createHref:PropTypes.func.isRequired
-    }).isRequired
-    }).isRequired
-  }  
+  // staticcontextTypes={
+  //   router:PropTypes.shape({
+  //   history:PropTypes.shape({
+  //   push:PropTypes.func.isRequired,
+  //   replace:PropTypes.func.isRequired,
+  //   createHref:PropTypes.func.isRequired
+  //   }).isRequired
+  //   }).isRequired
+  // }  
 
   componentWillMount(){
 
@@ -168,8 +168,8 @@ class App extends Component<any,any> {
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
           
           <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/login">Login</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/searchsell">SearchSell</Link>&nbsp;&nbsp;&nbsp;
+          
+          
           <Link to="/test/22">test</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/test2/23">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
