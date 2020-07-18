@@ -29,45 +29,7 @@ export default class Payment extends React.Component<any,any> {
     }
 
     handlePay(){
-        let oid = this.props.match.params.oid; ///
-        let _this = this;
-        let newUrl:string = window.localStorage.getItem("host_pre")+"order/payOrder?orderId="+oid;
-        console.log(newUrl);
-        $.ajax({
-            type:"GET",
-            crossDomain: true, 
-            xhrFields: {
-                withCredentials: true 
-            },
-            url:newUrl,
-            dataType:"json",
-            success:function(data){
-                if(data.success == 0){
-                    //alert(data.msg);
-                    Modal.error({
-                        title:'Error',
-                        content:data.msg
-                      })
-                }
-                else if(data.success == 1){
-                    Modal.success({
-                        title:'Success',
-                        content:'Payment Success!'
-                    })
-                    let datas = _this.state.orderdata;
-                    datas.order.paymentStatus = 1;
-                    _this.setState({orderdata:datas});
-                }
-            },
-            error: function(xhr:any, textStatus, errorThrown){
-                console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
-                    let popwin: any = conf.loginWin;
-                    popwin.setState({modalIsOpen:true})
-                }
-                
-            }
-          })
+       
     }
     render(){
         return(
