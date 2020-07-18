@@ -126,10 +126,10 @@ export default class AddGoods extends React.Component<any,any> {
             if(element=="1"){
               formData.append("method1","1");
             }
-            if(element=="2"){
+            else if(element=="2"){
               formData.append("method2","2");
             }
-            if(element=="4"){
+            else if(element=="4"){
               formData.append("method3","4");
             }
           });
@@ -206,6 +206,21 @@ export default class AddGoods extends React.Component<any,any> {
   onChange(checkedValues:any) {
     console.log('checked = ', checkedValues);
   }
+
+  shouldUpdateLocation(prevValues:any, currentValues:any){
+    let s1 = conf.getQueryStrFromObj(prevValues);
+    let s2 = conf.getQueryStrFromObj(currentValues);
+    return s1==s2;
+  }
+
+  isPickChecked(){
+    let cks = this.formRef.current?.getFieldValue('method');
+    for(var n in cks){
+      if(cks[n]==="2") return true;
+    }
+    return false;
+  }
+
   //const [form] = Form.useForm();
   render(){
     let _this = this;    
@@ -280,9 +295,15 @@ export default class AddGoods extends React.Component<any,any> {
       </Form.Item>
 
       <Form.Item
-        name="location"
-        label="Location"
-        rules={ [{required:true, message: 'Please enter location!' }]}
+        name="description"
+        label="Description"
+        rules={ [
+          {
+            pattern: new RegExp("^.{15,255}$", "g"),
+            message: ' Please type 15-255 characters!',
+          },
+          {required:true, message: 'Please enter description!' }
+        ]}
       >
         <Input />
       </Form.Item>
@@ -328,7 +349,19 @@ export default class AddGoods extends React.Component<any,any> {
         <Checkbox.Group options={options} defaultValue={['ee']} onChange={this.onChange} />
       </Form.Item>
 
-      
+      <Form.Item
+        noStyle
+        shouldUpdate={(prevValues, currentValues) => _this.shouldUpdateLocation(prevValues, currentValues)}
+      >
+        {() => {
+          return _this.isPickChecked() ? (
+            <Form.Item name="location" label="Self-pick location" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+          ) : null;
+        }}
+      </Form.Item>
+
 
  
 

@@ -294,6 +294,21 @@ export default class EditSellGoods extends React.Component<any,any> {
     this.setState({methods:checkedValues})
     console.log('checked = ', checkedValues);
   }
+  shouldUpdateLocation(prevValues:any, currentValues:any){
+    // let s1 = conf.getQueryStrFromObj(prevValues);
+    // let s2 = conf.getQueryStrFromObj(currentValues);
+    // return s1==s2;
+    return true;
+  }
+
+  isPickChecked(){
+    let cks = this.formRef.current?.getFieldValue('method');
+    for(var n in cks){
+      if(cks[n]==="2") return true;
+    }
+    return false;
+  }
+
   //const [form] = Form.useForm();
   render(){
     let _this = this;    
@@ -400,13 +415,18 @@ export default class EditSellGoods extends React.Component<any,any> {
       </Form.Item>
 
       <Form.Item
-        name="location"
-        label="Location"
-        rules={ [{required:true, message: 'Please enter location!' }]}
+        name="description"
+        label="Description"
+        rules={ [
+          {
+            pattern: new RegExp("^.{15,255}$", "g"),
+            message: ' Please type 15-255 characters!',
+          },
+          {required:true, message: 'Please enter description!' }
+        ]}
       >
         <Input />
       </Form.Item>
-
 
       <Form.Item
         name="typeCode"
@@ -449,6 +469,18 @@ export default class EditSellGoods extends React.Component<any,any> {
       </Form.Item>
 
       
+      <Form.Item
+        noStyle
+        shouldUpdate={(prevValues, currentValues) => _this.shouldUpdateLocation(prevValues, currentValues)}
+      >
+        {() => {
+          return _this.isPickChecked() ? (
+            <Form.Item name="location" label="Self-pick location" rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
+          ) : null;
+        }}
+      </Form.Item>
 
  
 
