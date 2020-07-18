@@ -28,6 +28,7 @@ import Active from './Active';
 import conf from './Conf'
 import LoginModal from './LoginModal';
 import MyCollection from './MyCollection';
+import Payment from './Payment';
 
 
 const $ = jquery;
@@ -184,6 +185,7 @@ class App extends Component<any,any> {
           <PrivateRoute path="/mySelling" component={MySelling}/>
           <PrivateRoute path="/myCollection" component={MyCollection}/>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
+          <Route path="/payment" component={Payment}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
           

@@ -107,6 +107,7 @@ export default class PlaceOrder extends React.Component<any,any> {
                 }
                 else{
                     _this.setState({orderId:data.success});
+                    _this.setState({orderNo:data.orderNo});
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
@@ -135,10 +136,13 @@ export default class PlaceOrder extends React.Component<any,any> {
             )            
         }
         else if(this.state.orderId != undefined){
+            let link:string = "/showOrderInfo/" + this.state.orderId;
             return(
                 <div className="demo2">
                     <h1>
-                    Thanks for placing your order. Your order id is {this.state.orderId}
+                    Thanks for placing your order. Your order no. is
+                    <Link to={link}> {this.state.orderNo}</Link> 
+                   
                 </h1>
                 </div>
             )
