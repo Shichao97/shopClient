@@ -62,7 +62,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             content: '',
             okText: 'Yes',
             okType: 'danger',
-            cancelText: 'Wait to see',
+            cancelText: 'Wait and see',
             onOk: () => {
                 this.handlePay()
             }
@@ -119,7 +119,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             content: '',
             okText: 'Yes',
             okType: 'danger',
-            cancelText: 'Wait to see',
+            cancelText: 'Wait and see',
             onOk: () => {
                 this.handleCancel();
             }
@@ -176,7 +176,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             content: '',
             okText: 'Yes',
             okType: 'danger',
-            cancelText: 'Wait to see',
+            cancelText: 'Wait and see',
             onOk: () => {
                 this.handleConfirm();
             }
@@ -227,6 +227,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             }
           }) 
     }
+   
     render(){
         let orderdata:any = this.state.orderdata;
         if(orderdata == undefined){
@@ -285,7 +286,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                     This order does not exist!
                 </div>
             )
-        }else if(orderdata.order.paymentStatus == 0){
+        }else if(orderdata.order.paymentStatus == 0 && orderdata.order.status == 0){
                       
             return(
                 <div>
@@ -307,12 +308,20 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                   <span>{this.state.confirmMsg}</span>
                 </div>
             )
-        }else{
+        }else if(orderdata.order.status == -1){
+            return(
+                <div>
+                    {ordertable}
+                    <Button type="primary" onClick={() => this.props.history.goBack()}>Go Back</Button>
+                  
+                </div>
+            )
+            //this.props.history.push("/myAccount");
+        }
+        else{
             return(
                 <div>
                   {ordertable}
-                 
-                 
                 </div>
             )
         }
