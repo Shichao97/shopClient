@@ -578,7 +578,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 Seller: 
             </Col>
             <Col span={16}>
-            <img src={memberImgSrc}/> &nbsp;{this.state.seller.userName}
+            <div style={{width: '40px',height: '40px', borderRadius:'50%',overflow: 'hidden', display: 'inline-block',verticalAlign: 'middle'}}>
+            <img src={memberImgSrc}/></div> &nbsp;{this.state.seller.userName}
             </Col>
         </Row>
         <Row gutter={[16, 6]}>

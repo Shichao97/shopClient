@@ -66,7 +66,7 @@ export default class SearchGoods extends React.Component<any,any> {
 
       
 
-      loadData(pageNo?:number) {
+      loadData() {
         //this.setState({page:undefined});
         let _this = this;
         let plus = conf.getQueryStrFromObj(this.params);
@@ -289,10 +289,10 @@ export default class SearchGoods extends React.Component<any,any> {
       this.params = conf.getQueryObjFromStr(plus);
       console.log("plus:"+plus);
       if(plus.indexOf("=")>0){
-        let s:string = this.params.pageNo;
-        let pageNo:number = s==""?0:parseInt(s);
-        if(pageNo>0) pageNo--;
-        this.loadData((pageNo));
+        // let s:string = this.params.pageNo;
+        // let pageNo:number = s==""?0:parseInt(s);
+        // if(pageNo>0) pageNo--;
+        this.loadData();
       }      
     }
 
@@ -310,10 +310,10 @@ export default class SearchGoods extends React.Component<any,any> {
       this.params = conf.getQueryObjFromStr(plus);
 
       
-      let s:string = this.params.pageNo;
-      let pageNo:number = s==""?0:parseInt(s);
-      if(pageNo>0) pageNo--;
-      this.loadData((pageNo));
+      // let s:string = this.params.pageNo;
+      // let pageNo:number = s==""?0:parseInt(s);
+      // if(pageNo>0) pageNo--;
+      this.loadData();
     }
 
 

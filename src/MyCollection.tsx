@@ -5,9 +5,9 @@ import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Form,Input,Button, Row, Col, Spin, Card, Cascader } from 'antd';
+import { Table,Form,Input,Button, Row, Col, Spin, Card, Cascader, Tooltip } from 'antd';
 import { FormInstance } from 'antd/lib/form';
-import { SearchOutlined,UserOutlined } from '@ant-design/icons';
+import { SearchOutlined,UserOutlined,HeartOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 //import objectFitImages from 'object-fit-images';
@@ -51,6 +51,7 @@ export default class MyCollection extends React.Component<any,any> {
           types:conf.goods_types
         }
         this.pageSize=4;
+        this.params.pageSize=this.pageSize;
       }
 
       pageSize = 4;
@@ -58,28 +59,37 @@ export default class MyCollection extends React.Component<any,any> {
       params:any={};
  
 
+      getTypes(typeCode:string):string{
+        // let types:any = this.state.types;
+        // let fullTypeName:string = types[typeCode].categoryName + "--" + types[typeCode].name;
+        return conf.getFullTypeName(typeCode);
+      }
 
-      loadData(pageNo?:number) {
-        this.setState({page:undefined});
+      
+
+      loadData() {
+        //this.setState({page:undefined});
         let _this = this;
         let plus = conf.getQueryStrFromObj(this.params);
         let newUrl:string = window.localStorage.getItem("host_pre")+"collect/edit/searchCollect?"+plus;
-        
+        _this.setState({loading:true});
         
         console.log(newUrl);
         $.ajax({
           type:"GET",
-          // crossDomain: true, 
-          // xhrFields: {
-          //     withCredentials: true 
-          // },
+          crossDomain: true, 
+          xhrFields: {
+              withCredentials: true 
+          },
           url:newUrl,
           dataType:"json",
           success:function(data){
+            _this.setState({loading:false});
               _this.setState({page:data,gotoPage:data.number+1});
               //_this.setState({flag:1});
           },
           error: function(xhr:any, textStatus, errorThrown){
+            _this.setState({loading:false});
               console.log("request status:"+xhr.status+" msg:"+textStatus)
               if(xhr.status=='604'){//未登录错误
                   let popwin: any = conf.loginWin;
@@ -92,16 +102,55 @@ export default class MyCollection extends React.Component<any,any> {
     }
 
 
+
+
+    
+    handleSelect2 = (event:any) =>  {
+        this.setState({searchType:event.target.value});
+    }
+    // handleChange = (event:any) =>  {
+        
+    //     switch(event.target.name){
+    //       case "searchValue":
+    //         this.setState({searchValue: event.target.value});
+    //         break;
+    //       case "gotoPage":
+    //         let page:any = this.state.page;
+    //         let totalPages = page.totalPages;
+    //         if(event.target.value >= 1 && event.target.value <=totalPages){
+    //             this.setState({gotoPage: event.target.value});
+    //         }
+    //         break;
+         
+    //     }
+    //   }
+     
+    sellingMethod(m:number):string{
+      //let re:string = "";
+      let re1= ((m & 1) == 1) ? "shipping":"";
+      let re2= ((m & 2) == 2) ? "self-pick":"";
+      let re3= ((m & 4) == 4) ? "home-dilivery":"";
+      
+      return re1 + " " + re2 + " " + re3;
+    }
+
+
+    getImgSrc(gid:string):string{
+      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
+      return imgSrc;
+    }
+
     onUserClicked(ele:any,event:any){
-      let obj = {pageSize:this.pageSize};
+      //let uid:string = (conf as any).getCookie("userId");
+      let obj = {searchValue:"",sellerId:ele.g.sellerId,pageSize:this.pageSize};
       let plus = conf.getQueryStrFromObj(obj);
 
       this.props.history.push(this.routeName+"/"+plus);
       event?.stopPropagation();
     }
-    
     onSchoolClicked(ele:any,event:any){
-      let obj = {schoolCode:ele.m.schoolCode,pageSize:this.pageSize};
+      //let uid:string = (conf as any).getCookie("userId");
+      let obj = {searchValue:this.params.searchValue,schoolCode:ele.m.schoolCode,pageSize:this.pageSize};
       let plus = conf.getQueryStrFromObj(obj);
 
       this.props.history.push(this.routeName+"/"+plus);
@@ -137,11 +186,15 @@ export default class MyCollection extends React.Component<any,any> {
         style={{ width: 262,textAlign:"center" }}
         cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id} /></Col></Row>}
       >
-        <Meta title={ele.g.name} />
+        <Meta title={ele.g.name} description={"Price: $"+ele.g.price}/>
         <Row><Col>&nbsp;</Col></Row>
         
-        <Meta description={<div style={{textAlign:'center'}}><a  onClick={this.onUserClicked.bind(this,ele)} ><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
-      &nbsp;{ele.m.userName}</a> - <a  onClick={this.onSchoolClicked.bind(this,ele)} >{schoolName}</a></div>}/>
+        <Meta description={<div style={{textAlign:'center'}}>
+        <Tooltip placement="topLeft" title={"All of "+ele.m.userName}>
+        <a  onClick={this.onUserClicked.bind(this,ele)} ><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
+      &nbsp;{ele.m.userName}</a>
+    </Tooltip>  -- <Tooltip placement="topLeft" title={"Search From "+ schoolName}>
+      <a  onClick={this.onSchoolClicked.bind(this,ele)} >{schoolName}</a></Tooltip></div>}/>
       </Card>  
         </Col>
 
@@ -236,12 +289,7 @@ export default class MyCollection extends React.Component<any,any> {
       let plus:string = conf.getUrlQueryString(this.routeName);
       this.params = conf.getQueryObjFromStr(plus);
       console.log("plus:"+plus);
-      if(plus.indexOf("=")>0){
-        let s:string = this.params.pageNo;
-        let pageNo:number = s==""?0:parseInt(s);
-        if(pageNo>0) pageNo--;
-        this.loadData((pageNo));
-      }      
+      this.loadData(); 
     }
 
     // componentWillUpdate(){
@@ -258,10 +306,10 @@ export default class MyCollection extends React.Component<any,any> {
       this.params = conf.getQueryObjFromStr(plus);
 
       
-      let s:string = this.params.pageNo;
-      let pageNo:number = s==""?0:parseInt(s);
-      if(pageNo>0) pageNo--;
-      this.loadData((pageNo));
+      // let s:string = this.params.pageNo;
+      // let pageNo:number = s==""?0:parseInt(s);
+      // if(pageNo>0) pageNo--;
+      this.loadData();
     }
 
 
@@ -272,7 +320,7 @@ export default class MyCollection extends React.Component<any,any> {
       let uid:string = (conf as any).getCookie("userId");
       
       let searchValue = values.searchValue==undefined?"":values.searchValue;
-      let searchCode =  values.school==undefined?"":escape(values.school[0]+"/"+values.school[1]);
+      let searchCode =  values.school==undefined||values.school[0]==undefined?"":escape(values.school[0]+"/"+values.school[1]);
       let obj = {searchValue:searchValue,schoolCode:searchCode,pageSize:this.pageSize};
       let plus = conf.getQueryStrFromObj(obj);
       //let ttt = escape(plus)
@@ -286,13 +334,29 @@ export default class MyCollection extends React.Component<any,any> {
     this.props.history.push(this.routeName+"/"+plus);
   }
 
+  //Form initialValue can't work well,when search changed but value not updated,
+  //it only update at first time. So moved it here
+  componentWillUpdate() {
+    let schoolValues=[];
+    if(this.params.schoolCode!=undefined&&this.params.schoolCode.length>0) {
+      schoolValues = this.params.schoolCode.split("/");
+    }
+    this.formRef.current?.setFieldsValue({
+      searchValue: this.params.searchValue,
+      school: schoolValues
+     });
+  };
 
+  
     render(){
       
       let _this = this;
       let page:any = _this.state.page;
 
       let ss = this.params.searchValue;
+      //if(ss.length==0) ss="ss"
+      
+
       let forms = 
       
 
@@ -301,27 +365,23 @@ export default class MyCollection extends React.Component<any,any> {
             ref={this.formRef} 
             name="search"
             onFinish={this.onFinish}
-       
+            // initialValues={schoolValues==undefined?{}:{
+            //   school: [schoolValues[0], schoolValues[1]],
+              
+            // }}
             scrollToFirstError
           >
-          <Form.Item
-            name="school"
-            //label="School"
-            rules={[
-              { type: 'array', required: false, message: 'Please select school!' },
-            ]}
-          >
-            <Cascader options={conf.schools} placeholder="Select school"/>
-          </Form.Item>              <Form.Item 
+
+         <Form.Item 
             name="searchValue"
             //label="              &nbsp;"
-            initialValue={ss}
+            // initialValue={ss}
             rules={ [{required:false, message: 'Please enter goods name!' }]}
           >
-            <Input placeholder="Goods Name" prefix={<SearchOutlined />}/>
+            <Input placeholder="Goods Name" prefix={<SearchOutlined />} disabled={this.state.loading}/>
       </Form.Item>
       <Form.Item  >
-            <Button type="primary" htmlType="submit">
+            <Button htmlType="submit" disabled={this.state.loading} icon={<HeartOutlined/>}>
               Search
             </Button>
       </Form.Item>
@@ -331,11 +391,11 @@ export default class MyCollection extends React.Component<any,any> {
     
     let plus:string = conf.getUrlQueryString(this.routeName);
 
-      if(this.params.pageSize === undefined){
-        return <div><Row><Col span={7}>&nbsp;</Col><Col span={17}>{forms}</Col></Row></div>
-      } 
-      else if(page == undefined) 
-      return  <div> <Spin/></div>
+      if(page == undefined && !this.state.loading){
+        return  <div><Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row><p/></div>
+      }
+      else if(this.state.loading) 
+      return  <div><Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row><p/> <Spin/></div>
       
 
       let arry:any[] = page==undefined?[]:page.content;
@@ -374,10 +434,16 @@ export default class MyCollection extends React.Component<any,any> {
 
       }
 
+
+      
+     
+
+
+
         return(
           
             <div >
-              <Row><Col span={7}>&nbsp;</Col><Col span={17}>{forms}</Col></Row>
+              <Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row>
               <Row><Col span="24">
               <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
