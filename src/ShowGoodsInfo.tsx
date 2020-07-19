@@ -20,11 +20,12 @@ import {
     Spin,
     Modal,
   } from 'antd';
-  import { SmileTwoTone, HeartTwoTone, HeartFilled ,HeartOutlined} from '@ant-design/icons';
+  import { SmileTwoTone, HeartTwoTone, HeartFilled ,HeartOutlined,LoadingOutlined} from '@ant-design/icons';
 import jquery from "jquery";
 import MessageModal from './MessageModal';
 import conf from './Conf'
 import GoodsItem from './GoodsItem';
+import { cachedDataVersionTag } from 'v8';
 
 const $ = jquery;
 
@@ -197,6 +198,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let gid = this.state.data.id;
         let _this:ShowGoodsInfo = this;
         let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/removefromshelf?gid="+gid;
+        _this.setState({removeSheftLoading:true});
         $.ajax({
             type:"GET",
             crossDomain: true, 
@@ -206,6 +208,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             url:newUrl,
             dataType:"json",
             success:function(data){
+                _this.setState({removeSheftLoading:false});
                 if(data.success == 0){
                     //alert(data.msg);
                     Modal.error({
@@ -213,15 +216,18 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                         content:data.msg
                     })
                 }else{
-                    //alert(data.msg);
+                    let data = _this.state.data;
+                    data.status=0;
+                    _this.setState({data:data});
                     Modal.success({
                         title:'Success',
                         content:data.msg
                     })
-                    _this.props.history.push(  "/searchGoods"  );            
+                    //_this.props.history.push(  "/searchGoods"  );            
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
+                _this.setState({removeSheftLoading:false});
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
                     let popwin: any = conf.loginWin;
@@ -236,6 +242,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let gid = this.state.data.id;
         let _this:ShowGoodsInfo = this;
         let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/putonshelf?gid="+gid;
+        _this.setState({putSheftLoading:true});
         $.ajax({
             type:"GET",
             crossDomain: true, 
@@ -245,6 +252,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             url:newUrl,
             dataType:"json",
             success:function(data){
+                _this.setState({putSheftLoading:false});
                 if(data.success == 0){
                     //alert(data.msg);
                     Modal.error({
@@ -252,15 +260,18 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                         content:data.msg
                       })
                 }else{
-                    //alert(data.msg);
+                    let data = _this.state.data;
+                    data.status=1;
+                    _this.setState({data:data});
                     Modal.success({
                         title:'Success',
                         content:data.msg
                       })
-                    _this.props.history.push(  "/searchGoods"  );            
+                    //_this.props.history.push(  "/searchGoods"  );            
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
+                _this.setState({putSheftLoading:false});
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
                     let popwin: any = conf.loginWin;
@@ -287,7 +298,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let _this:ShowGoodsInfo = this;
         let uid:string = (conf as any).getCookie("userId");
         let newUrl:string = window.localStorage.getItem("host_pre")+"collect/edit/clickcollect?goodsId="+gid+"&memberId="+uid;
-        
+        _this.setState({likeLoading:true});
         $.ajax({
             type:"GET",
             crossDomain: true, 
@@ -297,6 +308,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             url:newUrl,
             dataType:"json",
             success:function(data){
+                _this.setState({likeLoading:false});
                 if(data.success == 0){
                     //alert(data.msg);
                     Modal.error({
@@ -309,6 +321,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
+                _this.setState({likeLoading:false});
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
                     let popwin: any = conf.loginWin;
@@ -357,6 +370,9 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let outline = <HeartOutlined style={{ color: 'hotpink',fontSize: '30px' }} onClick={() => this.clickCollect()}/>;
         let filled = <HeartFilled  style={{ color: 'hotpink',fontSize: '30px' }} onClick={() => this.clickCollect()}/>;
         if(uid=="") return outline;
+        else if(this.state.likeLoading){
+            return <LoadingOutlined  style={{ color: 'hotpink',fontSize: '30px' }} />
+        }
         else if(this.state.like == undefined && this.hasLoadIcon == false){
             this.hasLoadIcon = true;
 
@@ -461,7 +477,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
  
                         <Button type="primary" onClick={() => this.clickEdit()}>Edit</Button>
                         &nbsp;&nbsp;
-                        <Button type="primary"  onClick={() => this.clickRemoveFromShelf()}>Remove from the shelf</Button>
+                        <Button type="primary" loading={this.state.removeSheftLoading}  onClick={() => this.clickRemoveFromShelf()}>Remove from the shelf</Button>
                     </Col>
                     
                 //)
@@ -469,7 +485,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 // return(
                     btns = <Col span={24}>
                         {/* {tables} */}
-                        <Button  type="primary" onClick={() => this.clickPutOnShelf()}>Put on the shelf again</Button>
+                        <Button  type="primary" loading={this.state.putSheftLoading} onClick={() => this.clickPutOnShelf()}>Put on the shelf again</Button>
                     </Col>
                 // )
             }else{//sold out

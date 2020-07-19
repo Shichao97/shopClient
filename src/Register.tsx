@@ -60,6 +60,7 @@ export default class Register extends React.Component<any,any> {
     formRef:RefObject<FormInstance> = React.createRef();
 
     onFinish = (values:any) => {
+      this.setState({loading:true});
         let _this = this;
         let t = this.formRef;
         console.log(values);
@@ -77,8 +78,10 @@ export default class Register extends React.Component<any,any> {
             dataType:"json",
             success:function(d){
                 _this.setState({msg:"register success!"});
+                _this.setState({loading:false});
             },error:function(xhr:any,textStatus,errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus);
+                _this.setState({loading:false});
                 if(xhr.status=='601'){
                     _this.setState({msg:"register failed!"+"request status:"+xhr.status+" msg:"+textStatus});
                 }
@@ -273,7 +276,7 @@ export default class Register extends React.Component<any,any> {
           </Form.Item>        
     
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={this.state.loading}>
               Register
             </Button>
           </Form.Item>

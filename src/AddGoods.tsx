@@ -27,8 +27,9 @@ const AutoCompleteOption = AutoComplete.Option;
 
 const options = [
   { label: 'Shipping', value: '1' },
-  { label: 'Self-pick', value: '2' },
   { label: 'Home-delivery', value: '4' },
+  { label: 'Self-pick', value: '2' },
+
 ];
 
 const formItemLayout = {

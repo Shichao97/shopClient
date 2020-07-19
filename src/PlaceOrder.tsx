@@ -88,7 +88,7 @@ export default class PlaceOrder extends React.Component<any,any> {
         //let plus:string = $("#buyForm").serialize(); //receiveMethod,addr
         newUrl =  newUrl + "&" + conf.getQueryStrFromObj(values);
         console.log(newUrl);
-
+        _this.setState({loading:true});
         $.ajax({
             type:"GET",
             crossDomain: true, 
@@ -98,6 +98,7 @@ export default class PlaceOrder extends React.Component<any,any> {
             url:newUrl,
             dataType:"json",
             success:function(data){
+                _this.setState({loading:false});
                 if(data.success == 0){
                     //alert(data.msg);
                     Modal.error({
@@ -110,6 +111,7 @@ export default class PlaceOrder extends React.Component<any,any> {
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
+                _this.setState({loading:false});
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
                 if(xhr.status=='604'){//未登录错误
                     let popwin: any = conf.loginWin;
@@ -204,7 +206,7 @@ export default class PlaceOrder extends React.Component<any,any> {
 
 
                         <Form.Item {...tailLayout}>
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" loading={this.state.loading}>
                             Place Order
                             </Button>
                             

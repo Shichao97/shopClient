@@ -32,7 +32,7 @@ const tailLayout = {
     onFinish = (values:any) => {
       let url = window.localStorage.getItem("host_pre")+"member/login";
       let _this = this
-      
+      this.setState({loading:true})
       $.ajax({
           type:"POST",
           crossDomain: true, 
@@ -114,7 +114,7 @@ const tailLayout = {
 
 
               <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={this.state.loading}>
                   Sign In
                 </Button>&nbsp;&nbsp;&nbsp;&nbsp;
                 

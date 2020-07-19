@@ -98,7 +98,11 @@ class App extends Component<any,any> {
   //   }).isRequired
   // }  
 
+componentDidMount() {
 
+    (conf as any).msgWin = this.msgwin.current;  
+    (conf as any).loginWin = this.logwin.current;    
+}
 
   // componentDidMount() {
 

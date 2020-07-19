@@ -27,8 +27,8 @@ const AutoCompleteOption = AutoComplete.Option;
 
 const options = [
   { label: 'Shipping', value: '1' },
-  { label: 'Self-pick', value: '2' },
   { label: 'Home-delivery', value: '4' },
+  { label: 'Self-pick', value: '2' },
 ];
 
 const formItemLayout = {
@@ -131,7 +131,9 @@ export default class EditSellGoods extends React.Component<any,any> {
   }
 
   doEdit(values:any){
+
     let _this = this;
+    _this.setState({loading:true});
     let formData = new FormData();
     let id:string = this.props.match.params.id;
     //let ele: any = $('#upfile')[0];
@@ -188,6 +190,7 @@ export default class EditSellGoods extends React.Component<any,any> {
         processData: false,
         contentType: false,
         success:function(d){
+          _this.setState({loading:false});
             if(d.success == 0){
                 //alert(d.msg);
                 Modal.error({
@@ -196,14 +199,18 @@ export default class EditSellGoods extends React.Component<any,any> {
                 })
             }else{
               _this.setState({success:true});
-                
+              Modal.success({title:'Edited Success'})
             }
         },
         error: function(xhr:any, textStatus, errorThrown){
+            _this.setState({loading:false});
             console.log("request status:"+xhr.status+" msg:"+textStatus)
             if(xhr.status=='604'){//未登录错误
                 let popwin: any = conf.loginWin;
                 popwin.setState({modalIsOpen:true})
+            }
+            else{
+              Modal.error({title:"Error",content:"request status:"+xhr.status+" msg:"+textStatus})
             }
             
         }
@@ -317,7 +324,7 @@ export default class EditSellGoods extends React.Component<any,any> {
 
     let uploadImgs:any[] = [];
     if(this.imgupRef.current !=null) uploadImgs = (this.imgupRef as any).current.state.imgs;
-
+    /*
     if(this.state.success !== undefined){
       return <div className='demo2'>
         <h1>Change goods successed!</h1><p/> <Button type="default" size="large"  
@@ -325,7 +332,7 @@ export default class EditSellGoods extends React.Component<any,any> {
       </div>
     }
   
-    else   
+    else   */
     return(
     <div  className='add-edit-goods'>
       
@@ -485,7 +492,7 @@ export default class EditSellGoods extends React.Component<any,any> {
  
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={this.state.loading}>
           Submit Change
         </Button>
       </Form.Item>
