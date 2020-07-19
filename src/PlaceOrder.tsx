@@ -71,7 +71,9 @@ export default class PlaceOrder extends React.Component<any,any> {
                   okType: 'danger',
                   cancelText: 'No',
                   onOk: () => {
-                      this.handlePlace(values);
+                      this.handlePlace(values);
+                      //this.props.history.push("/payment/"+oid);
+                      
                   }
                   ,
                   onCancel() {
@@ -107,8 +109,9 @@ export default class PlaceOrder extends React.Component<any,any> {
                       })
                 }
                 else{
-                    _this.setState({orderId:data.success});
-                    _this.setState({orderNo:data.orderNo});
+                    this.props.history.push("/payment/"+data.success);
+                    //_this.setState({orderId:data.success});
+                    //_this.setState({orderNo:data.orderNo});
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){

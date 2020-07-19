@@ -189,7 +189,7 @@ componentDidMount() {
           <PrivateRoute path="/mySelling" component={MySelling}/>
           <PrivateRoute path="/myCollection" component={MyCollection}/>
           <Route path="/showOrderInfo/:oid" component={ShowOrderInfo}></Route>
-          <Route path="/payment" component={Payment}></Route>
+          <Route path="/payment/:oid" component={Payment}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
           
