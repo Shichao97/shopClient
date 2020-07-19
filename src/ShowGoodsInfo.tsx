@@ -181,13 +181,18 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
     }
 
     openImgModal(index:number){
+        
         let comp:any = this.imgModalRef.current;
         comp.setState({gid:this.state.data.id,index:index,imgNames:this.state.imgNames,modalIsOpen:true})
     }
     openImgByName(fname:string){
-      this.state.imgNames.map((element:any,index:number) =>{
-        if(element == fname)  this.openImgModal(index);
-      })
+        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getGoodsBigImg?Id="+this.state.data.id+"&fname="+fname;
+        console.log(imgSrc);
+        this.setState({previewVisible:true,previewImage:imgSrc});
+ 
+    //   this.state.imgNames.map((element:any,index:number) =>{
+    //     if(element == fname)  this.openImgModal(index);
+    //   })
   }
     clickEdit(){
         let gid = this.state.data.id;
@@ -421,6 +426,10 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         return false;
     }
 
+    handleModalCancel=()=>{
+        this.setState({previewImage:null,previewVisible:false});
+    }
+
     render(){
         if(this.state.data === undefined){
             return <div><h2>Loading goods info</h2><Spin></Spin></div>
@@ -537,10 +546,10 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             { label: 'Home-delivery', value: '4'},
             { label: 'Self-pick', value: '2'},
           ];
-          
+
         let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.seller.id+"&size=1";
         return <div className="show_goods_info">
-            <h2>{this.state.data.name}</h2>
+            <h2>{this.state.data.name}</h2>{this.state.data.description}
           <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
         
         <Row gutter={[16, 6]}>
@@ -563,14 +572,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             </Col>
             
         </Row>
-        <Row gutter={[16, 6]}>
-            <Col span={8} className="right_info">
-                desciption:
-            </Col>
-            <Col span={16}>
-            {this.state.data.description}
-            </Col>            
-        </Row>
+
         <Row  gutter={[16, 6]}>
             <Col span={8} className="right_info">
                 Seller: 
@@ -613,6 +615,16 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         <Row><Col>&nbsp;</Col></Row>
 
         <ImageModal ref={this.imgModalRef}/>
+
+        <Modal 
+          visible={this.state.previewVisible}
+          title={this.state.data.name}
+          footer={null}
+          onCancel={this.handleModalCancel}
+          width='70%'
+        >
+          <img alt="big image"  style={{ width: '100%',objectFit:"none" }} src={this.state.previewImage} />
+        </Modal>        
     
         </div>
 
