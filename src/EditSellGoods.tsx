@@ -13,6 +13,8 @@ import {
   AutoComplete,
   Card,
   Modal,
+  Spin,
+  InputNumber,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
@@ -53,7 +55,17 @@ const tailFormItemLayout = {
     },
   },
 };
-
+const limitDecimals = (value: string | number): string => {
+  const reg = /^(\-)*(\d+)\.(\d\d).*$/;
+  console.log(value);
+  if(typeof value === 'string') {
+      return !isNaN(Number(value)) ? value.replace(reg,'$1$2.$3') : ''
+  } else if (typeof value === 'number') {
+      return !isNaN(value) ? String(value).replace(reg,'$1$2.$3') : ''
+  } else {
+      return ''
+  }
+};
 //const [form] = Form.useForm();
 
 export default class EditSellGoods extends React.Component<any,any> {
@@ -74,6 +86,7 @@ export default class EditSellGoods extends React.Component<any,any> {
   getGoodsInfo(gid:number){
     let newUrl:string = window.localStorage.getItem("host_pre")+"goods/getgoodsinfo?Id="+gid;
     let _this = this;
+    _this.setState({goodsLoading:true});
     $.ajax({
         type:"GET",
         crossDomain: true, 
@@ -83,6 +96,7 @@ export default class EditSellGoods extends React.Component<any,any> {
         url:newUrl,
         dataType:"json",
         success:function(data){
+          _this.setState({goodsLoading:false});
             let imgStr:string = data.imgNames;
             let arr:string[];
             if(imgStr == null){
@@ -95,6 +109,8 @@ export default class EditSellGoods extends React.Component<any,any> {
 
         },
         error: function(xhr:any, textStatus, errorThrown){
+          _this.setState({goodsLoading:false});
+          Modal.error({title:"Error",content:"request status:"+xhr.status+" msg:"+textStatus})
           console.log("getgoodsinfo error!");
         }
       })
@@ -220,8 +236,16 @@ export default class EditSellGoods extends React.Component<any,any> {
   onReset = () => {
     this.formRef.current?.resetFields();
     this.imgupRef.current?.reset();
-    this.setState({imgErrMsg:"",success:undefined});
-    //this.setState({success:true});
+    this.imgupRef.current?.reset();
+    let imgStr:string = this.state.data.imgNames;
+    let arr:string[];
+    if(imgStr == null){
+      arr = [];
+    }
+    arr= imgStr.split(";");
+    this.setState({imgErrMsg:"",success:undefined,imgName:arr});
+    
+    this.onFill(this.state.data);
   };
 
   onFill = (data:any) => {
@@ -243,6 +267,7 @@ export default class EditSellGoods extends React.Component<any,any> {
     this.formRef.current?.setFieldsValue({
       name: data.name,
       location: data.location,
+      description:data.description,
       price: data.price,
       typeCode:[cate,data.typeCode],
       method:methods,
@@ -316,6 +341,8 @@ export default class EditSellGoods extends React.Component<any,any> {
     return false;
   }
 
+  
+
   //const [form] = Form.useForm();
   render(){
     let _this = this;    
@@ -324,15 +351,15 @@ export default class EditSellGoods extends React.Component<any,any> {
 
     let uploadImgs:any[] = [];
     if(this.imgupRef.current !=null) uploadImgs = (this.imgupRef as any).current.state.imgs;
-    /*
-    if(this.state.success !== undefined){
-      return <div className='demo2'>
-        <h1>Change goods successed!</h1><p/> <Button type="default" size="large"  
-        onClick={() => this.props.history.goBack()}>Back</Button>
+    
+    if(this.state.goodsLoading){
+      return <div  className='add-edit-goods'>
+      
+      <Row><Col span={6} ></Col> <Col span={18}><h2>Edit goods here!</h2></Col></Row>
+      <Row><Col span={6} ></Col> <Col span={18}><h2><Spin/></h2></Col></Row>
+      
       </div>
     }
-  
-    else   */
     return(
     <div  className='add-edit-goods'>
       
@@ -446,14 +473,20 @@ export default class EditSellGoods extends React.Component<any,any> {
       </Form.Item>
 
 
-      <Form.Item
+      <Form.Item 
         name="price"
         label="Price"
         rules={[{ required: true, message: 'Please input goods price!' },
-        {pattern: new RegExp(/^[1-9]\d*$/, "g"),message: 'Please enter number!' }]}
+        //{pattern: new RegExp(/^[1-9]\d*$/, "g"),message: 'Please enter number!' }
+      ]}
       >
-        <Input style={{ width: '100%' }}/>
+        <InputNumber style={{width:'100%'}} min={0}
+             max={100000000}
+             step={0.01}
+             formatter={limitDecimals as any}
+             parser={limitDecimals as any} />
       </Form.Item>
+
 
       <Form.Item
         name="method"
@@ -494,6 +527,9 @@ export default class EditSellGoods extends React.Component<any,any> {
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit" loading={this.state.loading}>
           Submit Change
+        </Button>&nbsp;
+        <Button htmlType="button" onClick={this.onReset}>
+          Reset
         </Button>
       </Form.Item>
 

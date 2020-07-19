@@ -341,12 +341,13 @@ export default class SearchGoods extends React.Component<any,any> {
   //Form initialValue can't work well,when search changed but value not updated,
   //it only update at first time. So moved it here
   componentWillUpdate() {
-    let schoolValues;
-      if(this.params.schoolCode!=undefined&&this.params.schoolCode.length>0) 
-        schoolValues = this.params.schoolCode.split("/");
+    let schoolValues=[];
+    if(this.params.schoolCode!=undefined&&this.params.schoolCode.length>0) {
+      schoolValues = this.params.schoolCode.split("/");
+    }
     this.formRef.current?.setFieldsValue({
       searchValue: this.params.searchValue,
-      school: schoolValues==undefined?[]:[schoolValues[0], schoolValues[1]],
+      school: schoolValues
      });
   };
 

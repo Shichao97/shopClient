@@ -423,7 +423,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
     render(){
         if(this.state.data === undefined){
-            return <div><Spin></Spin></div>
+            return <div><h2>Loading goods info</h2><Spin></Spin></div>
         }        
         if(this.state.data === null){
           return <h1 className="msg_error">This goods is missing.</h1>
@@ -520,6 +520,24 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             }
         }
 
+        let methods:any = [];
+        if((this.state.data.sellingMethod & 1) == 1){
+          methods.push("1");
+        }
+        if((this.state.data.sellingMethod & 2) == 2){
+          methods.push("2");
+        }
+        if((this.state.data.sellingMethod & 4) == 4){
+          methods.push("4");
+        }        
+
+
+        const options = [
+            { label: 'Shipping', value: '1'},
+            { label: 'Home-delivery', value: '4'},
+            { label: 'Self-pick', value: '2'},
+          ];
+          
         let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.seller.id+"&size=1";
         return <div className="show_goods_info">
             <h2>{this.state.data.name}</h2>
@@ -535,15 +553,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             </Col>
             
         </Row>
-        <Row gutter={[16, 6]}>
-            <Col span={8} className="right_info">
-                location: 
-            </Col> 
-            <Col span={16}>
-            {this.state.data.location}
-            </Col>
-            
-        </Row>
+        
         <Row gutter={[16, 6]}>
             <Col span={8} className="right_info">
                 type: 
@@ -558,9 +568,8 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
                 desciption:
             </Col>
             <Col span={16}>
-            {this.state.description}
-            </Col>
-             
+            {this.state.data.description}
+            </Col>            
         </Row>
         <Row  gutter={[16, 6]}>
             <Col span={8} className="right_info">
@@ -570,13 +579,41 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             <img src={memberImgSrc}/> &nbsp;{this.state.seller.userName}
             </Col>
         </Row>
-
-        <ImageModal ref={this.imgModalRef}/>
+        <Row gutter={[16, 6]}>
+            <Col span={8} className="right_info">
+            Deliver method: 
+            </Col> 
+            <Col span={16}>
+            <Form.Item
+                name="method"
+                //label="Deliver method"
+                valuePropName="checked"
+                rules={[
+                { 
+                    validator:(_, value) => {
+                    if(value.length > 0) {
+                        return Promise.resolve()
+                    }else{
+                        return Promise.reject('Should select at least one deliver-methed')
+                    }
+                    },
+                }
+                ]}
+                
+            >
+                <Checkbox.Group options={options} value={methods}/>
+            </Form.Item>
+            </Col>
+            
+        </Row>
         
         
         <Row><Col>&nbsp;</Col></Row>
         {btns}
         <Row><Col>&nbsp;</Col></Row>
+
+        <ImageModal ref={this.imgModalRef}/>
+    
         </div>
 
        

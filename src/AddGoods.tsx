@@ -11,7 +11,8 @@ import {
   Checkbox,
   Button,
   AutoComplete,
-  Modal
+  Modal,
+  InputNumber
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
@@ -55,6 +56,17 @@ const tailFormItemLayout = {
   },
 };
 
+const limitDecimals = (value: string | number): string => {
+  const reg = /^(\-)*(\d+)\.(\d\d).*$/;
+  console.log(value);
+  if(typeof value === 'string') {
+      return !isNaN(Number(value)) ? value.replace(reg,'$1$2.$3') : ''
+  } else if (typeof value === 'number') {
+      return !isNaN(value) ? String(value).replace(reg,'$1$2.$3') : ''
+  } else {
+      return ''
+  }
+};
 //const [form] = Form.useForm();
 
 export default class AddGoods extends React.Component<any,any> {
@@ -325,9 +337,14 @@ export default class AddGoods extends React.Component<any,any> {
         name="price"
         label="Price"
         rules={[{ required: true, message: 'Please input goods price!' },
-        {pattern: new RegExp(/^[1-9]\d*$/, "g"),message: 'Please enter number!' }]}
+        //{pattern: new RegExp(/^[1-9]\d*$/, "g"),message: 'Please enter number!' }
+      ]}
       >
-        <Input style={{ width: '100%' }}/>
+        <InputNumber style={{width:'100%'}} min={0}
+             max={100000000}
+             step={0.01}
+             formatter={limitDecimals as any}
+             parser={limitDecimals as any} />
       </Form.Item>
 
       <Form.Item

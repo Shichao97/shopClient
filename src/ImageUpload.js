@@ -10,7 +10,12 @@ export default class ImageUpload extends React.Component {
     }
 
     reset(){
+        // let arr = this.state.imgs;
+        // arr.slice(0,arr.length);
+        //
+        this.state = {imgs:[]};
         this.setState({imgs:[]});
+        //console.log(arr);
     }
 
     multiImagePreview() {
