@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import Modal from 'react-modal';
-import './MessagePanel.css';
+
 import { render } from '@testing-library/react';
 import jquery from "jquery";
 import { Button, Row, Col } from 'antd'

@@ -204,7 +204,7 @@ p .left:after {
  
  clear: both;
  
- float: left;
+ float: unset;
  
  margin-left: 10px;
  

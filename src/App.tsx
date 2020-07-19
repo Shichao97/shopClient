@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import './App.css';
-//import WebChatTest from './WebChatTest';
+import './MessagePanel.css';
 import Demo from './Demo';
 import Login from './Login';
 import AddGoods from './AddGoods';
@@ -100,7 +100,7 @@ class App extends Component<any,any> {
   // }  
 
 componentDidMount() {
-
+    //(conf as any).app = this; 
     (conf as any).msgWin = this.msgwin.current;  
     (conf as any).loginWin = this.logwin.current;    
 }
