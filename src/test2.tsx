@@ -60,7 +60,9 @@ const AuthButton = withRouter(
         </button>
       </p>
     ) : (
-      <p>You are not logged in.</p>
+      <p style={{textAlign:'center'}}>You are not logged in.        <div style={{width: '140px',height: '140px', borderRadius:'50%',overflow: 'hidden', display: 'inline-block',verticalAlign: 'middle'}}><img src="http://localhost:8080/goods/getGoodsBigImg?Id=23&fname=1" /></div> &nbsp;
+      44555666
+      </p>
     )
 );
 
@@ -112,6 +114,8 @@ class Login extends Component <any,any>{
       <div>
         <p>You must log in to view the page at {from.pathname}</p>
         <button onClick={this.login}>Log in</button>
+
+        <div style={{width: '40px',height: '40px', borderRadius:'50%',overflow: 'hidden', display: 'inline-block'}}><img src="http://localhost:8080/goods/getGoodsBigImg?Id=23&fname=1" />333</div> &nbsp;44555666
       </div>
     );
   }

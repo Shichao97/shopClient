@@ -195,6 +195,7 @@ const Conf = {
     getQueryStrFromObj(obj){
       var s = ""
       for(var a in obj){
+        if(a == undefined||a.length==0) continue;
         if(s.length==0) s += a+"="+obj[a];
         else s += "&"+a+"="+obj[a];
       }
