@@ -153,10 +153,13 @@ export default class PlaceOrder extends React.Component<any,any> {
         {
             let gid:string = this.state.data.id;
             let m:number= this.state.data.sellingMethod;
-            let arrMethod:number[] = [];
-            if((m & 1) == 1) arrMethod.push(1);
-            if((m & 2) == 2) arrMethod.push(2);
-            if((m & 4) == 4) arrMethod.push(4);
+            let arrMethod:any[] = [];
+            if((m & 1) == 1) arrMethod.push({value:1,disabled:false});
+            else arrMethod.push({value:1,disabled:true});
+            if((m & 4) == 4) arrMethod.push({value:4,disabled:false});
+            else arrMethod.push({value:4,disabled:true});
+            if((m & 2) == 2) arrMethod.push({value:2,disabled:false});
+            else arrMethod.push({value:2,disabled:true});
             let imgSrc:string = this.getImgSrc(gid);
 
             return(
@@ -178,19 +181,19 @@ export default class PlaceOrder extends React.Component<any,any> {
                             allowClear
                             >
                             {arrMethod.map((element:any) =>{
-                                    if(element == 1){
+                                    if(element.value == 1){
                                         return(
-                                            <Option value={element}>Shipping</Option>
+                                            <Option value={element.value} disabled={element.disabled}>Shipping</Option>
                                         )
                                     }
-                                    if(element == 2){
+                                    else if(element.value == 2){
                                         return(
-                                            <Option value={element}>Self-pick</Option>
+                                            <Option value={element.value} disabled={element.disabled}>Self-pick</Option>
                                         )
                                     }
-                                    if(element == 4){
+                                    else if(element.value == 4){
                                         return(
-                                            <Option value={element}>Home-dilivery</Option>
+                                            <Option value={element.value} disabled={element.disabled}>Home-dilivery</Option>
                                         )
                                     }
                                 

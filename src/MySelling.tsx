@@ -5,7 +5,7 @@ import GoodsItem from './GoodsItem';
 import jquery from "jquery";
 import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Form,Input,Button, Row, Col, Card } from 'antd';
+import { Table,Form,Input,Button, Row, Col, Card, Spin } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
@@ -70,7 +70,7 @@ export default class MySelling extends React.Component<any,any> {
         let plus = conf.getQueryStrFromObj(this.params);
         let _this = this;
         let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?" + plus;
-
+        _this.setState({loading:true});
         console.log(newUrl);
         $.ajax({
           type:"GET",
@@ -81,6 +81,7 @@ export default class MySelling extends React.Component<any,any> {
           url:newUrl,
           dataType:"json",
           success:function(data){
+            _this.setState({loading:false});
             var arr:any[] = [];
             var member = {id:uid,userName:uname}
             data.content.forEach((element:any) => {
@@ -91,6 +92,7 @@ export default class MySelling extends React.Component<any,any> {
               //_this.setState({flag:1});
           },
           error: function(xhr:any, textStatus, errorThrown){
+            _this.setState({loading:false});
               console.log("request status:"+xhr.status+" msg:"+textStatus)
               if(xhr.status=='604'){//未登录错误
                   let popwin: any = conf.loginWin;
@@ -397,10 +399,10 @@ export default class MySelling extends React.Component<any,any> {
 
       let forms = 
 <div>
-<Button type="default" size='large' onClick={()=>this.handleSearch(1)}>Selling Now</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-<Button type="default" size='large' onClick={()=>this.handleSearch(2)}>On the way</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-<Button type="default" size='large' onClick={()=>this.handleSearch(3)}>Already sold out</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-<Button type="default" size='large' onClick={()=>this.handleSearch(4)}>Removed off from shelf</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(1)}>Selling Now</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(2)}>On the way</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(3)}>Already sold out</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(4)}>Removed off from shelf</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 
 
 </div>
@@ -416,6 +418,9 @@ export default class MySelling extends React.Component<any,any> {
         return <Row><Col span={24}>{forms}</Col></Row>
       }
       else{
+        if(this.state.loading){
+          return <div><Row><Col span={24}>{forms}</Col></Row><p/><Spin/></div>
+        }
         return(
           
             <div>

@@ -4,7 +4,7 @@ import jquery from "jquery";
 import './MyAccount.css';
 import {
   Button,Alert,
-  Table, Tag, Space,Pagination, Modal, Badge
+  Table, Tag, Space,Pagination, Modal, Badge, Spin
 } from 'antd';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
@@ -130,7 +130,7 @@ export default class MyAccount extends React.Component<any,any> {
     loadCount() {
       
       let _this = this;
-      //let plus = conf.getQueryStrFromObj(this.params);
+      _this.setState({countLoading:true})
       let newUrl:string = window.localStorage.getItem("host_pre")+"order/getCountOrder";
       console.log(newUrl);
       $.ajax({
@@ -142,10 +142,12 @@ export default class MyAccount extends React.Component<any,any> {
         url:newUrl,
         dataType:"json",
         success:function(data){
+            _this.setState({countLoading:false})
             _this.setState({notPaidCount:data.notPaidCount,notFinishCount:data.notFinishCount});
             console.log("Load count success",data);
         },
         error: function(xhr:any, textStatus, errorThrown){
+          _this.setState({countLoading:false})
             console.log("request status:"+xhr.status+" msg:"+textStatus)
             if(xhr.status=='604'){//未登录错误
                 let popwin: any = conf.loginWin;
@@ -160,6 +162,7 @@ export default class MyAccount extends React.Component<any,any> {
     loadData() {
       
         let _this = this;
+        _this.setState({loading:true})
         let plus = conf.getQueryStrFromObj(this.params);
         let newUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?"+plus;
         console.log(newUrl);
@@ -172,10 +175,12 @@ export default class MyAccount extends React.Component<any,any> {
           url:newUrl,
           dataType:"json",
           success:function(data){
+            _this.setState({loading:false})
               _this.setState({page:data,gotoPage:data.number+1});
               _this.setState({flag:1});
           },
           error: function(xhr:any, textStatus, errorThrown){
+            _this.setState({loading:false})
               console.log("request status:"+xhr.status+" msg:"+textStatus)
               if(xhr.status=='604'){//未登录错误
                   let popwin: any = conf.loginWin;
@@ -282,13 +287,23 @@ export default class MyAccount extends React.Component<any,any> {
         let uid:string = cf.getCookie("userId");
         let username:string = cf.getCookie("username");
         let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
-        //<div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
+        let btns= <div>
+            <h1>My Orders</h1>
+           <Button type="default" size='large' loading={this.state.countLoading} disabled={this.state.loading} onClick={()=>this.handleSearchNotPaid()}>Not paid<Badge count={this.state.notPaidCount} /></Button>&nbsp;&nbsp;&nbsp;&nbsp;
+           <Button type="default" size='large' loading={this.state.countLoading} disabled={this.state.loading} onClick={()=>this.handleSearchNotFinished()}>Not finished<Badge count={this.state.notFinishCount} /></Button>&nbsp;&nbsp;&nbsp;&nbsp;
+           <Button type="default" disabled={this.state.loading} size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;       
+        </div>
+
+        if(this.state.loading){
+          return <div className="my-table">
+            {btns}
+            <p/>
+            <Spin/>
+            </div>
+        }
         return(
             <div className='my-table'>
-               <h1>My Orders</h1>
-               <Button type="default" size='large' onClick={()=>this.handleSearchNotPaid()}>Not paid<Badge count={this.state.notPaidCount} /></Button>&nbsp;&nbsp;&nbsp;&nbsp;
-               <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>Not finished<Badge count={this.state.notFinishCount} /></Button>&nbsp;&nbsp;&nbsp;&nbsp;
-               <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+               {btns}
                 
               {conf.getUrlQueryString(this.routeName).length>1?<Table dataSource={arry} columns={this.columns} pagination={ false } />:""}
               

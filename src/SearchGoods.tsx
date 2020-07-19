@@ -67,11 +67,11 @@ export default class SearchGoods extends React.Component<any,any> {
       
 
       loadData(pageNo?:number) {
-        this.setState({page:undefined});
+        //this.setState({page:undefined});
         let _this = this;
         let plus = conf.getQueryStrFromObj(this.params);
         let newUrl:string = window.localStorage.getItem("host_pre")+"goods/search2?"+plus;
-        
+        _this.setState({loading:true});
         
         console.log(newUrl);
         $.ajax({
@@ -83,10 +83,12 @@ export default class SearchGoods extends React.Component<any,any> {
           url:newUrl,
           dataType:"json",
           success:function(data){
+            _this.setState({loading:false});
               _this.setState({page:data,gotoPage:data.number+1});
               //_this.setState({flag:1});
           },
           error: function(xhr:any, textStatus, errorThrown){
+            _this.setState({loading:false});
               console.log("request status:"+xhr.status+" msg:"+textStatus)
               if(xhr.status=='604'){//未登录错误
                   let popwin: any = conf.loginWin;
@@ -322,7 +324,7 @@ export default class SearchGoods extends React.Component<any,any> {
       let uid:string = (conf as any).getCookie("userId");
       
       let searchValue = values.searchValue==undefined?"":values.searchValue;
-      let searchCode =  values.school==undefined?"":escape(values.school[0]+"/"+values.school[1]);
+      let searchCode =  values.school==undefined||values.school[0]==undefined?"":escape(values.school[0]+"/"+values.school[1]);
       let obj = {searchValue:searchValue,schoolCode:searchCode,pageSize:this.pageSize};
       let plus = conf.getQueryStrFromObj(obj);
       //let ttt = escape(plus)
@@ -336,16 +338,27 @@ export default class SearchGoods extends React.Component<any,any> {
     this.props.history.push(this.routeName+"/"+plus);
   }
 
+  //Form initialValue can't work well,when search changed but value not updated,
+  //it only update at first time. So moved it here
+  componentWillUpdate() {
+    let schoolValues;
+      if(this.params.schoolCode!=undefined&&this.params.schoolCode.length>0) 
+        schoolValues = this.params.schoolCode.split("/");
+    this.formRef.current?.setFieldsValue({
+      searchValue: this.params.searchValue,
+      school: schoolValues==undefined?[]:[schoolValues[0], schoolValues[1]],
+     });
+  };
 
+  
     render(){
       
       let _this = this;
       let page:any = _this.state.page;
 
       let ss = this.params.searchValue;
-      let schoolValues;
-      if(this.params.schoolCode!=undefined&&this.params.schoolCode.length>0) 
-        schoolValues = this.params.schoolCode.split("/");
+      //if(ss.length==0) ss="ss"
+      
 
       let forms = 
       
@@ -355,9 +368,10 @@ export default class SearchGoods extends React.Component<any,any> {
             ref={this.formRef} 
             name="search"
             onFinish={this.onFinish}
-            initialValues={schoolValues==undefined?{}:{
-              school: [schoolValues[0], schoolValues[1]],
-            }}
+            // initialValues={schoolValues==undefined?{}:{
+            //   school: [schoolValues[0], schoolValues[1]],
+              
+            // }}
             scrollToFirstError
           >
 
@@ -365,22 +379,25 @@ export default class SearchGoods extends React.Component<any,any> {
 
           <Form.Item
             name="school"
-            //label="School"
+            // initialValue={schoolValues==undefined?[]:
+            //   [schoolValues[0], schoolValues[1]]
+              
+            // }
             rules={[
               { type: 'array', required: false, message: 'Please select school!' },
             ]}
           >
-            <Cascader options={conf.schools} placeholder="Select school"/>
+            <Cascader options={conf.schools} placeholder="Select school" disabled={this.state.loading}/>
           </Form.Item>              <Form.Item 
             name="searchValue"
             //label="              &nbsp;"
-            initialValue={ss}
+            // initialValue={ss}
             rules={ [{required:false, message: 'Please enter goods name!' }]}
           >
-            <Input placeholder="Goods Name" prefix={<SearchOutlined />}/>
+            <Input placeholder="Goods Name" prefix={<SearchOutlined />} disabled={this.state.loading}/>
       </Form.Item>
       <Form.Item  >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" disabled={this.state.loading}>
               Search
             </Button>
       </Form.Item>
@@ -393,8 +410,11 @@ export default class SearchGoods extends React.Component<any,any> {
       if(this.params.pageSize === undefined){
         return <div><Row><Col span={7}>&nbsp;</Col><Col span={17}>{forms}</Col></Row></div>
       } 
-      else if(page == undefined) 
-      return  <div> <Spin/></div>
+      else if(page == undefined && !this.state.loading){
+        return  <div><Row><Col span={7}>&nbsp;</Col><Col span={17}>{forms}</Col></Row><p/></div>
+      }
+      else if(this.state.loading) 
+      return  <div><Row><Col span={7}>&nbsp;</Col><Col span={17}>{forms}</Col></Row><p/> <Spin/></div>
       
 
       let arry:any[] = page==undefined?[]:page.content;
