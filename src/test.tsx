@@ -235,7 +235,7 @@ export default class MyAccount extends React.Component<any,any> {
                <Button type="default" size='large' onClick={()=>this.handleSearchNotFinished()}>not finished</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                <Button type="default" size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                 
-              <Table dataSource={arry} columns={this.columns} pagination={ false }/>
+              <Table style={{padding: '9px'}} dataSource={arry} columns={this.columns} pagination={ false }/>
               
               <Pagination pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/>
               

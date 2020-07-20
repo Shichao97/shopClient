@@ -14,16 +14,17 @@
 
 
 .App-header {
-
+  
   background-color: #282c34;
+  width: 100%;
+  min-height: 65px;
+  max-height: 650px;
 
-  min-height: 100vh;
+  
 
-  display: flex;
-
-  flex-direction: column;
-
+  z-index: 1;
   align-items: center;
+  
 
   justify-content: center;
 
@@ -490,9 +491,10 @@ opacity:0.60; top:80px; height:30px;
 .circleIcon_middle{
   width: 40px;
   height: 40px;
-  border-radius:50%;
+  border-radius:100%;
   overflow: hidden;
   display: inline-block;
   vertical-align: middle;
    
 }
+

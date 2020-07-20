@@ -244,11 +244,11 @@ class Messgae extends React.Component {
         //<div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
         if(uid != undefined && uid.length>0){
             return (
-            <div>
+            <div >
                 
-                <a href="#" onClick={()=>this.props.history.push("/editicon")}><div className="circleIcon_middle"><img src={iconSrc}/></div>&nbsp;{username}</a>
+                <a onClick={()=>this.props.history.push("/editicon")}><div className="circleIcon_middle"><img src={iconSrc}/></div>&nbsp;{username}</a>
                     {this.state.chatMembersArr.length==0?<div></div>:
-                    <Badge count={newNum}  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick={()=>this.messageListClicked()}>
+                    <Badge count={newNum}  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 
                 }
             </div>
@@ -257,8 +257,8 @@ class Messgae extends React.Component {
         else {
             return (
                 
-            <div>
-                  <Button key="back" type="text" size="large" onClick={()=>this.props.history.push("/login")}>Login</Button> 
+            <div style={{display:'inline-block'}}>
+                  <a onClick={()=>this.props.history.push("/login")}>Login</a> 
                   
                   
             </div>

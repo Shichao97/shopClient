@@ -305,7 +305,8 @@ export default class MyAccount extends React.Component<any,any> {
             <div className='my-table'>
                {btns}
                 
-              {conf.getUrlQueryString(this.routeName).length>1?<Table dataSource={arry} columns={this.columns} pagination={ false } />:""}
+              {conf.getUrlQueryString(this.routeName).length>1?
+              <Table style={{padding: '9px'}} dataSource={arry} columns={this.columns} pagination={ false } />:""}
               
               <Pagination  hideOnSinglePage={true} pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/>
               

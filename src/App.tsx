@@ -29,7 +29,10 @@ import conf from './Conf'
 import LoginModal from './LoginModal';
 import MyCollection from './MyCollection';
 import Payment from './Payment';
+import { Layout, Row, Col } from 'antd';
+import { ShareAltOutlined,AimOutlined } from '@ant-design/icons';
 
+const { Header, Footer, Sider, Content } = Layout;
 
 const $ = jquery;
 
@@ -144,17 +147,31 @@ componentDidMount() {
 	}
 	
     return (
-      <div>
+
+
+
+      <div style={{width: '100%'}}>
+
+<MessageModal  ref={this.msgwin}/>
+<LoginModal  ref={this.logwin}/>
+
       <Router>
-         <Message app={this}/>
-         <MessageModal  ref={this.msgwin}/>
-         <LoginModal  ref={this.logwin}/>
-        <div className="App">
+        
+        <div className="App-header">
+      
+        
+        <Row  justify="space-around" align="middle" style={{height:'60px'}}>
+          <Col span={5} style={{padding:'9px'}}>
+            <AimOutlined label='Unit Second hand' style={{background:'#FFFFFF',fontSize: '30px'}}/>&nbsp;
+            <ShareAltOutlined label='Unit Second hand' style={{background:'#FF9999',fontSize: '30px'}}/>&nbsp;
+            <AimOutlined label='Unit Second hand' style={{background:'#FFFFFF',fontSize: '30px'}}/>
+            </Col>
+          
+        <Col span={14} style={{textAlign: 'center'}}>
+       
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchGoods">searchGoods</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/userid/33">Demo id</Link>&nbsp;&nbsp;&nbsp;
-          <Link to={query}>Demo query</Link>&nbsp;&nbsp;&nbsp;
-          <Link to={sta}>Demo state</Link>&nbsp;&nbsp;&nbsp;
+          
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
           
           <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
@@ -164,10 +181,14 @@ componentDidMount() {
           <Link to="/test2/23">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/mySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/myCollection">My Collection</Link>&nbsp;&nbsp;&nbsp;
-
-          <hr/>
-          <switch>
+          <Link to="/myCollection">My Collection</Link>&nbsp;&nbsp;&nbsp;        
+          </Col>
+          <Col span={5} style={{textAlign:"right",padding:'9px'}}><Message app={this}/></Col>
+          </Row>
+          
+        </div>
+        <div style={{textAlign:'center',padding: '9px'}}>
+        <switch>
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
           <PrivateRoute path="/query" component={Demo}/>
@@ -194,9 +215,19 @@ componentDidMount() {
           <Route path="/active/:params" component={Active}></Route>
           
           
-          </switch>
-         
+          </switch>          
+
         </div>
+        
+        
+
+
+
+
+          
+
+         
+        
         
       </Router>
 

@@ -426,7 +426,7 @@ export default class MySelling extends React.Component<any,any> {
             <div>
               <Row><Col span={24}>{forms}</Col></Row>
               <Row><Col span="24">
-              <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
+              <Table style={{padding: '9px'}} dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
               <Row><Col span={24}><Pagination hideOnSinglePage={true} pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
             </div>

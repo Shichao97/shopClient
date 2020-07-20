@@ -379,11 +379,11 @@ export default class MyCollection extends React.Component<any,any> {
             // initialValue={ss}
             rules={ [{required:false, message: 'Please enter goods name!' }]}
           >
-            <Input placeholder="Goods Name" prefix={<SearchOutlined />} disabled={this.state.loading}/>
+            <Input placeholder="Like Name" prefix={<HeartOutlined />} disabled={this.state.loading}/>
       </Form.Item>
       <Form.Item  >
-            <Button htmlType="submit" disabled={this.state.loading} icon={<HeartOutlined/>}>
-              Search
+            <Button htmlType="submit" disabled={this.state.loading} icon={<SearchOutlined/>}>
+              
             </Button>
       </Form.Item>
     </Form>
@@ -446,7 +446,7 @@ export default class MyCollection extends React.Component<any,any> {
             <div >
               <Row><Col span={9}>&nbsp;</Col><Col span={15}>{forms}</Col></Row>
               <Row><Col span="24">
-              <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
+              <Table style={{padding: '9px'}} dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
               <Row><Col span={24}><Pagination hideOnSinglePage pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
               <Row><Col>&nbsp;</Col></Row>

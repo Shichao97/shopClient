@@ -465,7 +465,7 @@ export default class SearchGoods extends React.Component<any,any> {
             <div >
               <Row><Col span={7}>&nbsp;</Col><Col span={17}>{forms}</Col></Row>
               <Row><Col span="24">
-              <Table dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
+              <Table style={{padding: '9px'}} dataSource={allDatas}  columns={columns}  showHeader={false}  pagination={ false }/>
               </Col></Row>
               <Row><Col span={24}><Pagination hideOnSinglePage pageSize={this.pageSize} current={this.state.page.number+1} total={this.state.page.totalElements} onChange={this.pageChanged}/></Col></Row>
               <Row><Col>&nbsp;</Col></Row>
