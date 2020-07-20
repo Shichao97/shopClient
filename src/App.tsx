@@ -161,13 +161,13 @@ componentDidMount() {
       
         
         <Row  justify="space-around" align="middle" style={{height:'60px'}}>
-          <Col span={5} style={{padding:'9px'}}>
+          <Col span={6} style={{padding:'9px'}}>
             <AimOutlined label='Unit Second hand' style={{background:'#FFFFFF',fontSize: '30px'}}/>&nbsp;
             <ShareAltOutlined label='Unit Second hand' style={{background:'#FF9999',fontSize: '30px'}}/>&nbsp;
             <AimOutlined label='Unit Second hand' style={{background:'#FFFFFF',fontSize: '30px'}}/>
             </Col>
           
-        <Col span={14} style={{textAlign: 'center'}}>
+        <Col span={12} style={{textAlign: 'center'}}>
        
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchGoods">searchGoods</Link>&nbsp;&nbsp;&nbsp;
@@ -177,13 +177,11 @@ componentDidMount() {
           <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
           
           
-          <Link to="/test/22">test</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/test2/23">test2</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/mySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/myCollection">My Collection</Link>&nbsp;&nbsp;&nbsp;        
           </Col>
-          <Col span={5} style={{textAlign:"right",padding:'9px'}}><Message app={this}/></Col>
+          <Col span={6} style={{textAlign:"right",padding:'9px'}}><Message app={this}/></Col>
           </Row>
           
         </div>
