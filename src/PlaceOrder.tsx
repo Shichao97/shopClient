@@ -169,7 +169,7 @@ export default class PlaceOrder extends React.Component<any,any> {
                 <div className="demo2">
                     <h2>Buy Goods</h2><p>{this.state.data.name}</p>
                     <img src={imgSrc}></img>
-                    <h3>price: $   {this.state.data.price}</h3>
+                    <h3 style={{color:'#FF0000'}}>price: $   {this.state.data.price}</h3>
 
 
 
