@@ -145,15 +145,16 @@ export default class MyCollection extends React.Component<any,any> {
       let obj = {searchValue:"",sellerId:ele.g.sellerId,pageSize:this.pageSize};
       let plus = conf.getQueryStrFromObj(obj);
 
-      this.props.history.push(this.routeName+"/"+plus);
+      this.props.history.push("/searchGoods/"+plus);
       event?.stopPropagation();
     }
     onSchoolClicked(ele:any,event:any){
       //let uid:string = (conf as any).getCookie("userId");
-      let obj = {searchValue:this.params.searchValue,schoolCode:ele.m.schoolCode,pageSize:this.pageSize};
+      let obj:any = {schoolCode:ele.m.schoolCode,pageSize:this.pageSize};
+      if(this.params.searchValue != undefined) obj.searchValue = this.params.searchValue;
       let plus = conf.getQueryStrFromObj(obj);
 
-      this.props.history.push(this.routeName+"/"+plus);
+      this.props.history.push("/searchGoods/"+plus);
       event?.stopPropagation();
     }
 

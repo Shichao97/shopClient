@@ -43,6 +43,7 @@ const tailLayout = {
           data:values,
           dataType:"json",
           success: function(data) {
+              _this.setState({loading:false});
               console.log(data)
               if(data.success == 1){
                 _this.setState({ redirectToReferrer: true });
@@ -59,7 +60,7 @@ const tailLayout = {
 
           },
           error: function(xhr:any, textStatus, errorThrown){
-            //console.log("request status:"+xhr.status+" msg:"+textStatus)
+            _this.setState({loading:false});
             Modal.error({
               title:'Error',
               content: "request status:"+xhr.status+" msg:"+textStatus

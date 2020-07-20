@@ -36,7 +36,7 @@ const tailLayout = {
 
       onFinish = (values:any) => {
       let _this = this
-      
+      _this.setState({loading:true});
       $.ajax({
           type:"POST",
           crossDomain: true, 
@@ -48,6 +48,7 @@ const tailLayout = {
           dataType:"json",
           success: function(data) {
               console.log(data)
+              _this.setState({loading:false});
               if(data.success == 1){
                 _this.setState({modalIsOpen:false});
                 //if(_this.state.comp != undefined){
@@ -65,6 +66,7 @@ const tailLayout = {
 
           },
           error: function(xhr:any, textStatus, errorThrown){
+            _this.setState({loading:false});
             let msg = "request status:"+xhr.status+" msg:"+textStatus
             Modal.error({
               title:'Error',
@@ -115,10 +117,10 @@ const tailLayout = {
 
 
               <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={this.state.loading} >
                   Submit
                 </Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <Button type="default"  onClick={() => this.setState({modalIsOpen:false})}>
+                <Button type="default"onClick={() => this.setState({modalIsOpen:false})}>
                   Close
                 </Button>
               </Form.Item>
