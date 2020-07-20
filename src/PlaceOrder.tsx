@@ -109,7 +109,7 @@ export default class PlaceOrder extends React.Component<any,any> {
                       })
                 }
                 else{
-                    this.props.history.push("/payment/"+data.success);
+                    _this.props.history.push("/payment/"+data.success);
                     //_this.setState({orderId:data.success});
                     //_this.setState({orderNo:data.orderNo});
                 }
