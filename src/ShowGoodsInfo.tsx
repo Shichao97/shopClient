@@ -376,7 +376,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let filled = <HeartFilled  style={{ color: 'hotpink',fontSize: '30px' }} onClick={() => this.clickCollect()}/>;
         if(uid=="") return outline;
         else if(this.state.likeLoading){
-            return <div style={{verticalAlign: 'sub'}}><LoadingOutlined  style={{ color: 'hotpink',fontSize: '20px' ,verticalAlign:'sub'}} /></div>
+            return <div style={{verticalAlign: 'sub'}}><LoadingOutlined  style={{ color: 'hotpink',fontSize: '30px' ,verticalAlign:'sub'}} /></div>
         }
         else if(this.state.like == undefined && this.hasLoadIcon == false){
             this.hasLoadIcon = true;
