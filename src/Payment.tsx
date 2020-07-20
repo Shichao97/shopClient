@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react';
 import { Link } from 'react-router-dom';
-import{Button,Modal} from 'antd';
+import{Button,Modal,Radio} from 'antd';
 import jquery from "jquery";
 import conf from './Conf';
 const $ = jquery;
@@ -9,7 +9,7 @@ export default class Payment extends React.Component<any,any> {
     constructor(props:any){
         super(props);
         this.state ={
-
+            radioValue:1
         }
     }
     confirmPay(){
@@ -72,12 +72,26 @@ export default class Payment extends React.Component<any,any> {
             }
           })
     }
+    
+    onChange(e:any) {
+        let _this:Payment = this;
+        console.log('radio checked', e.target.value);
+        _this.setState({
+            radioValue: e.target.value,
+        });
+      };
     render(){
         let oid = this.props.match.params.oid;
         let link:string = "/showOrderInfo/" + oid;
         if(this.state.orderNo == undefined){
             return(
                 <div>
+                      <Radio.Group onChange={this.onChange} value={this.state.radioValue}>
+                            <Radio value={1}>Debit Card</Radio>
+                            <Radio value={2}>Credit Card</Radio>
+                            <Radio value={3}>Paypal</Radio>
+                            <Radio value={4}>Apple Pay</Radio>
+                      </Radio.Group>
                       <Button type="primary" onClick={() => this.confirmPay()}>pay for this order</Button>
                 </div>
             )
