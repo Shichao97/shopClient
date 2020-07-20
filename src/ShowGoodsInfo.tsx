@@ -376,7 +376,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let filled = <HeartFilled  style={{ color: 'hotpink',fontSize: '30px' }} onClick={() => this.clickCollect()}/>;
         if(uid=="") return outline;
         else if(this.state.likeLoading){
-            return <LoadingOutlined  style={{ color: 'hotpink',fontSize: '30px' }} />
+            return <div style={{verticalAlign: 'sub'}}><LoadingOutlined  style={{ color: 'hotpink',fontSize: '20px' ,verticalAlign:'sub'}} /></div>
         }
         else if(this.state.like == undefined && this.hasLoadIcon == false){
             this.hasLoadIcon = true;
@@ -509,14 +509,14 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             if(this.state.data.status == 1){  //selling now
 
                 btns =   <Col span={24}>
-                         
+                         <Tooltip title="Like & Dislike">{this.getLikeIcon()}</Tooltip><p/>
                         
                         <Button  type="primary" onClick={() => this.clickBuy()}>Buy Now</Button>
                         &nbsp;&nbsp;
                         
                         <Button type="primary" onClick={()=>this.openTalkWindow()}>Talk to seller</Button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <Tooltip title="Like & Dislike">{this.getLikeIcon()}</Tooltip>
+                        
                     </Col>
                 // )
             }else{
