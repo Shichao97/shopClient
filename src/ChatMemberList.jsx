@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, Link, Route } from 'react-router-dom';
+import { HashRouter as Router, Link, Route, NavLink } from 'react-router-dom';
 import Login from './Login';
 import { Button, Row, Col } from 'antd'
 import MessagePanel from './MessagePanel';
@@ -45,10 +45,11 @@ class ChatMemberList extends React.Component {
         //var win = window;
         let uid = conf.getCookie("userId");
         let username = conf.getCookie("username");
-        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=0";
-        let title = this.state.toId == undefined?<div>Select chat member</div>:<div>
-            <img src={memberImgSrc}/> 
-            {this.state.toName}
+        if(this.state==undefined) return <div></div>
+        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=1";
+        let title = this.state.toId == undefined?<div>Select chat member</div>:<div><div className="circleIcon_middle">
+            <img src={memberImgSrc}/> </div>
+            &nbsp; &nbsp; {this.state.toName}
             </div>
         
         return <div>
@@ -57,9 +58,9 @@ class ChatMemberList extends React.Component {
         {title}
         <div className='chat_left'>
         {this.state.mesState.chatMembersArr.map((element,index) =>{
-                let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=0";
+                let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=1";
 
-                return <Row ><Col span={5}><img src={memberImgSrc}/></Col>
+                return <Row ><Col span={5}><div className="circleIcon_middle"><img src={memberImgSrc}/></div></Col>
                 <Col span={19}><Button type="text" size="middle" onClick={()=>this.memberClicked(element,index)}>
                     {element.otherName} <sup><font color="red" size="3">{element.count==0?"":""+element.count}</font></sup></Button></Col></Row>
             })}

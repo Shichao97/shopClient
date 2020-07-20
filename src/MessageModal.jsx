@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { render } from '@testing-library/react';
 import jquery from "jquery";
 import { Button, Row, Col } from 'antd'
-import { SmileOutlined } from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import MessagePanel from './MessagePanel';
 //import { stringify } from 'querystring';
 const $ = jquery;
@@ -166,10 +166,11 @@ const $ = jquery;
         this.refs.msgPanel.initMsg(this.state.toId,this.state.toName);
       }      
 
-    // handleOk(){
-    //   this.refs.msgPanel.setState({toId:this.state.toId,toName:this.state.toName});
-    //   this.refs.msgPanel.initMsg(this.state.toId,this.state.toName);
-    // }
+      handleCancel=()=>{
+        this.setState({modalIsOpen:false})
+      // this.refs.msgPanel.setState({toId:this.state.toId,toName:this.state.toName});
+      // this.refs.msgPanel.initMsg(this.state.toId,this.state.toName);
+    }
 
     // componentDidMount(){
     //   if(this.state.toId !== undefined){
@@ -180,7 +181,7 @@ const $ = jquery;
 
     render(){
         let { pageX, pageY, diffX, diffY } = this.state
-        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=0";
+        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=1";
 
     return (
       <div>
@@ -204,8 +205,8 @@ const $ = jquery;
 
             >
 
-            <SmileOutlined  type="cross" className='group_head_close' onClick={this.handleCancel} />
-            <img src={memberImgSrc}/> {this.state.toName}
+            <CloseOutlined  type="cross" className='group_head_close' onClick={this.handleCancel} />
+            <div className="circleIcon_middle"><img src={memberImgSrc}/></div> {this.state.toName}
             </div>                  
 
               <MessagePanel ref="msgPanel"/>

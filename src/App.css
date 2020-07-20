@@ -133,9 +133,9 @@
   width: 70%;
 
   left: 15%;
-
+  background: hsl(80, 21%, 78%);
   text-align: center;
-  background-color: #666;
+  
 }
 .chat_left{
   float:left ; 
@@ -485,4 +485,14 @@ opacity:0.60; top:80px; height:30px;
   text-align: center;
   overflow: auto;
 
+}
+
+.circleIcon_middle{
+  width: 40px;
+  height: 40px;
+  border-radius:50%;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+   
 }
