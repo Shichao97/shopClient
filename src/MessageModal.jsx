@@ -1,9 +1,9 @@
 import React,{useState} from 'react';
 import Modal from 'react-modal';
 //import './App.css';
-import { render } from '@testing-library/react';
+//import { render } from '@testing-library/react';
 import jquery from "jquery";
-import { Button, Row, Col } from 'antd'
+//import { Button, Row, Col } from 'antd'
 import { CloseOutlined } from '@ant-design/icons';
 import MessagePanel from './MessagePanel';
 //import { stringify } from 'querystring';

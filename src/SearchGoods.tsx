@@ -1,13 +1,13 @@
 import React, { RefObject } from 'react';
-import * as ReactDOM from 'react-dom';
+//import * as ReactDOM from 'react-dom';
 import './SearchGoods.css';
-import GoodsItem from './GoodsItem';
+//import GoodsItem from './GoodsItem';
 import jquery from "jquery";
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import conf from './Conf'
 import { Table,Form,Input,Button, Row, Col, Spin, Card, Cascader, Tooltip } from 'antd';
 import { FormInstance } from 'antd/lib/form';
-import { SearchOutlined,UserOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 //import objectFitImages from 'object-fit-images';

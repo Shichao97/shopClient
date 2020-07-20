@@ -1,5 +1,5 @@
 import React, { RefObject } from 'react';
-import * as ReactDOM from 'react-dom';
+// import * as ReactDOM from 'react-dom';
 //import LoginModal from './LoginModal';
 import ImageModal from './ImageModal';
 import './SearchGoods.css';

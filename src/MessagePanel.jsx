@@ -1,10 +1,10 @@
-import React,{useState} from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 
-import { render } from '@testing-library/react';
+//import { render } from '@testing-library/react';
 import jquery from "jquery";
-import { Button, Row, Col } from 'antd'
-import { SmileOutlined } from '@ant-design/icons';
+import { Button } from 'antd'
+//import { SmileOutlined } from '@ant-design/icons';
 import conf from './Conf'
 
 

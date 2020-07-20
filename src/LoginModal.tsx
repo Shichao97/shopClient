@@ -1,9 +1,9 @@
-import React,{useState} from 'react';
+import React from 'react';
 import ReactModal from 'react-modal';
 //import './App.css';
-import { render } from '@testing-library/react';
+//import { render } from '@testing-library/react';
 import jquery from "jquery";
-import { compileFunction } from 'vm';
+//import { compileFunction } from 'vm';
 import { Modal, Form, Input, Row, Col, Card,Button, Checkbox } from 'antd';
 //import { stringify } from 'querystring';
 const $ = jquery;

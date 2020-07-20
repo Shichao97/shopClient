@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import Modal from 'react-modal';
 //import './App.css';
-import { render } from '@testing-library/react';
+//import { render } from '@testing-library/react';
 import jquery from "jquery";
 //import { stringify } from 'querystring';
 const $ = jquery;

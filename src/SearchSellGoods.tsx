@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
+// import * as ReactDOM from 'react-dom';
 //import './SearchSellGoods.css';
 //import LoginModal from './LoginModal';
 import jquery from "jquery";

@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
 import jquery from "jquery";
 const $ = jquery;
 

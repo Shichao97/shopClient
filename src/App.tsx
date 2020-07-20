@@ -1,7 +1,7 @@
 import React, { Component , useRef, RefObject, MutableRefObject } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
-import {Switch,NavLink,Redirect,withRouter} from 'react-router-dom'
-import PropTypes from 'prop-types';
+import {Redirect,withRouter} from 'react-router-dom'
+//import PropTypes from 'prop-types';
 import './App.css';
 import './MessagePanel.css';
 import Demo from './Demo';
@@ -29,10 +29,10 @@ import conf from './Conf'
 import LoginModal from './LoginModal';
 import MyCollection from './MyCollection';
 import Payment from './Payment';
-import { Layout, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import { ShareAltOutlined,AimOutlined } from '@ant-design/icons';
 
-const { Header, Footer, Sider, Content } = Layout;
+//const { Header, Footer, Sider, Content } = Layout;
 
 const $ = jquery;
 
@@ -73,8 +73,8 @@ class App extends Component<any,any> {
   constructor(props:any){
     super(props);
     
-    window.localStorage.setItem("host_pre", "http://localhost:8080/");
-    window.localStorage.setItem("wshost_pre", "ws://localhost:8080/");
+    //window.localStorage.setItem("host_pre", "http://localhost:8080/");
+    //window.localStorage.setItem("wshost_pre", "ws://localhost:8080/");
   }
 
   msgwin:RefObject<MessageModal> = React.createRef();

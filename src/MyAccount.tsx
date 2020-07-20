@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import jquery from "jquery";
 import './MyAccount.css';
 import {
-  Button,Alert,
-  Table, Tag, Space,Pagination, Modal, Badge, Spin
+  Button,
+  Table, Pagination, Modal, Badge, Spin
 } from 'antd';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
-import { Console } from 'console';
+//import { Console } from 'console';
 
 const $ = jquery;
 

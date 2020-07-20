@@ -1,20 +1,17 @@
 import React, { RefObject } from 'react';
 import jquery from "jquery";
 import './Register.css';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import {
   Form,
   Input,
-  Tooltip,
+  
   Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
+  
   Button,
-  AutoComplete,
+  
 } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+// import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import conf from './Conf'
 

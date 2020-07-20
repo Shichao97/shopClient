@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter as Router, Link, Route, NavLink } from 'react-router-dom';
-import Login from './Login';
+//import ReactDOM from 'react-dom';
+//import { HashRouter as Router, Link, Route, NavLink } from 'react-router-dom';
+//import Login from './Login';
 import { Button, Row, Col } from 'antd'
 import MessagePanel from './MessagePanel';
 import conf from './Conf'

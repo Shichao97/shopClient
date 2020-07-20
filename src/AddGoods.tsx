@@ -1,5 +1,5 @@
 import React, { RefObject } from 'react';
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import {
   Form,
   Input,
@@ -14,7 +14,7 @@ import {
   Modal,
   InputNumber
 } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+//import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 import ImageUpload from './ImageUpload';
 //import LoginModal from './LoginModal';

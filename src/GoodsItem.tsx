@@ -1,5 +1,5 @@
 import React, { RefObject } from 'react';
-import LoginModal from './LoginModal';
+//import LoginModal from './LoginModal';
 import './GoodsItem.css';
 import { Link } from 'react-router-dom';
 import jquery from "jquery";

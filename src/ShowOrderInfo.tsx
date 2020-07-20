@@ -101,6 +101,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                     let datas = _this.state.orderdata;
                     datas.order.paymentStatus = 1;
                     _this.setState({orderdata:datas});
+                    
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
@@ -155,9 +156,10 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                         title:'Success',
                         content:'Cancel Success!'
                     })
-                    let datas = _this.state.orderdata;
-                    datas.order.status = -1;
-                    _this.setState({orderdata:datas});
+                    // let datas = _this.state.orderdata;
+                    // datas.order.status = -1;
+                    // _this.setState({orderdata:datas});
+                    _this.props.history.goBack();
                 }
             },
             error: function(xhr:any, textStatus, errorThrown){
