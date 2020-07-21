@@ -1,6 +1,7 @@
 import React from 'react';
 //import { Link } from 'react-router-dom';
 import jquery from "jquery";
+import { Spin } from 'antd';
 const $ = jquery;
 
 export default class Active extends React.Component<any,any> {
@@ -38,7 +39,9 @@ export default class Active extends React.Component<any,any> {
         if(this.state.actMsg == undefined){
             return(
                 <div>
-                    You are in the process of activation now, thanks a lot for your patience!
+                    <h2>You are in the process of activation now ...</h2>
+                    <p/>
+                    <Spin/>
                 </div>
             )
         }else{

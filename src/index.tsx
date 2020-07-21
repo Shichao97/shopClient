@@ -9,8 +9,8 @@ import 'react-app-polyfill/ie9'
 import 'react-app-polyfill/stable'
 //npm install react-app-polyfill core-js
 
-window.localStorage.setItem("host_pre", "http://"+document.domain+"/");
-window.localStorage.setItem("wshost_pre", "ws://"+document.domain+"/");
+// window.localStorage.setItem("host_pre", "http://"+document.domain+"/");
+// window.localStorage.setItem("wshost_pre", "ws://"+document.domain+"/");
 
 ReactDOM.render(
   

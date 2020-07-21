@@ -9,6 +9,7 @@ import {
   Cascader,
   
   Button,
+  Modal,
   
 } from 'antd';
 // import { QuestionCircleOutlined } from '@ant-design/icons';
@@ -74,13 +75,24 @@ export default class Register extends React.Component<any,any> {
             data:values,
             dataType:"json",
             success:function(d){
-                _this.setState({msg:"register success!"});
+                //_this.setState({msg:"register success!"});
                 _this.setState({loading:false});
+                Modal.success({
+                  title:'Success',
+                  content:"Register success! Please check you email and active this register.",
+                  onOk: ()=>_this.props.history.push("/"),
+
+                })
+
             },error:function(xhr:any,textStatus,errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus);
                 _this.setState({loading:false});
                 if(xhr.status=='601'){
-                    _this.setState({msg:"register failed!"+"request status:"+xhr.status+" msg:"+textStatus});
+                  Modal.error({
+                    title:'Error',
+                    content:"register failed!"+"request status:"+xhr.status
+                  })
+                    //_this.setState({msg:"register failed!"+"request status:"+xhr.status+" msg:"+textStatus});
                 }
             }
         })
