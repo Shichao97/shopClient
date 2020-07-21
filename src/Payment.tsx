@@ -4,7 +4,11 @@ import{Button,Modal,Radio,Spin} from 'antd';
 import jquery from "jquery";
 import conf from './Conf';
 const $ = jquery;
-
+const radioStyle = {
+    display: 'block',
+    height: '30px',
+    lineHeight: '30px',
+  };
 export default class Payment extends React.Component<any,any> {
     prompt = false;
 
@@ -129,12 +133,14 @@ export default class Payment extends React.Component<any,any> {
             return(
                 <div>
                       <p style={{fontSize:"20px"}}>You need to pay $ {this.state.price}</p>
+                      
                       <p>
                       <Radio.Group onChange={this.onChange} value={this.state.radioValue}>
-                            <Radio value={1}>Debit Card</Radio>
-                            <Radio value={2}>Credit Card</Radio>
-                            <Radio value={3}>Paypal</Radio>
-                            <Radio value={4}>Apple Pay</Radio>
+                         
+                            <Radio style={radioStyle} value={1}>Debit Card</Radio>
+                            <Radio style={radioStyle} value={2}>Credit Card</Radio>
+                            <Radio style={radioStyle} value={3}>Paypal</Radio>
+                            <Radio style={radioStyle} value={4}>Apple Pay</Radio>
                       </Radio.Group>
                       </p>
                       <p><Button type="primary" onClick={() => this.confirmPay()}>Pay for this order</Button></p>
