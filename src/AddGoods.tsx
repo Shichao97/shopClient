@@ -165,13 +165,15 @@ export default class AddGoods extends React.Component<any,any> {
         contentType: false,
         success:function(d){
             if(d == null){
-                //alert("Add failed dure to server error!");
+              _this.setState({loading:false});
                 Modal.error({
                   title:'Error',
                   content:'Add failed dure to server error!'
                 })
+                
             }else{
-              _this.setState({success:true});
+              
+              _this.setState({loading:false,success:true});
                 
             }
         },
@@ -384,7 +386,7 @@ export default class AddGoods extends React.Component<any,any> {
  
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit" onClick={()=>this.imgUploadChecked()}>
+        <Button loading={this.state.loading} type="primary" htmlType="submit" onClick={()=>this.imgUploadChecked()}>
           Add
         </Button>
       </Form.Item>
