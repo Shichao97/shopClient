@@ -1,11 +1,13 @@
 import React, { RefObject } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Prompt } from 'react-router-dom';
 import{Button,Modal,Radio,Spin} from 'antd';
 import jquery from "jquery";
 import conf from './Conf';
 const $ = jquery;
 
 export default class Payment extends React.Component<any,any> {
+    prompt = false;
+
     constructor(props:any){
         super(props);
         this.state ={
@@ -92,6 +94,7 @@ export default class Payment extends React.Component<any,any> {
                         title:'Success',
                         content:'Payment Success!'
                     })
+                    _this.prompt = true;
                     _this.setState({orderNo:data.orderNo});
                     
                     
@@ -125,7 +128,7 @@ export default class Payment extends React.Component<any,any> {
         }else if(this.state.orderNo == undefined){
             return(
                 <div>
-                      <p>You need to pay $ {this.state.price}</p>
+                      <p style={{fontSize:"20px"}}>You need to pay $ {this.state.price}</p>
                       <p>
                       <Radio.Group onChange={this.onChange} value={this.state.radioValue}>
                             <Radio value={1}>Debit Card</Radio>
@@ -134,7 +137,29 @@ export default class Payment extends React.Component<any,any> {
                             <Radio value={4}>Apple Pay</Radio>
                       </Radio.Group>
                       </p>
-                      <p><Button type="primary" onClick={() => this.confirmPay()}>pay for this order</Button></p>
+                      <p><Button type="primary" onClick={() => this.confirmPay()}>Pay for this order</Button></p>
+                      <Prompt message={(location) => {
+                            let pr = this;
+                            if(this.prompt != true)
+                            Modal.confirm({
+                                title: 'Confirm Leave?',
+                                //icon: <ExclamationCircleOutlined/>,
+                                content: 'Do you confirm leave payment? Notice：Orders without payment will be cancelled in 2 hours. ',
+                                okText: 'Leave in pain',
+                                okType: 'danger',
+                                cancelText: 'Cancel',
+                                onOk: () => {
+                                this.prompt = true;
+                                this.props.history.push(location)
+                                }
+                                ,
+                                onCancel() {
+                                    console.log('Cancel');
+                                },
+                            });
+                        return this.prompt==true;
+                        }
+                        }></Prompt>
                 </div>
             )
         }else{

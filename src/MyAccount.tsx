@@ -6,6 +6,7 @@ import {
   Button,
   Table, Pagination, Modal, Badge, Spin
 } from 'antd';
+import{StopOutlined, CheckCircleOutlined, CarOutlined } from '@ant-design/icons';
 //import LoginModal from './LoginModal';
 import conf from './Conf'
 //import { Console } from 'console';
@@ -92,16 +93,37 @@ export default class MyAccount extends React.Component<any,any> {
       },
       {
         title: 'Status',
-        dataIndex: 'status',
+        //dataIndex: 'status',
         key: 'status',
-        render: (text:any )=> this.getStatus(text),
+        render: (text:any,record:any)=>{
+          if(record.status == 1){
+            return (
+              <CheckCircleOutlined style={{color:'green',fontSize: '25px'}}/>
+            )
+          }else if(record.status == -1){
+            return (
+              <StopOutlined style={{color:'grey',fontSize: '25px'}}/>
+            )
+          }else if(record.paymentStatus == 1){
+            return (<CarOutlined style={{color:"peru",fontSize: '25px'}}/>)
+          }else{
+            return (
+              
+                <a onClick={()=>this.props.history.push("/payment/"+record.id)}>
+                  Pay Now
+                </a>
+            )
+          }
+          
+        }
+        
       },
-      {
+      /* {
         title: 'Payment Status',
         dataIndex:'paymentStatus',
         key:'paymentStatus',
         render: (text:any )=> this.getpayment(text),
-      },
+      },*/
       {
         title: 'Seller Info',
         key: 'seller_info',
@@ -247,8 +269,9 @@ export default class MyAccount extends React.Component<any,any> {
         if(status == 0) return "not yet paid";
         else return "already paid";
     }
-
-    getStatus(status:number):string{
+    /*
+    getStatus(status:number,pay:number):string{
+      
       if(status == 0){
         return "not finished";
       }else if(status == 1){
@@ -256,8 +279,18 @@ export default class MyAccount extends React.Component<any,any> {
       }else{
         return "already canceled";
       }
+      
+      if(status == 1){
+        return "completed"
+      }else if(status == -1){
+        return "cancelled"
+      }else if(pay == 1){
+        return "On the Way"
+      }else{
+        return "paynow!!!"
+      }
     }
-
+    */
    
     handleChange = (event:any) =>  {
         
