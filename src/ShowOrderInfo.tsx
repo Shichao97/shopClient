@@ -294,7 +294,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                 <div>
                   {ordertable}
                   <Row><Col span={24}>&nbsp;</Col></Row>
-                  <Button type="primary" onClick={() => this.confirmPay()}>pay for this order</Button> &nbsp;&nbsp;&nbsp;
+                  <Button type="primary" onClick={() => this.props.history.push("/payment/"+orderdata.order.id)}>pay for this order</Button> &nbsp;&nbsp;&nbsp;
                   <Button type="primary" onClick={() => this.confirmCancel()}>cancel the order</Button>
                   
                   
