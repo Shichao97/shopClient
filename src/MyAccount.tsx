@@ -64,13 +64,15 @@ export default class MyAccount extends React.Component<any,any> {
       {
         title: 'Image',
         key: 'image',
-        render: (text:any, record:any) => (
+        render: (text:any, record:any) =>{
+          let n;
+          return (
           <a onClick={()=>this.showOrderInfo(record.id)}>
             <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId}      />  
     
           </ a>
     
-        ),
+        )},
       },
       {
         title: 'Goods Name',

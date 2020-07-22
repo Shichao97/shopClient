@@ -40,7 +40,7 @@ export default class GoodsItem extends React.Component<any,any> {
         //     state: this.props.data//'我是通过state传值'
         // }
         
-        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+this.props.data.g.id;
+        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+this.props.data.g.id+"&fname="+this.props.data.g.imgNames.split(";")[0];
         //let linkto:string = "/showgoodsinfo/"+this.props.data.id;
         let memberImgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.props.data.g.sellerId+"&size=0";
         let school = this.props.data.m.schoolCode == undefined?"":"("+this.props.data.m.schoolCode+")";

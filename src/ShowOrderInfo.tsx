@@ -237,7 +237,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
                 <div></div>
             )
         }
-        let goodsImgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+orderdata.goods.id;
+        let goodsImgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+orderdata.goods.id+"&fname="+orderdata.goods.imgNames.split(";")[0];
         let receiveMethod:string = this.getReceiveMethod(orderdata.order.receiveMethod);
         let ordertable = <table className="my-table2">
         <tr>

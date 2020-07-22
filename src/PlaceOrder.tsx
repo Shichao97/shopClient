@@ -126,10 +126,7 @@ export default class PlaceOrder extends React.Component<any,any> {
           })
     }
 
-    getImgSrc(gid:string):string{
-        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
-        return imgSrc;
-        }
+
 
     render(){
         let uid = conf.getCookie("userId");
@@ -163,7 +160,8 @@ export default class PlaceOrder extends React.Component<any,any> {
             else arrMethod.push({value:4,disabled:true});
             if((m & 2) == 2) arrMethod.push({value:2,disabled:false});
             else arrMethod.push({value:2,disabled:true});
-            let imgSrc:string = this.getImgSrc(gid);
+            
+            let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+this.state.data.imgNames.split(";")[0];
 
             return(
                 <div className="demo2">

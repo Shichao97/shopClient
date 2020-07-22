@@ -155,10 +155,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
       }
     }
 
-    getImgSrc(gid:string):string{
-      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
-      return imgSrc;
-    }
+
 
     handlePreviousPage(){
       let _this: SearchSellGoods = this;
@@ -243,7 +240,9 @@ export default class SearchSellGoods extends React.Component<any,any> {
                       let sm:string = this.sellingMethod(element.sellingMethod);
                       let fullTypeName:string = this.getTypes(element.typeCode);
                       let statusName:string = this.getStatus(element.status);
-                      let imgSrc:string = this.getImgSrc(s);
+                      //let imgSrc:string = this.getImgSrc(s);
+                      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+element.id+"&fname="+element.imgNames.split(";")[0];
+
                       let link:string ="/editsellgoods/" +s;
                       return(
                         <tr>

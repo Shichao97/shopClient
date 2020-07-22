@@ -135,10 +135,6 @@ export default class MyCollection extends React.Component<any,any> {
     }
 
 
-    getImgSrc(gid:string):string{
-      let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
-      return imgSrc;
-    }
 
     onUserClicked(ele:any,event:any){
       //let uid:string = (conf as any).getCookie("userId");
@@ -185,7 +181,7 @@ export default class MyCollection extends React.Component<any,any> {
         onClick={()=>this.props.history.push('/showgoodsinfo/'+ele.g.id)}
         bodyStyle={{ width: 240,textAlign:"center" }}
         style={{ width: 262,textAlign:"center" }}
-        cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id} /></Col></Row>}
+        cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+ele.g.id+"&fname="+ele.g.imgNames.split(";")[0]} /></Col></Row>}
       >
         <Meta title={ele.g.name} description={"Price: $"+ele.g.price}/>
         <Row><Col>&nbsp;</Col></Row>
@@ -216,8 +212,7 @@ export default class MyCollection extends React.Component<any,any> {
         
         render:(text:any, record:any) =>{
           let ele = record["c_0"];
-          //let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+ele.g.id;
-          //console.log(imgSrc);
+
           return this.cardRender(ele)},
         align:'center',
       },

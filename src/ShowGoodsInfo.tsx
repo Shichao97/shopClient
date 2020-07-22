@@ -175,10 +175,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
 
 
 
-    getImgSrc(gid:string):string{
-    let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+gid;
-    return imgSrc;
-    }
+
 
     openImgModal(index:number){
         
@@ -474,8 +471,9 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
         let gid = this.props.match.params.id;//this.state.data.id;
         let uid = conf.getCookie("userId");
         let fullTypeName:string = conf.getFullTypeName(this.state.data.typeCode);
-        let imgSrc:string = this.getImgSrc(this.state.data.id);
-        
+        //let imgSrc:string = this.getImgSrc(this.state.data.id);
+        let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+gid+"&fname="+this.state.data.imgNames.split(";")[0];
+
         let collectIconSrc:string = this.getCollectIconSrc(gid);
         //let tables = <table className="content-table">
         let btns;
