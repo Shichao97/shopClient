@@ -149,7 +149,7 @@ export default class AddGoods extends React.Component<any,any> {
         }
         else formData.append(p,data[p]);
     }
-    
+    _this.setState({loading:true});
 
     $.ajax({
         type:"POST",
