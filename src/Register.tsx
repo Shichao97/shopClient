@@ -5,9 +5,7 @@ import './Register.css';
 import {
   Form,
   Input,
-  
   Cascader,
-  
   Button,
   Modal,
   
@@ -231,7 +229,28 @@ export default class Register extends React.Component<any,any> {
                 required: true,
                 message: 'Please input your E-mail!',
               },
+              {
+                validator:(rule,value,callback)=>{
+                  $.ajax({
+                    type:"GET",
+                    crossDomain: true, 
+                    xhrFields: {
+                        withCredentials: true 
+                    },
+                                url:window.localStorage.getItem("host_pre")+"member/checkEmail?email="+value,
+                    //data:value,
+                    dataType:"json",
+                    success:function(d){
+                      if(d.success == 1) callback();
+                      else callback(d.msg);
+                    },error:function(xhr:any,textStatus,errorThrown){
+                        callback("Unknown error  status:"+xhr.status+".");
+                    }
+                });
+                }
+              },
             ]}
+            hasFeedback
           >
             <Input />
           </Form.Item>
