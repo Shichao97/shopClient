@@ -1,5 +1,5 @@
 import React, { Component , useRef, RefObject, MutableRefObject } from 'react';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import {Redirect,withRouter} from 'react-router-dom'
 //import PropTypes from 'prop-types';
 import './App.css';
@@ -31,6 +31,7 @@ import MyCollection from './MyCollection';
 import Payment from './Payment';
 import { Row, Col } from 'antd';
 import { ShareAltOutlined,AimOutlined } from '@ant-design/icons';
+import Error404 from './Error404';
 
 //const { Header, Footer, Sider, Content } = Layout;
 
@@ -186,7 +187,7 @@ componentDidMount() {
           
         </div>
         <div style={{textAlign:'center',padding: '9px'}}>
-        <switch>
+        <Switch>
           <Route path="/" exact component={Home}></Route>
           <Route path="/state" component={Demo}></Route>
           <PrivateRoute path="/query" component={Demo}/>
@@ -211,9 +212,9 @@ componentDidMount() {
           <Route path="/payment/:oid" component={Payment}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
-          
-          
-          </switch>          
+          <Route path="/e404" component={Error404}></Route>
+          <Redirect to="/e404"/>
+          </Switch>          
 
         </div>
         

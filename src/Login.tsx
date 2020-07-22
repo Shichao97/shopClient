@@ -117,7 +117,7 @@ const tailLayout = {
               <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit" loading={this.state.loading}>
                   Sign In
-                </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                </Button>&nbsp;&nbsp;&nbsp;&nbsp;<a onClick={()=>this.props.history.push("/forget")}>Forget password</a>
                 
               </Form.Item>
             </Form>
