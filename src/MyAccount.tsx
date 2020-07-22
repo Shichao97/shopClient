@@ -58,7 +58,10 @@ export default class MyAccount extends React.Component<any,any> {
     columns = [
       {
         title: 'Order No.',
-        dataIndex: 'orderNo',
+        render: (text:any,record:any) => {
+          return (          
+            record.order.orderNo          
+        )},
         key: 'orderNo',
       },
       {
@@ -67,8 +70,8 @@ export default class MyAccount extends React.Component<any,any> {
         render: (text:any, record:any) =>{
           let n;
           return (
-          <a onClick={()=>this.showOrderInfo(record.id)}>
-            <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId}      />  
+          <a onClick={()=>this.showOrderInfo(record.goods.id)}>
+            <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+record.goods.goodsId+"&fname="+record.goods.imgNames.split(";")[0]}      />  
     
           </ a>
     
@@ -78,19 +81,23 @@ export default class MyAccount extends React.Component<any,any> {
         title: 'Goods Name',
         key: 'goodsName',
         render: (text:any,record:any) => (
-          <a onClick={()=>this.showOrderInfo(record.id)}>
-            {record.goodsName}
+          <a onClick={()=>this.showOrderInfo(record.goods.id)}>
+            {record.goods.name}
           </a>
         )
       },
       {
         title: 'Price',
-        dataIndex: 'orderPrice',
+        render: (text:any,record:any) => (          
+          "$"+record.order.orderPrice          
+        ),
         key:'orderPrice',
       },
       {
         title: 'Order Time',
-        dataIndex: 'orderTime',
+        render: (text:any,record:any) => (          
+          record.order.orderTime          
+        ),
         key: 'orderTime',
       },
       {
@@ -98,20 +105,20 @@ export default class MyAccount extends React.Component<any,any> {
         //dataIndex: 'status',
         key: 'status',
         render: (text:any,record:any)=>{
-          if(record.status == 1){
+          if(record.goods.status == 1){
             return (
               <CheckCircleOutlined style={{color:'green',fontSize: '25px'}}/>
             )
-          }else if(record.status == -1){
+          }else if(record.goods.status == -1){
             return (
               <StopOutlined style={{color:'grey',fontSize: '25px'}}/>
             )
-          }else if(record.paymentStatus == 1){
+          }else if(record.goods.paymentStatus == 1){
             return (<CarOutlined style={{color:"peru",fontSize: '25px'}}/>)
           }else{
             return (
               
-                <a onClick={()=>this.props.history.push("/payment/"+record.id)}>
+                <a onClick={()=>this.props.history.push("/payment/"+record.order.id)}>
                   Pay Now
                 </a>
             )
@@ -130,8 +137,8 @@ export default class MyAccount extends React.Component<any,any> {
         title: 'Seller Info',
         key: 'seller_info',
         render:(text:any, record:any) => (
-          <div><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+record.sellerId+"&size=0"}/> &nbsp;
-          <span>{record.sellerName}</span>
+          <div><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+record.goods.sellerId+"&size=0"}/> &nbsp;
+          <span>{record.goods.sellerName}</span>
           </div>
           
         )

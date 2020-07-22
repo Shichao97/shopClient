@@ -59,17 +59,7 @@ export default class MyAccount extends React.Component<any,any> {
         dataIndex: 'orderNo',
         key: 'orderNo',
       },
-      {
-        title: 'Image',
-        key: 'image',
-        render: (text:any, record:any) => (
-          <a onClick={()=>this.showOrderInfo(record.id)}>
-            <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsmainimg?Id="+record.goodsId}      />  
-    
-          </ a>
-    
-        ),
-      },
+
       {
         title: 'Goods Name',
         key: 'goodsName',
