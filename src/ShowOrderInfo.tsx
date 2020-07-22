@@ -34,6 +34,11 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             dataType:"json",
             success:function(data){
                 _this.setState({orderdata:data});
+                if(data==null)
+                    Modal.error({
+                    title:'Error',
+                    content:"No order found. Because a wrong orderId or the order is deleted"
+                  })
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)

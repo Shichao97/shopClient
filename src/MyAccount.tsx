@@ -70,7 +70,7 @@ export default class MyAccount extends React.Component<any,any> {
         render: (text:any, record:any) =>{
           let n;
           return (
-          <a onClick={()=>this.showOrderInfo(record.goods.id)}>
+          <a onClick={()=>this.showOrderInfo(record.order.id)}>
             <img src={window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+record.goods.id+"&fname="+record.goods.imgNames.split(";")[0]}      />  
     
           </ a>
@@ -81,7 +81,7 @@ export default class MyAccount extends React.Component<any,any> {
         title: 'Goods Name',
         key: 'goodsName',
         render: (text:any,record:any) => (
-          <a onClick={()=>this.showOrderInfo(record.goods.id)}>
+          <a onClick={()=>this.showOrderInfo(record.order.id)}>
             {record.goods.name}
           </a>
         )
