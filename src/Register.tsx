@@ -77,7 +77,7 @@ export default class Register extends React.Component<any,any> {
                 _this.setState({loading:false});
                 Modal.success({
                   title:'Success',
-                  content:"Register success! Please check you email and active this register.",
+                  content:"Register success! Please check your email and activate this account.",
                   onOk: ()=>_this.props.history.push("/"),
 
                 })
