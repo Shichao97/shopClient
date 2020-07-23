@@ -5,7 +5,7 @@ import './SearchGoods.css';
 import jquery from "jquery";
 // import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Button, Row, Col, Card, Spin, Tooltip, Badge } from 'antd';
+import { Table,Button, Row, Col, Card, Spin, Tooltip, Badge, Modal } from 'antd';
 // import { FormInstance } from 'antd/lib/form';
 // import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
@@ -289,7 +289,7 @@ export default class MySelling extends React.Component<any,any> {
         _this.setState({});
       }
 
-
+      this.loadCount();
     }
 
     //第一次进入用这个
@@ -327,7 +327,37 @@ export default class MySelling extends React.Component<any,any> {
       this.loadData((pageNo));
     }
 
-
+    loadCount() {
+      
+      let _this = this;
+      _this.setState({countLoading:true})
+      let newUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/getSellCount";
+      console.log(newUrl);
+      $.ajax({
+        type:"GET",
+        crossDomain: true, 
+        xhrFields: {
+            withCredentials: true 
+        },
+        url:newUrl,
+        dataType:"json",
+        success:function(data){
+            _this.setState({countLoading:false})
+            _this.setState({sellingCount:data.sellingCount,onTheWayCount:data.onTheWayCount});
+            console.log("Load count success",data);
+        },
+        error: function(xhr:any, textStatus, errorThrown){
+            _this.setState({countLoading:false})
+            Modal.error({title:"Error",content:"request status:"+xhr.status+" msg:"+textStatus})
+            if(xhr.status=='604'){//未登录错误
+                let popwin: any = conf.loginWin;
+                popwin.setState({modalIsOpen:true})
+            }
+            
+        }
+      })
+        
+    }
 
     onFinish=(values:any)=>{
       let _this = this;
@@ -392,8 +422,8 @@ export default class MySelling extends React.Component<any,any> {
 
       let forms = 
 <div>
-<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(1)}>Selling Now<Badge count={this.state.sellingCount} offset={[0,-15]}/></Button>&nbsp;&nbsp;&nbsp;&nbsp;
-<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(2)}>On the way<Badge count={this.state.onWayCount} offset={[0,-15]}/></Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(1)} loading={this.state.countLoading}>Selling Now<Badge count={this.state.sellingCount} offset={[0,-15]}/></Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(2)} loading={this.state.countLoading}>On the way<Badge count={this.state.onTheWayCount} offset={[0,-15]}/></Button>&nbsp;&nbsp;&nbsp;&nbsp;
 <Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(3)}>Already sold out</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 <Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(4)}>Removed off from shelf</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 
