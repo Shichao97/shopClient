@@ -51,18 +51,34 @@ export default class ForgetPassword extends React.Component<any,any> {
             data:values,
             dataType:"json",
             success:function(d){
-                _this.setState({loading:false});
+
+                _this.setState({loading:false,data:d});
+                console.log(d);
+                
                 if(d.success == 0){
-                    _this.setState({msg:d.msg})
+                    Modal.info({title:"Sorry",content:d.msg});
                 }else if(d.success == 1){
-                    _this.setState({msg:"Please check your email for reset"})
+                    //message.success("Please check your email for more info of reset");
+                    //_this.setState({msg:"Please check your email for reset"})
                 }
+            },
+            error: function(xhr:any, textStatus, errorThrown){
+                let data = {success:0,msg:"request status:"+xhr.status+" msg:"+textStatus}
+                _this.setState({loading:false,data:data})
+                //console.log("request status:"+xhr.status+" msg:"+textStatus)
+                Modal.error({title:"Error",content:"request status:"+xhr.status+" msg:"+textStatus});  
             }
         })
     }
+
+
+
     render(){
+        if (this.state.data != undefined && this.state.data.success == 1) {
+            return <div><h1>Send Reset Email Success</h1><h2>Please check your email for more info of reset</h2></div>
+        }
         return(
-            <div>
+            <div className="demo2">
                 <h1>Forget Password</h1>
                 <Form
                 {...formItemLayout}
@@ -88,6 +104,7 @@ export default class ForgetPassword extends React.Component<any,any> {
                         required: true,
                         message: 'Please input your E-mail!',
                       },
+
                       
                     ]}
                     hasFeedback

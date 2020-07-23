@@ -20,7 +20,7 @@ var timerNum = 0;
 class Messgae extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { msgs: [],connected:false,chatMembersArr:[],chatMembers:{}};
+        this.state = { msgs: [],connected:false,chatMembersArr:[],chatMembers:{},icon_index:0};
         this.taskRemindInterval = null;
     }
 
@@ -178,6 +178,10 @@ class Messgae extends React.Component {
                 let totalNew = this.getTotalNewNum();
                 this.setState({});
             }
+            else  if (msgJson.flag == "icon_update") {
+                let n = this.state.icon_index+1;
+                this.setState({icon_index:n});
+            }
         });
         ws.onclose = (e) =>{
             this.setState({connected:false});
@@ -240,8 +244,8 @@ class Messgae extends React.Component {
         //let sNum = newNum==0?"":""+newNum;
         //let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message </Button>;
         //if(this.state.chatMembersArr.length==0) btn=<div></div>
-        let iconSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
-        //<div><img src={iconSrc}/>&nbsp;&nbsp;{username}</div>
+        let iconSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1&iconIndex"+this.state.icon_index;
+        console.log(iconSrc);
         if(uid != undefined && uid.length>0){
             return (
             <div >
