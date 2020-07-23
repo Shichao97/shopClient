@@ -5,7 +5,7 @@ import './SearchGoods.css';
 import jquery from "jquery";
 // import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Button, Row, Col, Card, Spin, Tooltip } from 'antd';
+import { Table,Button, Row, Col, Card, Spin, Tooltip, Badge } from 'antd';
 // import { FormInstance } from 'antd/lib/form';
 // import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
@@ -392,8 +392,8 @@ export default class MySelling extends React.Component<any,any> {
 
       let forms = 
 <div>
-<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(1)}>Selling Now</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(2)}>On the way</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(1)}>Selling Now<Badge count={this.state.sellingCount} offset={[0,-15]}/></Button>&nbsp;&nbsp;&nbsp;&nbsp;
+<Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(2)}>On the way<Badge count={this.state.onWayCount} offset={[0,-15]}/></Button>&nbsp;&nbsp;&nbsp;&nbsp;
 <Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(3)}>Already sold out</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 <Button type="default" size='large' disabled={this.state.loading} onClick={()=>this.handleSearch(4)}>Removed off from shelf</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 

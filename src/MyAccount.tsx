@@ -331,8 +331,8 @@ export default class MyAccount extends React.Component<any,any> {
         let iconSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1";
         let btns= <div>
             <h1>My Orders</h1>
-           <Button type="default" size='large' loading={this.state.countLoading} disabled={this.state.loading} onClick={()=>this.handleSearchNotPaid()}>Not paid<Badge count={this.state.notPaidCount} /></Button>&nbsp;&nbsp;&nbsp;&nbsp;
-           <Button type="default" size='large' loading={this.state.countLoading} disabled={this.state.loading} onClick={()=>this.handleSearchNotFinished()}>Not finished<Badge count={this.state.notFinishCount} /></Button>&nbsp;&nbsp;&nbsp;&nbsp;
+           <Button type="default" size='large' loading={this.state.countLoading} disabled={this.state.loading} onClick={()=>this.handleSearchNotPaid()}>Not paid<Badge count={this.state.notPaidCount} offset={[0,-15]}/></Button>&nbsp;&nbsp;&nbsp;&nbsp;
+           <Button type="default" size='large' loading={this.state.countLoading} disabled={this.state.loading} onClick={()=>this.handleSearchNotFinished()}>Not finished<Badge count={this.state.notFinishCount}  offset={[0,-15]}/></Button>&nbsp;&nbsp;&nbsp;&nbsp;
            <Button type="default" disabled={this.state.loading} size='large' onClick={()=>this.handleSearchAll()}>All Orders</Button>&nbsp;&nbsp;&nbsp;&nbsp;       
         </div>
 
