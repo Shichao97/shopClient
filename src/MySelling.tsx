@@ -5,7 +5,7 @@ import './SearchGoods.css';
 import jquery from "jquery";
 // import { Link } from 'react-router-dom';
 import conf from './Conf'
-import { Table,Button, Row, Col, Card, Spin } from 'antd';
+import { Table,Button, Row, Col, Card, Spin, Tooltip } from 'antd';
 // import { FormInstance } from 'antd/lib/form';
 // import { SearchOutlined,UserOutlined } from '@ant-design/icons';
 import { Pagination } from 'antd';
@@ -84,10 +84,11 @@ export default class MySelling extends React.Component<any,any> {
             _this.setState({loading:false});
             var arr:any[] = [];
             var member = {id:uid,userName:uname}
-            data.content.forEach((element:any) => {
-              arr.push({g:element,m:member});
-            });
-            data.content = arr;
+            _this.setState({my:member});
+            // data.content.forEach((element:any) => {
+            //   arr.push({g:element,m:member});
+            // });
+            // data.content = arr;
               _this.setState({page:data,gotoPage:data.number+1});
               //_this.setState({flag:1});
           },
@@ -128,48 +129,30 @@ export default class MySelling extends React.Component<any,any> {
         }
       }
      
-    sellingMethod(m:number):string{
+    sellingMethod(t:number):string{
       //let re:string = "";
-      let re1= ((m & 1) == 1) ? "shipping":"";
-      let re2= ((m & 2) == 2) ? "self-pick":"";
-      let re3= ((m & 4) == 4) ? "home-dilivery":"";
+      let re1= ((t & 1) == 1) ? "shipping":"";
+      let re2= ((t & 2) == 2) ? "self-pick":"";
+      let re3= ((t & 4) == 4) ? "home-dilivery":"";
       
       return re1 + " " + re2 + " " + re3;
     }
 
 
 
+    onBuyerClicked(ele:any,event:any){
+      let popwin: any = conf.msgWin;
+      popwin.setState({modalIsOpen:true,toId:ele.o.buyerId,toName:ele.o.buyerName});
 
-    // handlePreviousPage(){
-    //   let _this: SearchGoods = this;
-    //   let page:any = _this.state.page;
-    //   let pn:number = page.number;
-    //   pn -= 1;
-      
-    //   let totalPages = page.totalPages;
-    //   if(pn > (-1)){
-    //     _this.loadData(pn);
-    //   }
-    // }
+      event?.stopPropagation();
+    }
 
-    // handleNextPage(){
-    //   let _this: SearchGoods = this;
-    //   let page:any = _this.state.page;
-    //   let pn:number = page.number;
-    //   pn += 1;
-      
-    //   let totalPages = page.totalPages;
-    //   if(pn<totalPages){
-    //     _this.loadData(pn);
-    //   }
-      
-    // }
-    // handleGoto(){
-    //   let page:any = this.state.page;
-    //   let totalPages = page.totalPages;
-    //   let pn:number = this.state.gotoPage;
-    //   this.loadData(pn-1);
-    // }
+    onOrderClicked(ele:any,event:any){
+
+      this.props.history.push("/sellOrderInfo/"+ele.o.id);
+      event?.stopPropagation();
+    }
+
     cardRender(ele:any) {
 
   
@@ -191,11 +174,24 @@ export default class MySelling extends React.Component<any,any> {
         style={{ width: 262,textAlign:"center" }}
         cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+ele.g.id+"&fname="+ele.g.imgNames.split(";")[0]} /></Col></Row>}
       >
-        <Meta title={ele.g.name}  description={"Price: $"+ele.g.price}/>
+        {ele.o == undefined || ele.o == null?<Meta title={ele.g.name}  description={"Price: $"+ele.g.price}/>:
+        <Meta title={ele.g.name}  description={
+          <Tooltip placement="topLeft" title={"See the order details"}>
+            <a  onClick={this.onOrderClicked.bind(this,ele)}>Order No.  {ele.o.orderNo}</a>
+          </Tooltip>}/>
+          
+          }
         <Row><Col>&nbsp;</Col></Row>
-
-        <Meta description={<div style={{textAlign:'center'}}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> {ele.m.userName}</div>}  />
-      </Card>  
+        {ele.o == undefined || ele.o == null?"":
+        <Meta description={<div style={{textAlign:'center'}}>Buyer: 
+        
+        <Tooltip placement="topLeft" title={"Chat with the buyer"}>
+            <a  onClick={this.onBuyerClicked.bind(this,ele)}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.o.buyerId+"&size=0"}/>{ele.o.buyerName}</a>
+          </Tooltip>
+         </div>
+         }  />
+        }
+        </Card>  
         </Col>
 
       </Row>

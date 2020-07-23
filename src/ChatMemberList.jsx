@@ -2,7 +2,7 @@ import React from 'react';
 //import ReactDOM from 'react-dom';
 //import { HashRouter as Router, Link, Route, NavLink } from 'react-router-dom';
 //import Login from './Login';
-import { Button, Row, Col } from 'antd'
+import { Button, Row, Col,Badge } from 'antd'
 import MessagePanel from './MessagePanel';
 import conf from './Conf'
 
@@ -60,9 +60,9 @@ class ChatMemberList extends React.Component {
         {this.state.mesState.chatMembersArr.map((element,index) =>{
                 let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=1";
 
-                return <Row ><Col span={5}><div className="circleIcon_middle"><img src={memberImgSrc}/></div></Col>
-                <Col span={19}><Button type="text" size="middle" onClick={()=>this.memberClicked(element,index)}>
-                    {element.otherName} <sup><font color="red" size="3">{element.count==0?"":""+element.count}</font></sup></Button></Col></Row>
+                return <Row ><Col span={24} className="gutter-box" onClick={()=>this.memberClicked(element,index)} ><div className="circleIcon_middle"><img src={memberImgSrc}/></div>
+                
+                <Badge count={element.count==0?"":""+element.count} offset={[10, 0]} >   {element.otherName}  </Badge> </Col></Row>
             })}
 
 

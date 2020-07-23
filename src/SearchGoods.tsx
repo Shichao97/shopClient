@@ -185,12 +185,14 @@ export default class SearchGoods extends React.Component<any,any> {
         <Meta title={ele.g.name} description={"Price: $"+ele.g.price}/>
         <Row><Col>&nbsp;</Col></Row>
         
-        <Meta description={<div style={{textAlign:'center'}}>
+        <Meta description={
+        <div style={{textAlign:'center'}}>
         <Tooltip placement="topLeft" title={"All of "+ele.m.userName}>
         <a  onClick={this.onUserClicked.bind(this,ele)} ><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
       &nbsp;{ele.m.userName}</a>
     </Tooltip>  -- <Tooltip placement="topLeft" title={"Search From "+ schoolName}>
-      <a  onClick={this.onSchoolClicked.bind(this,ele)} >{schoolName}</a></Tooltip></div>}/>
+      <a  onClick={this.onSchoolClicked.bind(this,ele)} >{schoolName}</a></Tooltip></div>
+        } />
       </Card>  
         </Col>
 
