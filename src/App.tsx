@@ -32,6 +32,7 @@ import Payment from './Payment';
 import { Row, Col } from 'antd';
 import { ShareAltOutlined,AimOutlined } from '@ant-design/icons';
 import Error404 from './Error404';
+import SellOrderInfo from './SellOrderInfo';
 import ForgetPassword from './ForgetPassword';
 import Reset from './Reset';
 
@@ -202,7 +203,7 @@ componentDidMount() {
           <Route path="/test2/:id" component={RegistrationForm}></Route>
 
           <PrivateRoute path="/searchsell" component={SearchSellGoods}/>
-
+          <PrivateRoute path="/sellOrderInfo/:oid" component={SellOrderInfo}/>
           <Route path="/searchGoods" component={SearchGoods}></Route>
           <PrivateRoute path="/editsellgoods/:id" component={EditSellGoods}/>
           <Route path="/showgoodsinfo/:id" component={ShowGoodsInfo}></Route>

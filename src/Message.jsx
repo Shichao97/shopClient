@@ -160,7 +160,7 @@ class Messgae extends React.Component {
                     this.state.chatMembers[otherId] = member;
                     this.setState({});
                 }
-                if(msgJson.fromId !== uid ){
+                if(msgJson.fromId != uid ){
                     member.count++;
                     this.setState({});
                 }
