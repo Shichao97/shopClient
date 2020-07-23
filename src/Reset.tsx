@@ -5,6 +5,7 @@ import { FormInstance } from 'antd/lib/form';
 import conf from './Conf';
 import jquery from "jquery";
 const $ = jquery;
+
 const tailFormItemLayout = {
     wrapperCol: {
       xs: {
