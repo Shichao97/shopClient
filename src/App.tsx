@@ -33,6 +33,7 @@ import { Row, Col } from 'antd';
 import { ShareAltOutlined,AimOutlined } from '@ant-design/icons';
 import Error404 from './Error404';
 import SellOrderInfo from './SellOrderInfo';
+import ForgetPassword from './ForgetPassword';
 
 //const { Header, Footer, Sider, Content } = Layout;
 
@@ -213,6 +214,7 @@ componentDidMount() {
           <Route path="/payment/:oid" component={Payment}></Route>
           <Route path="/chatMemberList" component={ChatMemberList}></Route>
           <Route path="/active/:params" component={Active}></Route>
+          <Route path="/forget" component={ForgetPassword}></Route>
           <Route path="/e404" component={Error404}></Route>
           <Redirect to="/e404"/>
           </Switch>          
