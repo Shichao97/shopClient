@@ -105,16 +105,16 @@ export default class MyAccount extends React.Component<any,any> {
         //dataIndex: 'status',
         key: 'status',
         render: (text:any,record:any)=>{
-          if(record.goods.status == 1){
+          if(record.order.status == 1){
             return (
-              <CheckCircleOutlined style={{color:'green',fontSize: '25px'}}/>
+              <div><CheckCircleOutlined style={{color:'green',fontSize: '25px'}}/> Complete</div>
             )
-          }else if(record.goods.status == -1){
+          }else if(record.order.status == -1){
             return (
-              <StopOutlined style={{color:'grey',fontSize: '25px'}}/>
+              <div><StopOutlined style={{color:'grey',fontSize: '25px'}}/> Cancled</div>
             )
-          }else if(record.goods.paymentStatus == 1){
-            return (<CarOutlined style={{color:"peru",fontSize: '25px'}}/>)
+          }else if(record.order.paymentStatus == 1){
+            return (<div><CarOutlined style={{color:"peru",fontSize: '25px'}}/> Wait</div>)
           }else{
             return (
               

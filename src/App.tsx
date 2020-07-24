@@ -164,8 +164,8 @@ componentDidMount() {
         <div className="App-header">
       
         
-        <Row  justify="space-around" align="middle" style={{height:'60px'}}>
-          <Col span={6} style={{padding:'9px'}}>
+        <Row  justify="space-around" align="middle" style={{height:'75px'}}>
+          <Col span={6} style={{padding:'5px'}}>
             <AimOutlined label='Unit Second hand' style={{background:'#FFFFFF',fontSize: '30px'}}/>&nbsp;
             <ShareAltOutlined label='Unit Second hand' style={{background:'#FF9999',fontSize: '30px'}}/>&nbsp;
             <AimOutlined label='Unit Second hand' style={{background:'#FFFFFF',fontSize: '30px'}}/>

@@ -20,6 +20,7 @@ var timerNum = 0;
 class Messgae extends React.Component {
     constructor(props) {
         super(props);
+        let uid = conf.getCookie("userId")
         this.state = { msgs: [],connected:false,chatMembersArr:[],chatMembers:{},icon_index:0};
         this.taskRemindInterval = null;
     }
@@ -145,18 +146,23 @@ class Messgae extends React.Component {
                 this.setState({});
             }
             else if (msgJson.flag == "msg_new") {
-                this.state.chatMembersArr.push(msgJson);
+
+                if(msgJson.otherId==1) this.state.chatMembersArr.unshift(msgJson);
+                else this.state.chatMembersArr.push(msgJson);
                 var otherId = msgJson.otherId;
                 this.state.chatMembers[otherId] = msgJson;
                 this.setState({});
+                
             }
             else if (msgJson.flag == "msg") {
                 var otherId = this.getOtherId(msgJson);
                 var otherName = this.getOtherName(msgJson);
+
                 var member = this.state.chatMembers[otherId];
                 if(member === undefined){
                     member ={count:0,fromId:msgJson.fromId,toId:msgJson.toId,otherId:otherId,otherName:otherName};
-                    this.state.chatMembersArr.push(member);
+                    if(otherId==1) this.state.chatMembersArr.unshift(msgJson);
+                    else this.state.chatMembersArr.push(member);
                     this.state.chatMembers[otherId] = member;
                     this.setState({});
                 }
@@ -164,6 +170,7 @@ class Messgae extends React.Component {
                     member.count++;
                     this.setState({});
                 }
+                
             }
             else if (msgJson.flag == "msg_read") {
                 var otherId = msgJson.otherId;

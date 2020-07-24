@@ -36,7 +36,7 @@ class ChatMemberList extends React.Component {
         });
     }
 
-    memberClicked(element,index){
+    memberClicked(element){
         this.setState({toId:element.otherId,toName:element.otherName});
         this.refs.msgPanel.initMsg(element.otherId,element.otherName);
     }
@@ -46,23 +46,32 @@ class ChatMemberList extends React.Component {
         let uid = conf.getCookie("userId");
         let username = conf.getCookie("username");
         if(this.state==undefined) return <div></div>
-        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=1";
-        let title = this.state.toId == undefined?<div>Select chat member</div>:<div><div className="circleIcon_middle">
+        let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.toId+"&size=0";
+        let title = this.state.toId == undefined?<div>Select chat member</div>:<div><div className="circleIcon_small">
             <img src={memberImgSrc}/> </div>
-            &nbsp; &nbsp; {this.state.toName}
+            &nbsp; {this.state.toName}
             </div>
-        
+        // let sm = this.state.mesState.sysMember;
+        // let sysRow=""
+        // if(sm != undefined){
+        //     let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+sm.fromId+"&size=1";
+        //     sysRow = <Row ><Col span={24} className="gutter-box" onClick={()=>this.memberClicked(sm)} ><div className="circleIcon_middle"><img src={memberImgSrc}/></div>
+        //     <Badge count={sm.count==0?"":""+sm.count} offset={[10, 0]} >   {sm.otherName}  </Badge> </Col></Row>
+
+        // }
         return <div>
         
         <div className='chat_body'>
         {title}
         <div className='chat_left'>
+        
+        
         {this.state.mesState.chatMembersArr.map((element,index) =>{
-                let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=1";
+                let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=0";
 
-                return <Row ><Col span={24} className="gutter-box" onClick={()=>this.memberClicked(element,index)} ><div className="circleIcon_middle"><img src={memberImgSrc}/></div>
+                return <Row ><Col span={24} className={element.otherId==1?"gutter-box-sys":"gutter-box"} onClick={()=>this.memberClicked(element)} ><div className="circleIcon_small"><img src={memberImgSrc}/></div>
                 
-                <Badge count={element.count==0?"":""+element.count} offset={[10, 0]} >   {element.otherName}  </Badge> </Col></Row>
+                <Badge count={element.count==0?"":""+element.count} offset={[10, 0]} >   &nbsp;{element.otherName}  </Badge> </Col></Row>
             })}
 
 

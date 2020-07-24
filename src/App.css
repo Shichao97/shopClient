@@ -155,7 +155,11 @@
   background: rgb(203, 235, 211);
   cursor: pointer;
 }
-
+.gutter-box-sys {
+  padding: 3px 0;
+  background: rgb(245, 185, 117);
+  cursor: pointer;
+}
 
 .chat_right{
   float:right ; 
@@ -494,12 +498,20 @@ opacity:0.60; top:80px; height:30px;
 }
 
 .circleIcon_middle{
-  width: 40px;
-  height: 40px;
+  width: 58px;
+  height: 58px;
   border-radius:100%;
   overflow: hidden;
   display: inline-block;
   vertical-align: middle;
    
 }
-
+.circleIcon_small{
+  width: 32px;
+  height: 32px;
+  border-radius:100%;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+   
+}

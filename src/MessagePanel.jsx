@@ -134,10 +134,12 @@ const $ = jquery;
 
      
         </div>
+        {this.state.toId == 1?<div></div>:
         <div className='chat_center'>
             <input type="text" id="panel_text" name="test" className="chat_input"/>
             <Button type="default" size="middle" onClick={() => this.sendout()} >Send</Button>       
             </div>      
+        }
       </div>
     );
   }
