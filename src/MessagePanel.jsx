@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 //import { render } from '@testing-library/react';
 import jquery from "jquery";
-import { Button } from 'antd'
+import { Button , Row , Col, Tooltip} from 'antd'
 //import { SmileOutlined } from '@ant-design/icons';
 import conf from './Conf'
 
@@ -101,22 +101,28 @@ const $ = jquery;
     }
     render(){
         let uid = conf.getCookie("userId");
+        let toId = this.state.toId;
         return (
         <div>
-            <div className='chat_panel' id="panel_div">
+            <div className={this.state.toId==1?'chat_panel_sys':'chat_panel'} id="panel_div">
+            
                 {
                     this.state.msgs.map((element,index) => {
                         let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=0";
 
                         if(element.fromId==uid){
-                            return <p className="rightd">
+                            return <div> 
+                            <p className="rightd">
                                 <span className="rightd_h">
                                     <img src={memberImgSrc} />
                                 </span>
                                 <p className="speech right"> 
-                                    {element.content}
+                                  <Tooltip  placement="topLeft" title={element.sendTime}>  {element.content}</Tooltip>
                                 </p>
+                                
                             </p>
+                            
+                            </div>
                         }
                         else{
                             return <p className="leftd"> 
@@ -124,7 +130,7 @@ const $ = jquery;
                                     <img src={memberImgSrc} />                            
                                 </span>                           
                                 <p className="speech left">                             
-                                    {element.content}                         
+                                    <Tooltip  placement="topLeft" title={element.sendTime}> {element.content} </Tooltip>                        
                                 </p>                           
                            </p>
                         }

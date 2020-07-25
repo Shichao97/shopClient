@@ -111,7 +111,7 @@ export default class MyAccount extends React.Component<any,any> {
             )
           }else if(record.order.status == -1){
             return (
-              <div><StopOutlined style={{color:'grey',fontSize: '25px'}}/> Cancled</div>
+              <div><StopOutlined style={{color:'grey',fontSize: '25px'}}/> Canceled</div>
             )
           }else if(record.order.paymentStatus == 1){
             return (<div><CarOutlined style={{color:"peru",fontSize: '25px'}}/> Wait</div>)

@@ -228,7 +228,7 @@
   max-height: 400px;
   width: 98%;
   height: 1%;
-  background: hsl(120, 14%, 90%);
+  
   text-align: center;
   overflow: auto;
   top: 5%;
@@ -239,6 +239,26 @@
 
   text-align: center;
   background-color: rgb(226, 236, 216);
+}
+
+.chat_panel_sys {
+
+  min-width: 300px;
+  min-height: 400px;
+  max-height: 400px;
+  width: 98%;
+  height: 1%;
+  
+  text-align: center;
+  overflow: auto;
+  top: 5%;
+  position: relative;
+  width: 90%;
+  height: 90%;
+  left: 5%;
+
+  text-align: center;
+  background-color:rgb(245, 185, 117);
 }
 
 .group_body>div {
