@@ -12,7 +12,6 @@ import conf from './Conf'
 const $ = jquery;
 
 
-
 //{
   //Modal.setAppElement('#root')
   export default class  MessagePanel extends React.Component{
@@ -91,6 +90,8 @@ const $ = jquery;
         }
     }
 
+    
+
     scrollbottom() {
         var ele = document.getElementById('panel_div');
         ele.scrollTop = ele.scrollHeight;
@@ -111,13 +112,14 @@ const $ = jquery;
                         let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=0";
 
                         if(element.fromId==uid){
+                            //Date d = element.getDate()
                             return <div> 
                             <p className="rightd">
                                 <span className="rightd_h">
                                     <img src={memberImgSrc} />
                                 </span>
                                 <p className="speech right"> 
-                                  <Tooltip  placement="topLeft" title={element.sendTime}>  {element.content}</Tooltip>
+                                  <Tooltip  placement="topLeft" title={element.sendTime==undefined?"":new Date(element.sendTime).format("yyyy-MM-dd hh:mm:ss")}>  {element.content}</Tooltip>
                                 </p>
                                 
                             </p>
