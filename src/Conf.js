@@ -44,40 +44,102 @@ const Conf = {
   goods_types : [
     {
       value: 'A',
-      label: 'Furniture',
+      label: 'Furnitures',
       children: [
         {
           value: 'A_0001',
-          label: 'Bed',
+          label: 'Beds & Mattresses',
         },
         {
           value: 'A_0002',
-          label: 'Chair',
+          label: 'Chairs',
         },
         {
           value: 'A_0003',
-          label: 'Table',
+          label: 'Tables',
         },
       ],
     },
+    {
+      value: 'E',
+      label: 'Home and Appliances',
+      children: [
+        {
+          value: 'E_0001',
+          label: 'Kitchen & Dinning',
+        },
+        {
+          value: 'E_0002',
+          label: 'Storage & Organization',
+        },
+        {
+          value: 'E_0003',
+          label: 'Decor & Home Fragrance',
+        },
+      ],
+    },
+   
+    
+    {
+      value: 'D',
+      label: 'Clothing, Shoes & Jewlery',
+      children: [
+        {
+          value: 'D_0001',
+          label: 'Tops',
+        },
+        {
+          value: 'D_0002',
+          label: 'Bottoms',
+        },
+        {
+          value: 'D_0003',
+          label: 'Shoes',
+        },
+        {
+          value: 'D_0004',
+          label: 'Jewleries',
+        },
+      ],
+    },
+    {
+      value: 'C',
+      label: 'Electronics',
+      children: [
+        {
+          value: 'C_0001',
+          label: 'Cell Phones & Accessories',
+        },
+        {
+          value: 'C_0002',
+          label: 'Computers & Accessories',
+        },
+        {
+          value: 'C_0003',
+          label: 'TV, Video, Ipad & Tablets',
+        },
+      ],
+    },
+
     {
       value: 'B',
       label: 'Books',
       children: [
         {
           value: 'B_0001',
-          label: 'Math',
+          label: 'Mathmetics',
         },
         {
           value: 'B_0002',
-          label: 'English',
+          label: 'History & Literature',
         },
         {
           value: 'B_0003',
-          label: 'Magazine',
+          label: 'Magazines',
         },
       ],
     },
+    
   ],   
   
   

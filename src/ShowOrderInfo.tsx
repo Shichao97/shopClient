@@ -234,7 +234,21 @@ export default class ShowOrderInfo extends React.Component<any,any> {
             }
           }) 
     }
-   
+    getpayment(status:number):string{
+        if(status == 0) return "not yet paid";
+        else return "already paid";
+    }
+
+    getStatus(status:number):string{
+      
+        if(status == 0){
+          return "not finished";
+        }else if(status == 1){
+          return "already finished";
+        }else{
+          return "already canceled";
+        }
+    }
     render(){
         let orderdata:any = this.state.orderdata;
         if(orderdata == undefined){
@@ -244,6 +258,8 @@ export default class ShowOrderInfo extends React.Component<any,any> {
         }
         let goodsImgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+orderdata.goods.id+"&fname="+orderdata.goods.imgNames.split(";")[0];
         let receiveMethod:string = this.getReceiveMethod(orderdata.order.receiveMethod);
+        let payment:string = this.getpayment(orderdata.order.paymentStatus);
+        let status:string = this.getStatus(orderdata.order.status);
         let ordertable = <table className="my-table2">
         <tr>
             <td>Order No.</td>
@@ -263,7 +279,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
         </tr>
         <tr>
             <td>Order Time</td>
-            <td>{orderdata.order.orderTime}</td>
+            <td>{(new Date(orderdata.order.orderTime) as any).format("yyyy-MM-dd hh:mm:ss")}</td>
         </tr>
         <tr>
             <td>Receive Method</td>
@@ -275,11 +291,11 @@ export default class ShowOrderInfo extends React.Component<any,any> {
         </tr>
         <tr>
             <td>Order Status</td>
-            <td>{orderdata.order.status}</td>
+            <td>{status}</td>
         </tr>
         <tr>
             <td>Payment Status</td>
-            <td>{orderdata.order.paymentStatus}</td>
+            <td>{payment}</td>
         </tr>
     </table>
 
