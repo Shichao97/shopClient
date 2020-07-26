@@ -112,7 +112,7 @@ const $ = jquery;
         if(this.state.loading){
             return <div>
             <div className={this.state.toId==1?'chat_panel_sys':'chat_panel'} id="panel_div">
-            <p/><p/><p/><p/><p/><p/>
+            <p/>&nbsp;<p/>&nbsp;<p/>&nbsp;<p/>&nbsp;<p/>
             <Spin/>
             </div>
             
