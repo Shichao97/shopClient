@@ -2,13 +2,20 @@
 //import React from "react";
 //import MessageModal from "./MessageModal";
 
+//import { toFunction } from "ol/style/Style";
+
  
 Date.prototype.format = function(ft)
 {
 var d = new Date();
 var format = ft;
+var n = ft.indexOf(":ss");
+var n2 = ft.indexOf("hh:mm");
 if(d.getDate() == this.getDate()){
-  format = "hh:mm:ss";
+
+  if(n2>0) {
+    format = n>0?"hh:mm:ss":"hh:mm";
+  }
 }
  var o = {
  "M+" : this.getMonth()+1, //month

@@ -220,7 +220,15 @@ p .left:after {
  
 }
  
-  
+.centerd {
+ 
+    clear: both;
+    text-align:center;
+    position:relative;
+    width:100%;
+    color: rgb(173, 162, 162);
+    
+   }  
  
 .leftd_h{
  

@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 //import { render } from '@testing-library/react';
 import jquery from "jquery";
-import { Button , Row , Col, Tooltip} from 'antd'
+import { Button , Row , Col, Tooltip, Spin} from 'antd'
 //import { SmileOutlined } from '@ant-design/icons';
 import conf from './Conf'
 
@@ -29,8 +29,12 @@ const $ = jquery;
       ws.send(JSON.stringify({ flag: "msg_init",toId: toId}));
       let result = "";
       document.addEventListener('keypress', this.handleKeyDown);
+      this.setState({loading:true});
+
       if(this.state.toId !== undefined) return;
-      //ws.onmessage = (msg) => {
+      
+
+
       ws.addEventListener('message', (msg) => {
         console.log('MessagePanel: ', msg);
         var msgJson = JSON.parse(msg.data);
@@ -46,7 +50,8 @@ const $ = jquery;
         if(msgJson.flag == "msg_inited") {//MainPanel init ended
             //TODO enable send commond
             ws.send(JSON.stringify({ flag: "msg_readAll",otherId: this.state.toId}));
-            this.setState({});
+            this.setState({loading:false});
+
         }
         else if (msgJson.flag == "msg") {
             if(msgJson.fromId == uid || msgJson.toId == uid){
@@ -103,6 +108,16 @@ const $ = jquery;
     render(){
         let uid = conf.getCookie("userId");
         let toId = this.state.toId;
+        let lastTime=0;
+        if(this.state.loading){
+            return <div>
+            <div className={this.state.toId==1?'chat_panel_sys':'chat_panel'} id="panel_div">
+            <p/><p/><p/><p/><p/><p/>
+            <Spin/>
+            </div>
+            
+            </div>
+        }
         return (
         <div>
             <div className={this.state.toId==1?'chat_panel_sys':'chat_panel'} id="panel_div">
@@ -112,29 +127,40 @@ const $ = jquery;
                         let memberImgSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+element.fromId+"&size=0";
 
                         if(element.fromId==uid){
-                            //Date d = element.getDate()
+                            let times = <p  className="centerd">{element.sendTime==undefined?"":new Date(element.sendTime).format("yyyy-MM-dd hh:mm")}</p>
+                            let b = element.sendTime!=undefined && (element.sendTime-lastTime)/1000>120;
+                            lastTime = element.sendTime;
                             return <div> 
+                            {b?times:""}
+                            
+
                             <p className="rightd">
                                 <span className="rightd_h">
                                     <img src={memberImgSrc} />
                                 </span>
                                 <p className="speech right"> 
-                                  <Tooltip  placement="topLeft" title={element.sendTime==undefined?"":new Date(element.sendTime).format("yyyy-MM-dd hh:mm:ss")}>  {element.content}</Tooltip>
+                                    {element.content} 
                                 </p>
-                                
+                               
                             </p>
                             
                             </div>
                         }
                         else{
-                            return <p className="leftd"> 
+                            let times = <p  className="centerd">{element.sendTime==undefined?"":new Date(element.sendTime).format("yyyy-MM-dd hh:mm")}</p>
+                            let b = element.sendTime!=undefined && (element.sendTime-lastTime)/1000>120;
+                            lastTime = element.sendTime;
+                            return <div> 
+                            {b?times:""}                            
+                            <p className="leftd"> 
                                 <span className="leftd_h">                           
                                     <img src={memberImgSrc} />                            
                                 </span>                           
                                 <p className="speech left">                             
-                                    <Tooltip  placement="topLeft" title={element.sendTime==undefined?"":new Date(element.sendTime).format("yyyy-MM-dd hh:mm:ss")}> {element.content} </Tooltip>                        
+                                    {element.content}                     
                                 </p>                           
                            </p>
+                           </div>
                         }
                     })
                     
