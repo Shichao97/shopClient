@@ -3,8 +3,13 @@
 //import MessageModal from "./MessageModal";
 
  
-Date.prototype.format = function(format)
+Date.prototype.format = function(ft)
 {
+var d = new Date();
+var format = ft;
+if(d.getDate() == this.getDate()){
+  format = "hh:mm:ss";
+}
  var o = {
  "M+" : this.getMonth()+1, //month
  "d+" : this.getDate(),    //day
@@ -20,6 +25,8 @@ Date.prototype.format = function(format)
  format = format.replace(RegExp.$1,
  RegExp.$1.length==1 ? o[k] :
  ("00"+ o[k]).substr((""+ o[k]).length));
+
+
  return format;
 }
 

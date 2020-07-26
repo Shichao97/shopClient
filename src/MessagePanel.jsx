@@ -52,7 +52,7 @@ const $ = jquery;
             if(msgJson.fromId == uid || msgJson.toId == uid){
                 this.state.msgs.push(msgJson);
                 if(msgJson.toId == uid){
-                    ws.send(JSON.stringify({ flag: "msg_read",otherId: this.state.toId}));
+                    ws.send(JSON.stringify({ flag: "msg_read",msgId:msgJson.msgId,otherId: this.state.toId}));
                 }
                 this.setState({});
             }
@@ -132,7 +132,7 @@ const $ = jquery;
                                     <img src={memberImgSrc} />                            
                                 </span>                           
                                 <p className="speech left">                             
-                                    <Tooltip  placement="topLeft" title={element.sendTime}> {element.content} </Tooltip>                        
+                                    <Tooltip  placement="topLeft" title={element.sendTime==undefined?"":new Date(element.sendTime).format("yyyy-MM-dd hh:mm:ss")}> {element.content} </Tooltip>                        
                                 </p>                           
                            </p>
                         }
