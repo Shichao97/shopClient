@@ -6,7 +6,7 @@ import React from 'react';
 // import { Button, Row, Col } from 'antd'
 import {withRouter} from 'react-router-dom'
 import conf from './Conf'
-import { Badge } from 'antd';
+import { Badge, Modal } from 'antd';
 //import { ClockCircleOutlined } from '@ant-design/icons';
 
 
@@ -143,7 +143,10 @@ class Messgae extends React.Component {
             } 
             else if (msgJson.flag == "logout") {
                 ws.close();
+                conf.setCookie("userId","");
+                conf.setCookie("username","");
                 this.setState({});
+                Modal.info({title:"Force Logout",content:"You are forced to logout because the same username login at other place"});
             }
             else if (msgJson.flag == "msg_new") {
 

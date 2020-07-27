@@ -339,7 +339,7 @@ const Conf = {
         //设置指定时间
         cur.setTime(cur.getTime() + times * 24 * 3600 * 1000)
         //创建cookie  并且设置生存周期为UTC时间
-        document.cookie = key+'=' +encodeURIComponent(value) +';expires=' +(times === undefined ? '' : cur.toUTCString())
+        document.cookie = key+'=' +encodeURIComponent(value) + ";domain="+document.domain+";path=/" +';expires=' +(times === undefined ? '' : cur.toUTCString())
       },
     
       delCookie(key) {

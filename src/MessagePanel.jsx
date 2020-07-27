@@ -81,7 +81,10 @@ const $ = jquery;
         let uid = conf.getCookie("userId");
         if(this.state.toId !== undefined){
             var s = document.getElementById("panel_text").value;
-            if(s.length>255){
+            if(s.trim().length==0){
+
+            }
+            else if(s.length>255){
                 //alert("Words is too long! Please be less than 255.");
                 Modal.error({
                     title:'Error',

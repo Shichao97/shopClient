@@ -115,9 +115,12 @@ const tailLayout = {
 
 
               <Form.Item {...tailLayout}>
+              <a onClick={()=>this.props.history.push("/register")}>Free Register</a>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <a onClick={()=>this.props.history.push("/forget")}>Forget password</a><p/>
                 <Button type="primary" htmlType="submit" loading={this.state.loading}>
                   Sign In
-                </Button>&nbsp;&nbsp;&nbsp;&nbsp;<a onClick={()=>this.props.history.push("/forget")}>Forget password</a>
+                </Button>
                 
               </Form.Item>
             </Form>

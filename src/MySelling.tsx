@@ -174,7 +174,7 @@ export default class MySelling extends React.Component<any,any> {
         style={{ width: 262,textAlign:"center" }}
         cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+ele.g.id+"&fname="+ele.g.imgNames.split(";")[0]} /></Col></Row>}
       >
-        {ele.o == undefined || ele.o == null?<Meta title={ele.g.name}  description={"Price: $"+ele.g.price}/>:
+        {ele.o == undefined || ele.o == null?<Meta title={ele.g.name}  description={<div>{"Price: $"+ele.g.price}<br/>{(new Date(ele.g.addTime) as any).format("yyyy-MM-dd hh:mm")}</div>}/>:
         <Meta title={ele.g.name}  description={
           <Tooltip placement="topLeft" title={"See the order details"}>
             <a  onClick={this.onOrderClicked.bind(this,ele)}>Order No.  {ele.o.orderNo}</a>
@@ -186,7 +186,8 @@ export default class MySelling extends React.Component<any,any> {
         <Meta description={<div style={{textAlign:'center'}}>Buyer: 
         
         <Tooltip placement="topLeft" title={"Chat with the buyer"}>
-            <a  onClick={this.onBuyerClicked.bind(this,ele)}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.o.buyerId+"&size=0"}/>{ele.o.buyerName}</a>
+            <a  onClick={this.onBuyerClicked.bind(this,ele)}><div className="circleIcon_small"><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.o.buyerId+"&size=0"}/></div>
+            {ele.o.buyerName}</a>
           </Tooltip>
          </div>
          }  />

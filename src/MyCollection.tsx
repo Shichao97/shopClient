@@ -183,12 +183,12 @@ export default class MyCollection extends React.Component<any,any> {
         style={{ width: 262,textAlign:"center" }}
         cover={<Row><Col offset={1}><img className="img_big" alt="example" src={window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+ele.g.id+"&fname="+ele.g.imgNames.split(";")[0]} /></Col></Row>}
       >
-        <Meta title={ele.g.name} description={"Price: $"+ele.g.price}/>
+        <Meta title={ele.g.name} description={<div>{"Price: $"+ele.g.price}<br/>{(new Date(ele.g.addTime) as any).format("yyyy-MM-dd hh:mm")}</div>}/>
         <Row><Col>&nbsp;</Col></Row>
         
         <Meta description={<div style={{textAlign:'center'}}>
         <Tooltip placement="topLeft" title={"All of "+ele.m.userName}>
-        <a  onClick={this.onUserClicked.bind(this,ele)} ><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> 
+        <a  onClick={this.onUserClicked.bind(this,ele)} ><div className="circleIcon_small"><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+ele.g.sellerId+"&size=0"}/> </div>
       &nbsp;{ele.m.userName}</a>
     </Tooltip>  -- <Tooltip placement="topLeft" title={"Search From "+ schoolName}>
       <a  onClick={this.onSchoolClicked.bind(this,ele)} >{schoolName}</a></Tooltip></div>}/>

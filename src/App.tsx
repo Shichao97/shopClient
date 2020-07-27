@@ -44,7 +44,8 @@ const $ = jquery;
 
 const Home = () => (
   <div>
-    <h2>Home</h2>
+    <h1>Home Page</h1>
+    <h2>Wellcome to Yibee Second Hands </h2>
   </div>
 )
 
@@ -164,8 +165,8 @@ componentDidMount() {
         <div className="App-header">
       
         
-        <Row  justify="space-around" align="middle" style={{height:'75px'}}>
-          <Col span={6} style={{padding:'5px'}}>
+        <Row  justify="space-around" align="middle"  style={{height:'75px'}}>
+          <Col span={6} >
             <AimOutlined label='Unit Second hand' style={{background:'#FFFFFF',fontSize: '30px'}}/>&nbsp;
             <ShareAltOutlined label='Unit Second hand' style={{background:'#FF9999',fontSize: '30px'}}/>&nbsp;
             <AimOutlined label='Unit Second hand' style={{background:'#FFFFFF',fontSize: '30px'}}/>
@@ -174,24 +175,25 @@ componentDidMount() {
         <Col span={12} style={{textAlign: 'center'}}>
        
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/searchGoods">searchGoods</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/searchGoods">Search</Link>&nbsp;&nbsp;&nbsp;
           
           <Link to="/register" >Register</Link>&nbsp;&nbsp;&nbsp;
           
-          <Link to="/addgoods">AddGoods</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/addgoods">Add Goods</Link>&nbsp;&nbsp;&nbsp;
           
           
-          <Link to="/myAccount">My Account</Link>&nbsp;&nbsp;&nbsp;
-          <Link to="/mySelling">MySelling</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/myAccount">My Orders</Link>&nbsp;&nbsp;&nbsp;
+          <Link to="/mySelling">My Selling</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/myCollection">My Collection</Link>&nbsp;&nbsp;&nbsp;        
           </Col>
-          <Col span={6} style={{textAlign:"right",padding:'9px'}}><Message app={this}/></Col>
+          <Col span={6} style={{textAlign:"right",padding:'5px',verticalAlign:'middle'}}><Message app={this}/></Col>
           </Row>
           
         </div>
         <div style={{textAlign:'center',padding: '9px'}}>
         <Switch>
-          <Route path="/" exact component={Home}></Route>
+          <Route path="/" exact component={Home}/>
+          <Route path="/index.html" exact component={Home}/>
           <Route path="/state" component={Demo}></Route>
           <PrivateRoute path="/query" component={Demo}/>
           <Route path = "/register" component={Register}></Route>
