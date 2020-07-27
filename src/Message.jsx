@@ -262,7 +262,7 @@ class Messgae extends React.Component {
                 
                 <a onClick={()=>this.props.history.push("/editicon")}><div className="circleIcon_middle"><img src={iconSrc}/></div>&nbsp;{username}</a>
                     {this.state.chatMembersArr.length==0?<div></div>:
-                    <Badge count={newNum}  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onClick={()=>this.messageListClicked()}>
+                    <Badge count={newNum}  >&nbsp;&nbsp;&nbsp;&nbsp;<a onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 
                 }
             </div>

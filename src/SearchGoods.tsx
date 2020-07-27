@@ -50,7 +50,10 @@ export default class SearchGoods extends React.Component<any,any> {
           //flag:0,
           types:conf.goods_types
         }
-        this.pageSize=4;
+        let str = window.sessionStorage.getItem("card_pageSize");
+        if(str != undefined) this.pageSize = parseInt(str);
+        else this.pageSize=4;
+        
       }
 
       pageSize = 4;

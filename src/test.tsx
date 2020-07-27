@@ -23,7 +23,7 @@ export default class MyAccount extends React.Component<any,any> {
             gotoPage:1,
             flag:0,
         }
-        this.pageSize=2;
+        this.pageSize=10;
     }
 
     routeName = "/test";

@@ -24,7 +24,9 @@ export default class MyAccount extends React.Component<any,any> {
             gotoPage:1,
             flag:0,
         }
-        this.pageSize=2;
+        let str = window.sessionStorage.getItem("table_pageSize");
+        if(str != undefined) this.pageSize = parseInt(str);
+        else this.pageSize=4;
     }
 
     routeName = "/myAccount";

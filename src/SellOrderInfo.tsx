@@ -310,7 +310,7 @@ export default class SellOrderInfo extends React.Component<any,any> {
         <tr>
             <td>Buyer</td>
             <td><Tooltip placement="topLeft" title={"Chat with the buyer"}>
-            <a  onClick={()=>this.onBuyerClicked(this.state.orderdata.order)}><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.orderdata.order.buyerId+"&size=1"}/>
+            <a  onClick={()=>this.onBuyerClicked(this.state.orderdata.order)}><div className="circleIcon_middle"><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.orderdata.order.buyerId+"&size=1"}/></div>
             {this.state.orderdata.order.buyerName} (Chat...)</a>
           </Tooltip></td>
         </tr>

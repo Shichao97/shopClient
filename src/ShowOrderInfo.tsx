@@ -7,6 +7,7 @@ import {
     Col,
     Button,
     Modal,
+    Tooltip,
   } from 'antd';
 import conf from './Conf';
 import './MyAccount.css';
@@ -249,6 +250,13 @@ export default class ShowOrderInfo extends React.Component<any,any> {
           return "already canceled";
         }
     }
+    onSellerClicked(ele:any){
+        let popwin: any = conf.msgWin;
+        popwin.setState({modalIsOpen:true,toId:ele.sellerId,toName:ele.sellerName});
+  
+        
+    }
+
     render(){
         let orderdata:any = this.state.orderdata;
         if(orderdata == undefined){
@@ -267,7 +275,7 @@ export default class ShowOrderInfo extends React.Component<any,any> {
         </tr>
         <tr>
             <td>Goods Image</td>
-            <td><img src={goodsImgSrc}/></td>
+            <td><a onClick={()=>this.props.history.push('/showgoodsinfo/'+orderdata.goods.id)}><img src={goodsImgSrc}/></a></td>
         </tr>
         <tr>
             <td>Goods Name</td>
@@ -296,6 +304,13 @@ export default class ShowOrderInfo extends React.Component<any,any> {
         <tr>
             <td>Payment Status</td>
             <td>{payment}</td>
+        </tr>
+        <tr>
+            <td>Seller</td>
+            <td><Tooltip placement="topLeft" title={"Chat with the seller"}>
+            <a  onClick={()=>this.onSellerClicked(this.state.orderdata.order)}><div className="circleIcon_middle"><img src={window.localStorage.getItem("host_pre")+"member/geticon?Id="+this.state.orderdata.order.sellerId+"&size=1"}/></div>
+            {this.state.orderdata.order.sellerName} (Chat...)</a>
+          </Tooltip></td>
         </tr>
     </table>
 
