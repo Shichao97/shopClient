@@ -101,7 +101,7 @@ export default class EditIcon extends React.Component<any,any> {
         let un:string = cf.getCookie("username");
        // id = "1006";
         var myDate = new Date();
-        let imgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+id+"&size=1"+"&refresh="+myDate.getMilliseconds();
+        let imgSrc:string = window.localStorage.getItem("host_pre")+"member/geticon?Id="+id+"&size=2"+"&refresh="+myDate.getMilliseconds();
         //console.log(imgSrc);
  
         const uploadButton = (
