@@ -289,7 +289,7 @@ export default class SellOrderInfo extends React.Component<any,any> {
         </tr>
         <tr>
             <td>Order Time</td>
-            <td>{(new Date(orderdata.order.orderTime) as any).format("yyyy-MM-dd hh:mm:ss")}</td>
+            <td>{(new Date(orderdata.order.orderTime) as any).format("yyyy-MM-dd hh:mm")}</td>
         </tr>
         <tr>
             <td>Receive Method</td>

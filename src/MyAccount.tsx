@@ -96,7 +96,7 @@ export default class MyAccount extends React.Component<any,any> {
       {
         title: 'Order Time',
         render: (text:any,record:any) => (          
-          (new Date(record.order.orderTime) as any).format("yyyy-MM-dd hh:mm:ss")        
+          (new Date(record.order.orderTime) as any).format("yyyy-MM-dd hh:mm")        
         ),
         key: 'orderTime',
       },
