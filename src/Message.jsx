@@ -272,8 +272,9 @@ class Messgae extends React.Component {
             return (
                 
             <div style={{display:'inline-block'}}>
-                  <a onClick={()=>this.props.history.push("/login")}>Login</a> 
-                  
+                   <a onClick={()=>this.props.history.push("/login")}>Login</a> 
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <a onClick={()=>this.props.history.push("/register")}>Register</a> 
                   
             </div>
             )
