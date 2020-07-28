@@ -6,7 +6,7 @@ import React from 'react';
 // import { Button, Row, Col } from 'antd'
 import {withRouter} from 'react-router-dom'
 import conf from './Conf'
-import { Badge, Modal } from 'antd';
+import { Badge, Modal ,Spin} from 'antd';
 //import { ClockCircleOutlined } from '@ant-design/icons';
 
 
@@ -261,7 +261,7 @@ class Messgae extends React.Component {
             <div >
                 
                 <a onClick={()=>this.props.history.push("/editicon")}><div className="circleIcon_middle"><img src={iconSrc}/></div>&nbsp;{username}</a>
-                    {this.state.chatMembersArr.length==0?<div></div>:
+                    {this.state.chatMembersArr.length==0?<Spin/>:
                     <Badge count={newNum}  >&nbsp;&nbsp;&nbsp;&nbsp;<a onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 
                 }
