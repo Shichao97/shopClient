@@ -102,39 +102,7 @@ class Messgae extends React.Component {
     //     return "";
     // }
     render() {
-        var win = window;
-        let uid = conf.getCookie("userId");
-        let username = conf.getCookie("username");
-        let newNum = this.getTotalNewNum();
-        console.log("Msg newNum="+newNum)
-        //let sNum = newNum==0?"":""+newNum;
-        //let btn = <Button key="back" type="text" size="large" onClick={()=>this.messageListClicked()}>Message </Button>;
-        //if(this.state.chatMembersArr.length==0) btn=<div></div>
-        let iconSrc = window.localStorage.getItem("host_pre")+"member/geticon?Id="+uid+"&size=1&iconIndex"+this.state.icon_index;
-        console.log(iconSrc);
-        if(uid != undefined && uid.length>0){
-            return (
-            <div >
-                
-                <a onClick={()=>this.props.history.push("/editicon")}><div className="circleIcon_middle"><img src={iconSrc}/></div>&nbsp;{username}</a>
-                    {this.state.msgNewEnd != true?<Spin/>:
-                    <Badge count={newNum}  >&nbsp;&nbsp;&nbsp;&nbsp;<a onClick={()=>this.messageListClicked()}>
-                    Message </a> </Badge> 
-                }
-            </div>
-            )
-        }
-        else {
-            return (
-                
-            <div style={{display:'inline-block'}}>
-                   <a onClick={()=>this.props.history.push("/login")}>Login</a> 
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <a onClick={()=>this.props.history.push("/register")}>Register</a> 
-                  
-            </div>
-            )
-        }
+      return <h1>test...</h1>
     }
 
 

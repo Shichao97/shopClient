@@ -201,7 +201,7 @@ componentDidMount() {
           <PrivateRoute path="/editIcon" component={EditIcon}/>
           <PrivateRoute path="/addgoods" component={AddGoods}/>
           <Route path="/login" component={Login}></Route>
-          <Route path="/test/:id" component={TestForm}></Route>
+          <Route path="/test" component={TestForm}></Route>
           <Route path="/test2/:id" component={RegistrationForm}></Route>
 
           <PrivateRoute path="/searchsell" component={SearchSellGoods}/>
