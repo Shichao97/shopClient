@@ -1,9 +1,9 @@
 import React from 'react';
-import Modal from 'react-modal';
+//import Modal from 'react-modal';
 
 //import { render } from '@testing-library/react';
 import jquery from "jquery";
-import { Button , Row , Col, Tooltip, Spin} from 'antd'
+import { Button , Row , Col, Tooltip, Spin,Modal} from 'antd'
 //import { SmileOutlined } from '@ant-design/icons';
 import conf from './Conf'
 
@@ -28,7 +28,7 @@ const $ = jquery;
       let ws = window.ws;
       ws.send(JSON.stringify({ flag: "msg_init",toId: toId}));
       let result = "";
-      document.addEventListener('keypress', this.handleKeyDown);
+      
       this.setState({loading:true});
 
       if(this.state.toId !== undefined) return;
@@ -68,7 +68,13 @@ const $ = jquery;
 
     }
     
-    
+    componentDidMount(){
+        document.addEventListener('keypress', this.handleKeyDown);
+    }
+
+    componentWillUnmount(){
+        document.removeEventListener('keypress', this.handleKeyDown);
+    }
 
     handleKeyDown = (event) => {
         if (event.keyCode == 13) {
@@ -95,6 +101,9 @@ const $ = jquery;
                 ws.send(JSON.stringify({ flag: 'msg', content: s , toId: this.state.toId, toName:this.state.toName}));
                 document.getElementById("panel_text").value = ""
             }
+        }
+        else{
+            Modal.info({title:"Can't chat to empty",content:"Please select a member from list on left side"})
         }
     }
 
