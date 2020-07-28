@@ -44,7 +44,7 @@ const $ = jquery;
         if(msgJson.flag == "msg_init") {//MainPanel init
             if(msgJson.fromId == uid || msgJson.toId == uid){
                 this.state.msgs.push(msgJson);
-                this.setState({});
+                //this.setState({});
             }
         }
         if(msgJson.flag == "msg_inited") {//MainPanel init ended

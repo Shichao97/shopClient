@@ -21,7 +21,7 @@ class Messgae extends React.Component {
     constructor(props) {
         super(props);
         let uid = conf.getCookie("userId")
-        this.state = { msgs: [],connected:false,chatMembersArr:[],chatMembers:{},icon_index:0};
+        this.state = { msgNewEnd: false,connected:false,chatMembersArr:[],chatMembers:{},icon_index:0};
         this.taskRemindInterval = null;
     }
 
@@ -109,7 +109,7 @@ class Messgae extends React.Component {
             else if(ws != undefined){
                 ws.close();
                 ws = undefined;
-                _this.setState({ msgs: [],connected:false,chatMembersArr:[],chatMembers:{}});
+                _this.setState({ msgNewEnd: false,connected:false,chatMembersArr:[],chatMembers:{}});
             }
             
         }, 1000);
@@ -154,8 +154,11 @@ class Messgae extends React.Component {
                 else this.state.chatMembersArr.push(msgJson);
                 var otherId = msgJson.otherId;
                 this.state.chatMembers[otherId] = msgJson;
-                this.setState({});
+                //this.setState({});
                 
+            }
+            else if(msgJson.flag == "msg_new_end"){
+                this.setState({msgNewEnd: true});
             }
             else if (msgJson.flag == "msg") {
                 var otherId = this.getOtherId(msgJson);
@@ -167,7 +170,7 @@ class Messgae extends React.Component {
                     if(otherId==1) this.state.chatMembersArr.unshift(msgJson);
                     else this.state.chatMembersArr.push(member);
                     this.state.chatMembers[otherId] = member;
-                    this.setState({});
+                    //this.setState({});
                 }
                 if(msgJson.fromId != uid ){
                     member.count++;
@@ -261,7 +264,7 @@ class Messgae extends React.Component {
             <div >
                 
                 <a onClick={()=>this.props.history.push("/editicon")}><div className="circleIcon_middle"><img src={iconSrc}/></div>&nbsp;{username}</a>
-                    {this.state.chatMembersArr.length==0?<Spin/>:
+                    {this.state.msgNewEnd != true?<Spin/>:
                     <Badge count={newNum}  >&nbsp;&nbsp;&nbsp;&nbsp;<a onClick={()=>this.messageListClicked()}>
                     Message </a> </Badge> 
                 }
