@@ -82,7 +82,7 @@ const $ = jquery;
         if(this.state.toId !== undefined){
             var s = document.getElementById("panel_text").value;
             if(s.trim().length==0){
-
+                document.getElementById("panel_text").value = ""
             }
             else if(s.length>255){
                 //alert("Words is too long! Please be less than 255.");
