@@ -177,7 +177,7 @@ componentDidMount() {
           <Link to="/">Home</Link>&nbsp;&nbsp;&nbsp;
           <Link to="/searchGoods">Search Goods</Link>&nbsp;&nbsp;&nbsp;
           
-          
+          <Link to="/test">test</Link>&nbsp;&nbsp;&nbsp;
           
           <Link to="/addgoods">Add Goods</Link>&nbsp;&nbsp;&nbsp;
           
