@@ -80,6 +80,8 @@ class Messgae extends React.Component {
       let arry = this.state.msgs;
       return (
         <div>
+          <input type="text"/>
+          <input type="button" value="" onClick={() => this.showLogin()}/>
           <h1>test...</h1>
           <form>
             <input type="text" name="ttt" id="toId"/>
