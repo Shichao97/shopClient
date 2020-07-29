@@ -57,7 +57,14 @@ class Messgae extends React.Component {
       this.connectWithWS(wsUrl);
 
     }
-    connectWithWS(wsUrl) {
+
+    componentWillUnmount(){
+      if(ws!= undefined){
+        ws.close();
+      }
+    }
+
+    connectWithWS(wsUrl){
         
         ws = new WebSocket(wsUrl);
         window.ws = ws;
