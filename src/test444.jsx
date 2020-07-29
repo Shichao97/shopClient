@@ -59,6 +59,7 @@ class Messgae extends React.Component {
         //ws.onmessage = (msg) => {
             var msgJson = JSON.parse(msg.data);
             this.state.msgs.push(msgJson);
+            this.setState({});
             console.log('接收服务端发过来的消息: %o', msg);
             
         });
