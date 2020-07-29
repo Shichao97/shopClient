@@ -89,7 +89,7 @@ class Messgae extends React.Component {
           </form>
           {arry.map((element) =>{
             return(
-              <div><p/>{element.data}</div>
+              <div><p/>{JSON.stringify(element)}</div>
             )
           }
           )}
