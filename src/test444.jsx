@@ -21,37 +21,13 @@ class Messgae extends React.Component {
     constructor(props) {
         super(props);
         let uid = conf.getCookie("userId")
-        this.state = { msgNewEnd: false,connected:false,chatMembersArr:[],chatMembers:{},icon_index:0};
+        this.state = { msgNewEnd: false,connected:false,chatMembersArr:[],chatMembers:{},icon_index:0,
+      msgs:[]};
         this.taskRemindInterval = null;
     }
 
  
-    // componentWillReceiveProps(nextProps){
-    //     var str = nextProps.location.pathname;
- 
-    //     if(str != undefined && str.substr(0,2) == "/_"){
-    //         let obj = new Object();
-    //         obj.id = conf.getCookie("userId");
-    //         obj.username = conf.getCookie("username");
-    //         //console.log("Hi! "+uid);
-    //         if(obj.id == ""){
-    //             this.props.history.push( "/login" );
-    //         }    
-               
-    //     }
-    // }
-    
-    // checkLogin(){
-    //     let obj = new Object();
-    //     obj.id = conf.getCookie("userId");
-    //     obj.username = conf.getCookie("username");
-    //     //console.log("Hi! "+uid);
-    //     if(obj.id == ""){
-    //         //location.hash = "/login";
-    //         this.props.history.push( "/login" );
-    //     }    
-    //     return obj;
-    // }
+   
     componentDidMount() {
       let wsUrl = window.localStorage.getItem("wshost_pre")+'testHandler';
       this.connectWithWS(wsUrl);
@@ -82,8 +58,9 @@ class Messgae extends React.Component {
         }
         ws.addEventListener('message', (msg) => {
         //ws.onmessage = (msg) => {
-            console.log('接收服务端发过来的消息: %o', msg);
             var msgJson = JSON.parse(msg.data);
+            this.state.msgs.push(msgJson);
+            console.log('接收服务端发过来的消息: %o', msg);
             
         });
         ws.onclose = (e) =>{
@@ -93,23 +70,19 @@ class Messgae extends React.Component {
         }
     }
 
- 
-   
-    
-    
-    // getCookie(key){
-    //     const name =key+"=";
-    //     const ca = document.cookie.split(';'); 
-    //     for(let i=0;i<ca.length;i++){
-    //       const c = ca[i].trim();
-    //       if(c.indexOf(name) === 0){
-    //         return c.substring(name.length, c.length);
-    //       }
-    //     }
-    //     return "";
-    // }
     render() {
-      return <h1>test...</h1>
+      let arry = this.state.msgs;
+      return (
+        <div>
+          <h1>test...</h1>
+          {arry.map((element) =>{
+            return(
+              <div>{element.data}</div>
+            )
+          }
+          )}
+        </div>
+      )
     }
 
 
