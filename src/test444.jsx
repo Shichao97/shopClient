@@ -21,9 +21,8 @@ class Messgae extends React.Component {
     constructor(props) {
         super(props);
         let uid = conf.getCookie("userId")
-        this.state = { msgNewEnd: false,connected:false,chatMembersArr:[],chatMembers:{},icon_index:0,
-      msgs:[]};
-        this.taskRemindInterval = null;
+        this.state = {msgs:[]};
+        
     }
 
  
@@ -54,7 +53,7 @@ class Messgae extends React.Component {
             let uid = conf.getCookie("userId");
             let username = conf.getCookie("username");
             //handshake hello msg
-            ws.send(JSON.stringify({ flag: "msg",data:"hello"}));
+            ws.send(JSON.stringify({ flag: "hello"}));
         }
         ws.addEventListener('message', (msg) => {
         //ws.onmessage = (msg) => {
@@ -70,14 +69,26 @@ class Messgae extends React.Component {
         }
     }
 
+    handleSend(){
+        if(ws != undefined){
+            let toId = document.getElementById("toId").value;
+            ws.send(JSON.stringify({flag:"msg",toId:toId,data:"test"}))
+        }
+    }
+
     render() {
       let arry = this.state.msgs;
       return (
         <div>
           <h1>test...</h1>
+          <form>
+            <input type="text" name="ttt" id="toId"/>
+            <input type="button" onClick={()=>this.handleSend()} value="Send"/>
+
+          </form>
           {arry.map((element) =>{
             return(
-              <div>{element.data}</div>
+              <div><p/>{element.data}</div>
             )
           }
           )}
