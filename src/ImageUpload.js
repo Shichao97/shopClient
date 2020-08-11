@@ -35,7 +35,8 @@ export default class ImageUpload extends React.Component {
             var fileList = upMultilImagesObj.files;
             
             for (var i = 0; i < fileList.length; i++) { 
-                if(this.fileChange(files[i])){
+                var file = fileList[i];
+                if(this.fileChange(file)){
                     this.state.imgs.push(upMultilImagesObj.files[i]);
                 }
                 
