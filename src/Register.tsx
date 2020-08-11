@@ -39,7 +39,7 @@ const formItemLayout = {
     },
   };
 
-
+// Register account for website
 export default class Register extends React.Component<any,any> {
     constructor(props:any){
         super(props);

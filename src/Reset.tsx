@@ -29,6 +29,7 @@ wrapperCol: {
 },
 };
 
+//Reset password
 export default class Reset extends React.Component<any,any> {
     constructor(props:any,state:any){
         super(props);

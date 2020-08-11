@@ -27,7 +27,7 @@ function getBase64(img:any, callback:any) {
   }
 
 
-
+// logout link and edit member icon
 export default class EditIcon extends React.Component<any,any> {
     constructor(props:any){
         super(props);
@@ -86,7 +86,7 @@ export default class EditIcon extends React.Component<any,any> {
           },
           error: function(xhr:any, textStatus, errorThrown){
             console.log("request status:"+xhr.status+" msg:"+textStatus)
-            if(xhr.status=='604'){//未登录错误
+            if(xhr.status=='604'){// not logged in error
               //_this.props.listComp.refs.logwin.set
             }
              

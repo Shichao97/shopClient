@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import jquery from "jquery";
 const $ = jquery;
 
+// The goods item in the showing goods game
 export default class GoodsItem extends React.Component<any,any> {
     constructor(props:any,state:any){
         super(props,state);
@@ -35,10 +36,7 @@ export default class GoodsItem extends React.Component<any,any> {
         if(this.props.data == undefined||this.props.data.g == undefined) {
             return (<div></div>)
         }
-        // var sta = {
-        //     pathname: '/showgoodsinfo',
-        //     state: this.props.data//'我是通过state传值'
-        // }
+        
         
         let imgSrc:string = window.localStorage.getItem("host_pre")+"goods/getgoodsimg?Id="+this.props.data.g.id+"&fname="+this.props.data.g.imgNames.split(";")[0];
         //let linkto:string = "/showgoodsinfo/"+this.props.data.id;

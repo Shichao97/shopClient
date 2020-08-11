@@ -13,6 +13,7 @@ import conf from './Conf';
 import './MyAccount.css';
 const $ = jquery;
 
+//Show Order Infomation for seller
 export default class SellOrderInfo extends React.Component<any,any> {
     constructor(props:any){
         super(props);
@@ -38,12 +39,12 @@ export default class SellOrderInfo extends React.Component<any,any> {
                 if(data==null)
                     Modal.error({
                     title:'Error',
-                    content:"No order found. Because a wrong orderId or the order is deleted"
+                    content:"No order found. Because the orderId is wrong or the order is deleted"
                   })
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
@@ -112,7 +113,7 @@ export default class SellOrderInfo extends React.Component<any,any> {
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
@@ -170,7 +171,7 @@ export default class SellOrderInfo extends React.Component<any,any> {
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
@@ -227,7 +228,7 @@ export default class SellOrderInfo extends React.Component<any,any> {
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }

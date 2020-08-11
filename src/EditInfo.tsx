@@ -4,6 +4,7 @@ import { Modal } from 'antd';
 
 const $ = jquery;
 
+//edit member info
 export default class EditInfo extends React.Component<any,any> {
     constructor(props:any){
         super(props);

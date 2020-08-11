@@ -26,6 +26,7 @@ wrapperCol: {
     sm: { span: 14 },
 },
 };
+//forget password function
 export default class ForgetPassword extends React.Component<any,any> {
     constructor(props:any){
         super(props);

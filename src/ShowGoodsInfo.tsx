@@ -29,6 +29,7 @@ import { cachedDataVersionTag } from 'v8';
 
 const $ = jquery;
 
+//Show Goods info after you search goods
 export default class ShowGoodsInfo extends React.Component<any,any> {
     constructor(props:any){
         super(props);
@@ -154,7 +155,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
           },
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
-              if(xhr.status=='604'){//未登录错误
+              if(xhr.status=='604'){//not logged in error
                   let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
@@ -231,7 +232,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 _this.setState({removeSheftLoading:false});
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true,comp:_this})
                 }
@@ -275,7 +276,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 _this.setState({putSheftLoading:false});
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true,comp:_this})
                 }
@@ -325,7 +326,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 _this.setState({likeLoading:false});
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true,comp:_this})
                 }
@@ -413,7 +414,7 @@ export default class ShowGoodsInfo extends React.Component<any,any> {
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true,comp:_this})
                 }

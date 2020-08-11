@@ -90,7 +90,7 @@ class App extends Component<any,any> {
   // checkHash(){
   //   var str: string = window.location.hash;
   //   //console.log("Hash changed to: "+str.substr(0,3));
-  //   //startsWith()函数 IE浏览器不支持，所以改为 substr
+  //   //The startsWith() function is not supported in Internet Explorer, so change to substr
   //   if(str.substr(0,3) == "#/_"){
   //     let win:any = window;
   //     win.checkLogin();
@@ -144,11 +144,11 @@ componentDidMount() {
     //const msgwin:any = useRef();
     var query = {
       pathname: '/query',
-      query: '我是通过query传值 '
+      query: 'I am passing value via query '
    };
    var sta = {
 		pathname: '/state',
-		state: {id:5,username:"Petter Lynch."}//'我是通过state传值'
+		state: {id:5,username:"Petter Lynch."}//'I am passing value using state'
 	}
 	
     return (

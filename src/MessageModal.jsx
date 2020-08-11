@@ -43,31 +43,31 @@ const $ = jquery;
     
       }
     
-      // 获取鼠标点击title时的坐标、title的坐标以及两者的位移
+      // Get the coordinates of title, the coordinates of Title, and the displacement of the two when the mouse clicks Title
     
       getPosition (e) {
     
-        // 标题DOM元素titleDom
+        // The titleDom element 
     
         const titleDom = e.target
     
-        // titleDom的坐标(视窗)
+        // The coordinates of titleDom
     
         const X = titleDom.getBoundingClientRect().left
     
-        // 由于Y轴出现滚动条，需要与鼠标保持一致，存储页面相对位置
+        // Since the Y-axis scroll bar appears, we need to store the relative position of the page in line with the mouse
     
         const Y = document.getElementsByClassName('group')[0].offsetTop
     
     
     
-        // 鼠标点击的坐标(页面)
+        // mouse click coordinates
     
         let mouseX = e.pageX
     
         let mouseY = e.screenY
     
-        // 鼠标点击位置与modal的位移
+        // Mouse click position with modal displacement
     
         const diffX = mouseX - X
     
@@ -81,9 +81,9 @@ const $ = jquery;
     
       /**
     
-       * 鼠标按下，设置modal状态为可移动，并注册鼠标移动事件
+       * Mouse down, set modal state to movable, and register the mouse movement event
     
-       * 计算鼠标按下时，指针所在位置与modal位置以及两者的差值
+       * Calculate the difference between the position of the pointer and the modal position and when the mouse is pressed down
     
        **/
     
@@ -101,7 +101,7 @@ const $ = jquery;
     
      
     
-      // 松开鼠标，设置modal状态为不可移动
+      // Release the mouse and set modal state to immovable
     
       onMouseUp (e) {
     
@@ -113,7 +113,7 @@ const $ = jquery;
     
      
     
-      // 鼠标移动重新设置modal的位置
+      // Move the mouse around to reset the modal
     
       onMouseMove (e) {
     
@@ -121,17 +121,17 @@ const $ = jquery;
     
         if (moving) {
     
-          // 获取鼠标位置数据
+          // Gets mouse position data
     
           const position = this.getPosition(e)
     
-          // 计算modal应该随鼠标移动到的坐标
+          // Calculate the coordinates that modal should move to with the mouse
     
           const x = position.mouseX - diffX
     
           const y = position.mouseY - diffY
     
-          // 窗口大小，结构限制，需要做调整，减去侧边栏宽度
+          // Window size, structural constraints, need to be adjusted, minus sidebar width
     
           const { clientWidth, clientHeight } = document.documentElement
     
@@ -139,13 +139,13 @@ const $ = jquery;
     
           if (modal) {
     
-            // 计算modal坐标的最大值
+            // Compute the maximum value of the modal coordinates
     
             const maxHeight = clientHeight - modal.offsetHeight
     
             const maxWidth = clientWidth - modal.offsetWidth
     
-            // 判断得出modal的最终位置，不得超出浏览器可见窗口
+            // Judge that the final position of modal, must not go beyond the browser visible window
     
             const left = x > 0 ? (x < maxWidth ? x : maxWidth) : 0
     

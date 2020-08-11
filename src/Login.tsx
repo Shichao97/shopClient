@@ -18,6 +18,7 @@ const tailLayout = {
 
 //{
   //Modal.setAppElement('#root')
+  // login page
   class  Login extends React.Component<any,any>{
       constructor(props:any){
           super(props);

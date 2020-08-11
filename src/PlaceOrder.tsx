@@ -18,7 +18,7 @@ const tailLayout = {
 };
 
 
-
+//Place Order
 export default class PlaceOrder extends React.Component<any,any> {
     constructor(props:any){
         super(props);
@@ -117,7 +117,7 @@ export default class PlaceOrder extends React.Component<any,any> {
             error: function(xhr:any, textStatus, errorThrown){
                 _this.setState({loading:false});
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }

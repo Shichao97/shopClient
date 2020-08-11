@@ -68,6 +68,7 @@ const limitDecimals = (value: string | number): string => {
 };
 //const [form] = Form.useForm();
 
+// Edit goods function for seller
 export default class EditSellGoods extends React.Component<any,any> {
   constructor(props:any){
       super(props);
@@ -221,7 +222,7 @@ export default class EditSellGoods extends React.Component<any,any> {
         error: function(xhr:any, textStatus, errorThrown){
             _this.setState({loading:false});
             console.log("request status:"+xhr.status+" msg:"+textStatus)
-            if(xhr.status=='604'){//未登录错误
+            if(xhr.status=='604'){//not logged in error
                 let popwin: any = conf.loginWin;
                 popwin.setState({modalIsOpen:true})
             }
@@ -284,7 +285,7 @@ export default class EditSellGoods extends React.Component<any,any> {
     this.setState({});
   }
 
-  //拼接分号字符串
+  //Concatenate semicolon strings
   combineImgNames(arr:number[]){
     if(arr == null || arr.length == 0){
       return "";
@@ -297,13 +298,13 @@ export default class EditSellGoods extends React.Component<any,any> {
   }
 
   Wa_SetImgAutoSize(obj:any) {
-    //var img=document.all.img1;//获取图片
+    //var img=document.all.img1;//get image
     var img = obj;
-    var MaxWidth = 630; //设置图片宽度界限
-    var MaxHeight = 360; //设置图片高度界限
-    var HeightWidth = img.offsetHeight / img.offsetWidth; //设置高宽比
-    var WidthHeight = img.offsetWidth / img.offsetHeight; //设置宽高比
-    if (img.readyState != "complete") return false; //确保图片完全加载
+    var MaxWidth = 630; //Set an image width limit
+    var MaxHeight = 360; //Set an image height limit
+    var HeightWidth = img.offsetHeight / img.offsetWidth; 
+    var WidthHeight = img.offsetWidth / img.offsetHeight; 
+    if (img.readyState != "complete") return false; //Make sure the picture is fully loaded
     if (img.offsetWidth > MaxWidth) {
         img.width = MaxWidth;
         img.height = MaxWidth * HeightWidth;

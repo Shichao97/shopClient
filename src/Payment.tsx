@@ -9,6 +9,8 @@ const radioStyle = {
     height: '30px',
     lineHeight: '30px',
   };
+
+//order payment
 export default class Payment extends React.Component<any,any> {
     prompt = false;
 
@@ -46,7 +48,7 @@ export default class Payment extends React.Component<any,any> {
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }
@@ -109,7 +111,7 @@ export default class Payment extends React.Component<any,any> {
             },
             error: function(xhr:any, textStatus, errorThrown){
                 console.log("request status:"+xhr.status+" msg:"+textStatus)
-                if(xhr.status=='604'){//未登录错误
+                if(xhr.status=='604'){//not logged in error
                     let popwin: any = conf.loginWin;
                     popwin.setState({modalIsOpen:true})
                 }

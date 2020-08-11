@@ -97,7 +97,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
           },
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
-              if(xhr.status=='604'){//未登录错误
+              if(xhr.status=='604'){//not logged in error
                   let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
@@ -111,7 +111,7 @@ export default class SearchSellGoods extends React.Component<any,any> {
         let uid:string = conf.getCookie("userId");
         console.log(uid + "handle");
         let plus:string = $("#searchForm").serialize();  //serachType1, searchtype2,searchValue
-        let plusnew:string = "&pageSize=2";//没写 sortby
+        let plusnew:string = "&pageSize=2";
         let searchUrl:string = window.localStorage.getItem("host_pre")+"goods/sell/search?"+plus+plusnew+"&sellerId=" + uid;
       
         _this.state={url:searchUrl};

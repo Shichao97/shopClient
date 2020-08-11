@@ -13,7 +13,7 @@ import conf from './Conf'
 
 const $ = jquery;
 
-
+// show orders in all kinds of states
 export default class MyAccount extends React.Component<any,any> {
     pageSize:number;
     constructor(props:any){
@@ -32,7 +32,7 @@ export default class MyAccount extends React.Component<any,any> {
     routeName = "/myAccount";
     params:any={};
 
-    //第一次进入用这个
+    //When enter the page in the first time
     componentWillMount(){
       
       
@@ -45,7 +45,7 @@ export default class MyAccount extends React.Component<any,any> {
     }
 
 
-    //在内部push用这个
+    //used for inner push
     componentWillReceiveProps(nextProps:any){
       var str = nextProps.location.pathname;
       console.log("Hash changed to: "+str);
@@ -182,7 +182,7 @@ export default class MyAccount extends React.Component<any,any> {
         error: function(xhr:any, textStatus, errorThrown){
           _this.setState({countLoading:false})
             console.log("request status:"+xhr.status+" msg:"+textStatus)
-            if(xhr.status=='604'){//未登录错误
+            if(xhr.status=='604'){//not logged in error
                 let popwin: any = conf.loginWin;
                 popwin.setState({modalIsOpen:true})
             }
@@ -215,7 +215,7 @@ export default class MyAccount extends React.Component<any,any> {
           error: function(xhr:any, textStatus, errorThrown){
             _this.setState({loading:false})
               console.log("request status:"+xhr.status+" msg:"+textStatus)
-              if(xhr.status=='604'){//未登录错误
+              if(xhr.status=='604'){//not log in error
                   let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
@@ -231,7 +231,7 @@ export default class MyAccount extends React.Component<any,any> {
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
         let plus:string = "notPaid";
-        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
+        let plusnew:string = "&pageSize="+this.pageSize;
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
         // _this.state={url:searchUrl};
@@ -249,7 +249,7 @@ export default class MyAccount extends React.Component<any,any> {
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
         let plus:string = "notFinished";
-        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
+        let plusnew:string = "&pageSize="+this.pageSize;
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
         // _this.state={url:searchUrl};
@@ -265,7 +265,7 @@ export default class MyAccount extends React.Component<any,any> {
         var cf:any = conf;
         let uid:string = cf.getCookie("userId");
         let plus:string = "";
-        let plusnew:string = "&pageSize="+this.pageSize;//没写 sortby
+        let plusnew:string = "&pageSize="+this.pageSize;
         let searchUrl:string = window.localStorage.getItem("host_pre")+"order/searchOrder?buyerId="+uid+plus+plusnew;
       
         // _this.state={url:searchUrl};

@@ -35,6 +35,8 @@ const tailFormItemLayout = {
     },
   },
 };
+
+//Searching goods!!
 export default class SearchGoods extends React.Component<any,any> {
 
     constructor(props:any){
@@ -93,7 +95,7 @@ export default class SearchGoods extends React.Component<any,any> {
           error: function(xhr:any, textStatus, errorThrown){
             _this.setState({loading:false});
               console.log("request status:"+xhr.status+" msg:"+textStatus)
-              if(xhr.status=='604'){//未登录错误
+              if(xhr.status=='604'){//not logged in error
                   let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
@@ -206,7 +208,7 @@ export default class SearchGoods extends React.Component<any,any> {
       )
     }
 
-    //为了居中，用心良苦。因为Card总是居左，怎么用css都没有用，自能自己硬调。
+    //centering the card
     cellWidth = 400;
 
     columns:any[] = [
@@ -281,7 +283,7 @@ export default class SearchGoods extends React.Component<any,any> {
 
     }
 
-    //第一次进入用这个
+    //used when entering for the first time
     componentWillMount(){
       
 
@@ -301,7 +303,7 @@ export default class SearchGoods extends React.Component<any,any> {
     //   console.log("componentWillUpdate: ");
     // }
 
-    //在内部push用这个
+    //used for inner push
     componentWillReceiveProps(nextProps:any){
       var str = nextProps.location.pathname;
       console.log("Hash changed to: "+str);

@@ -9,6 +9,8 @@ const $ = jquery;
 //
 //{
   //Modal.setAppElement('#root')
+
+  //get the large view of image
   export default class  ImageModal extends React.Component<any,any>{
       constructor(props:any){
           super(props);

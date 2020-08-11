@@ -8,7 +8,7 @@ import conf from './Conf'
 
 var ws;
 
-
+//show chat member list
 class ChatMemberList extends React.Component {
     constructor(props) {
         super(props);

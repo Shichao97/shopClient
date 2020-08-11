@@ -6,6 +6,7 @@ import conf from './Conf'
 
 const $ = jquery;
 
+// Error page
 export default class Error404 extends React.Component<any,any> {
     constructor(props:any){
         super(props);

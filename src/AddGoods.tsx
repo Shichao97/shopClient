@@ -69,6 +69,7 @@ const limitDecimals = (value: string | number): string => {
 };
 //const [form] = Form.useForm();
 
+//Add Goods for seller
 export default class AddGoods extends React.Component<any,any> {
   constructor(props:any){
       super(props);
@@ -126,7 +127,7 @@ export default class AddGoods extends React.Component<any,any> {
     }
     
     let url1:string = window.localStorage.getItem("host_pre")+"goods/sell/add";
-    let data= values;  //不用拼data
+    let data= values;  //no need to construct json format of data by yourslef
     for(var p in data){
         console.log(data[p]);
         console.log(data[p]);
@@ -168,7 +169,7 @@ export default class AddGoods extends React.Component<any,any> {
               _this.setState({loading:false});
                 Modal.error({
                   title:'Error',
-                  content:'Add failed dure to server error!'
+                  content:'Add failed due to server error!'
                 })
                 
             }else{
@@ -179,7 +180,7 @@ export default class AddGoods extends React.Component<any,any> {
         },
         error: function(xhr:any, textStatus, errorThrown){
             console.log("request status:"+xhr.status+" msg:"+textStatus)
-            if(xhr.status=='604'){//未登录错误
+            if(xhr.status=='604'){//not logged in error
                 let popwin: any = conf.loginWin;
                 popwin.setState({modalIsOpen:true})
             }

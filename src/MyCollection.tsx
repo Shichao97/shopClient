@@ -35,6 +35,9 @@ const tailFormItemLayout = {
     },
   },
 };
+
+
+//Show collections for a specific user and search in collection
 export default class MyCollection extends React.Component<any,any> {
 
     constructor(props:any){
@@ -94,7 +97,7 @@ export default class MyCollection extends React.Component<any,any> {
           error: function(xhr:any, textStatus, errorThrown){
             _this.setState({loading:false});
               console.log("request status:"+xhr.status+" msg:"+textStatus)
-              if(xhr.status=='604'){//未登录错误
+              if(xhr.status=='604'){//not logged in error
                   let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }
@@ -205,7 +208,7 @@ export default class MyCollection extends React.Component<any,any> {
       )
     }
 
-    //为了居中，用心良苦。因为Card总是居左，怎么用css都没有用，自能自己硬调。
+    //centering the card
     cellWidth = 400;
 
     columns:any[] = [

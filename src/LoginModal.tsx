@@ -21,6 +21,7 @@ const tailLayout = {
 //
 //{
   //Modal.setAppElement('#root')
+  // log in modal
   export default class  LoginModal extends React.Component<any,any>{
       constructor(props:any){
           super(props);

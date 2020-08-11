@@ -4,6 +4,8 @@ import jquery from "jquery";
 import { Spin } from 'antd';
 const $ = jquery;
 
+
+// Activate member account
 export default class Active extends React.Component<any,any> {
     constructor(props:any,state:any){
         super(props);

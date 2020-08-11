@@ -125,7 +125,7 @@ export default class MyAccount extends React.Component<any,any> {
           },
           error: function(xhr:any, textStatus, errorThrown){
               console.log("request status:"+xhr.status+" msg:"+textStatus)
-              if(xhr.status=='604'){//未登录错误
+              if(xhr.status=='604'){//not logged in error
                   let popwin: any = conf.loginWin;
                   popwin.setState({modalIsOpen:true})
               }

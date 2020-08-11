@@ -124,7 +124,7 @@ class Messgae extends React.Component {
         ws.onopen = (e) => {
             this.setState({connected:true});
 
-            console.log('连接上 ws 服务端了');
+            console.log('The WS server is connected');
             //var win = window;
             let uid = conf.getCookie("userId");
             let username = conf.getCookie("username");
@@ -133,7 +133,7 @@ class Messgae extends React.Component {
         }
         ws.addEventListener('message', (msg) => {
         //ws.onmessage = (msg) => {
-            console.log('接收服务端发过来的消息: %o', msg);
+            console.log('Receive messages from the server: %o', msg);
             var msgJson = JSON.parse(msg.data);
             var winWs = window.ws;
             let uid = conf.getCookie("userId");
@@ -146,7 +146,7 @@ class Messgae extends React.Component {
                 conf.setCookie("userId","");
                 conf.setCookie("username","");
                 this.setState({});
-                Modal.info({title:"Force Logout",content:"You are forced to logout because the same username login at other place"});
+                Modal.info({title:"Force Logout",content:"You are forced to logout because the same username login at another place"});
             }
             else if (msgJson.flag == "msg_new") {
 
@@ -227,7 +227,7 @@ class Messgae extends React.Component {
     messageListClicked(){
         var sta = {
             pathname: '/chatMemberList/',
-            state: {mesState:this.state}//'我是通过state传值'
+            state: {mesState:this.state}
         }
         this.props.history.push(sta);
 
