@@ -98,7 +98,7 @@ export default class AddGoods extends React.Component<any,any> {
   imgUploadChecked():boolean{
     let imgup:ImageUpload|null = this.imgupRef.current;
     if(0+(this.imgupRef.current as any).state.imgs.length>15){
-      this.setState({imgErrMsg : "Too many images than 15!"});
+      this.setState({imgErrMsg : "You cannot upload more than 16 images！"});
       return false;
     }
     else if(imgup ==null || imgup.state.imgs.length < 1 ){

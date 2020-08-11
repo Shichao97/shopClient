@@ -1,6 +1,9 @@
 import React from 'react';
 //import LoginModal from './LoginModal';
 import jquery from "jquery";
+import {
+    Modal
+  } from 'antd';
 const $ = jquery;
 
 export default class ImageUpload extends React.Component {
@@ -32,7 +35,10 @@ export default class ImageUpload extends React.Component {
             var fileList = upMultilImagesObj.files;
             
             for (var i = 0; i < fileList.length; i++) { 
-                this.state.imgs.push(upMultilImagesObj.files[i]);
+                if(this.fileChange(files[i])){
+                    this.state.imgs.push(upMultilImagesObj.files[i]);
+                }
+                
             }  
             this.setState({});
             let parent = this.props.onChange;
@@ -50,6 +56,30 @@ export default class ImageUpload extends React.Component {
             this.props.onChange();
         } 
     }
+
+    fileChange(file) {
+        fileSize = file.size;     
+        var size = fileSize / 1024;    
+        if(size>5000){  
+            Modal.error({
+                title:'Error',
+                content:'You cannot upload images larger than 5Mb!'
+            })
+        
+        return false;
+        }
+        var name=target.value;
+        var fileName = name.substring(name.lastIndexOf(".")+1).toLowerCase();
+        if(fileName !="jpg" && fileName !="jpeg" && fileName !="png" && fileName !="gif"){
+            Modal.error({
+                title:'Error',
+                content:'You can only upload image files!'
+            })
+            return false;
+        }
+
+        return true;
+    } 
     
     render(){
         //if(true) return <div></div>
@@ -62,7 +92,7 @@ export default class ImageUpload extends React.Component {
         <div  className="upimgs">
         <table  className="wrap2">
                 <tr><td>
-        {
+        { 
 
             (this.props.single == true)?
             <a className="file">+Image
