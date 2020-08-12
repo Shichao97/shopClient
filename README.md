@@ -11,24 +11,24 @@ We used React framework and typescript to develop the client end of the website.
 
 ## Modules and Functions
 
-### Register and activate Accounts 
+#### Register and activate Accounts 
 
-### Login 
+#### Login 
 
-### Logout and Avatar Edit 
+#### Logout and Avatar Edit 
 
-### Add Goods
+#### Add Goods
 
-### Goods Searching
+#### Goods Searching
 
-### Edit Goods
+#### Edit Goods
 
-### My Orders
+#### My Orders
 
-### My Selling
+#### My Selling
 
-### My Collection
+#### My Collection
 
-### Message System
+#### Message System
 
 
