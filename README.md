@@ -7,3 +7,7 @@ This website provides a platform for students across the United States to trade 
 This is full-stack web development project mainly using Spring Boot framework in back end and React in front end. Designing and working out the whole project really enhance my skills in full stack web dev fileds and give me a better understanding responding to bussiness need. Hope you like it!
 
 ## Project Architecture
+We used React framework to develop the client end of the website. Consumed REST APIs using jQuery's ajax() Function for Asynchronous HTTP Requests. Designed SPA(Single-Paged Application) routing system and utilized Ant Design and CSS for page lyout and design.
+
+## Modules and Functions
+
