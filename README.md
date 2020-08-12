@@ -1,5 +1,6 @@
 # ShopClient
 This is the client end of our YIBEE student second-hand goods trading website
+Enter the website here: http://54.144.36.138/
 
 ## Genernal Introduction and aim of the website
 This website provides a platform for students across the United States to trade their second-hand goods like furnitures, clothes, books and othe stuff. The target populations of our website are students in colleges, they are moving all the times with huge need of selling and buying second-hand goods.
