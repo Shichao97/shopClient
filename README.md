@@ -1,5 +1,5 @@
 # ShopClient
-This is the client end of our YIBEE student second-hand goods trading website
+This is the client end of our YIBEE student second-hand goods trading website.       
 Enter the website here: http://54.144.36.138/
 
 ## Genernal Introduction and aim of the website
