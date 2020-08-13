@@ -14,6 +14,7 @@ We used React framework and typescript to develop the client end of the website.
 
 #### Register and activate Accounts 
 ![image](https://github.com/Shichao97/README-Image/blob/master/ad2.jpeg)
+
 #### Login 
 
 #### Logout and Avatar Edit 
@@ -22,7 +23,7 @@ We used React framework and typescript to develop the client end of the website.
 
 #### Goods Searching
 
-#### Edit Goods
+#### Edit and Buy Goods
 
 #### My Orders
 
