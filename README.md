@@ -40,13 +40,14 @@ When clicking on "Add Goods" link in the middle of navagation bar, users can add
 ![image](https://github.com/Shichao97/README-Image/blob/master/addgoods.png)
 
 #### Goods Searching
+Both registered users and guests can search goods from our website. They can choose schools and use goods name for searching. 
 ![image](https://github.com/Shichao97/README-Image/blob/master/searchgoods1.png)
 ![image](https://github.com/Shichao97/README-Image/blob/master/searchgoods2.png)
-![image](https://github.com/Shichao97/README-Image/blob/master/buy_goods.png)
 
 
 #### Edit and Buy Goods
 ![image](https://github.com/Shichao97/README-Image/blob/master/edit1.png)
+![image](https://github.com/Shichao97/README-Image/blob/master/buy_goods.png)
 ![image](https://github.com/Shichao97/README-Image/blob/master/buygoods.png)
 ![image](https://github.com/Shichao97/README-Image/blob/master/confirm_buy.png)
 
