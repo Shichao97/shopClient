@@ -10,10 +10,14 @@ This is full-stack web development project mainly using Spring Boot framework in
 ## Project Architecture
 We used React framework and typescript to develop the client end of the website. Consumed REST APIs using jQuery's ajax() Function for Asynchronous HTTP Requests. Designed SPA(Single-Paged Application) routing system in app.tsx and utilized Ant Design and CSS for page layout and design.
 
+![image](https://github.com/Shichao97/README-Image/blob/master/ad2.jpeg)
 ## Modules and Functions
 
 #### Register and activate Accounts 
-![image](https://github.com/Shichao97/README-Image/blob/master/ad2.jpeg)
+Users can register for free member from this page:
+![image](https://github.com/Shichao97/README-Image/blob/master/register.png)
+
+After successfully registration, users will get an activation email, they can click on the link to get activated.
 
 #### Login 
 
