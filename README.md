@@ -11,8 +11,9 @@ This is full-stack web development project mainly using Spring Boot framework in
 We used React framework and typescript to develop the client end of the website. Consumed REST APIs using jQuery's ajax() Function for Asynchronous HTTP Requests. Designed SPA(Single-Paged Application) routing system in app.tsx and utilized Ant Design and CSS for page layout and design.
 
 ## Modules and Functions
-
+This is our navigation bar!!! Users can access to main modules and get messages alert!
 ![image](https://github.com/Shichao97/README-Image/blob/master/navigation.png)
+
 #### Register and activate Accounts 
 Users can register for free member from this page:
 ![image](https://github.com/Shichao97/README-Image/blob/master/register.png)
@@ -20,11 +21,22 @@ Users can register for free member from this page:
 After successfully registration, users will get an activation email, they can click on the link to get activated.
 
 #### Login 
+When users are not logged in, they can click on login link on the right side of navigation bar. Ans Users will receive poped up login alert when they want to access modules(excluding searching goods). 
+
+Image!!!!
+
+When users forget password, they can reset password beside login window through email.
+
+Image!!!!
 
 
 #### Logout and Avatar Edit 
+When clicking on user avatar on the right side of navagation bar, users logout account or change to other avatars.
 ![image](https://github.com/Shichao97/README-Image/blob/master/logout_and_avatar.png)
+
+
 #### Add Goods
+When clicking on "Add Goods" link in the middle of navagation bar, users can add second-hand goods one by one. Users can upload up to 16 images and they shoul be free to click on any images they've already add to delete.
 ![image](https://github.com/Shichao97/README-Image/blob/master/addgoods.png)
 
 #### Goods Searching
