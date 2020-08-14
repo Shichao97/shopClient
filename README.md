@@ -67,9 +67,12 @@ After successfully payment, users will get a order id and they can click on to g
 ![image](https://github.com/Shichao97/README-Image/blob/master/payment_success.png)
 
 #### My Orders
+My orders module on our website give users full view of orders they have. Users can see red number alert for orders that they haven't been paid or not finished yet. And they also can see all the orders they have and turning page.
 ![image](https://github.com/Shichao97/README-Image/blob/master/myorderd.png)
+Users can click on image and name for getting access to order details. They can confirm receiving(finish the order) for orders that are in progress and pay for orders that they haven't paid.
+
 #### My Selling
-![image](https://github.com/Shichao97/README-Image/blob/master/My_selling.png)
+My orders module on our website give users full view of selling status of their own goods. Users can see red number alert for goods that 
 
 
 #### My Collection
