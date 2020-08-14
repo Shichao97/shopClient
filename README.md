@@ -72,14 +72,21 @@ My orders module on our website give users full view of orders they have. Users 
 Users can click on image and name for getting access to order details. They can confirm receiving(finish the order) for orders that are in progress and pay for orders that they haven't paid.
 
 #### My Selling
-My orders module on our website give users full view of selling status of their own goods. Users can see red number alert for goods that 
+My orders module on our website give users full view of selling status of their own goods. Users can see red number alert for goods that are selling now and orders that are on the way (buyers already for the order but hasn't received yet).And they also can see all
+the orders they have already sold out and goods that are removed from the shlf.Turning page available.
 
 
 #### My Collection
+Users can click on like and dislike heart-shaped button to collect goods or remove from their collection.
 ![image](https://github.com/Shichao97/README-Image/blob/master/like_and_dislike.png)
+
+And in my collect module, they can search all the goods they collect by name.
 ![image](https://github.com/Shichao97/README-Image/blob/master/my_collection.png)
 
 #### Message System
+Users will get a red notice on the right side on the navigation bar when they receive messages from other users.
+When users get into detailed information of goods, they can click on talk to seller and get a talk:
 ![image](https://github.com/Shichao97/README-Image/blob/master/talk_to_seller.png)
+Also when there are some changes about their goods and orders, they will get real-time push message from system.
 ![image](https://github.com/Shichao97/README-Image/blob/master/message_system.png)
 
