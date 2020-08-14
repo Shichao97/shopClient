@@ -23,11 +23,9 @@ After successfully registration, users will get an activation email, they can cl
 #### Login 
 When users are not logged in, they can click on login link on the right side of navigation bar. Ans Users will receive poped up login alert when they want to access modules(excluding searching goods). 
 
-Image!!!!
+![image](https://github.com/Shichao97/README-Image/blob/master/login.png)
 
 When users forget password, they can reset password beside login window through email.
-
-Image!!!!
 
 
 #### Logout and Avatar Edit 
