@@ -23,8 +23,10 @@ After successfully registration, users will get an activation email, they can cl
 #### Login 
 When users are not logged in, they can click on login link on the right side of navigation bar. Ans Users will receive poped up login alert when they want to access modules(excluding searching goods). 
 
+![image](https://github.com/Shichao97/README-Image/blob/master/login2.png)
 ![image](https://github.com/Shichao97/README-Image/blob/master/login.png)
 
+When users forget to write some of the part or get some error, they will get in time alert.
 When users forget password, they can reset password beside login window through email.
 
 
@@ -72,6 +74,7 @@ Users can click on image and name for getting access to order details. They can 
 #### My Selling
 My orders module on our website give users full view of selling status of their own goods. Users can see red number alert for goods that are selling now and orders that are on the way (buyers already for the order but hasn't received yet).And they also can see all
 the orders they have already sold out and goods that are removed from the shlf.Turning page available.
+![image](https://github.com/Shichao97/README-Image/blob/master/myselling.png)
 
 
 #### My Collection
