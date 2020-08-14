@@ -87,6 +87,8 @@ And in my collect module, they can search all the goods they collect by name.
 Users will get a red notice on the right side on the navigation bar when they receive messages from other users.
 When users get into detailed information of goods, they can click on talk to seller and get a talk:
 ![image](https://github.com/Shichao97/README-Image/blob/master/talk_to_seller.png)
+
 Also when there are some changes about their goods and orders, they will get real-time push message from system.
+
 ![image](https://github.com/Shichao97/README-Image/blob/master/message_system.png)
 
